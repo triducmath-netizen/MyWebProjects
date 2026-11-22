@@ -55,5 +55,5 @@ form.addEventListener('submit', (e) => {
     `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
   msg.classList.remove('error');
-  msg.textContent = 'Ứng dụng email đã được mở với nội dung điền sẵn — bấm Gửi để hoàn tất. Hoặc gọi/Zalo trực tiếp cho chúng tôi.';
+  msg.textContent = 'Ứng dụng email đã được mở với nội dung điền sẵn — bấm Gửi để hoàn tất. Hoặc gọi/Zalo trực tiếp: 0904 440 886 – 0347 176 606.';
 });
