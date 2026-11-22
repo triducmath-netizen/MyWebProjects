@@ -3,8 +3,10 @@ import {
   toast, errMsg, openDialog, showFiles, notConfiguredNotice,
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin,
 } from '../portal/common.js';
+import { renderQuizList } from './quiz.js';
 
 const app = $('#app');
+let currentTab = 'quiz';
 const top = $('#top-actions');
 
 if (!configured) {
@@ -52,8 +54,8 @@ function renderLogin() {
   });
 
   app.replaceChildren(el('div', { class: 'panel narrow-panel' },
-    el('h1', { text: 'Cổng phụ huynh' }),
-    el('p', { class: 'muted', text: 'Đăng nhập bằng mã học sinh và mật khẩu do giáo viên Trí Đức Math cung cấp.' }),
+    el('h1', { text: 'Học sinh & Phụ huynh' }),
+    el('p', { class: 'muted', text: 'Đăng nhập bằng mã học sinh và mật khẩu do giáo viên Trí Đức Math cung cấp. Học sinh làm bài trực tuyến, phụ huynh theo dõi kết quả.' }),
     form,
     el('p', { class: 'muted small', text: 'Quên mật khẩu? Liên hệ giáo viên để được cấp lại.' })));
   (lastCode ? form.password : form.code).focus();
@@ -86,10 +88,11 @@ async function renderDashboard(user) {
   showStudent(students, students[0]);
 }
 
-async function showStudent(students, s) {
+async function showStudent(students, s, tab = currentTab) {
+  currentTab = tab;
   const head = el('div', { class: 'student-head' },
     el('div', {},
-      el('p', { class: 'eyebrow dark', text: 'Kết quả học tập' }),
+      el('p', { class: 'eyebrow dark', text: 'Học sinh' }),
       el('h1', { text: s.full_name }),
       el('p', { class: 'muted', text: `Mã HS: ${s.code}${s.classes ? ' · ' + s.classes.name : ''}` })));
 
@@ -99,8 +102,14 @@ async function showStudent(students, s) {
           onclick: () => showStudent(students, x) })))
     : null;
 
+  const tabs = el('div', { class: 'tabs', role: 'tablist' },
+    [['quiz', 'Bài tập trực tuyến'], ['weekly', 'Kết quả hằng tuần']].map(([id, label]) =>
+      el('button', { class: 'tab', role: 'tab', 'aria-selected': String(tab === id), text: label,
+        onclick: () => showStudent(students, s, id) })));
+
   const listBox = el('div', {}, el('p', { class: 'muted', text: 'Đang tải…' }));
-  app.replaceChildren(...[switcher, head, listBox].filter(Boolean));
+  app.replaceChildren(...[switcher, head, tabs, listBox].filter(Boolean));
+  if (tab === 'quiz') { renderQuizList(listBox, s); return; }
 
   const { data: rows, error } = await sb
     .from('results')

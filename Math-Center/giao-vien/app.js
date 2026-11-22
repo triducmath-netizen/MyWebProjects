@@ -4,11 +4,12 @@ import {
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin,
 } from '../portal/common.js';
 import { SUPABASE_URL } from '../portal/config.js';
+import { renderQuizTab } from './quiz.js';
 
 const app = $('#app');
 const top = $('#top-actions');
 
-const state = { user: null, profile: null, classes: [], tab: 'grades', classId: null, assessmentId: null };
+const state = { user: null, profile: null, classes: [], tab: 'grades', classId: null, assessmentId: null, quizId: null, quizResultsId: null };
 const isAdmin = () => state.profile?.role === 'admin';
 
 if (!configured) {
@@ -84,13 +85,13 @@ async function loadClasses() {
 }
 
 function renderShell() {
-  const tabs = [['grades', 'Nhập kết quả'], ['students', 'Học sinh & tài khoản']];
+  const tabs = [['grades', 'Nhập kết quả'], ['quiz', 'Bài tập trực tuyến'], ['students', 'Học sinh & tài khoản']];
   if (isAdmin()) tabs.push(['admin', 'Lớp & giáo viên']);
   const view = el('div');
   app.replaceChildren(
     el('div', { class: 'tabs', role: 'tablist' }, tabs.map(([id, label]) =>
       el('button', { class: 'tab', role: 'tab', 'aria-selected': String(state.tab === id), text: label,
-        onclick: () => { state.tab = id; renderShell(); } }))),
+        onclick: () => { state.tab = id; state.quizId = null; state.quizResultsId = null; renderShell(); } }))),
     view);
   if (!state.classes.length && state.tab !== 'admin') {
     view.append(el('div', { class: 'panel empty' },
@@ -101,6 +102,7 @@ function renderShell() {
     return;
   }
   if (state.tab === 'grades') renderGrades(view);
+  else if (state.tab === 'quiz') renderQuizTab(view, { state, classSelect, rerender: renderShell });
   else if (state.tab === 'students') renderStudents(view);
   else renderAdmin(view);
 }
