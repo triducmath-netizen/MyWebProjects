@@ -132,6 +132,16 @@ th, td { text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--td
 th { background: var(--tdm-navy); color: var(--tdm-white); font-weight: 600; }
 tbody tr:last-child td { border-bottom: 0; }
 tbody tr:nth-child(even) { background: var(--tdm-paper); }
+table.schedule { min-width: 0; }
+.schedule tbody th { background: none; color: var(--tdm-navy); width: 120px; white-space: nowrap; }
+.slot { margin: 4px 12px 4px 0; display: inline-flex; gap: 8px; align-items: baseline; padding: 6px 14px; border-radius: 999px; background: rgba(201,162,63,.16); border: 1px solid rgba(201,162,63,.55); color: var(--tdm-ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.slot b { color: var(--tdm-navy); font-weight: 600; }
+.note.after { margin: 16px 0 0; }
+.note a { color: var(--tdm-teal); font-weight: 600; }
+@media (max-width: 480px) {
+  .schedule tbody th { width: 72px; padding: 14px 12px; }
+  .schedule td { padding: 10px 12px; }
+}
 
 details { background: var(--tdm-white); border: 1px solid var(--tdm-line); border-radius: 12px; margin-top: 12px; }
 summary { cursor: pointer; padding: 18px 24px; font-weight: 600; color: var(--tdm-navy); list-style: none; display: flex; justify-content: space-between; gap: 16px; }
