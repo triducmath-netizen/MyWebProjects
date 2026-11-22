@@ -1,4 +1,5 @@
 # Xuất bản thư mục Math-Center lên GitHub Pages mỗi khi push lên nhánh main.
+# Nếu bước deploy lỗi tạm thời phía GitHub, có thể chạy lại ở tab Actions → Run workflow.
 name: Deploy Math-Center to GitHub Pages
 
 on:
