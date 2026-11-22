@@ -19,6 +19,7 @@ Làm **một lần duy nhất**, khoảng 20 phút. Các bước có đánh dấ
    - `20261122000000_parent_portal.sql`: bảng, phân quyền, kho file
    - `20261123000000_grant_table_access.sql`: cấp quyền bảng (dự án Supabase mới cần)
    - `20261123010000_fix_select_policies.sql`: sửa quy tắc xem dữ liệu
+   - `20261123020000_admin_only_add_delete_students.sql`: chỉ quản trị được thêm/xóa học sinh
 3. Mỗi file phải báo *Success. No rows returned*.
 
 ## Bước 3. Tắt tự đăng ký tài khoản
