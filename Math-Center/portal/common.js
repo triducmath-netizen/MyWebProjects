@@ -2,7 +2,72 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 import { SUPABASE_URL, SUPABASE_ANON_KEY, PARENT_EMAIL_DOMAIN } from './config.js';
 
 export const configured = !SUPABASE_URL.includes('YOUR-') && !SUPABASE_ANON_KEY.includes('YOUR-');
-export const sb = configured ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+// ---------- Ghi nhớ đăng nhập ----------
+// Có ghi nhớ: phiên đăng nhập lưu trong localStorage (giữ sau khi đóng trình duyệt).
+// Không ghi nhớ: lưu trong sessionStorage (tự đăng xuất khi đóng trình duyệt).
+// Mật khẩu KHÔNG bao giờ được lưu ở đây — việc đó để trình duyệt tự đề nghị lưu.
+const REMEMBER_KEY = 'tdm-remember';
+export function getRemember() {
+  try { return localStorage.getItem(REMEMBER_KEY) !== '0'; } catch { return true; }
+}
+export function setRemember(on) {
+  try { localStorage.setItem(REMEMBER_KEY, on ? '1' : '0'); } catch { /* bỏ qua */ }
+}
+const authStorage = {
+  getItem(k) {
+    try { return (getRemember() ? localStorage : sessionStorage).getItem(k); } catch { return null; }
+  },
+  setItem(k, v) {
+    try {
+      const keep = getRemember();
+      (keep ? localStorage : sessionStorage).setItem(k, v);
+      (keep ? sessionStorage : localStorage).removeItem(k);
+    } catch { /* bỏ qua */ }
+  },
+  removeItem(k) {
+    try { localStorage.removeItem(k); sessionStorage.removeItem(k); } catch { /* bỏ qua */ }
+  },
+};
+export const sb = configured
+  ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { storage: authStorage, persistSession: true, autoRefreshToken: true } })
+  : null;
+
+// Nhớ email / mã học sinh lần đăng nhập trước (không phải mật khẩu).
+export function rememberedLogin(kind) {
+  try { return localStorage.getItem(`tdm-login-${kind}`) || ''; } catch { return ''; }
+}
+export function saveLogin(kind, value, remember) {
+  try {
+    if (remember) localStorage.setItem(`tdm-login-${kind}`, value);
+    else localStorage.removeItem(`tdm-login-${kind}`);
+  } catch { /* bỏ qua */ }
+}
+
+// Ô mật khẩu có nút Hiện/Ẩn.
+export function passwordField(label, attrs) {
+  const input = el('input', { type: 'password', ...attrs });
+  const btn = el('button', {
+    type: 'button', class: 'pw-toggle', 'aria-pressed': 'false', 'aria-label': 'Hiện mật khẩu', text: 'Hiện',
+    onclick: () => {
+      const show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      btn.textContent = show ? 'Ẩn' : 'Hiện';
+      btn.setAttribute('aria-pressed', String(show));
+      btn.setAttribute('aria-label', show ? 'Ẩn mật khẩu' : 'Hiện mật khẩu');
+      input.focus();
+    },
+  });
+  return el('label', {}, label, el('div', { class: 'pw-wrap' }, input, btn));
+}
+
+// Ô "Ghi nhớ đăng nhập".
+export function rememberCheckbox() {
+  return el('label', { class: 'remember' },
+    el('input', { type: 'checkbox', name: 'remember', checked: getRemember() }),
+    el('span', {}, 'Ghi nhớ đăng nhập trên máy này',
+      el('small', { class: 'muted', text: 'Bỏ chọn nếu dùng máy tính chung.' })));
+}
 export const BUCKET = 'tdm';
 
 export const $ = (sel, root = document) => root.querySelector(sel);

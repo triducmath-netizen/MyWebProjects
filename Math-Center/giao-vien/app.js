@@ -1,6 +1,7 @@
 import {
   sb, configured, $, el, normalizeCode, mondayOf, toISODate, weekLabel, fmtNum,
   randomPassword, uploadTo, toast, errMsg, openDialog, showFiles, notConfiguredNotice,
+  passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin,
 } from '../portal/common.js';
 import { SUPABASE_URL } from '../portal/config.js';
 
@@ -27,15 +28,20 @@ function renderLogin() {
   top.replaceChildren();
   const msg = el('p', { class: 'error-text small', role: 'alert' });
   const btn = el('button', { class: 'btn btn-gold', type: 'submit', text: 'Đăng nhập' });
+  const lastEmail = rememberedLogin('teacher');
   const form = el('form', { class: 'form-grid', novalidate: true },
-    el('label', {}, 'Email', el('input', { name: 'email', type: 'email', required: true, autocomplete: 'username' })),
-    el('label', {}, 'Mật khẩu', el('input', { name: 'password', type: 'password', required: true, autocomplete: 'current-password' })),
+    el('label', {}, 'Email', el('input', { name: 'email', type: 'email', required: true, autocomplete: 'username', value: lastEmail })),
+    passwordField('Mật khẩu', { name: 'password', required: true, autocomplete: 'current-password' }),
+    rememberCheckbox(),
     btn, msg);
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     btn.disabled = true; msg.textContent = '';
-    const { data, error } = await sb.auth.signInWithPassword({
-      email: form.email.value.trim(), password: form.password.value });
+    const email = form.email.value.trim();
+    const remember = form.remember.checked;
+    setRemember(remember);
+    saveLogin('teacher', email, remember);
+    const { data, error } = await sb.auth.signInWithPassword({ email, password: form.password.value });
     btn.disabled = false;
     if (error) { msg.textContent = 'Email hoặc mật khẩu không đúng.'; return; }
     enter(data.user);
@@ -44,7 +50,7 @@ function renderLogin() {
     el('h1', { text: 'Trang giáo viên' }),
     el('p', { class: 'muted', text: 'Đăng nhập để nhập kết quả học tập hằng tuần.' }),
     form));
-  form.email.focus();
+  (lastEmail ? form.password : form.email).focus();
 }
 
 async function enter(user) {
@@ -511,6 +517,14 @@ async function renderAdmin(view) {
           try {
             await callAccounts({ action: 'reset_teacher', teacher_id: t.id, password });
             showCredentials(`Mật khẩu mới — ${t.full_name}`, t.email || t.full_name, password, 'Email');
+          } catch (err) { toast(errMsg(err), 'error'); }
+        } }),
+        el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa giáo viên', onclick: async () => {
+          if (!confirm(`Xóa tài khoản giáo viên ${t.full_name}? Giáo viên này sẽ không đăng nhập được nữa. Điểm và nhận xét đã nhập vẫn được giữ nguyên.`)) return;
+          try {
+            await callAccounts({ action: 'delete_teacher', teacher_id: t.id });
+            toast(`Đã xóa tài khoản ${t.full_name}.`);
+            renderShell();
           } catch (err) { toast(errMsg(err), 'error'); }
         } })));
   }));

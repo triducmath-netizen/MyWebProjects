@@ -1,6 +1,7 @@
 import {
   sb, configured, $, el, codeToEmail, normalizeCode, weekLabel, fmtNum, fmtDateTime,
   toast, errMsg, openDialog, showFiles, notConfiguredNotice,
+  passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin,
 } from '../portal/common.js';
 
 const app = $('#app');
@@ -26,11 +27,13 @@ function renderLogin() {
   top.replaceChildren();
   const msg = el('p', { class: 'error-text small', role: 'alert' });
   const btn = el('button', { class: 'btn btn-gold', type: 'submit', text: 'Đăng nhập' });
+  const lastCode = rememberedLogin('parent');
   const form = el('form', { class: 'form-grid', novalidate: true },
     el('label', {}, 'Mã học sinh',
-      el('input', { name: 'code', required: true, autocomplete: 'username', autocapitalize: 'characters', placeholder: 'Ví dụ: TD0123' })),
-    el('label', {}, 'Mật khẩu',
-      el('input', { name: 'password', type: 'password', required: true, autocomplete: 'current-password' })),
+      el('input', { name: 'code', required: true, autocomplete: 'username', autocapitalize: 'characters',
+        placeholder: 'Ví dụ: TD0123', value: lastCode })),
+    passwordField('Mật khẩu', { name: 'password', required: true, autocomplete: 'current-password' }),
+    rememberCheckbox(),
     btn, msg);
 
   form.addEventListener('submit', async (e) => {
@@ -39,6 +42,9 @@ function renderLogin() {
     const password = form.password.value;
     if (!code || !password) { msg.textContent = 'Vui lòng nhập mã học sinh và mật khẩu.'; return; }
     btn.disabled = true; btn.textContent = 'Đang đăng nhập…'; msg.textContent = '';
+    const remember = form.remember.checked;
+    setRemember(remember);
+    saveLogin('parent', code, remember);
     const { data, error } = await sb.auth.signInWithPassword({ email: codeToEmail(code), password });
     btn.disabled = false; btn.textContent = 'Đăng nhập';
     if (error) { msg.textContent = 'Mã học sinh hoặc mật khẩu không đúng.'; return; }
@@ -50,7 +56,7 @@ function renderLogin() {
     el('p', { class: 'muted', text: 'Đăng nhập bằng mã học sinh và mật khẩu do giáo viên Trí Đức Math cung cấp.' }),
     form,
     el('p', { class: 'muted small', text: 'Quên mật khẩu? Liên hệ giáo viên để được cấp lại.' })));
-  form.code.focus();
+  (lastCode ? form.password : form.code).focus();
 }
 
 // ---------- Trang kết quả ----------
@@ -157,10 +163,8 @@ function changePassword() {
   const msg = el('p', { class: 'small', role: 'status' });
   const btn = el('button', { class: 'btn btn-gold', type: 'submit', text: 'Lưu mật khẩu mới' });
   const form = el('form', { class: 'form-grid' },
-    el('label', {}, 'Mật khẩu mới (ít nhất 8 ký tự)',
-      el('input', { name: 'p1', type: 'password', minlength: '8', required: true, autocomplete: 'new-password' })),
-    el('label', {}, 'Nhập lại mật khẩu mới',
-      el('input', { name: 'p2', type: 'password', minlength: '8', required: true, autocomplete: 'new-password' })),
+    passwordField('Mật khẩu mới (ít nhất 8 ký tự)', { name: 'p1', minlength: '8', required: true, autocomplete: 'new-password' }),
+    passwordField('Nhập lại mật khẩu mới', { name: 'p2', minlength: '8', required: true, autocomplete: 'new-password' }),
     btn, msg);
   const dlg = openDialog('Đổi mật khẩu', form);
   form.addEventListener('submit', async (e) => {

@@ -8,6 +8,7 @@
 //   delete_parent  { student_id }                chỉ quản trị
 //   create_teacher { email, full_name, password } chỉ quản trị
 //   reset_teacher  { teacher_id, password }      chỉ quản trị
+//   delete_teacher { teacher_id }                chỉ quản trị
 
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
@@ -24,6 +25,15 @@ function reply(status: number, body: Record<string, unknown>) {
     status,
     headers: { ...cors, "Content-Type": "application/json" },
   });
+}
+
+// Ghi vai trò vào hồ sơ. Không dựa vào trigger lúc tạo tài khoản, vì Supabase
+// có thể ghi app_metadata sau khi trigger đã chạy (hồ sơ khi đó bị mặc định là 'parent').
+// deno-lint-ignore no-explicit-any
+async function writeProfile(admin: any, id: string, role: string, fullName: string, email: string) {
+  const { error } = await admin.from("profiles")
+    .upsert({ id, role, full_name: fullName, email }, { onConflict: "id" });
+  return error;
 }
 
 function validPassword(p: unknown): p is string {
@@ -104,6 +114,11 @@ Deno.serve(async (req) => {
       if (error || !created.user) {
         return reply(400, { error: error?.message ?? "Không tạo được tài khoản" });
       }
+      const profErr = await writeProfile(admin, created.user.id, "parent", `Phụ huynh ${s!.full_name}`, email);
+      if (profErr) {
+        await admin.auth.admin.deleteUser(created.user.id);
+        return reply(500, { error: "Không tạo được hồ sơ phụ huynh" });
+      }
       const { error: linkErr } = await admin
         .from("students").update({ parent_id: created.user.id }).eq("id", s!.id);
       if (linkErr) {
@@ -119,6 +134,21 @@ Deno.serve(async (req) => {
     });
     if (error) return reply(400, { error: error.message });
     return reply(200, { ok: true, login_code: s!.code });
+  }
+
+  if (action === "delete_teacher") {
+    if (role !== "admin") return reply(403, { error: "Chỉ quản trị viên được làm việc này" });
+    if (typeof body.teacher_id !== "string") return reply(400, { error: "Thiếu giáo viên" });
+    if (body.teacher_id === who.user.id) return reply(400, { error: "Không thể tự xóa tài khoản quản trị" });
+    const { data: t } = await admin
+      .from("profiles").select("role").eq("id", body.teacher_id).maybeSingle();
+    if (!t || t.role === "admin") return reply(404, { error: "Không tìm thấy giáo viên" });
+    const { data: kid } = await admin
+      .from("students").select("id").eq("parent_id", body.teacher_id).maybeSingle();
+    if (kid) return reply(400, { error: "Đây là tài khoản phụ huynh, không phải giáo viên" });
+    const { error } = await admin.auth.admin.deleteUser(body.teacher_id);
+    if (error) return reply(400, { error: error.message });
+    return reply(200, { ok: true });
   }
 
   if (action === "create_teacher" || action === "reset_teacher") {
@@ -140,6 +170,11 @@ Deno.serve(async (req) => {
       });
       if (error || !created.user) {
         return reply(400, { error: error?.message ?? "Không tạo được tài khoản" });
+      }
+      const profErr = await writeProfile(admin, created.user.id, "teacher", fullName, email);
+      if (profErr) {
+        await admin.auth.admin.deleteUser(created.user.id);
+        return reply(500, { error: "Không tạo được hồ sơ giáo viên" });
       }
       return reply(200, { ok: true, teacher_id: created.user.id });
     }
