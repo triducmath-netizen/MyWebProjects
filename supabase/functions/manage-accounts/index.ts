@@ -5,7 +5,7 @@
 // Hành động:
 //   create_parent  { student_id, password }      giáo viên lớp đó hoặc quản trị
 //   reset_parent   { student_id, password }      giáo viên lớp đó hoặc quản trị
-//   delete_parent  { student_id }                giáo viên lớp đó hoặc quản trị
+//   delete_parent  { student_id }                chỉ quản trị
 //   create_teacher { email, full_name, password } chỉ quản trị
 //   reset_teacher  { teacher_id, password }      chỉ quản trị
 
@@ -76,6 +76,7 @@ Deno.serve(async (req) => {
   }
 
   if (action === "delete_parent") {
+    if (role !== "admin") return reply(403, { error: "Chỉ quản trị viên được xóa học sinh" });
     const { s, err } = await loadStudentForCaller(body.student_id);
     if (err) return err;
     if (!s!.parent_id) return reply(200, { ok: true });

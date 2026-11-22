@@ -249,7 +249,9 @@ async function renderAssessment(body, a) {
   if (e1 || e2) { body.append(el('p', { class: 'error-text', text: errMsg(e1 || e2) })); return; }
   if (!students.length) {
     body.append(el('div', { class: 'panel empty section-gap' },
-      el('p', { text: 'Lớp này chưa có học sinh. Thêm học sinh ở thẻ "Học sinh & tài khoản".' })));
+      el('p', { text: isAdmin()
+        ? 'Lớp này chưa có học sinh. Thêm học sinh ở thẻ "Học sinh & tài khoản".'
+        : 'Lớp này chưa có học sinh. Vui lòng nhờ quản trị viên thêm học sinh.' })));
     return;
   }
   const byStudent = new Map(results.map((r) => [r.student_id, r]));
@@ -341,7 +343,9 @@ async function renderStudents(view) {
 
   view.append(
     el('div', { class: 'panel' }, el('div', { class: 'row' }, classSelect(renderShell, { includeInactive: true }))),
-    el('div', { class: 'panel section-gap' }, el('h3', { text: 'Thêm học sinh vào lớp này' }), addForm),
+    isAdmin()
+      ? el('div', { class: 'panel section-gap' }, el('h3', { text: 'Thêm học sinh vào lớp này' }), addForm)
+      : el('p', { class: 'muted small section-gap', text: 'Chỉ quản trị viên được thêm hoặc xóa học sinh. Cần thay đổi danh sách lớp, vui lòng liên hệ quản trị viên.' }),
     listBox);
 
   const { data: students, error } = await sb.from('students')
@@ -359,7 +363,7 @@ async function renderStudents(view) {
         ? el('button', { class: 'btn btn-outline btn-sm', text: 'Cấp lại mật khẩu', onclick: () => parentAccount(s, 'reset_parent') })
         : el('button', { class: 'btn btn-navy btn-sm', text: 'Tạo tài khoản PH', onclick: () => parentAccount(s, 'create_parent') }),
       el('button', { class: 'btn btn-outline btn-sm', text: 'Sửa', onclick: () => editStudent(s) }),
-      el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: () => deleteStudent(s) })))));
+      isAdmin() ? el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: () => deleteStudent(s) }) : null))));
 }
 
 async function callAccounts(payload) {
