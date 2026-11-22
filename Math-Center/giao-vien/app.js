@@ -220,7 +220,7 @@ async function manageFiles(kind, id, title, onDone) {
 }
 
 async function renderAssessment(body, a) {
-  const testCount = el('span');
+  const testCount = el('span', { style: 'margin-left:6px' });
   const head = el('div', { class: 'panel section-gap' },
     el('div', { class: 'assess-head' },
       el('div', {},
@@ -419,7 +419,11 @@ function editStudent(s) {
 }
 
 async function deleteStudent(s) {
-  if (!confirm(`Xóa học sinh ${s.full_name} (${s.code}) cùng toàn bộ kết quả? Không thể khôi phục.`)) return;
+  if (!confirm(`Xóa học sinh ${s.full_name} (${s.code}) cùng toàn bộ kết quả và tài khoản phụ huynh? Không thể khôi phục.`)) return;
+  if (s.parent_id) {
+    try { await callAccounts({ action: 'delete_parent', student_id: s.id }); }
+    catch (err) { toast(`Không xóa được tài khoản phụ huynh: ${errMsg(err)}`, 'error'); return; }
+  }
   const { data: rf } = await sb.from('result_files').select('path, results!inner(student_id)').eq('results.student_id', s.id);
   if (rf?.length) await sb.storage.from('tdm').remove(rf.map((x) => x.path));
   const { error } = await sb.from('students').delete().eq('id', s.id);

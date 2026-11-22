@@ -15,8 +15,11 @@ Làm **một lần duy nhất**, khoảng 20 phút. Các bước có đánh dấ
 ## Bước 2. Tạo bảng dữ liệu và phân quyền
 
 1. Trong Supabase, mở **SQL Editor** → **New query**.
-2. Mở file `supabase/migrations/20261122000000_parent_portal.sql`, chép **toàn bộ** nội dung, dán vào ô truy vấn rồi bấm **Run**.
-3. Kết quả phải báo *Success. No rows returned*.
+2. Chạy **lần lượt từng file** trong thư mục `supabase/migrations/`, theo thứ tự tên file (cũ trước, mới sau). Với mỗi file: chép **toàn bộ** nội dung, dán vào một truy vấn mới rồi bấm **Run**.
+   - `20261122000000_parent_portal.sql`: bảng, phân quyền, kho file
+   - `20261123000000_grant_table_access.sql`: cấp quyền bảng (dự án Supabase mới cần)
+   - `20261123010000_fix_select_policies.sql`: sửa quy tắc xem dữ liệu
+3. Mỗi file phải báo *Success. No rows returned*.
 
 ## Bước 3. Tắt tự đăng ký tài khoản
 

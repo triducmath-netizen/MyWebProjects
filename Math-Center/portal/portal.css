@@ -94,6 +94,20 @@ body.portal { background: var(--tdm-paper); min-height: 100vh; display: flex; fl
 
 .portal .site-footer { padding: 20px 0; }
 
+.portal .brand > span, .top-actions .btn { white-space: nowrap; }
+@media (max-width: 560px) {
+  .portal .brand { font-size: 1rem; gap: 8px; }
+  .portal .brand img { width: 30px; height: 30px; }
+  .portal .portal-tag { display: none; }
+}
+@media (max-width: 420px) {
+  .portal .brand > span { display: none; }
+  .portal .brand img { width: 36px; height: 36px; }
+}
+@media (max-width: 560px) {
+  .top-actions { gap: 6px; }
+  .top-actions .btn-sm { padding: 6px 10px; font-size: .8rem; }
+}
 @media (max-width: 760px) {
   .stats { grid-template-columns: 1fr 1fr; }
   .stats .stat:last-child { grid-column: 1 / -1; }

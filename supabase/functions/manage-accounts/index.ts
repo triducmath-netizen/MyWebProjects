@@ -5,6 +5,7 @@
 // Hành động:
 //   create_parent  { student_id, password }      giáo viên lớp đó hoặc quản trị
 //   reset_parent   { student_id, password }      giáo viên lớp đó hoặc quản trị
+//   delete_parent  { student_id }                giáo viên lớp đó hoặc quản trị
 //   create_teacher { email, full_name, password } chỉ quản trị
 //   reset_teacher  { teacher_id, password }      chỉ quản trị
 
@@ -72,6 +73,15 @@ Deno.serve(async (req) => {
       if (!tc) return { err: reply(403, { error: "Học sinh không thuộc lớp bạn phụ trách" }) };
     }
     return { s };
+  }
+
+  if (action === "delete_parent") {
+    const { s, err } = await loadStudentForCaller(body.student_id);
+    if (err) return err;
+    if (!s!.parent_id) return reply(200, { ok: true });
+    const { error } = await admin.auth.admin.deleteUser(s!.parent_id);
+    if (error) return reply(400, { error: error.message });
+    return reply(200, { ok: true });
   }
 
   if (action === "create_parent" || action === "reset_parent") {
