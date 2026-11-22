@@ -345,7 +345,7 @@ async function renderStudents(view) {
     el('div', { class: 'panel' }, el('div', { class: 'row' }, classSelect(renderShell, { includeInactive: true }))),
     isAdmin()
       ? el('div', { class: 'panel section-gap' }, el('h3', { text: 'Thêm học sinh vào lớp này' }), addForm)
-      : el('p', { class: 'muted small section-gap', text: 'Chỉ quản trị viên được thêm hoặc xóa học sinh. Cần thay đổi danh sách lớp, vui lòng liên hệ quản trị viên.' }),
+      : el('p', { class: 'muted small section-gap', text: 'Chỉ quản trị viên được thêm, sửa, chuyển lớp hoặc xóa học sinh. Cần thay đổi, vui lòng liên hệ quản trị viên.' }),
     listBox);
 
   const { data: students, error } = await sb.from('students')
@@ -362,7 +362,7 @@ async function renderStudents(view) {
       s.parent_id
         ? el('button', { class: 'btn btn-outline btn-sm', text: 'Cấp lại mật khẩu', onclick: () => parentAccount(s, 'reset_parent') })
         : el('button', { class: 'btn btn-navy btn-sm', text: 'Tạo tài khoản PH', onclick: () => parentAccount(s, 'create_parent') }),
-      el('button', { class: 'btn btn-outline btn-sm', text: 'Sửa', onclick: () => editStudent(s) }),
+      isAdmin() ? el('button', { class: 'btn btn-outline btn-sm', text: 'Sửa', onclick: () => editStudent(s) }) : null,
       isAdmin() ? el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: () => deleteStudent(s) }) : null))));
 }
 
