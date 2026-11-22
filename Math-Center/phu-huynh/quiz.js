@@ -18,7 +18,7 @@ export async function renderQuizList(box, student) {
   stopTaking();
   box.replaceChildren(el('p', { class: 'muted', text: 'Đang tải…' }));
   let [{ data: quizzes, error }, { data: attempts }] = await Promise.all([
-    sb.from('quizzes').select('id, title, description, time_limit_min, opens_at, due_at, show_key_after, quiz_questions(count)')
+    sb.from('quizzes').select('id, title, description, time_limit_min, opens_at, due_at, show_key_after, question_count')
       .order('created_at', { ascending: false }),
     sb.from('quiz_attempts').select('id, quiz_id, deadline_at, submitted_at, score, max_score').eq('student_id', student.id),
   ]);
@@ -42,7 +42,7 @@ export async function renderQuizList(box, student) {
   const now = new Date();
   box.replaceChildren(...quizzes.map((z) => {
     const a = byQuiz.get(z.id);
-    const nq = z.quiz_questions?.[0]?.count ?? 0;
+    const nq = z.question_count ?? 0;
     const info = [`${nq} câu`, z.time_limit_min ? `${z.time_limit_min} phút` : 'Không giới hạn thời gian',
       z.due_at ? `Hạn nộp: ${fmtDeadline(z.due_at)}` : null].filter(Boolean).join(' · ');
     let right;
