@@ -8,7 +8,7 @@
       "level": "tb",
       "sort_order": 1,
       "time_limit_min": 45,
-      "description": "Đề luyện tập mức Trung bình: số nguyên âm, số đối, so sánh, cộng trừ, quy tắc dấu ngoặc, nhân, ước của số nguyên.",
+      "description": "Đề luyện tập mức độ 1 (cơ bản): số nguyên âm, số đối, so sánh, cộng trừ, quy tắc dấu ngoặc, nhân, ước của số nguyên.",
       "questions": [
         {
           "kind": "mcq",
@@ -206,7 +206,7 @@
       "level": "tb",
       "sort_order": 2,
       "time_limit_min": 45,
-      "description": "Đề luyện tập mức Trung bình: trục số, tầng hầm, so sánh, cộng trừ, lũy thừa, đếm ước nguyên.",
+      "description": "Đề luyện tập mức độ 1 (cơ bản): trục số, tầng hầm, so sánh, cộng trừ, lũy thừa, đếm ước nguyên.",
       "questions": [
         {
           "kind": "mcq",
@@ -405,7 +405,7 @@
       "level": "tb",
       "sort_order": 3,
       "time_limit_min": 45,
-      "description": "Đề luyện tập mức Trung bình: mực nước, nhiệt độ, thang máy, bỏ dấu ngoặc, nhân số nguyên, bội và ước.",
+      "description": "Đề luyện tập mức độ 1 (cơ bản): mực nước, nhiệt độ, thang máy, bỏ dấu ngoặc, nhân số nguyên, bội và ước.",
       "questions": [
         {
           "kind": "mcq",

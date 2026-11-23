@@ -8,7 +8,7 @@
       "level": "kha",
       "sort_order": 1,
       "time_limit_min": 45,
-      "description": "Đề luyện tập mức Khá: số đối, sắp xếp thứ tự, tính hợp lí, quy tắc dấu ngoặc, lũy thừa, đếm ước và bội, bài toán nhiệt độ và lãi lỗ.",
+      "description": "Đề luyện tập mức độ 2 (vận dụng): số đối, sắp xếp thứ tự, tính hợp lí, quy tắc dấu ngoặc, lũy thừa, đếm ước và bội, bài toán nhiệt độ và lãi lỗ.",
       "questions": [
         {
           "kind": "mcq",
@@ -207,7 +207,7 @@
       "level": "kha",
       "sort_order": 2,
       "time_limit_min": 45,
-      "description": "Đề luyện tập mức Khá: trục số, so sánh biểu thức, bỏ ngoặc, tích nhiều thừa số âm, ước và bội, tầng hầm và điểm thưởng phạt.",
+      "description": "Đề luyện tập mức độ 2 (vận dụng): trục số, so sánh biểu thức, bỏ ngoặc, tích nhiều thừa số âm, ước và bội, tầng hầm và điểm thưởng phạt.",
       "questions": [
         {
           "kind": "mcq",
@@ -405,7 +405,7 @@
       "level": "kha",
       "sort_order": 3,
       "time_limit_min": 45,
-      "description": "Đề luyện tập mức Khá: năm trước Công nguyên, sắp xếp nhiệt độ, rút gọn biểu thức chữ, tính nhanh, bội chung, kho đông lạnh.",
+      "description": "Đề luyện tập mức độ 2 (vận dụng): năm trước Công nguyên, sắp xếp nhiệt độ, rút gọn biểu thức chữ, tính nhanh, bội chung, kho đông lạnh.",
       "questions": [
         {
           "kind": "mcq",
@@ -603,7 +603,7 @@
       "level": "kha",
       "sort_order": 4,
       "time_limit_min": 45,
-      "description": "Đề luyện tập mức Khá: độ cao, dịch chuyển trên trục số, lũy thừa số âm, tìm x, ước và bội, trò chơi bắn cung, nhiệt độ trung bình.",
+      "description": "Đề luyện tập mức độ 2 (vận dụng): độ cao, dịch chuyển trên trục số, lũy thừa số âm, tìm x, ước và bội, trò chơi bắn cung, nhiệt độ trung bình.",
       "questions": [
         {
           "kind": "mcq",

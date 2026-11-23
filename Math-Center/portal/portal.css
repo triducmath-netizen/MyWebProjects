@@ -209,6 +209,7 @@ body.portal { background: var(--tdm-paper); min-height: 100vh; display: flex; fl
 .level-btn { display: grid; gap: 2px; justify-items: center; padding: 12px 6px; border-radius: 12px; border: 1px solid var(--tdm-line); background: var(--tdm-paper); cursor: pointer; font: inherit; color: var(--tdm-ink); transition: transform .15s, border-color .15s; }
 .level-btn b { font-size: .9rem; white-space: nowrap; }
 .level-btn span { font-size: .8rem; color: var(--tdm-slate); }
+.level-btn small { font-size: .75rem; color: var(--tdm-teal); font-weight: 600; }
 .level-btn:hover:not([disabled]) { transform: translateY(-2px); }
 .level-btn.lv-tb { border-top: 3px solid var(--tdm-teal); }
 .level-btn.lv-kha { border-top: 3px solid var(--tdm-gold); }

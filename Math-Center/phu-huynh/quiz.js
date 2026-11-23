@@ -15,9 +15,9 @@ function stopTaking() {
 // Danh sách bài: "Bài được giao" và "Luyện đề theo chuyên đề"
 // =====================================================================
 const LEVELS = [
-  ['tb', 'Trung bình', 'Nắm chắc kiến thức cơ bản'],
-  ['kha', 'Khá', 'Vận dụng nhiều bước'],
-  ['gioi', 'Giỏi', 'Vận dụng cao, tư duy sâu'],
+  ['tb', 'Mức độ 1', 'Cơ bản'],
+  ['kha', 'Mức độ 2', 'Vận dụng'],
+  ['gioi', 'Mức độ 3', 'Nâng cao'],
 ];
 const levelName = (lv) => LEVELS.find((l) => l[0] === lv)?.[1] ?? lv;
 // Lựa chọn hiện tại, giữ nguyên khi quay lại từ trang làm bài / kết quả.
@@ -103,7 +103,7 @@ async function renderPractice(body, box, student) {
     body.replaceChildren(
       el('button', { class: 'btn btn-outline btn-sm', text: '← Chọn chuyên đề khác', onclick: () => { nav.topic = null; nav.level = null; renderQuizList(box, student); } }),
       el('div', { class: 'panel section-gap' },
-        el('p', { class: 'eyebrow dark', text: `Toán ${nav.grade} · Mức ${levelName(nav.level)}` }),
+        el('p', { class: 'eyebrow dark', text: `Toán ${nav.grade} · ${levelName(nav.level)}` }),
         el('h2', { text: nav.topic }),
         el('div', { class: 'child-switch' }, LEVELS.map(([lv, name]) =>
           el('button', { class: `btn btn-sm ${nav.level === lv ? 'btn-navy' : 'btn-outline'}`, text: name,
@@ -146,7 +146,7 @@ async function renderPractice(body, box, student) {
           const n = counts[lv] ?? 0;
           return el('button', { class: `level-btn lv-${lv}`, disabled: !n, title: hint,
             onclick: () => { nav.topic = topic; nav.level = lv; renderQuizList(box, student); } },
-            el('b', { text: name }), el('span', { text: n ? `${n} đề` : 'Chưa có' }));
+            el('b', { text: name }), el('small', { text: hint }), el('span', { text: n ? `${n} đề` : 'Chưa có' }));
         }))))));
 }
 

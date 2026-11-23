@@ -8,7 +8,7 @@
       "level": "gioi",
       "sort_order": 1,
       "time_limit_min": 45,
-      "description": "Đề luyện tập mức Giỏi: số đối, đếm số nguyên, tổng dãy có quy luật, quy tắc dấu ngoặc, xét dấu tích, bội và ước, bài toán tính điểm.",
+      "description": "Đề luyện tập mức độ 3 (nâng cao): số đối, đếm số nguyên, tổng dãy có quy luật, quy tắc dấu ngoặc, xét dấu tích, bội và ước, bài toán tính điểm.",
       "questions": [
         {
           "kind": "mcq",
@@ -149,7 +149,7 @@
       "level": "gioi",
       "sort_order": 2,
       "time_limit_min": 45,
-      "description": "Đề luyện tập mức Giỏi: số đối và thứ tự, so sánh lũy thừa của số âm, tổng dãy đan dấu, rút gọn biểu thức chứa chữ, dấu của tích, đếm cặp số nguyên, chia hết và tính chẵn lẻ.",
+      "description": "Đề luyện tập mức độ 3 (nâng cao): số đối và thứ tự, so sánh lũy thừa của số âm, tổng dãy đan dấu, rút gọn biểu thức chứa chữ, dấu của tích, đếm cặp số nguyên, chia hết và tính chẵn lẻ.",
       "questions": [
         {
           "kind": "mcq",
@@ -288,7 +288,7 @@
       "level": "gioi",
       "sort_order": 3,
       "time_limit_min": 45,
-      "description": "Đề luyện tập mức Giỏi: đếm số nguyên trên trục số, so sánh qua số đối, tổng dãy theo nhóm, biểu thức chứa chữ, xét dấu, ước chung và chia hết, bài toán điểm thi đấu và nhiệt độ.",
+      "description": "Đề luyện tập mức độ 3 (nâng cao): đếm số nguyên trên trục số, so sánh qua số đối, tổng dãy theo nhóm, biểu thức chứa chữ, xét dấu, ước chung và chia hết, bài toán điểm thi đấu và nhiệt độ.",
       "questions": [
         {
           "kind": "mcq",
