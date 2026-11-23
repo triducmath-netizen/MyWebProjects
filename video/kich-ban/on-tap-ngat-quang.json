@@ -1,0 +1,142 @@
+{
+  "slug": "on-tap-ngat-quang",
+  "tieu_de": "Ôn tập ngắt quãng: đừng dồn hết vào tối trước hôm thi",
+  "phuong_phap": "Ôn tập ngắt quãng (Spaced / distributed practice)",
+  "doi_tuong": "Học sinh cấp 3 (ví dụ Toán 10 – Định lí côsin), dùng được cho cả cấp 2",
+  "nguon": [
+    { "ten": "Rohrer & Taylor (2006), The Effects of Overlearning and Distributed Practice on the Retention of Mathematics Knowledge, Applied Cognitive Psychology 20(9), 1209–1224", "url": "https://digitalcommons.usf.edu/psy_facpub/1770/" },
+    { "ten": "Cepeda, Pashler, Vul, Wixted & Rohrer (2006), Distributed Practice in Verbal Recall Tasks: A Review and Quantitative Synthesis, Psychological Bulletin 132(3), 354–380", "url": "https://pubmed.ncbi.nlm.nih.gov/16719566/" },
+    { "ten": "Dunlosky và cộng sự (2013), Improving Students' Learning With Effective Learning Techniques, Psychological Science in the Public Interest 14(1), 4–58", "url": "https://scholars.duke.edu/publication/954654" },
+    { "ten": "Kang (2016), Spaced Repetition Promotes Efficient and Effective Learning, Policy Insights from the Behavioral and Brain Sciences 3(1), 12–19", "url": "https://doi.org/10.1177/2372732215624708" }
+  ],
+  "canh": [
+    {
+      "loai": "mo-dau",
+      "tieu_de": "Ôn tập ngắt quãng",
+      "phu_de": "Đừng dồn hết vào tối trước hôm thi",
+      "loi": [
+        { "nguoi": "duc", "cau": "Chào các em, thầy là thầy Đức.", "dieu_bo": "vay-tay" },
+        { "nguoi": "duc", "cau": "Hôm nay mình nói về một thói quen rất phổ biến: tối trước hôm kiểm tra mới ôn, ôn đến tận khuya.", "dieu_bo": "giang-giai" },
+        { "nguoi": "duc", "cau": "Có một cách khác, tốn đúng chừng ấy thời gian, mà thường nhớ lâu hơn.", "dieu_bo": "suy-nghi" }
+      ]
+    },
+    {
+      "loai": "hoi-thoai",
+      "loi": [
+        { "nguoi": "minh", "cau": "Thầy ơi, bài kiểm tra định lí côsin tháng trước em được tám điểm.", "dieu_bo": "vui" },
+        { "nguoi": "minh", "cau": "Mà hôm nay ôn thi cuối kỳ, em nhìn công thức thấy lạ hoắc.", "dieu_bo": "buon" },
+        { "nguoi": "duc", "cau": "Hồi đó em ôn thế nào?", "dieu_bo": "suy-nghi" },
+        { "nguoi": "minh", "cau": "Dạ, tối hôm trước em làm liền một mạch hai mươi bài, đến gần mười hai giờ.", "dieu_bo": "binh-thuong" },
+        { "nguoi": "duc", "cau": "Hai mươi bài một tối. Sau đó em có làm lại bài nào không?", "dieu_bo": "suy-nghi" },
+        { "nguoi": "minh", "cau": "Dạ không ạ. Kiểm tra xong là em chuyển sang chương mới luôn.", "dieu_bo": "binh-thuong" },
+        { "nguoi": "duc", "cau": "Vậy là em học đủ để qua bài kiểm tra ngày mai, chứ chưa đủ để nhớ đến cuối kỳ.", "dieu_bo": "giang-giai" }
+      ]
+    },
+    {
+      "loai": "bang",
+      "tieu_de": "Ôn tập ngắt quãng là gì?",
+      "noi_dung": [
+        "Cùng một lượng bài, chia ra nhiều buổi",
+        "Các buổi cách nhau vài ngày, rồi khoảng một tuần",
+        "Mỗi buổi: tự làm lại, không nhìn lời giải",
+        "Dồn một tối: nhớ nhanh, quên nhanh"
+      ],
+      "loi": [
+        { "nguoi": "duc", "cau": "Cách này gọi là ôn tập ngắt quãng. Thay vì làm hai mươi bài trong một tối, em chia ra nhiều buổi.", "dieu_bo": "chi-bang" },
+        { "nguoi": "duc", "cau": "Có một nghiên cứu ở Mỹ cho sinh viên làm cùng mười bài Toán.", "dieu_bo": "giang-giai" },
+        { "nguoi": "duc", "cau": "Một nhóm làm cả mười bài trong một buổi. Nhóm kia chia thành hai buổi, cách nhau một tuần.", "dieu_bo": "giang-giai" },
+        { "nguoi": "duc", "cau": "Kiểm tra sau một tuần thì hai nhóm gần như nhau. Nhưng sau bốn tuần, nhóm chia buổi nhớ tốt hơn rõ rệt.", "dieu_bo": "giang-giai" },
+        { "nguoi": "minh", "cau": "Còn làm thêm thật nhiều bài trong một buổi thì sao thầy?", "dieu_bo": "suy-nghi" },
+        { "nguoi": "duc", "cau": "Cũng nghiên cứu đó cho thấy làm thêm nhiều bài trong cùng một buổi gần như không giúp nhớ lâu hơn.", "dieu_bo": "giang-giai" },
+        { "nguoi": "duc", "cau": "Khi em quay lại lúc đã hơi quên, phải cố nhớ ra, thì kiến thức được củng cố chắc hơn.", "dieu_bo": "giang-giai" }
+      ]
+    },
+    {
+      "loai": "vi-du",
+      "tieu_de": "Thử với định lí côsin (Toán 10)",
+      "de_bai": "Buổi ôn sau 3 ngày: Tam giác $ABC$ có $AB = 3$, $AC = 5$, $\\widehat{A} = 60^\\circ$. Tính $BC$. Buổi ôn sau 1 tuần: giữ nguyên $AB$, $AC$, đổi $\\widehat{A} = 120^\\circ$.",
+      "loi_giai": [
+        "$BC^2 = AB^2 + AC^2 - 2 \\cdot AB \\cdot AC \\cdot \\cos A$",
+        "Minh viết lần đầu: $BC^2 = 9 + 25 + 15 = 49 \\Rightarrow BC = 7$ ✗",
+        "Sửa: $BC^2 = 9 + 25 - 2 \\cdot 3 \\cdot 5 \\cdot \\tfrac{1}{2} = 34 - 15 = 19 \\Rightarrow BC = \\sqrt{19} \\approx 4{,}36$",
+        "Sau 1 tuần, $\\widehat{A} = 120^\\circ$, $\\cos 120^\\circ = -\\tfrac{1}{2}$:",
+        "$BC^2 = 34 - 2 \\cdot 3 \\cdot 5 \\cdot \\left(-\\tfrac{1}{2}\\right) = 34 + 15 = 49 \\Rightarrow BC = 7$"
+      ],
+      "loi": [
+        { "nguoi": "duc", "cau": "Mình thử nhé. Em học định lí côsin hôm thứ hai. Đến thứ năm, em làm lại bài này, không nhìn vở.", "dieu_bo": "chi-bang" },
+        { "nguoi": "minh", "cau": "Tam giác A B C, A B bằng ba, A C bằng năm, góc A sáu mươi độ. Tính B C.", "dieu_bo": "suy-nghi" },
+        { "nguoi": "minh", "cau": "B C bình phương bằng chín cộng hai mươi lăm... cộng mười lăm. Bằng bốn mươi chín. B C bằng bảy!", "dieu_bo": "vui" },
+        { "nguoi": "minh", "cau": "Số đẹp thế này chắc đúng rồi thầy.", "dieu_bo": "vui" },
+        { "nguoi": "duc", "cau": "Số đẹp chưa chắc đã đúng đâu. Em đọc lại công thức xem, trước hai A B nhân A C nhân côsin A là dấu gì?", "dieu_bo": "suy-nghi" },
+        { "nguoi": "minh", "cau": "À... dấu trừ ạ. Em nhớ nhầm thành dấu cộng.", "dieu_bo": "ngac-nhien" },
+        { "nguoi": "minh", "cau": "Vậy là ba mươi tư trừ mười lăm, bằng mười chín. B C bằng căn mười chín, khoảng bốn phẩy ba sáu.", "dieu_bo": "viet-bang" },
+        { "nguoi": "duc", "cau": "Đúng rồi. Thấy không, quay lại sau ba ngày mới lộ ra chỗ em nhớ chưa chắc.", "dieu_bo": "gat-dau" },
+        { "nguoi": "duc", "cau": "Nếu ôn liền trong tối đó, em vừa nhìn công thức xong, sẽ không bao giờ thấy lỗi này.", "dieu_bo": "giang-giai" },
+        { "nguoi": "duc", "cau": "Một tuần sau, thầy đổi đề một chút: góc A bằng một trăm hai mươi độ.", "dieu_bo": "chi-bang" },
+        { "nguoi": "minh", "cau": "Côsin một trăm hai mươi độ là âm một phần hai. Trừ với âm thành cộng.", "dieu_bo": "suy-nghi" },
+        { "nguoi": "minh", "cau": "Ba mươi tư cộng mười lăm bằng bốn mươi chín. Lần này B C bằng bảy thật!", "dieu_bo": "ngac-nhien" },
+        { "nguoi": "duc", "cau": "Hay chưa. Đáp số bảy hôm trước sai, vì nó là đáp số của góc một trăm hai mươi độ.", "dieu_bo": "vui" }
+      ]
+    },
+    {
+      "loai": "bang",
+      "tieu_de": "Lịch ôn đơn giản tại nhà",
+      "noi_dung": [
+        "Ngày 1: học bài, làm 3–4 bài",
+        "Ngày 3: tự làm lại 2 bài, không nhìn vở",
+        "Sau 1 tuần: làm 1–2 bài đổi số, đổi dữ kiện",
+        "Trước kiểm tra: ôn lại những bài từng sai"
+      ],
+      "loi": [
+        { "nguoi": "duc", "cau": "Ở nhà, em thử lịch đơn giản thế này.", "dieu_bo": "chi-bang" },
+        { "nguoi": "duc", "cau": "Ngày đầu, học bài và làm ba bốn bài tập.", "dieu_bo": "chi-bang" },
+        { "nguoi": "duc", "cau": "Hai ba ngày sau, tự làm lại hai bài mà không nhìn vở.", "dieu_bo": "chi-bang" },
+        { "nguoi": "duc", "cau": "Khoảng một tuần sau, làm một hai bài đã đổi số hoặc đổi dữ kiện.", "dieu_bo": "chi-bang" },
+        { "nguoi": "duc", "cau": "Trước bài kiểm tra, ôn lại đúng những bài mình từng sai.", "dieu_bo": "chi-bang" },
+        { "nguoi": "minh", "cau": "Nhưng thầy ơi, chương nào cũng ôn lại thì lấy đâu ra thời gian?", "dieu_bo": "suy-nghi" },
+        { "nguoi": "duc", "cau": "Mỗi buổi chỉ cần mười, mười lăm phút cho bài cũ thôi. Tổng thời gian không nhiều hơn một tối thức khuya.", "dieu_bo": "giang-giai" },
+        { "nguoi": "duc", "cau": "Mẹo nhỏ: ghi lịch ôn ngay vào góc trang vở, để khỏi quên.", "dieu_bo": "gat-dau" }
+      ]
+    },
+    {
+      "loai": "hoi-thoai",
+      "loi": [
+        { "nguoi": "minh", "cau": "Thầy ơi, em thử với chương tích vô hướng được hai tuần rồi.", "dieu_bo": "vui" },
+        { "nguoi": "duc", "cau": "Kết quả sao em?", "dieu_bo": "binh-thuong" },
+        { "nguoi": "minh", "cau": "Buổi ôn đầu em hơi hoảng, vì quên nhiều hơn em tưởng.", "dieu_bo": "suy-nghi" },
+        { "nguoi": "minh", "cau": "Đến buổi thứ ba thì làm nhanh hơn hẳn, và em không còn phải thức khuya trước hôm kiểm tra.", "dieu_bo": "vui" },
+        { "nguoi": "minh", "cau": "Điểm thì chưa biết, nhưng giờ nhìn công thức không thấy lạ nữa.", "dieu_bo": "gat-dau" },
+        { "nguoi": "duc", "cau": "Thế là đúng hướng rồi. Cái mình cần là nhớ đến cuối kỳ, đến cả lớp sau nữa.", "dieu_bo": "vui" }
+      ]
+    },
+    {
+      "loai": "tong-ket",
+      "tieu_de": "Ba điều cần nhớ",
+      "noi_dung": [
+        "Dồn một tối: qua bài kiểm tra mai, quên sau vài tuần",
+        "Chia ra nhiều buổi ngắn, cách nhau vài ngày",
+        "Mỗi buổi tự làm lại, chỗ sai thì ôn lại lần sau"
+      ],
+      "loi": [
+        { "nguoi": "duc", "cau": "Tóm lại ba điều nhé.", "dieu_bo": "gat-dau" },
+        { "nguoi": "duc", "cau": "Một, học dồn một tối có thể giúp qua bài kiểm tra ngày mai, nhưng thường quên nhanh.", "dieu_bo": "chi-bang" },
+        { "nguoi": "duc", "cau": "Hai, chia cùng lượng bài ấy ra nhiều buổi ngắn, cách nhau vài ngày.", "dieu_bo": "chi-bang" },
+        { "nguoi": "duc", "cau": "Ba, mỗi buổi tự làm lại không nhìn vở. Chỗ nào sai, buổi sau ôn lại.", "dieu_bo": "gat-dau" }
+      ]
+    },
+    {
+      "loai": "ket-thuc",
+      "loi": [
+        { "nguoi": "duc", "cau": "Tuần này em thử chọn một bài vừa học, hẹn ba ngày sau làm lại nhé.", "dieu_bo": "vui" },
+        { "nguoi": "minh", "cau": "Em ghi lịch vào vở rồi đây ạ.", "dieu_bo": "vui" },
+        { "nguoi": "duc", "cau": "Cần bài để ôn, các em vào triducmath.vn luyện đề. Theo dõi kênh để xem video sau nhé. Chào các em!", "dieu_bo": "vay-tay" }
+      ]
+    }
+  ],
+  "dang_mxh": {
+    "tieu_de": "Ôn dồn một tối, vài tuần sau quên sạch? Thử ôn tập ngắt quãng | Trí Đức Math",
+    "mo_ta": "Minh làm 20 bài định lí côsin trong một tối, được điểm tốt nhưng đến cuối kỳ thì quên. Thầy Đức hướng dẫn cách ôn tập ngắt quãng: chia bài ra nhiều buổi ngắn cách nhau vài ngày — cách được nhiều nghiên cứu cho thấy giúp nhớ lâu hơn học dồn. Luyện đề để ôn tại triducmath.vn.",
+    "hashtag": ["#phuongphaphoc", "#hoctoan", "#toan10", "#dinhlicosin", "#ontapngatquang", "#meohoctap", "#triducmath"],
+    "caption_ngan": "Cùng một lượng bài, chia ra nhiều buổi thì thường nhớ lâu hơn dồn một tối."
+  }
+}

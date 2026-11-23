@@ -5,3 +5,10 @@ dist/
 .DS_Store
 Thumbs.db
 .claude/settings.local.json
+
+# Video: file sinh ra, không đưa lên Git
+video/xuat/
+video/public/am-thanh/
+video/public/nhac/
+video/nhac/*
+!video/nhac/.gitkeep
