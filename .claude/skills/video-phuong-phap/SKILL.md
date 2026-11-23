@@ -20,7 +20,7 @@ Thư mục `video/`:
 - Kiểm tra lại: `node video/scripts/kiem-tra-kich-ban.mjs video/kich-ban/<slug>.json` → 0 lỗi. Tự giải lại mọi phép toán trong ví dụ.
 
 ## Bước 2 — Chủ website duyệt kịch bản
-- Trình bày: tên phương pháp, tóm tắt câu chuyện, **toàn bộ lời thoại** (dạng "Thầy Đức: …" / "Minh: …", theo cảnh), nội dung bảng, nguồn tham khảo.
+- Xuất bản đọc duyệt: `node video/scripts/doc-kich-ban.mjs video/kich-ban/<slug>.json` → `video/kich-ban/<slug>.md` (lời thoại theo cảnh, nội dung bảng, nguồn). Gửi file đó cho chủ website (SendUserFile) kèm tóm tắt câu chuyện.
 - Sửa theo góp ý, kiểm tra lại. Chỉ sang bước 3 khi chủ website nói duyệt rõ ràng.
 - Có thể dựng bản nháp trước để xem phong cách: `node video/scripts/lam-video.mjs <file> --nhap --chi-anh` (vài khung hình) hoặc `--nhap` (cả video, giọng Edge miễn phí).
 
