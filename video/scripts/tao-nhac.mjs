@@ -63,6 +63,40 @@ function pad(buf, start, freqs, dur, amp) {
   }
 }
 
+// Piano điện (kiểu Rhodes): hai sóng sin + bồi âm, tắt dần, rung nhẹ — tiếng ấm, tròn.
+function epiano(buf, start, f, dur, amp, pan = 0) {
+  const len = Math.min(Math.round((dur + 0.8) * SR), buf.L.length - start);
+  for (let i = 0; i < len; i++) {
+    const t = i / SR;
+    const decay = Math.exp(-t * 1.6) * (t > dur ? Math.exp(-(t - dur) * 6) : 1);
+    const attack = Math.min(1, t / 0.006);
+    const trem = 1 + 0.06 * Math.sin(2 * Math.PI * 4.5 * t);
+    const s = (Math.sin(2 * Math.PI * f * t) + 0.35 * Math.sin(2 * Math.PI * f * 2 * t) * Math.exp(-t * 4)
+      + 0.12 * Math.sin(2 * Math.PI * f * 3.01 * t) * Math.exp(-t * 8)) * amp * decay * attack * trem;
+    buf.L[start + i] += s * (1 - pan);
+    buf.R[start + i] += s * (1 + pan);
+  }
+}
+
+// Hộp nhạc / chuông nhẹ cho giai điệu
+function bell(buf, start, f, amp, pan = 0) {
+  const len = Math.min(Math.round(1.4 * SR), buf.L.length - start);
+  for (let i = 0; i < len; i++) {
+    const t = i / SR;
+    const s = (Math.sin(2 * Math.PI * f * t) + 0.25 * Math.sin(2 * Math.PI * f * 4.01 * t) * Math.exp(-t * 9))
+      * Math.exp(-t * 3.2) * Math.min(1, t / 0.003) * amp;
+    buf.L[start + i] += s * (1 - pan);
+    buf.R[start + i] += s * (1 + pan);
+  }
+}
+
+// Lọc thông thấp một cực (làm tiếng ấm, bớt chói)
+function lowpass(arr, cutoff) {
+  const a = Math.exp(-2 * Math.PI * cutoff / SR);
+  let y = 0;
+  for (let i = 0; i < arr.length; i++) { y = (1 - a) * arr[i] + a * y; arr[i] = y; }
+}
+
 function kick(buf, start, amp) {
   const len = Math.min(Math.round(0.25 * SR), buf.L.length - start);
   let ph = 0;
@@ -93,7 +127,87 @@ function snap(buf, start, amp, rand) {
   }
 }
 
-function render({ name, key, bpm, prog, bars, seed, strum, melody }) {
+function render(opts) {
+  if (opts.style === 'warm') return renderWarm(opts);
+  return renderPop(opts);
+}
+
+// Phong cách ấm áp: piano điện + ukulele gảy nhẹ + bass mềm + giai điệu hộp nhạc + trống chổi
+function renderWarm({ name, key, bpm, prog, bars, seed, motif }) {
+  const rand = rng(seed);
+  const beat = 60 / bpm;
+  const total = bars * 4 * beat;
+  const N = Math.round(total * SR) + 2 * SR;
+  const buf = { L: new Float32Array(N), R: new Float32Array(N) };
+  const root = 60 + NOTE[key];
+  const at = (sec) => Math.round(sec * SR);
+  const swing = beat * 0.06; // hơi "đung đưa" cho vui
+
+  for (let bar = 0; bar < bars; bar++) {
+    const [deg, type] = prog[bar % prog.length];
+    const base = root + deg;
+    const tones = CHORD[type].map((x) => base + x);
+    const t0 = bar * 4 * beat;
+    const section = Math.floor(bar / 8); // 0: dạo đầu nhẹ, 1+: đầy đủ
+    // piano điện: hợp âm ở phách 1, nhắc lại nhẹ ở phách 2.5 và 3.5
+    tones.forEach((m, k) => epiano(buf, at(t0 + k * 0.008), freq(m - 12), beat * 1.8, 0.07, (k - 1.5) * 0.12));
+    [2.5, 3.5].forEach((p) => tones.slice(1).forEach((m, k) => epiano(buf, at(t0 + p * beat + swing), freq(m - 12), beat * 0.7, 0.035, (k - 1) * 0.15)));
+    // bass mềm
+    sine(buf, at(t0), freq(base - 24), beat * 1.7, 0.2, 0.02, 0.3);
+    sine(buf, at(t0 + 2.5 * beat + swing), freq(base - 24 + (bar % 2 ? 7 : 12)), beat * 1.2, 0.13, 0.02, 0.3);
+    // ukulele gảy nhẹ từ đoạn 2
+    if (section >= 1) {
+      [[1, false], [1.5, true], [3, false]].forEach(([p, up]) => {
+        const order = up ? [...tones].reverse() : tones;
+        order.forEach((m, k) => pluck(buf, at(t0 + p * beat + (p % 1 ? swing : 0) + k * 0.014), freq(m + 12), beat * 0.8 + 0.25, 0.07, rand, (k - 1.5) * 0.18));
+      });
+    }
+    // giai điệu hộp nhạc: lặp mô-típ 2 ô nhịp, đổi theo hợp âm
+    if (section >= 1 || bar % 2 === 1) {
+      const mot = motif[bar % motif.length];
+      mot.forEach(([p, step]) => {
+        const scale = [0, 2, 4, 7, 9, 12, 14, 16]; // ngũ cung trưởng — luôn hợp, nghe vui
+        bell(buf, at(t0 + p * beat + (p % 1 ? swing : 0)), freq(root + 12 + scale[step]), 0.055, 0.25);
+      });
+    }
+    // trống chổi rất nhẹ
+    for (let b = 0; b < 4; b++) {
+      if (b === 0) kick(buf, at(t0), 0.22);
+      if (b === 2 && section >= 1) kick(buf, at(t0 + 2 * beat), 0.14);
+      if (b === 1 || b === 3) snap(buf, at(t0 + b * beat), 0.025, rand);
+      shaker(buf, at(t0 + b * beat + beat / 2 + swing), 0.028, rand);
+    }
+  }
+
+  // Lặp liền mạch: cộng đuôi tiếng về đầu
+  const loopN = Math.round(total * SR);
+  for (let i = loopN; i < N; i++) { buf.L[i - loopN] += buf.L[i]; buf.R[i - loopN] += buf.R[i]; }
+  const L = buf.L.subarray(0, loopN), R = buf.R.subarray(0, loopN);
+  lowpass(L, 5200); lowpass(R, 5200);
+  writeWav(name, L, R, total, bpm, key);
+}
+
+function writeWav(name, L, R, total, bpm, key) {
+  const loopN = L.length;
+  let peak = 0;
+  for (let i = 0; i < loopN; i++) peak = Math.max(peak, Math.abs(L[i]), Math.abs(R[i]));
+  const g = 0.89 / (peak || 1);
+  const pcm = Buffer.alloc(loopN * 4);
+  for (let i = 0; i < loopN; i++) {
+    pcm.writeInt16LE(Math.round(Math.tanh(L[i] * g * 1.05) * 32000), i * 4);
+    pcm.writeInt16LE(Math.round(Math.tanh(R[i] * g * 1.05) * 32000), i * 4 + 2);
+  }
+  const h = Buffer.alloc(44);
+  h.write('RIFF', 0); h.writeUInt32LE(36 + pcm.length, 4); h.write('WAVE', 8);
+  h.write('fmt ', 12); h.writeUInt32LE(16, 16); h.writeUInt16LE(1, 20); h.writeUInt16LE(2, 22);
+  h.writeUInt32LE(SR, 24); h.writeUInt32LE(SR * 4, 28); h.writeUInt16LE(4, 32); h.writeUInt16LE(16, 34);
+  h.write('data', 36); h.writeUInt32LE(pcm.length, 40);
+  mkdirSync(outDir, { recursive: true });
+  writeFileSync(resolve(outDir, `${name}.wav`), Buffer.concat([h, pcm]));
+  console.log(`✔ ${name}.wav — ${total.toFixed(1)} giây, ${bpm} BPM, giọng ${key}`);
+}
+
+function renderPop({ name, key, bpm, prog, bars, seed, strum, melody }) {
   const rand = rng(seed);
   const beat = 60 / bpm;
   const total = bars * 4 * beat;
@@ -173,4 +287,18 @@ const TRACKS = [
     prog: [[0, 'maj'], [5, 'maj'], [9, 'min'], [7, 'sus2']] },                // F Bb Dm Csus2
 ];
 
-for (const t of TRACKS) render(t);
+// Ấm áp, nhẹ nhàng nhưng vui: G – Em7 – Cmaj7 – Dadd9 (I – vi – IV – V), 92 BPM.
+// Mô-típ giai điệu: [phách, bậc trong thang ngũ cung]
+const MOTIF_AM_AP = [
+  [[0, 2], [0.5, 3], [1, 4], [2.5, 3], [3, 2]],
+  [[0, 1], [1, 2], [1.5, 1], [2, 0], [3.5, 2]],
+  [[0, 2], [0.5, 3], [1, 4], [2, 5], [3, 4]],
+  [[0, 3], [1, 2], [2, 1], [2.5, 2], [3, 0]],
+];
+TRACKS.push({
+  name: 'am-ap-vui-ve', style: 'warm', key: 'G', bpm: 92, seed: 53, bars: 24, motif: MOTIF_AM_AP,
+  prog: [[0, 'add9'], [9, 'min7'], [5, 'maj7'], [7, 'add9']],
+});
+
+const only = process.argv[2];
+for (const t of TRACKS) if (!only || t.name === only) render(t);
