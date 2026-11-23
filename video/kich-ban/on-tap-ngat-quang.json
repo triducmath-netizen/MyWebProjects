@@ -15,7 +15,7 @@
       "tieu_de": "Ôn tập ngắt quãng",
       "phu_de": "Đừng dồn hết vào tối trước hôm thi",
       "loi": [
-        { "nguoi": "duc", "cau": "Chào các em, thầy là thầy Đức.", "dieu_bo": "vay-tay" },
+        { "nguoi": "duc", "cau": "Chào các em!", "dieu_bo": "vay-tay" },
         { "nguoi": "duc", "cau": "Hôm nay mình nói về một thói quen rất phổ biến: tối trước hôm kiểm tra mới ôn, ôn đến tận khuya.", "dieu_bo": "giang-giai" },
         { "nguoi": "duc", "cau": "Có một cách khác, tốn đúng chừng ấy thời gian, mà thường nhớ lâu hơn.", "dieu_bo": "suy-nghi" }
       ]

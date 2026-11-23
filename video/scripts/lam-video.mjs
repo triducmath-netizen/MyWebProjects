@@ -55,7 +55,8 @@ writeFileSync(resolve(outDir, `${kb.slug}.srt`), toSrt(tl));
 // 3. Dựng
 console.log('Đang đóng gói hoạt hình…');
 const serveUrl = await bundle({ entryPoint: resolve(videoDir, 'src', 'index.jsx'), publicDir: resolve(videoDir, 'public') });
-const inputProps = { kichBan: kb, durations, nhac, amThanh: true };
+const kieu = args.includes('--2d') ? '2d' : '3d';
+const inputProps = { kichBan: kb, durations, nhac, amThanh: true, kieu };
 const ids = args.includes('--chi-doc') ? ['Doc'] : args.includes('--chi-ngang') ? ['Ngang'] : ['Ngang', 'Doc'];
 
 for (const id of ids) {
@@ -65,14 +66,14 @@ for (const id of ids) {
   const stills = chiAnh ? tl.scenes.map((s) => s.lines[0] ? s.lines[0].start + 0.8 : s.start + 1) : [tl.scenes[0].start + 1.2];
   for (const [i, sec] of stills.entries()) {
     const out = resolve(outDir, chiAnh ? `xem-${tag}-${String(i + 1).padStart(2, '0')}.png` : `anh-bia-${tag}.png`);
-    await renderStill({ composition: comp, serveUrl, output: out, frame: Math.min(comp.durationInFrames - 1, Math.round(sec * FPS)), inputProps });
+    await renderStill({ composition: comp, serveUrl, output: out, frame: Math.min(comp.durationInFrames - 1, Math.round(sec * FPS)), inputProps, chromiumOptions: { gl: 'angle' } });
   }
   if (chiAnh) { console.log(`Đã xuất ${stills.length} khung hình ${tag}`); continue; }
   const out = resolve(outDir, `${kb.slug}-${tag}.mp4`);
   let last = -1;
   await renderMedia({
     composition: comp, serveUrl, codec: 'h264', outputLocation: out, inputProps,
-    crf: 20, audioBitrate: '192k', concurrency: 4,
+    crf: 20, audioBitrate: '192k', concurrency: 4, chromiumOptions: { gl: 'angle' },
     onProgress: ({ progress }) => {
       const p = Math.floor(progress * 20);
       if (p !== last) { last = p; process.stdout.write(`\r${tag}: ${'█'.repeat(p)}${'░'.repeat(20 - p)} ${Math.round(progress * 100)}%`); }

@@ -5,11 +5,44 @@ import { C } from './theme.js';
 import { ThayDuc, Minh } from './characters.jsx';
 import { Rich } from './RichText.jsx';
 import { buildTimeline, sec2f } from './timeline.js';
+import { ThreeCanvas } from '@remotion/three';
+import { Scene3D, layoutFor, boardRect } from './three/Scene3D.jsx';
+
+function Logo({ s }) {
+  return (
+    <div style={{ position: 'absolute', top: 28 * s, left: 32 * s, display: 'flex', alignItems: 'center', gap: 12 * s, zIndex: 5,
+      background: 'rgba(255,255,255,.82)', borderRadius: 14 * s, padding: `${8 * s}px ${16 * s}px ${8 * s}px ${10 * s}px` }}>
+      <Img src={staticFile('logo-mark.svg')} style={{ width: 50 * s, height: 50 * s }} />
+      <span style={{ fontSize: 28 * s, fontWeight: 700, color: C.navy }}>Trí Đức <span style={{ color: C.gold }}>Math</span></span>
+    </div>
+  );
+}
+
+function Sound({ kichBan, lines, tl, nhac, amThanh, fps }) {
+  return (
+    <>
+      {amThanh && lines.map((l) => (
+        <Sequence key={`${l.si}-${l.li}`} from={sec2f(l.start)} durationInFrames={sec2f(l.dur) + 3}>
+          <Audio src={staticFile(`am-thanh/${kichBan.slug}/c${l.si}-l${l.li}.mp3`)} />
+        </Sequence>
+      ))}
+      {nhac && (
+        <Audio src={staticFile(nhac)} loop
+          volume={(f) => {
+            const tt = f / fps;
+            const talking = lines.some((l) => tt >= l.start - 0.2 && tt < l.start + l.dur + 0.2);
+            const endFade = interpolate(tt, [tl.total - 2.5, tl.total], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+            return (talking ? 0.07 : 0.2) * endFade;
+          }} />
+      )}
+    </>
+  );
+}
 
 const { fontFamily } = loadFont('normal', { weights: ['500', '600', '700'], subsets: ['vietnamese', 'latin'] });
 
 // Props: { kichBan, durations: [[giây,...] mỗi cảnh], nhac: 'nhac/x.mp3' | null, amThanh: true/false }
-export function TriDucVideo({ kichBan, durations, nhac, amThanh }) {
+export function TriDucVideo({ kichBan, durations, nhac, amThanh, kieu }) {
   const frame = useCurrentFrame();
   const { width, height, fps } = useVideoConfig();
   const vertical = height > width;
@@ -30,6 +63,29 @@ export function TriDucVideo({ kichBan, durations, nhac, amThanh }) {
 
   const s = vertical ? width / 1080 : height / 1080; // tỉ lệ cỡ chữ
   const charH = vertical ? 760 : 640;
+  const is3d = (kieu ?? '3d') === '3d';
+  const showBoard = scene.loai !== 'mo-dau' && scene.loai !== 'ket-thuc';
+  const ducPose = cur?.nguoi === 'duc' ? cur.dieu_bo ?? poseDuc : (listenerNod ? 'gat-dau' : poseDuc);
+  const minhPose = cur?.nguoi === 'minh' ? cur.dieu_bo ?? poseMinh : poseMinh;
+  const layout3d = is3d ? layoutFor(vertical) : null;
+  const rect3d = is3d ? boardRect(layout3d, width, height) : null;
+
+  if (is3d) {
+    return (
+      <AbsoluteFill style={{ fontFamily }}>
+        <ThreeCanvas width={width} height={height} shadows gl={{ antialias: true }} camera={{ fov: layout3d.cam.fov, position: layout3d.cam.pos }}>
+          <Scene3D layout={layout3d} frame={frame} ducPose={ducPose} minhPose={minhPose}
+            ducTalking={cur?.nguoi === 'duc'} minhTalking={cur?.nguoi === 'minh'} showBoard />
+        </ThreeCanvas>
+        <Logo s={s} />
+        {showBoard && <Board scene={scene} sceneFrame={sceneFrame} sceneLen={sceneLen} vertical={vertical} s={s} opacity={fadeIn} rect={rect3d} />}
+        {scene.loai === 'mo-dau' && <TitleCard scene={scene} sceneFrame={sceneFrame} s={s} vertical={vertical} kb={kichBan} />}
+        {scene.loai === 'ket-thuc' && <OutroCard sceneFrame={sceneFrame} s={s} />}
+        {cur && <Subtitle line={cur} s={s} vertical={vertical} />}
+        <Sound kichBan={kichBan} lines={lines} tl={tl} nhac={nhac} amThanh={amThanh} fps={fps} />
+      </AbsoluteFill>
+    );
+  }
 
   return (
     <AbsoluteFill style={{ fontFamily, background: `linear-gradient(180deg, ${C.paper} 0%, #e9e4d6 100%)` }}>
@@ -82,7 +138,45 @@ export function TriDucVideo({ kichBan, durations, nhac, amThanh }) {
   );
 }
 
-function Board({ scene, sceneFrame, sceneLen, vertical, s, opacity }) {
+function Board({ scene, sceneFrame, sceneLen, vertical, s, opacity, rect }) {
+  if (rect) {
+    // Bản 3D: chỉ vẽ chữ, nằm đúng trên mặt bảng 3D
+    const k = rect.width / (vertical ? 980 : 1000);
+    return <BoardText scene={scene} sceneFrame={sceneFrame} sceneLen={sceneLen} k={k} opacity={opacity}
+      style={{ position: 'absolute', left: rect.left, top: rect.top, width: rect.width, height: rect.height,
+        padding: `${34 * k}px ${44 * k}px` }} />;
+  }
+  return <Board2D scene={scene} sceneFrame={sceneFrame} sceneLen={sceneLen} vertical={vertical} s={s} opacity={opacity} />;
+}
+
+function BoardText({ scene, sceneFrame, sceneLen, k, opacity, style }) {
+  const items = scene.loai === 'vi-du' ? (scene.loi_giai || []) : (scene.noi_dung || []);
+  const shown = (i) => {
+    const at = scene.loai === 'vi-du'
+      ? sceneLen * (0.35 + 0.5 * (i / Math.max(1, items.length)))
+      : sceneLen * (0.08 + 0.7 * (i / Math.max(1, items.length)));
+    return interpolate(sceneFrame, [at, at + 12], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+  };
+  return (
+    <div style={{ ...style, opacity, color: '#f3f1e8', display: 'flex', flexDirection: 'column', gap: 20 * k, overflow: 'hidden',
+      textShadow: '0 1px 0 rgba(0,0,0,.25)' }}>
+      {scene.tieu_de && <div style={{ fontSize: 56 * k, fontWeight: 700, color: C.gold, lineHeight: 1.2 }}><Rich text={scene.tieu_de} /></div>}
+      {scene.de_bai && <div style={{ fontSize: 44 * k, lineHeight: 1.45 }}><Rich text={scene.de_bai} /></div>}
+      {items.map((it, i) => (
+        <div key={i} style={{ fontSize: (scene.loai === 'vi-du' ? 46 : 44) * k, lineHeight: 1.4, opacity: shown(i),
+          transform: `translateY(${(1 - shown(i)) * 16}px)`, display: 'flex', gap: 16 * k }}>
+          {scene.loai !== 'vi-du' && <span style={{ color: C.gold, fontWeight: 700 }}>{i + 1}.</span>}
+          <Rich text={it} />
+        </div>
+      ))}
+      {!scene.tieu_de && !items.length && !scene.de_bai && (
+        <div style={{ margin: 'auto', fontSize: 70 * k, color: 'rgba(243,241,232,.35)', fontWeight: 700 }}>Học thật, hiểu sâu.</div>
+      )}
+    </div>
+  );
+}
+
+function Board2D({ scene, sceneFrame, sceneLen, vertical, s, opacity }) {
   const items = scene.loai === 'vi-du' ? (scene.loi_giai || []) : (scene.noi_dung || []);
   // Hiện dần các dòng trong 75% đầu cảnh
   const shown = (i) => {

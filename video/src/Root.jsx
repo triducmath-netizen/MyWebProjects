@@ -4,7 +4,7 @@ import { TriDucVideo, videoDuration } from './Video.jsx';
 import { FPS } from './timeline.js';
 import mau from '../kich-ban/_mau.json';
 
-const defaultProps = { kichBan: mau, durations: null, nhac: null, amThanh: false };
+const defaultProps = { kichBan: mau, durations: null, nhac: null, amThanh: false, kieu: '3d' };
 const calc = ({ props }) => ({ durationInFrames: videoDuration(props.kichBan, props.durations), props });
 
 export const Root = () => (

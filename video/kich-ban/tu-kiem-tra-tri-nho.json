@@ -15,7 +15,7 @@
       "tieu_de": "Tự kiểm tra trí nhớ",
       "phu_de": "Gấp sách lại rồi mới học",
       "loi": [
-        { "nguoi": "duc", "cau": "Chào các em, thầy là thầy Đức.", "dieu_bo": "vay-tay" },
+        { "nguoi": "duc", "cau": "Chào các em!", "dieu_bo": "vay-tay" },
         { "nguoi": "duc", "cau": "Có bao giờ em đọc bài rất kỹ, thấy hiểu hết, mà vào kiểm tra thì đầu trống trơn chưa?", "dieu_bo": "suy-nghi" },
         { "nguoi": "duc", "cau": "Hôm nay thầy với Minh thử một cách học hơi ngược đời: gấp sách lại trước, rồi mới học.", "dieu_bo": "giang-giai" }
       ]

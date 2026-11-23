@@ -1,13 +1,13 @@
 # Ôn tập ngắt quãng: đừng dồn hết vào tối trước hôm thi
 
 **Phương pháp:** Ôn tập ngắt quãng (Spaced / distributed practice)  
-**Độ dài lời thoại:** 794 chữ (~4.8 phút)
+**Độ dài lời thoại:** 790 chữ (~4.8 phút)
 
 ## Cảnh 1 — Mở đầu: Ôn tập ngắt quãng
 
 *Đừng dồn hết vào tối trước hôm thi*
 
-**Thầy Đức** *(vay-tay)*: Chào các em, thầy là thầy Đức.  
+**Thầy Đức** *(vay-tay)*: Chào các em!  
 **Thầy Đức** *(giang-giai)*: Hôm nay mình nói về một thói quen rất phổ biến: tối trước hôm kiểm tra mới ôn, ôn đến tận khuya.  
 **Thầy Đức** *(suy-nghi)*: Có một cách khác, tốn đúng chừng ấy thời gian, mà thường nhớ lâu hơn.
 

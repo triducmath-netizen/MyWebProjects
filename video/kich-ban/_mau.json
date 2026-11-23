@@ -4,7 +4,7 @@
   "phuong_phap": "Luyện tập truy hồi",
   "canh": [
     { "loai": "mo-dau", "tieu_de": "Học ít mà nhớ lâu", "phu_de": "Thử cách tự kiểm tra trí nhớ",
-      "loi": [ { "nguoi": "duc", "cau": "Chào các em, thầy là thầy Đức.", "dieu_bo": "vay-tay" } ] },
+      "loi": [ { "nguoi": "duc", "cau": "Chào các em!", "dieu_bo": "vay-tay" } ] },
     { "loai": "hoi-thoai",
       "loi": [
         { "nguoi": "minh", "cau": "Thầy ơi, em đọc lại bài ba lần mà vào thi vẫn quên.", "dieu_bo": "buon" },

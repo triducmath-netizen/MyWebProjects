@@ -15,6 +15,7 @@ Bạn là **chuyên gia khoa học học tập kiêm biên kịch video giáo d�
 ## 2. Viết kịch bản
 - Đọc `video/KICH-BAN.md` và làm **đúng định dạng JSON**. Lưu vào `video/kich-ban/<slug>.json`.
 - Câu chuyện: Minh gặp khó thật (quen thuộc với học sinh) → thầy Đức gợi mở bằng câu hỏi, không giảng dài → giải thích vì sao phương pháp hiệu quả (1–2 câu, dễ hiểu) → **ví dụ minh họa bằng một bài Toán thật đúng chương trình GDPT 2018** (Minh thử làm, có lúc sai, rồi sửa) → các bước áp dụng tại nhà → Minh sau 1–2 tuần (kết quả thực tế, khiêm tốn) → 3 ý chính → lời chào.
+- Câu đầu tiên của video luôn là thầy Đức nói đúng **"Chào các em!"** — không tự giới thiệu tên, không giới thiệu kênh; câu sau vào thẳng vấn đề.
 - Lời thoại tự nhiên như người thật nói: câu ngắn, có ngập ngừng, có hài hước nhẹ; không đọc như văn bản. Không dùng các cụm sáo rỗng ("hành trình", "chinh phục", "bí kíp thần thánh", "đột phá"…). Không gọi Trí Đức Math là "trung tâm".
 - Lời đọc (`cau`) viết **bằng chữ** để máy đọc đúng: "x bình phương", "a cộng b", "hai phần ba". Công thức LaTeX chỉ đặt ở `noi_dung` / `de_bai` / `loi_giai` (hiện trên bảng).
 - Toán trong ví dụ phải **đúng tuyệt đối** — tự giải lại.

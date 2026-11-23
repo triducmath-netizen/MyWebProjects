@@ -29,7 +29,7 @@ Mỗi video là một file `video/kich-ban/<slug>.json`. Máy đọc file này �
   ],
   "canh": [
     { "loai": "mo-dau", "tieu_de": "Tự kiểm tra trí nhớ", "phu_de": "Học ít mà nhớ lâu",
-      "loi": [ { "nguoi": "duc", "cau": "Chào các em, thầy là thầy Đức.", "dieu_bo": "vay-tay" } ] },
+      "loi": [ { "nguoi": "duc", "cau": "Chào các em!", "dieu_bo": "vay-tay" } ] },
     { "loai": "hoi-thoai",
       "loi": [
         { "nguoi": "minh", "cau": "Thầy ơi, em đọc lại bài ba lần mà vào thi vẫn quên.", "dieu_bo": "buon" },
@@ -57,6 +57,7 @@ Mỗi video là một file `video/kich-ban/<slug>.json`. Máy đọc file này �
 ```
 
 ## Quy tắc
+- **Lời mở đầu của thầy Đức chỉ là "Chào các em!"** — thầy không tự giới thiệu tên ("thầy là thầy Đức…"), không giới thiệu kênh. Câu tiếp theo vào thẳng vấn đề.
 - `loai`: `mo-dau` | `hoi-thoai` | `bang` | `vi-du` | `tong-ket` | `ket-thuc`.
 - Mỗi cảnh có `loi` (mảng câu thoại, ít nhất 1). `nguoi`: `duc` | `minh`.
 - `dieu_bo` (dáng điệu) — tuỳ chọn, mặc định `binh-thuong`:

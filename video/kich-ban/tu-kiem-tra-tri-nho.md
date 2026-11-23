@@ -1,13 +1,13 @@
 # Tự kiểm tra trí nhớ: gấp sách lại rồi mới học
 
 **Phương pháp:** Luyện tập truy hồi (Retrieval practice)  
-**Độ dài lời thoại:** 769 chữ (~4.7 phút)
+**Độ dài lời thoại:** 765 chữ (~4.6 phút)
 
 ## Cảnh 1 — Mở đầu: Tự kiểm tra trí nhớ
 
 *Gấp sách lại rồi mới học*
 
-**Thầy Đức** *(vay-tay)*: Chào các em, thầy là thầy Đức.  
+**Thầy Đức** *(vay-tay)*: Chào các em!  
 **Thầy Đức** *(suy-nghi)*: Có bao giờ em đọc bài rất kỹ, thấy hiểu hết, mà vào kiểm tra thì đầu trống trơn chưa?  
 **Thầy Đức** *(giang-giai)*: Hôm nay thầy với Minh thử một cách học hơi ngược đời: gấp sách lại trước, rồi mới học.
 

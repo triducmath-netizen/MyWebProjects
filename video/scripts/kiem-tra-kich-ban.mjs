@@ -14,6 +14,9 @@ export function kiemTra(kb) {
   if (!Array.isArray(kb.nguon) || !kb.nguon.length) canh('cần ít nhất 1 nguồn tham khảo (nguon)');
   if (!Array.isArray(kb.canh) || kb.canh.length < 4) { canh('cần ít nhất 4 cảnh'); return { loi, soChu: 0 }; }
   if (kb.canh[0].loai !== 'mo-dau') canh('cảnh đầu phải là mo-dau');
+  const first = kb.canh[0].loi?.[0];
+  if (!first || first.nguoi !== 'duc' || first.cau.trim() !== 'Chào các em!') canh('câu đầu tiên phải là thầy Đức nói đúng "Chào các em!"');
+  if (kb.canh.some((c) => (c.loi || []).some((l) => /thầy là thầy Đức|thầy tên là/i.test(l.cau)))) canh('thầy Đức không tự giới thiệu tên');
   if (kb.canh.at(-1).loai !== 'ket-thuc') canh('cảnh cuối phải là ket-thuc');
   if (!kb.canh.some((c) => c.loai === 'vi-du')) canh('cần ít nhất 1 cảnh vi-du (ví dụ minh họa)');
   let soChu = 0, coMinh = false, coDuc = false;
