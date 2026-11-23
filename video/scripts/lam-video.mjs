@@ -87,7 +87,7 @@ const m = kb.dang_mxh || {};
 const tags = (m.hashtag || []).join(' ');
 writeFileSync(resolve(outDir, 'dang-mxh.md'), `# ${kb.tieu_de}
 
-Giọng đọc: ${provider === 'fpt' ? 'FPT.AI' : 'Edge (BẢN XEM THỬ — dựng lại bằng FPT.AI trước khi đăng)'}
+Giọng đọc: ${provider === 'azure' ? 'Microsoft Azure' : provider === 'fpt' ? 'FPT.AI' : 'Edge (BẢN XEM THỬ — dựng lại bằng giọng chính thức trước khi đăng)'}
 Thời lượng: ${(tl.total / 60).toFixed(1)} phút
 
 ## YouTube (file: ${kb.slug}-ngang.mp4, phụ đề: ${kb.slug}.srt)

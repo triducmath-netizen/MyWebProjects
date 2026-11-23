@@ -3,8 +3,11 @@
 //   node video/scripts/giong-doc.mjs video/kich-ban/<slug>.json [--nhap]
 // Kết quả: video/public/am-thanh/<slug>/c<cảnh>-l<câu>.mp3 + durations.json (độ dài từng câu, giây).
 //
-// Nhà cung cấp (đặt trong .env.local ở thư mục gốc dự án):
-//   FPT_TTS_API_KEY=...         → giọng FPT.AI (bản chính thức)
+// Nhà cung cấp (đặt trong .env.local ở thư mục gốc dự án), ưu tiên theo thứ tự:
+//   AZURE_SPEECH_KEY=... + AZURE_SPEECH_REGION=southeastasia → Microsoft Azure (bản chính thức)
+//     tuỳ chọn: AZURE_VOICE_DUC / AZURE_VOICE_MINH (mặc định vi-VN-NamMinhNeural),
+//               AZURE_PITCH_DUC / AZURE_RATE_DUC / AZURE_PITCH_MINH / AZURE_RATE_MINH (vd "+18%", "-4%")
+//   FPT_TTS_API_KEY=...         → giọng FPT.AI
 //   FPT_VOICE_DUC=leminh        → giọng thầy Đức (mặc định leminh — nam miền Bắc)
 //   FPT_VOICE_MINH=minhquang    → giọng Minh
 //   FPT_SPEED_DUC=0 / FPT_SPEED_MINH=0   (từ -3 đến 3)
@@ -59,7 +62,23 @@ async function fptTts(text, voice, speed, key) {
   }
 }
 
+// Máy chủ giọng Edge đôi khi ngắt giữa chừng → thử lại vài lần, nghỉ tăng dần.
 async function edgeTts(text, who) {
+  let lastErr;
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    try {
+      const buf = await edgeTtsOnce(text, who);
+      if (buf.length > 2000) return buf;
+      lastErr = new Error('file âm thanh quá ngắn');
+    } catch (e) {
+      lastErr = e;
+    }
+    await sleep(1500 * attempt);
+  }
+  throw new Error(`Giọng Edge lỗi sau 5 lần thử: ${lastErr?.message}`);
+}
+
+async function edgeTtsOnce(text, who) {
   const { MsEdgeTTS, OUTPUT_FORMAT } = await import('msedge-tts');
   const tts = new MsEdgeTTS();
   await tts.setMetadata('vi-VN-NamMinhNeural', OUTPUT_FORMAT.AUDIO_24KHZ_96KBITRATE_MONO_MP3);
@@ -75,11 +94,51 @@ async function edgeTts(text, who) {
   return Buffer.concat(chunks);
 }
 
+const xmlEsc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+// Microsoft Azure Speech (chính thức). Mặc định thầy Đức và Minh cùng giọng NamMinh,
+// Minh được nâng cao độ + nói nhanh hơn một chút cho trẻ hơn.
+function azureVoice(who, env) {
+  return who === 'minh'
+    ? { name: env.AZURE_VOICE_MINH || 'vi-VN-NamMinhNeural', pitch: env.AZURE_PITCH_MINH || '+18%', rate: env.AZURE_RATE_MINH || '+6%' }
+    : { name: env.AZURE_VOICE_DUC || 'vi-VN-NamMinhNeural', pitch: env.AZURE_PITCH_DUC || '-2%', rate: env.AZURE_RATE_DUC || '-4%' };
+}
+
+async function azureTts(text, who, env) {
+  const v = azureVoice(who, env);
+  const ssml = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="vi-VN"><voice name="${v.name}"><prosody pitch="${v.pitch}" rate="${v.rate}">${xmlEsc(text)}</prosody></voice></speak>`;
+  const url = `https://${env.AZURE_SPEECH_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Ocp-Apim-Subscription-Key': env.AZURE_SPEECH_KEY,
+        'Content-Type': 'application/ssml+xml',
+        'X-Microsoft-OutputFormat': 'audio-24khz-96kbitrate-mono-mp3',
+        'User-Agent': 'tri-duc-math-video',
+      },
+      body: ssml,
+    });
+    if (res.ok) return Buffer.from(await res.arrayBuffer());
+    if (res.status === 401 || res.status === 403) throw new Error(`Azure từ chối khoá (${res.status}) — kiểm tra AZURE_SPEECH_KEY và AZURE_SPEECH_REGION`);
+    if (attempt === 5) throw new Error(`Azure lỗi ${res.status}: ${(await res.text()).slice(0, 200)}`);
+    await sleep(1500 * attempt);
+  }
+}
+
+export function chonNhaCungCap(env, nhap) {
+  if (nhap) return 'edge';
+  if (env.AZURE_SPEECH_KEY && env.AZURE_SPEECH_REGION) return 'azure';
+  if (env.FPT_TTS_API_KEY) return 'fpt';
+  return 'edge';
+}
+
+const TEN_NCC = { azure: 'Microsoft Azure', fpt: 'FPT.AI', edge: 'Edge — bản xem thử' };
+
 export async function taoGiongDoc(kbPath, { nhap = false } = {}) {
   const kb = JSON.parse(readFileSync(kbPath, 'utf8'));
   const env = readEnv();
-  const useFpt = !nhap && !!env.FPT_TTS_API_KEY;
-  const provider = useFpt ? 'fpt' : 'edge';
+  const provider = chonNhaCungCap(env, nhap);
   const outDir = resolve(videoDir, 'public', 'am-thanh', kb.slug);
   mkdirSync(outDir, { recursive: true });
   const cacheFile = resolve(outDir, 'cache.json');
@@ -90,14 +149,24 @@ export async function taoGiongDoc(kbPath, { nhap = false } = {}) {
     durations[si] = [];
     for (const [li, l] of c.loi.entries()) {
       const text = speakable(l.cau);
-      const voice = useFpt ? (l.nguoi === 'minh' ? env.FPT_VOICE_MINH || 'minhquang' : env.FPT_VOICE_DUC || 'leminh') : `edge-${l.nguoi}`;
-      const speed = l.nguoi === 'minh' ? env.FPT_SPEED_MINH : env.FPT_SPEED_DUC;
-      const sig = createHash('sha1').update(`${provider}|${voice}|${speed}|${text}`).digest('hex');
+      let voice;
+      if (provider === 'azure') voice = JSON.stringify(azureVoice(l.nguoi, env));
+      else if (provider === 'fpt') voice = `${l.nguoi === 'minh' ? env.FPT_VOICE_MINH || 'minhquang' : env.FPT_VOICE_DUC || 'leminh'}|${l.nguoi === 'minh' ? env.FPT_SPEED_MINH : env.FPT_SPEED_DUC}`;
+      else voice = `edge-${l.nguoi}`;
+      const sig = createHash('sha1').update(`${provider}|${voice}|${text}`).digest('hex');
       const file = resolve(outDir, `c${si}-l${li}.mp3`);
       if (cache[`${si}-${li}`] !== sig || !existsSync(file) || statSync(file).size < 1000) {
-        const buf = useFpt ? await fptTts(text, voice, speed, env.FPT_TTS_API_KEY) : await edgeTts(text, l.nguoi);
+        let buf;
+        try {
+          if (provider === 'azure') buf = await azureTts(text, l.nguoi, env);
+          else if (provider === 'fpt') { const [vn, sp] = voice.split('|'); buf = await fptTts(text, vn, sp, env.FPT_TTS_API_KEY); }
+          else { buf = await edgeTts(text, l.nguoi); await sleep(400); }
+        } catch (e) {
+          throw new Error(`Cảnh ${si + 1}, câu ${li + 1} ("${l.cau.slice(0, 60)}"): ${e.message}`);
+        }
         writeFileSync(file, buf);
         cache[`${si}-${li}`] = sig;
+        writeFileSync(cacheFile, JSON.stringify(cache, null, 2)); // lưu tiến độ từng câu
         made++;
         process.stdout.write('.');
       }
@@ -105,10 +174,9 @@ export async function taoGiongDoc(kbPath, { nhap = false } = {}) {
       durations[si][li] = Math.round((meta.format.duration ?? 0) * 1000) / 1000;
     }
   }
-  writeFileSync(cacheFile, JSON.stringify(cache, null, 2));
   writeFileSync(resolve(outDir, 'durations.json'), JSON.stringify({ provider, durations }, null, 2));
   const total = durations.flat().reduce((a, b) => a + b, 0);
-  console.log(`\nGiọng đọc (${provider === 'fpt' ? 'FPT.AI' : 'Edge — bản xem thử'}): ${made} câu mới, tổng lời ${total.toFixed(1)} giây`);
+  console.log(`\nGiọng đọc (${TEN_NCC[provider]}): ${made} câu mới, tổng lời ${total.toFixed(1)} giây`);
   return { provider, durations };
 }
 

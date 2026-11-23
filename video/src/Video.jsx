@@ -149,21 +149,48 @@ function Board({ scene, sceneFrame, sceneLen, vertical, s, opacity, rect }) {
   return <Board2D scene={scene} sceneFrame={sceneFrame} sceneLen={sceneLen} vertical={vertical} s={s} opacity={opacity} />;
 }
 
+// Ước lượng số dòng một đoạn chữ chiếm khi xuống dòng tự động (công thức tính gọn lại).
+function estLines(text, fontPx, widthPx) {
+  const plain = String(text || '').replace(/\$([^$]*)\$/g, (_, m) => m.replace(/\\[a-zA-Z]+/g, 'x').replace(/[{}^_]/g, ''));
+  const perLine = Math.max(8, widthPx / (fontPx * 0.52));
+  return Math.max(1, Math.ceil(plain.length / perLine));
+}
+
 function BoardText({ scene, sceneFrame, sceneLen, k, opacity, style }) {
   const items = scene.loai === 'vi-du' ? (scene.loi_giai || []) : (scene.noi_dung || []);
-  const shown = (i) => {
-    const at = scene.loai === 'vi-du'
-      ? sceneLen * (0.35 + 0.5 * (i / Math.max(1, items.length)))
-      : sceneLen * (0.08 + 0.7 * (i / Math.max(1, items.length)));
-    return interpolate(sceneFrame, [at, at + 12], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+  const appearAt = (i) => scene.loai === 'vi-du'
+    ? sceneLen * (0.35 + 0.5 * (i / Math.max(1, items.length)))
+    : sceneLen * (0.08 + 0.7 * (i / Math.max(1, items.length)));
+  const shown = (i) => interpolate(sceneFrame, [appearAt(i), appearAt(i) + 12], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+  const visible = items.map((_, i) => i).filter((i) => sceneFrame >= appearAt(i));
+
+  // Tự thu nhỏ chữ cho vừa bảng; nếu vẫn tràn thì ẩn dần các dòng cũ nhất (giữ tiêu đề + đề bài).
+  const W = style.width - 88 * k;
+  const H = style.height - 68 * k;
+  const sizes = { t: 56, d: 44, i: scene.loai === 'vi-du' ? 46 : 44 };
+  const need = (f, idx) => {
+    const lh = (px, n) => px * f * k * 1.42 * n;
+    let h = 0;
+    if (scene.tieu_de) h += lh(sizes.t, estLines(scene.tieu_de, sizes.t * f * k, W)) + 20 * k;
+    if (scene.de_bai) h += lh(sizes.d, estLines(scene.de_bai, sizes.d * f * k, W)) + 20 * k;
+    for (const i of idx) h += lh(sizes.i, estLines(items[i], sizes.i * f * k, W - 40 * k)) + 20 * k;
+    return h;
   };
+  // Cỡ chữ cố định theo toàn bộ cảnh (không nhảy cỡ giữa chừng)
+  let f = 1;
+  const all = items.map((_, i) => i);
+  while (f > 0.62 && need(f, all) > H) f -= 0.04;
+  let showIdx = visible;
+  while (showIdx.length > 1 && need(f, showIdx) > H) showIdx = showIdx.slice(1);
+  const hidden = new Set(visible.filter((i) => !showIdx.includes(i)));
+
   return (
     <div style={{ ...style, opacity, color: '#f3f1e8', display: 'flex', flexDirection: 'column', gap: 20 * k, overflow: 'hidden',
       textShadow: '0 1px 0 rgba(0,0,0,.25)' }}>
-      {scene.tieu_de && <div style={{ fontSize: 56 * k, fontWeight: 700, color: C.gold, lineHeight: 1.2 }}><Rich text={scene.tieu_de} /></div>}
-      {scene.de_bai && <div style={{ fontSize: 44 * k, lineHeight: 1.45 }}><Rich text={scene.de_bai} /></div>}
-      {items.map((it, i) => (
-        <div key={i} style={{ fontSize: (scene.loai === 'vi-du' ? 46 : 44) * k, lineHeight: 1.4, opacity: shown(i),
+      {scene.tieu_de && <div style={{ fontSize: sizes.t * f * k, fontWeight: 700, color: C.gold, lineHeight: 1.2 }}><Rich text={scene.tieu_de} /></div>}
+      {scene.de_bai && <div style={{ fontSize: sizes.d * f * k, lineHeight: 1.42 }}><Rich text={scene.de_bai} /></div>}
+      {items.map((it, i) => hidden.has(i) ? null : (
+        <div key={i} style={{ fontSize: sizes.i * f * k, lineHeight: 1.42, opacity: shown(i),
           transform: `translateY(${(1 - shown(i)) * 16}px)`, display: 'flex', gap: 16 * k }}>
           {scene.loai !== 'vi-du' && <span style={{ color: C.gold, fontWeight: 700 }}>{i + 1}.</span>}
           <Rich text={it} />

@@ -6,8 +6,8 @@ import { ThayDuc3D, Minh3D } from './Characters3D.jsx';
 
 export function layoutFor(vertical) {
   return vertical
-    ? { cam: { pos: [0, 1.95, 6.3], look: [0, 1.85, 0], fov: 46 },
-        board: { c: [0, 3.05, -1.7], w: 2.6, h: 1.5 },
+    ? { cam: { pos: [0, 2.15, 6.6], look: [0, 2.05, 0], fov: 46 },
+        board: { c: [0, 3.45, -1.7], w: 2.7, h: 1.75 },
         duc: [-0.72, 0.25], minh: [0.75, 0.4] }
     : { cam: { pos: [0, 1.6, 5.6], look: [0, 1.35, 0], fov: 36 },
         board: { c: [0, 1.75, -1.7], w: 3.0, h: 1.75 },

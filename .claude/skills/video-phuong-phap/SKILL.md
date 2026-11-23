@@ -11,7 +11,7 @@ Thư mục `video/`:
 - `KICH-BAN.md` — định dạng kịch bản (nhân vật, cấu trúc, quy tắc).
 - `danh-sach-phuong-phap.md` — danh sách phương pháp đã nghiên cứu + trạng thái.
 - `kich-ban/<slug>.json` — kịch bản. `_mau.json` là mẫu thử ngắn.
-- `nhac/` — nhạc nền miễn phí bản quyền do chủ website tải về (mp3/m4a/wav).
+- `nhac/` — nhạc nền. Tạo bằng `node video/scripts/tao-nhac.mjs` (máy tự soạn, không bản quyền: vui-tuoi-ukulele, nhe-nhang-suy-nghi, tich-cuc-nang-dong). Có thể thêm file mp3/wav miễn phí bản quyền khác. Kịch bản chọn bản nhạc bằng trường `"nhac": "<tên file>"`.
 - `xuat/<slug>/` — kết quả: `<slug>-ngang.mp4`, `<slug>-doc.mp4`, `<slug>.srt`, `dang-mxh.md`, ảnh bìa.
 - `scripts/` — công cụ; `src/` — hoạt hình (Remotion, React).
 
@@ -26,10 +26,11 @@ Thư mục `video/`:
 
 ## Bước 3 — Dựng video
 `node video/scripts/lam-video.mjs video/kich-ban/<slug>.json`
-- Tự tạo giọng đọc (FPT.AI nếu `.env.local` có `FPT_TTS_API_KEY`; không có thì dùng giọng Edge và ghi rõ "BẢN XEM THỬ"), phụ đề cháy chữ + file `.srt`, nhạc nền (chọn từ `video/nhac/`, giảm âm lượng khi có lời), hai khổ: ngang 1920×1080 và dọc 1080×1920.
+- Tự tạo giọng đọc: **Microsoft Azure** (giọng vi-VN-NamMinhNeural, gói Free F0) nếu `.env.local` có `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`; không có thì dùng giọng Edge và ghi rõ "BẢN XEM THỬ". (FPT.AI đã ngừng phục vụ cá nhân từ 6/7/2026.), phụ đề cháy chữ + file `.srt`, nhạc nền (chọn từ `video/nhac/`, giảm âm lượng khi có lời), hai khổ: ngang 1920×1080 và dọc 1080×1920.
 - Thời gian dựng: ~2 phút máy cho mỗi phút video (cả 2 khổ).
 - Thêm `--chi-doc` / `--chi-ngang` để dựng một khổ.
-- Biến môi trường giọng trong `.env.local`: `FPT_VOICE_DUC` (mặc định `leminh`), `FPT_VOICE_MINH` (mặc định `minhquang`), `FPT_SPEED_DUC`, `FPT_SPEED_MINH` (−3…3). Đổi giọng → dựng lại sẽ tự tạo lại giọng đọc.
+- Chỉnh giọng trong `.env.local`: `AZURE_VOICE_DUC` / `AZURE_VOICE_MINH`, `AZURE_PITCH_DUC` / `AZURE_RATE_DUC` / `AZURE_PITCH_MINH` / `AZURE_RATE_MINH` (vd `-4%`, `+18%`). Đổi giọng → dựng lại sẽ tự tạo lại giọng đọc.
+- Kiểu hình: mặc định **3D** (nhân vật thầy Đức, Minh trong lớp học 3D); thêm `--2d` để dùng kiểu cũ.
 
 ## Bước 4 — Chủ website duyệt video
 - Gửi file video (SendUserFile) và ảnh bìa; tóm tắt thời lượng, nhạc dùng, giọng dùng.
