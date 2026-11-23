@@ -2,14 +2,14 @@
 
 Dùng **Gemini** miễn phí: https://gemini.google.com (đăng nhập tài khoản Google). Vẽ **8 ảnh**, lưu vào thư mục này: `D:\MyWebProjects\video\nhan-vat\thay-duc\` với **đúng tên file** ở bảng dưới (đuôi `.png` hoặc `.jpg` đều được).
 
-## Bước 1 — Vẽ ảnh gốc
-Mở một cuộc trò chuyện mới trong Gemini, dán nguyên câu lệnh sau:
+## Bước 1 — Vẽ ảnh gốc từ ảnh thật của thầy
+Mở một cuộc trò chuyện mới trong Gemini, bấm **+ / Tải tệp lên** và chọn ảnh thật của thầy (`D:\MyWebProjectsideo\Ảnh thầy đức.jpg`), rồi dán câu lệnh sau vào cùng tin nhắn:
 
 ```
-Create a 3D animated character in the style of a Pixar movie: a friendly Vietnamese male math teacher, about 35 years old, named "Thầy Đức". Short neat black hair with a side part, thin dark-navy rectangular glasses, warm kind smile, light skin with a healthy tone. He wears a light-blue long-sleeve dress shirt, a navy-blue necktie, dark navy trousers, black leather shoes, and a slim brown belt. Full body, standing, facing the viewer at a slight three-quarter angle, both feet visible, centered, with generous empty space around him. Pure plain white background (#FFFFFF), no floor, no shadow, no text, no other objects. Soft studio lighting, high detail, vertical image 3:4.
+Using the man in this photo as the reference, create a 3D animated character of him in the style of a Pixar movie. Keep his real likeness: his face shape, short black hair swept to the side, friendly smile, slim build. No glasses. He is a Vietnamese math teacher. Outfit: crisp white long-sleeve dress shirt with sleeves slightly rolled up, dark navy trousers, white sneakers. No bag, no car, nothing in his hands. Full body, standing, facing the viewer at a slight three-quarter angle, both feet visible, centered, with generous empty space around him. Pure plain white background (#FFFFFF), no floor, no shadow, no text, no other objects. Soft studio lighting, high detail, vertical image 3:4.
 ```
 
-Nếu chưa ưng, bấm **tạo lại** hoặc nhắn thêm (ví dụ "make him look a bit younger", "warmer smile") đến khi được ảnh bạn thích. **Lưu ảnh** (bấm vào ảnh → nút tải xuống ⬇) và đặt tên `binh-thuong.png`.
+Nếu chưa giống, nhắn thêm (ví dụ "make the face look more like the photo", "a bit slimmer face", "warmer smile") đến khi ưng. **Lưu ảnh** (bấm vào ảnh → nút tải xuống ⬇) và đặt tên `binh-thuong.png`.
 
 ## Bước 2 — Vẽ 7 ảnh cử chỉ (giữ nguyên nhân vật)
 **Trong cùng cuộc trò chuyện đó**, gửi lần lượt từng câu dưới đây (mỗi câu một tin nhắn), tải ảnh về và đặt đúng tên:
@@ -22,7 +22,7 @@ Nếu chưa ưng, bấm **tạo lại** hoặc nhắn thêm (ví dụ "make him 
 | `suy-nghi.png` | `Same character, same outfit, same style and white background. Now he is thinking, one hand on his chin, eyes looking up, slightly curious expression. Full body.` |
 | `vui.png` | `Same character, same outfit, same style and white background. Now he gives an enthusiastic thumbs up with a big happy smile. Full body.` |
 | `ngac-nhien.png` | `Same character, same outfit, same style and white background. Now he looks pleasantly surprised, eyebrows raised, mouth slightly open, both hands open at shoulder height. Full body.` |
-| `viet-bang.png` | `Same character, same outfit, same style and white background. Now he holds a whiteboard marker in his right hand, raised as if about to write, focused friendly look, turned slightly to the right. Full body.` |
+| `viet-bang.png` | `Same character, same outfit, same style and white background. Now he holds a marker in his right hand, raised as if about to write, focused friendly look, turned slightly to the right. Full body.` |
 
 ## Lưu ý
 - Nền phải **trắng trơn**, không có sàn, không bóng đổ, không chữ — máy sẽ tự làm nền trắng hoà vào video.
