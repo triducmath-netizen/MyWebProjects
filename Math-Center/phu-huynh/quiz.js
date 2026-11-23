@@ -12,58 +12,142 @@ function stopTaking() {
 }
 
 // =====================================================================
-// Danh sách bài
+// Danh sách bài: "Bài được giao" và "Luyện đề theo chuyên đề"
 // =====================================================================
-export async function renderQuizList(box, student) {
-  stopTaking();
-  box.replaceChildren(el('p', { class: 'muted', text: 'Đang tải…' }));
-  let [{ data: quizzes, error }, { data: attempts }] = await Promise.all([
-    sb.from('quizzes').select('id, title, description, time_limit_min, opens_at, due_at, show_key_after, question_count')
-      .order('created_at', { ascending: false }),
-    sb.from('quiz_attempts').select('id, quiz_id, deadline_at, submitted_at, score, max_score').eq('student_id', student.id),
-  ]);
-  if (error) { box.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
+const LEVELS = [
+  ['tb', 'Trung bình', 'Nắm chắc kiến thức cơ bản'],
+  ['kha', 'Khá', 'Vận dụng nhiều bước'],
+  ['gioi', 'Giỏi', 'Vận dụng cao, tư duy sâu'],
+];
+const levelName = (lv) => LEVELS.find((l) => l[0] === lv)?.[1] ?? lv;
+// Lựa chọn hiện tại, giữ nguyên khi quay lại từ trang làm bài / kết quả.
+const nav = { mode: 'practice', grade: null, topic: null, level: null };
 
+const ATTEMPT_COLS = 'id, quiz_id, deadline_at, submitted_at, score, max_score';
+const QUIZ_COLS = 'id, title, description, time_limit_min, opens_at, due_at, show_key_after, question_count, class_id, grade, topic, level, sort_order';
+
+async function loadAttempts(student) {
+  let { data: attempts } = await sb.from('quiz_attempts').select(ATTEMPT_COLS).eq('student_id', student.id);
   // Bài đã hết giờ mà chưa bấm nộp → chốt bằng câu trả lời đã lưu.
   const expired = (attempts || []).filter((a) => !a.submitted_at && a.deadline_at && new Date(a.deadline_at) < new Date());
   if (expired.length) {
     await Promise.all(expired.map((a) => sb.rpc('submit_quiz', { p_attempt: a.id, p_answers: null })));
-    ({ data: attempts } = await sb.from('quiz_attempts')
-      .select('id, quiz_id, deadline_at, submitted_at, score, max_score').eq('student_id', student.id));
+    ({ data: attempts } = await sb.from('quiz_attempts').select(ATTEMPT_COLS).eq('student_id', student.id));
   }
+  return new Map((attempts || []).map((a) => [a.quiz_id, a]));
+}
 
+export async function renderQuizList(box, student) {
+  stopTaking();
+  const body = el('div', {}, el('p', { class: 'muted', text: 'Đang tải…' }));
+  const switcher = el('div', { class: 'child-switch' },
+    [['practice', 'Luyện đề theo chuyên đề'], ['assigned', 'Bài giáo viên giao']].map(([m, label]) =>
+      el('button', { class: `btn btn-sm ${nav.mode === m ? 'btn-navy' : 'btn-outline'}`, text: label,
+        onclick: () => { nav.mode = m; renderQuizList(box, student); } })));
+  box.replaceChildren(switcher, body);
+  if (nav.mode === 'assigned') return renderAssigned(body, box, student);
+  return renderPractice(body, box, student);
+}
+
+function quizItem(box, student, z, a) {
+  const now = new Date();
+  const nq = z.question_count ?? 0;
+  const info = [`${nq} câu`, z.time_limit_min ? `${z.time_limit_min} phút` : 'Không giới hạn thời gian',
+    z.due_at ? `Hạn nộp: ${fmtDeadline(z.due_at)}` : null].filter(Boolean).join(' · ');
+  let right;
+  if (a?.submitted_at) {
+    right = el('div', { class: 'quiz-status' },
+      el('div', { class: 'score' }, el('b', { text: fmtNum(a.score) }), el('span', { text: ` / ${fmtNum(a.max_score)}` })),
+      el('button', { class: 'btn btn-outline btn-sm', text: 'Xem kết quả & lời giải', onclick: () => showResult(box, student, z, a.id) }));
+  } else if (a) {
+    right = el('button', { class: 'btn btn-gold', text: 'Làm tiếp', onclick: () => begin(box, student, z) });
+  } else if (z.opens_at && new Date(z.opens_at) > now) {
+    right = el('span', { class: 'badge warn', text: `Mở lúc ${fmtDeadline(z.opens_at)}` });
+  } else if (z.due_at && new Date(z.due_at) <= now) {
+    right = el('span', { class: 'badge warn', text: 'Đã hết hạn' });
+  } else {
+    right = el('button', { class: 'btn btn-gold', text: 'Bắt đầu làm bài', onclick: () => confirmStart(box, student, z, nq) });
+  }
+  return el('div', { class: 'item' },
+    el('div', { class: 'meta' }, el('b', { text: z.title }), el('span', { class: 'muted small', text: info }),
+      a && !a.submitted_at ? el('span', { class: 'badge', text: 'Đang làm dở' }) : null),
+    right);
+}
+
+async function renderAssigned(body, box, student) {
+  const [{ data: quizzes, error }, byQuiz] = await Promise.all([
+    sb.from('quizzes').select(QUIZ_COLS).not('class_id', 'is', null).order('created_at', { ascending: false }),
+    loadAttempts(student),
+  ]);
+  if (error) { body.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
   if (!quizzes.length) {
-    box.replaceChildren(el('div', { class: 'panel empty' },
-      el('h2', { text: 'Chưa có bài tập trực tuyến' }),
-      el('p', { class: 'muted', text: 'Khi giáo viên giao bài, bài sẽ hiện ở đây.' })));
+    body.replaceChildren(el('div', { class: 'panel empty' },
+      el('h2', { text: 'Chưa có bài giáo viên giao' }),
+      el('p', { class: 'muted', text: 'Khi giáo viên giao bài cho lớp, bài sẽ hiện ở đây. Trong lúc chờ, em hãy luyện đề theo chuyên đề nhé!' })));
     return;
   }
-  const byQuiz = new Map((attempts || []).map((a) => [a.quiz_id, a]));
-  const now = new Date();
-  box.replaceChildren(...quizzes.map((z) => {
-    const a = byQuiz.get(z.id);
-    const nq = z.question_count ?? 0;
-    const info = [`${nq} câu`, z.time_limit_min ? `${z.time_limit_min} phút` : 'Không giới hạn thời gian',
-      z.due_at ? `Hạn nộp: ${fmtDeadline(z.due_at)}` : null].filter(Boolean).join(' · ');
-    let right;
-    if (a?.submitted_at) {
-      right = el('div', { class: 'quiz-status' },
-        el('div', { class: 'score' }, el('b', { text: fmtNum(a.score) }), el('span', { text: ` / ${fmtNum(a.max_score)}` })),
-        el('button', { class: 'btn btn-outline btn-sm', text: 'Xem kết quả & lời giải', onclick: () => showResult(box, student, z, a.id) }));
-    } else if (a) {
-      right = el('button', { class: 'btn btn-gold', text: 'Làm tiếp', onclick: () => begin(box, student, z) });
-    } else if (z.opens_at && new Date(z.opens_at) > now) {
-      right = el('span', { class: 'badge warn', text: `Mở lúc ${fmtDeadline(z.opens_at)}` });
-    } else if (z.due_at && new Date(z.due_at) <= now) {
-      right = el('span', { class: 'badge warn', text: 'Đã hết hạn' });
-    } else {
-      right = el('button', { class: 'btn btn-gold', text: 'Bắt đầu làm bài', onclick: () => confirmStart(box, student, z, nq) });
-    }
-    return el('div', { class: 'item' },
-      el('div', { class: 'meta' }, el('b', { text: z.title }), el('span', { class: 'muted small', text: info }),
-        a && !a.submitted_at ? el('span', { class: 'badge', text: 'Đang làm dở' }) : null),
-      right);
-  }));
+  body.replaceChildren(el('div', { class: 'list' }, quizzes.map((z) => quizItem(box, student, z, byQuiz.get(z.id)))));
+}
+
+async function renderPractice(body, box, student) {
+  // Bước 3: danh sách đề của một chuyên đề + mức độ
+  if (nav.topic && nav.level) {
+    const [{ data: quizzes, error }, byQuiz] = await Promise.all([
+      sb.from('quizzes').select(QUIZ_COLS).is('class_id', null)
+        .eq('grade', nav.grade).eq('topic', nav.topic).eq('level', nav.level)
+        .order('sort_order').order('id'),
+      loadAttempts(student),
+    ]);
+    if (error) { body.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
+    const done = quizzes.filter((z) => byQuiz.get(z.id)?.submitted_at).length;
+    body.replaceChildren(
+      el('button', { class: 'btn btn-outline btn-sm', text: '← Chọn chuyên đề khác', onclick: () => { nav.topic = null; nav.level = null; renderQuizList(box, student); } }),
+      el('div', { class: 'panel section-gap' },
+        el('p', { class: 'eyebrow dark', text: `Toán ${nav.grade} · Mức ${levelName(nav.level)}` }),
+        el('h2', { text: nav.topic }),
+        el('div', { class: 'child-switch' }, LEVELS.map(([lv, name]) =>
+          el('button', { class: `btn btn-sm ${nav.level === lv ? 'btn-navy' : 'btn-outline'}`, text: name,
+            onclick: () => { nav.level = lv; renderQuizList(box, student); } }))),
+        el('p', { class: 'muted small', text: `Đã làm ${done}/${quizzes.length} đề. Mỗi đề làm được 1 lần — nộp xong em xem ngay điểm và lời giải chi tiết.` })),
+      quizzes.length
+        ? el('div', { class: 'list section-gap' }, quizzes.map((z) => quizItem(box, student, z, byQuiz.get(z.id))))
+        : el('p', { class: 'muted section-gap', text: 'Mức độ này chưa có đề.' }));
+    return;
+  }
+
+  // Bước 1–2: chọn lớp, chọn chuyên đề và mức độ
+  const { data: rows, error } = await sb.rpc('practice_topics');
+  if (error) { body.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
+  if (!rows?.length) {
+    body.replaceChildren(el('div', { class: 'panel empty' },
+      el('h2', { text: 'Ngân hàng đề đang được chuẩn bị' }),
+      el('p', { class: 'muted', text: 'Các đề luyện tập theo chuyên đề sẽ sớm có ở đây.' })));
+    return;
+  }
+  const grades = [...new Set(rows.map((r) => r.grade))].sort((a, b) => a - b);
+  if (!grades.includes(nav.grade)) { const g0 = student.classes?.grade; nav.grade = grades.includes(g0) ? g0 : grades[0]; }
+  const topics = new Map();
+  rows.filter((r) => r.grade === nav.grade).forEach((r) => {
+    if (!topics.has(r.topic)) topics.set(r.topic, {});
+    topics.get(r.topic)[r.level] = r.quiz_count;
+  });
+
+  body.replaceChildren(
+    el('div', { class: 'panel' },
+      el('h2', { text: 'Luyện đề theo chuyên đề' }),
+      el('p', { class: 'muted', text: 'Chọn khối lớp, chuyên đề và mức độ phù hợp với em. Mỗi đề 45 phút, thang điểm 10.' }),
+      el('div', { class: 'child-switch' }, grades.map((g) =>
+        el('button', { class: `btn btn-sm ${g === nav.grade ? 'btn-navy' : 'btn-outline'}`, text: `Toán ${g}`,
+          onclick: () => { nav.grade = g; renderQuizList(box, student); } })))),
+    el('div', { class: 'topic-grid section-gap' }, [...topics.entries()].map(([topic, counts]) =>
+      el('article', { class: 'topic-card' },
+        el('h3', { text: topic }),
+        el('div', { class: 'level-btns' }, LEVELS.map(([lv, name, hint]) => {
+          const n = counts[lv] ?? 0;
+          return el('button', { class: `level-btn lv-${lv}`, disabled: !n, title: hint,
+            onclick: () => { nav.topic = topic; nav.level = lv; renderQuizList(box, student); } },
+            el('b', { text: name }), el('span', { text: n ? `${n} đề` : 'Chưa có' }));
+        }))))));
 }
 
 function confirmStart(box, student, z, nq) {

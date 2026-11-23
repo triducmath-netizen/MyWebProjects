@@ -77,7 +77,7 @@ async function renderDashboard(user) {
   }
 
   const { data: students, error } = await sb
-    .from('students').select('id, code, full_name, classes(name)').order('full_name');
+    .from('students').select('id, code, full_name, classes(name, grade)').order('full_name');
   if (error) { app.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
   if (!students.length) {
     app.replaceChildren(el('div', { class: 'panel empty' },

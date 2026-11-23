@@ -200,3 +200,17 @@ body.portal { background: var(--tdm-paper); min-height: 100vh; display: flex; fl
   .opt-edit > :last-child { grid-column: 2; }
   .tf-table td:nth-child(n+3), .tf-table th:nth-child(n+3) { width: 48px; }
 }
+
+/* Ngân hàng đề theo chuyên đề */
+.topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.topic-card { background: var(--tdm-white); border: 1px solid var(--tdm-line); border-radius: 16px; padding: 20px; display: grid; gap: 14px; }
+.topic-card h3 { margin: 0; }
+.level-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.level-btn { display: grid; gap: 2px; justify-items: center; padding: 12px 6px; border-radius: 12px; border: 1px solid var(--tdm-line); background: var(--tdm-paper); cursor: pointer; font: inherit; color: var(--tdm-ink); transition: transform .15s, border-color .15s; }
+.level-btn b { font-size: .95rem; }
+.level-btn span { font-size: .8rem; color: var(--tdm-slate); }
+.level-btn:hover:not([disabled]) { transform: translateY(-2px); }
+.level-btn.lv-tb { border-top: 3px solid var(--tdm-teal); }
+.level-btn.lv-kha { border-top: 3px solid var(--tdm-gold); }
+.level-btn.lv-gioi { border-top: 3px solid var(--tdm-navy); }
+.level-btn[disabled] { opacity: .45; cursor: not-allowed; }

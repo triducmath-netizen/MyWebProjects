@@ -1,0 +1,799 @@
+{
+  "grade": 6,
+  "topic": "Số nguyên",
+  "exams": [
+    {
+      "slug": "toan6-so-nguyen-kha-01",
+      "title": "Số nguyên — Đề 4",
+      "level": "kha",
+      "sort_order": 1,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức Khá: số đối, sắp xếp thứ tự, tính hợp lí, quy tắc dấu ngoặc, lũy thừa, đếm ước và bội, bài toán nhiệt độ và lãi lỗ.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Trên trục số, điểm $A$ biểu diễn số nguyên $-3$. Điểm $B$ nằm bên phải điểm $A$ và cách $A$ một khoảng 5 đơn vị. Số đối của số nguyên mà điểm $B$ biểu diễn là",
+          "options": [
+            "$2$",
+            "$-2$",
+            "$8$",
+            "$-8$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "-((-3) + 5)",
+          "explanation": "Đi sang phải trên trục số là tăng giá trị nên $B$ biểu diễn số $(-3) + 5 = 2$. Số đối của $2$ là $-2$. Chọn $-2$. Phương án $2$ là quên bước lấy số đối; phương án $8$ là nhầm $B$ nằm bên trái ($-3 - 5 = -8$) rồi lấy số đối."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Sắp xếp các số nguyên $-12;\\ 5;\\ -7;\\ 0;\\ -15;\\ 3$ theo thứ tự giảm dần, ta được",
+          "options": [
+            "$5;\\ 3;\\ 0;\\ -15;\\ -12;\\ -7$",
+            "$-15;\\ -12;\\ -7;\\ 0;\\ 3;\\ 5$",
+            "$5;\\ 3;\\ 0;\\ -7;\\ -12;\\ -15$",
+            "$0;\\ 3;\\ 5;\\ -7;\\ -12;\\ -15$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Số nguyên dương lớn hơn $0$, $0$ lớn hơn mọi số nguyên âm. Với hai số nguyên âm, số nào có số đối nhỏ hơn thì lớn hơn: $-7 > -12 > -15$. Vậy thứ tự giảm dần là $5;\\ 3;\\ 0;\\ -7;\\ -12;\\ -15$. Phương án $5; 3; 0; -15; -12; -7$ sai vì nghĩ $-15 > -7$ (so sánh như số tự nhiên); phương án $-15; ...; 5$ là thứ tự tăng dần."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tính một cách hợp lí: $(-125) + 68 + (-75) + 32$.",
+          "options": [
+            "$-100$",
+            "$100$",
+            "$-300$",
+            "$-200$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(-125) + 68 + (-75) + 32",
+          "explanation": "Dùng tính chất giao hoán và kết hợp: $[(-125) + (-75)] + (68 + 32) = (-200) + 100 = -100$. Phương án $100$ sai dấu khi cộng hai số khác dấu; phương án $-200$ là chỉ cộng nhóm số âm rồi quên nhóm số dương; $-300$ là coi cả $68$ và $32$ là số âm."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Bỏ dấu ngoặc rồi tính: $(52 - 69 + 17) - (52 + 17 - 31)$.",
+          "options": [
+            "$38$",
+            "$-100$",
+            "$-66$",
+            "$-38$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(52 - 69 + 17) - (52 + 17 - 31)",
+          "explanation": "Bỏ ngoặc có dấu \"$-$\" đằng trước thì đổi dấu mọi số hạng trong ngoặc: $52 - 69 + 17 - 52 - 17 + 31 = (52 - 52) + (17 - 17) + (-69 + 31) = -38$. Phương án $-100$ là quên đổi dấu số $-31$ (viết thành $-31$ thay vì $+31$); phương án $-66$ là chỉ đổi dấu số hạng đầu tiên trong ngoặc thứ hai."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị của biểu thức $(-2)^3 \\cdot (-5)^2$ là",
+          "options": [
+            "$200$",
+            "$-200$",
+            "$-1000$",
+            "$60$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "Math.pow(-2, 3) * Math.pow(-5, 2)",
+          "explanation": "$(-2)^3 = (-2) \\cdot (-2) \\cdot (-2) = -8$ (lũy thừa bậc lẻ của số âm là số âm); $(-5)^2 = 25$ (bậc chẵn là số dương). Vậy $(-8) \\cdot 25 = -200$. Phương án $200$ là cho rằng $(-2)^3$ dương; $60$ là nhầm lũy thừa với phép nhân cơ số với số mũ: $(-6) \\cdot (-10)$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số nguyên $12$ có bao nhiêu ước nguyên?",
+          "options": [
+            "$6$",
+            "$24$",
+            "$10$",
+            "$12$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "Array.from({length: 25}, (_, i) => i - 12).filter(d => d !== 0 && 12 % d === 0).length",
+          "explanation": "Các ước tự nhiên của $12$ là $1; 2; 3; 4; 6; 12$ (6 ước). Mỗi ước dương $d$ cho thêm ước âm $-d$, nên $12$ có $6 \\cdot 2 = 12$ ước nguyên: $\\pm 1; \\pm 2; \\pm 3; \\pm 4; \\pm 6; \\pm 12$. Phương án $6$ là quên các ước âm."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu số nguyên là bội của $-6$, lớn hơn $-30$ và nhỏ hơn $20$?",
+          "options": [
+            "$7$",
+            "$9$",
+            "$8$",
+            "$4$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "Array.from({length: 49}, (_, i) => i - 29).filter(x => x % 6 === 0).length",
+          "explanation": "Bội của $-6$ cũng là bội của $6$, có dạng $6k$ ($k \\in \\mathbb{Z}$). Các bội thỏa mãn $-30 < x < 20$ là $-24; -18; -12; -6; 0; 6; 12; 18$, tức 8 số. Phương án $7$ là quên số $0$ (0 là bội của mọi số nguyên khác 0); $9$ là tính cả $-30$ dù đề cho \"lớn hơn $-30$\"."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Nhiệt độ lúc 6 giờ sáng ở một trạm quan trắc trên đỉnh núi là $-4^\\circ$C. Đến trưa nhiệt độ tăng thêm $9^\\circ$C, đến tối nhiệt độ lại giảm $11^\\circ$C so với buổi trưa. Nhiệt độ lúc tối là (đơn vị: $^\\circ$C)",
+          "options": [
+            "$-6$",
+            "$6$",
+            "$-24$",
+            "$-2$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(-4) + 9 - 11",
+          "explanation": "Nhiệt độ buổi trưa: $(-4) + 9 = 5\\ (^\\circ\\text{C})$. Nhiệt độ buổi tối: $5 - 11 = -6\\ (^\\circ\\text{C})$. Vậy nhiệt độ lúc tối là $-6^\\circ$C. Phương án $-24$ là coi \"tăng $9$\" thành giảm; $-2$ là nhầm \"tăng\" và \"giảm\" cho nhau ($-4 - 9 + 11$)."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho ba số nguyên $a = -15$, $b = 8$, $c = -3$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$a + b = -7$",
+            "$a - b - c = -26$",
+            "$a \\cdot c - b = 37$",
+            "$(a + c) \\cdot b = -144$"
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            true
+          ],
+          "points": 2,
+          "verify": "(() => { const a = -15, b = 8, c = -3; return [a + b === -7, a - b - c === -26, a * c - b === 37, (a + c) * b === -144]; })()",
+          "explanation": "a) Đúng: $a + b = (-15) + 8 = -7$. b) Sai: $a - b - c = (-15) - 8 - (-3) = -23 + 3 = -20$; kết quả $-26$ là do trừ $c$ mà quên đổi dấu ($-15 - 8 - 3$). c) Đúng: $a \\cdot c = (-15) \\cdot (-3) = 45$, nên $a \\cdot c - b = 45 - 8 = 37$. d) Đúng: $a + c = (-15) + (-3) = -18$, $(-18) \\cdot 8 = -144$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Gọi $A$ là tập hợp các ước nguyên của $18$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Tập hợp $A$ có 12 phần tử",
+            "$-4 \\in A$",
+            "Tổng tất cả các phần tử của $A$ bằng $0$",
+            "Có đúng 4 phần tử của $A$ là bội của $3$"
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(() => { const A = Array.from({length: 37}, (_, i) => i - 18).filter(d => d !== 0 && 18 % d === 0); return [A.length === 12, A.includes(-4), A.reduce((s, x) => s + x, 0) === 0, A.filter(x => x % 3 === 0).length === 4]; })()",
+          "explanation": "Ước tự nhiên của $18$: $1; 2; 3; 6; 9; 18$. Vậy $A = \\{\\pm 1; \\pm 2; \\pm 3; \\pm 6; \\pm 9; \\pm 18\\}$. a) Đúng: $A$ có $6 \\cdot 2 = 12$ phần tử. b) Sai: $18$ không chia hết cho $4$ nên $-4 \\notin A$. c) Đúng: các phần tử đi thành từng cặp số đối $d$ và $-d$, tổng mỗi cặp bằng $0$. d) Sai: các phần tử là bội của $3$ gồm $\\pm 3; \\pm 6; \\pm 9; \\pm 18$, tức 8 phần tử (con số 4 là quên các ước âm)."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính: $-(-248 + 75) + (-248 + 125)$.",
+          "answer": [
+            "50"
+          ],
+          "points": 0.5,
+          "verify": "-(-248 + 75) + (-248 + 125)",
+          "explanation": "Bỏ dấu ngoặc: $-(-248 + 75) = 248 - 75$. Do đó biểu thức bằng $248 - 75 - 248 + 125 = (248 - 248) + (125 - 75) = 0 + 50 = 50$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số nguyên $x$, biết: $(-3) \\cdot x + 14 = -25$.",
+          "answer": [
+            "13"
+          ],
+          "points": 0.5,
+          "verify": "Array.from({length: 201}, (_, i) => i - 100).find(x => (-3) * x + 14 === -25)",
+          "explanation": "$(-3) \\cdot x = -25 - 14 = -39$, suy ra $x = (-39) : (-3) = 13$. Thử lại: $(-3) \\cdot 13 + 14 = -39 + 14 = -25$ (đúng). Lưu ý: chuyển $14$ sang vế phải phải đổi dấu thành $-14$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính nhanh: $(-27) \\cdot 64 + (-27) \\cdot 36$.",
+          "answer": [
+            "-2700"
+          ],
+          "points": 0.5,
+          "verify": "(-27) * 64 + (-27) * 36",
+          "explanation": "Dùng tính chất phân phối của phép nhân đối với phép cộng: $(-27) \\cdot 64 + (-27) \\cdot 36 = (-27) \\cdot (64 + 36) = (-27) \\cdot 100 = -2700$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Một cửa hàng ghi lại kết quả kinh doanh theo từng quý trong năm: quý I lỗ 15 triệu đồng, quý II lỗ 7 triệu đồng, quý III lãi 18 triệu đồng, quý IV lãi 12 triệu đồng. Số nguyên biểu thị lợi nhuận cả năm của cửa hàng là bao nhiêu triệu đồng? (Lãi ghi số dương, lỗ ghi số âm.)",
+          "answer": [
+            "8"
+          ],
+          "points": 0.5,
+          "verify": "(-15) + (-7) + 18 + 12",
+          "explanation": "Lỗ ghi bằng số âm, lãi ghi bằng số dương. Lợi nhuận cả năm: $(-15) + (-7) + 18 + 12 = (-22) + 30 = 8$ (triệu đồng). Vậy cả năm cửa hàng lãi 8 triệu đồng."
+        }
+      ]
+    },
+    {
+      "slug": "toan6-so-nguyen-kha-02",
+      "title": "Số nguyên — Đề 5",
+      "level": "kha",
+      "sort_order": 2,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức Khá: trục số, so sánh biểu thức, bỏ ngoặc, tích nhiều thừa số âm, ước và bội, tầng hầm và điểm thưởng phạt.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Một tàu ngầm đang ở độ cao $-45$ m so với mực nước biển. Tàu nổi lên 18 m, sau đó lặn xuống thêm 30 m. Độ cao mới của tàu ngầm so với mực nước biển là (đơn vị: m)",
+          "options": [
+            "$-57$",
+            "$3$",
+            "$-93$",
+            "$-33$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(-45) + 18 - 30",
+          "explanation": "Nổi lên là tăng độ cao (cộng), lặn xuống là giảm độ cao (trừ): $(-45) + 18 - 30 = (-27) - 30 = -57$ (m). Phương án $3$ m là nhầm lặn xuống thành nổi lên ($-45 + 18 + 30$); $-93$ m là coi cả hai lần đều đi xuống; $-33$ m là đảo ngược cả hai chiều."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Trên trục số, có bao nhiêu điểm biểu diễn số nguyên nằm giữa điểm $-5$ và điểm $4$ (không kể hai điểm đó)?",
+          "options": [
+            "$9$",
+            "$10$",
+            "$7$",
+            "$8$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "Array.from({length: 30}, (_, i) => i - 15).filter(x => x > -5 && x < 4).length",
+          "explanation": "Các số nguyên nằm giữa $-5$ và $4$ là $-4; -3; -2; -1; 0; 1; 2; 3$, có 8 số. Phương án $7$ là quên điểm $0$; $9$ là tính thêm một đầu mút; $10$ là tính cả hai đầu mút $-5$ và $4$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tổng tất cả các số nguyên $x$ thỏa mãn $-4 < x \\le 3$ là",
+          "options": [
+            "$-4$",
+            "$-3$",
+            "$0$",
+            "$3$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "Array.from({length: 20}, (_, i) => i - 10).filter(x => -4 < x && x <= 3).reduce((s, x) => s + x, 0)",
+          "explanation": "Các số nguyên thỏa mãn là $-3; -2; -1; 0; 1; 2; 3$. Ghép các cặp số đối: $[(-3) + 3] + [(-2) + 2] + [(-1) + 1] + 0 = 0$. Phương án $-4$ là tính cả $x = -4$ (đề cho $-4 < x$ nên không lấy $-4$); $-3$ là bỏ mất $x = 3$ (đề cho $x \\le 3$ nên lấy cả $3$)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Khẳng định nào sau đây đúng?",
+          "options": [
+            "$(-3) \\cdot 4 > (-2) \\cdot 5$",
+            "$(-6) + (-9) < -14$",
+            "$(-20) - (-7) > -12$",
+            "$(-2)^3 > (-3)^2$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Tính từng vế: $(-3) \\cdot 4 = -12$ và $(-2) \\cdot 5 = -10$, mà $-12 < -10$ nên khẳng định thứ nhất sai. $(-6) + (-9) = -15 < -14$: đúng. $(-20) - (-7) = -20 + 7 = -13 < -12$ nên khẳng định \"$> -12$\" sai. $(-2)^3 = -8 < 9 = (-3)^2$ nên khẳng định cuối sai. Vậy chọn $(-6) + (-9) < -14$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Kết quả của phép tính $-(35 - 48) - (-12 + 35)$ là",
+          "options": [
+            "$10$",
+            "$-34$",
+            "$-106$",
+            "$-10$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "-(35 - 48) - (-12 + 35)",
+          "explanation": "Bỏ ngoặc có dấu \"$-$\" đằng trước phải đổi dấu tất cả các số hạng: $-35 + 48 + 12 - 35 = (48 + 12) - (35 + 35) = 60 - 70 = -10$. Phương án $-34$ là khi bỏ ngoặc thứ hai chỉ đổi dấu $35$ mà không đổi dấu $-12$; phương án $-106$ là khi bỏ ngoặc thứ nhất không đổi dấu $-48$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tích $(-1) \\cdot (-2) \\cdot (-3) \\cdot (-4) \\cdot (-5)$ bằng",
+          "options": [
+            "$-120$",
+            "$120$",
+            "$-15$",
+            "$15$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(-1) * (-2) * (-3) * (-4) * (-5)",
+          "explanation": "Tích có 5 thừa số âm (số lẻ thừa số âm) nên mang dấu \"$-$\". Giá trị: $1 \\cdot 2 \\cdot 3 \\cdot 4 \\cdot 5 = 120$. Vậy tích bằng $-120$. Phương án $120$ là sai dấu; $-15$ là nhầm sang phép cộng."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tập hợp các số nguyên $x$ vừa là ước của $-10$ vừa thỏa mãn $x > -3$ là",
+          "options": [
+            "$\\{1; 2; 5; 10\\}$",
+            "$\\{-2; -1; 1; 2; 5; 10\\}$",
+            "$\\{-2; -1; 0; 1; 2; 5; 10\\}$",
+            "$\\{-2; -1; 1; 2; 5\\}$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Các ước nguyên của $-10$ là $\\pm 1; \\pm 2; \\pm 5; \\pm 10$. Trong đó các số lớn hơn $-3$ là $-2; -1; 1; 2; 5; 10$. Phương án $\\{1; 2; 5; 10\\}$ là quên ước âm; phương án có số $0$ sai vì $0$ không là ước của số nào; phương án thiếu $10$ là bỏ sót ước."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Trong một trò chơi, mỗi câu trả lời đúng được cộng 5 điểm, mỗi câu trả lời sai bị trừ 3 điểm, câu bỏ qua không được điểm. Bạn An tham gia 20 câu: trả lời đúng 9 câu, sai 8 câu, bỏ qua 3 câu. Tổng số điểm của An là",
+          "options": [
+            "$69$",
+            "$-21$",
+            "$21$",
+            "$18$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "9 * 5 + 8 * (-3) + 3 * 0",
+          "explanation": "Điểm của An: $9 \\cdot 5 + 8 \\cdot (-3) + 3 \\cdot 0 = 45 + (-24) + 0 = 21$. Phương án $69$ là cộng cả điểm phạt ($45 + 24$); $-21$ là sai dấu; $18$ là nhầm số câu sai thành 9 câu."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Một tòa nhà có tầng trệt kí hiệu là tầng $0$, các tầng hầm 1, 2, 3 lần lượt kí hiệu là tầng $-1$, $-2$, $-3$; các tầng phía trên là tầng $1$, $2$, $3$, … Một thang máy xuất phát từ tầng $-3$, đi lên 8 tầng, sau đó đi xuống 6 tầng, rồi lại đi lên 4 tầng thì dừng. Biết mỗi tầng cao 3 m. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Sau lần đi lên đầu tiên, thang máy ở tầng $5$",
+            "Sau lần đi xuống, thang máy ở tầng $1$",
+            "Thang máy dừng lại ở tầng $3$",
+            "Tổng quãng đường thang máy đã di chuyển là 48 m"
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(() => { const t1 = -3 + 8, t2 = t1 - 6, t3 = t2 + 4; return [t1 === 5, t2 === 1, t3 === 3, (8 + 6 + 4) * 3 === 48]; })()",
+          "explanation": "a) Đúng: $(-3) + 8 = 5$. b) Sai: $5 - 6 = -1$, thang máy ở tầng hầm 1 (tầng $-1$), không phải tầng $1$. c) Đúng: $(-1) + 4 = 3$. d) Sai: thang máy đi tổng cộng $8 + 6 + 4 = 18$ tầng, quãng đường là $18 \\cdot 3 = 54$ (m). Con số 48 m ứng với 16 tầng, là do đếm sai số tầng đã đi."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho $M = (-2) \\cdot (-3) \\cdot (-5) \\cdot 4$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$M$ là số nguyên âm",
+            "$M = 120$",
+            "$M$ là bội của $-8$",
+            "$M$ có đúng 16 ước nguyên dương"
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            true
+          ],
+          "points": 2,
+          "verify": "(() => { const M = (-2) * (-3) * (-5) * 4; const d = Array.from({length: 200}, (_, i) => i + 1).filter(k => -M % k === 0 && k <= -M); return [M < 0, M === 120, M % (-8) === 0, d.length === 16]; })()",
+          "explanation": "a) Đúng: tích có 3 thừa số âm (lẻ) nên $M$ âm. b) Sai: $M = 6 \\cdot (-5) \\cdot 4 = (-30) \\cdot 4 = -120$, không phải $120$. c) Đúng: $-120 = (-8) \\cdot 15$ nên $M$ là bội của $-8$. d) Đúng: các ước nguyên dương của $M$ chính là các ước tự nhiên của $120$: $1; 2; 3; 4; 5; 6; 8; 10; 12; 15; 20; 24; 30; 40; 60; 120$ — có 16 ước."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính tổng $S = 1 + (-2) + 3 + (-4) + \\dots + 19 + (-20)$.",
+          "answer": [
+            "-10"
+          ],
+          "points": 0.5,
+          "verify": "Array.from({length: 20}, (_, i) => i + 1).reduce((s, k) => s + (k % 2 ? k : -k), 0)",
+          "explanation": "Tổng có 20 số hạng, nhóm thành 10 cặp liên tiếp: $[1 + (-2)] + [3 + (-4)] + \\dots + [19 + (-20)]$. Mỗi cặp bằng $-1$ nên $S = 10 \\cdot (-1) = -10$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số nguyên $x$, biết: $15 - (x - 7) = -4$.",
+          "answer": [
+            "26"
+          ],
+          "points": 0.5,
+          "verify": "Array.from({length: 201}, (_, i) => i - 100).find(x => 15 - (x - 7) === -4)",
+          "explanation": "Bỏ ngoặc: $15 - x + 7 = -4$, tức $22 - x = -4$. Suy ra $x = 22 - (-4) = 26$. Thử lại: $15 - (26 - 7) = 15 - 19 = -4$ (đúng). Lỗi thường gặp: bỏ ngoặc thành $15 - x - 7$ sẽ ra $x = 12$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính giá trị của biểu thức $(-3)^3 + 4 \\cdot (-5)^2 - (-6) \\cdot 7$.",
+          "answer": [
+            "115"
+          ],
+          "points": 0.5,
+          "verify": "Math.pow(-3, 3) + 4 * Math.pow(-5, 2) - (-6) * 7",
+          "explanation": "Thực hiện lũy thừa trước, rồi nhân, cuối cùng cộng trừ: $(-3)^3 = -27$; $4 \\cdot (-5)^2 = 4 \\cdot 25 = 100$; $(-6) \\cdot 7 = -42$. Vậy biểu thức bằng $-27 + 100 - (-42) = -27 + 100 + 42 = 115$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Có bao nhiêu số nguyên $n$ sao cho $n + 2$ là ước của $8$?",
+          "answer": [
+            "8"
+          ],
+          "points": 0.5,
+          "verify": "Array.from({length: 41}, (_, i) => i - 20).filter(n => n + 2 !== 0 && 8 % (n + 2) === 0).length",
+          "explanation": "Các ước nguyên của $8$ là $\\pm 1; \\pm 2; \\pm 4; \\pm 8$ (8 ước). Mỗi giá trị của $n + 2$ cho đúng một giá trị $n$: $n \\in \\{-1; -3; 0; -4; 2; -6; 6; -10\\}$. Vậy có 8 số nguyên $n$."
+        }
+      ]
+    },
+    {
+      "slug": "toan6-so-nguyen-kha-03",
+      "title": "Số nguyên — Đề 6",
+      "level": "kha",
+      "sort_order": 3,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức Khá: năm trước Công nguyên, sắp xếp nhiệt độ, rút gọn biểu thức chữ, tính nhanh, bội chung, kho đông lạnh.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Nhà toán học Archimedes sinh năm 287 trước Công nguyên và mất năm 212 trước Công nguyên. Nếu biểu diễn năm trước Công nguyên bằng số nguyên âm (năm sinh là $-287$, năm mất là $-212$) thì Archimedes sống được bao nhiêu năm?",
+          "options": [
+            "$499$",
+            "$-75$",
+            "$75$",
+            "$-499$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(-212) - (-287)",
+          "explanation": "Số năm sống bằng năm mất trừ năm sinh: $(-212) - (-287) = -212 + 287 = 75$ (năm). Phương án $-75$ là trừ ngược ($-287 - (-212)$); phương án $499$ là cộng $212 + 287$ do quên đổi dấu."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số đối của $-(-17) + (-20)$ là",
+          "options": [
+            "$3$",
+            "$-3$",
+            "$37$",
+            "$-37$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "-(-(-17) + (-20))",
+          "explanation": "Ta có $-(-17) = 17$ nên $-(-17) + (-20) = 17 + (-20) = -3$. Số đối của $-3$ là $3$. Phương án $-3$ là quên lấy số đối; $-37$ là coi $-(-17)$ bằng $-17$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tổng của số nguyên lớn nhất nhỏ hơn $-15$ và số nguyên nhỏ nhất lớn hơn $-15$ bằng",
+          "options": [
+            "$-31$",
+            "$30$",
+            "$-29$",
+            "$-30$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(-16) + (-14)",
+          "explanation": "Số nguyên lớn nhất nhỏ hơn $-15$ là $-16$; số nguyên nhỏ nhất lớn hơn $-15$ là $-14$. Tổng: $(-16) + (-14) = -30$. Phương án $-29$ là lấy $-15$ và $-14$ (tính cả chính số $-15$); $-31$ là lấy $-16$ và $-15$; $30$ là sai dấu."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Nhiệt độ trung bình tháng 1 ở bốn thành phố như sau: Moscow $-8^\\circ$C, Bắc Kinh $-3^\\circ$C, Ottawa $-11^\\circ$C, Seoul $-2^\\circ$C. Thứ tự các thành phố từ lạnh nhất đến ấm nhất là",
+          "options": [
+            "Seoul, Bắc Kinh, Moscow, Ottawa",
+            "Ottawa, Moscow, Bắc Kinh, Seoul",
+            "Moscow, Ottawa, Seoul, Bắc Kinh",
+            "Ottawa, Moscow, Seoul, Bắc Kinh"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Lạnh hơn nghĩa là nhiệt độ nhỏ hơn. Sắp xếp tăng dần: $-11 < -8 < -3 < -2$, tương ứng Ottawa, Moscow, Bắc Kinh, Seoul. Phương án \"Seoul, Bắc Kinh, Moscow, Ottawa\" là thứ tự từ ấm nhất đến lạnh nhất; phương án cuối nhầm $-2 < -3$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Với $a, b, c$ là các số nguyên, biểu thức $(-a + b - c) - (-a - b - c)$ sau khi bỏ dấu ngoặc và rút gọn bằng",
+          "options": [
+            "$2b$",
+            "$-2a$",
+            "$2b - 2c$",
+            "$-2a - 2c$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Bỏ ngoặc thứ hai (có dấu \"$-$\" đằng trước) phải đổi dấu cả ba số hạng: $-a + b - c + a + b + c = (-a + a) + (b + b) + (-c + c) = 2b$. Phương án $-2a - 2c$ là bỏ ngoặc mà không đổi dấu; $2b - 2c$ là quên đổi dấu số hạng $-c$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị của biểu thức $(x - 3) \\cdot (x + 5)$ tại $x = -4$ là",
+          "options": [
+            "$7$",
+            "$63$",
+            "$-7$",
+            "$1$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(() => { const x = -4; return (x - 3) * (x + 5); })()",
+          "explanation": "Thay $x = -4$: $x - 3 = -4 - 3 = -7$ và $x + 5 = -4 + 5 = 1$. Vậy $(-7) \\cdot 1 = -7$. Phương án $63$ là tính sai $x + 5 = -9$ (nhầm $-4 + 5$ thành $-4 - 5$); $7$ là sai dấu."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tổng tất cả các ước nguyên của $-20$ mà lớn hơn $-5$ là",
+          "options": [
+            "$42$",
+            "$0$",
+            "$30$",
+            "$35$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "Array.from({length: 41}, (_, i) => i - 20).filter(d => d !== 0 && 20 % d === 0 && d > -5).reduce((s, d) => s + d, 0)",
+          "explanation": "Các ước nguyên của $-20$: $\\pm 1; \\pm 2; \\pm 4; \\pm 5; \\pm 10; \\pm 20$. Các ước lớn hơn $-5$: $-4; -2; -1; 1; 2; 4; 5; 10; 20$. Tổng: $[(-4) + 4] + [(-2) + 2] + [(-1) + 1] + 5 + 10 + 20 = 35$. Phương án $42$ là chỉ cộng ước dương; $30$ là tính cả $-5$; $0$ là cộng tất cả các ước."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một cửa hàng bán áo: mỗi chiếc áo loại I bán ra lãi 20 nghìn đồng, mỗi chiếc áo loại II bán ra lỗ 15 nghìn đồng. Ngày thứ Bảy cửa hàng bán được 12 áo loại I và 18 áo loại II. Số nguyên biểu thị lợi nhuận của cửa hàng trong ngày đó (đơn vị: nghìn đồng) là",
+          "options": [
+            "$30$",
+            "$-30$",
+            "$510$",
+            "$-510$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "12 * 20 + 18 * (-15)",
+          "explanation": "Lãi ghi số dương, lỗ ghi số âm. Lợi nhuận: $12 \\cdot 20 + 18 \\cdot (-15) = 240 + (-270) = -30$ (nghìn đồng), tức cửa hàng lỗ 30 nghìn đồng. Phương án $30$ là sai dấu; $510$ là cộng $240 + 270$ do coi khoản lỗ là lãi."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho tập hợp $A = \\{x \\in \\mathbb{Z} \\mid -6 < x \\le 4\\}$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$-6 \\in A$",
+            "Tập hợp $A$ có 10 phần tử",
+            "Tổng tất cả các phần tử của $A$ bằng $-5$",
+            "Hiệu giữa phần tử lớn nhất và phần tử nhỏ nhất của $A$ bằng $-1$"
+          ],
+          "answer": [
+            false,
+            true,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(() => { const A = Array.from({length: 30}, (_, i) => i - 15).filter(x => -6 < x && x <= 4); return [A.includes(-6), A.length === 10, A.reduce((s, x) => s + x, 0) === -5, Math.max(...A) - Math.min(...A) === -1]; })()",
+          "explanation": "$A = \\{-5; -4; -3; -2; -1; 0; 1; 2; 3; 4\\}$. a) Sai: điều kiện là $-6 < x$ nên không lấy $-6$. b) Đúng: đếm được 10 phần tử. c) Đúng: các cặp số đối $\\pm 1; \\pm 2; \\pm 3; \\pm 4$ có tổng bằng $0$, cộng thêm $0$ và $-5$ được $-5$. d) Sai: phần tử lớn nhất là $4$, nhỏ nhất là $-5$, hiệu $4 - (-5) = 9$; con số $-1$ là do tính $4 + (-5)$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Lúc 8 giờ sáng, nhiệt độ trong một kho đông lạnh là $5^\\circ$C. Bật máy làm lạnh, cứ mỗi giờ nhiệt độ trong kho giảm đều $3^\\circ$C. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Lúc 9 giờ, nhiệt độ trong kho là $2^\\circ$C",
+            "Lúc 11 giờ, nhiệt độ trong kho là $-4^\\circ$C",
+            "Lúc 14 giờ, nhiệt độ trong kho là $-23^\\circ$C",
+            "Nhiệt độ trong kho đạt $-16^\\circ$C lúc 15 giờ"
+          ],
+          "answer": [
+            true,
+            true,
+            false,
+            true
+          ],
+          "points": 2,
+          "verify": "(() => { const T = h => 5 + (h - 8) * (-3); return [T(9) === 2, T(11) === -4, T(14) === -23, T(15) === -16]; })()",
+          "explanation": "Sau $t$ giờ, nhiệt độ là $5 + t \\cdot (-3)$ ($^\\circ$C). a) Đúng: sau 1 giờ, $5 - 3 = 2$. b) Đúng: sau 3 giờ, $5 + 3 \\cdot (-3) = 5 - 9 = -4$. c) Sai: sau 6 giờ, $5 + 6 \\cdot (-3) = 5 - 18 = -13^\\circ$C; con số $-23$ là do lấy $-5 - 18$. d) Đúng: từ $5^\\circ$C xuống $-16^\\circ$C giảm $5 - (-16) = 21^\\circ$C, mất $21 : 3 = 7$ giờ, tức lúc $8 + 7 = 15$ giờ."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính: $(1234 - 567) - (1234 + 433)$.",
+          "answer": [
+            "-1000"
+          ],
+          "points": 0.5,
+          "verify": "(1234 - 567) - (1234 + 433)",
+          "explanation": "Bỏ dấu ngoặc: $1234 - 567 - 1234 - 433 = (1234 - 1234) - (567 + 433) = 0 - 1000 = -1000$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính nhanh: $(-25) \\cdot 37 \\cdot (-4) + 63 \\cdot (-100)$.",
+          "answer": [
+            "-2600"
+          ],
+          "points": 0.5,
+          "verify": "(-25) * 37 * (-4) + 63 * (-100)",
+          "explanation": "Dùng tính chất giao hoán, kết hợp: $(-25) \\cdot (-4) \\cdot 37 = 100 \\cdot 37 = 3700$. Do đó biểu thức bằng $3700 + 63 \\cdot (-100) = 3700 - 6300 = -2600$. (Hoặc: $100 \\cdot 37 - 100 \\cdot 63 = 100 \\cdot (37 - 63) = 100 \\cdot (-26)$.)"
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số nguyên $x$, biết: $2 \\cdot x - (-17) = -9$.",
+          "answer": [
+            "-13"
+          ],
+          "points": 0.5,
+          "verify": "Array.from({length: 201}, (_, i) => i - 100).find(x => 2 * x - (-17) === -9)",
+          "explanation": "$2 \\cdot x + 17 = -9$, suy ra $2 \\cdot x = -9 - 17 = -26$, nên $x = (-26) : 2 = -13$. Thử lại: $2 \\cdot (-13) + 17 = -26 + 17 = -9$ (đúng)."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số nguyên âm lớn nhất vừa là bội của $-6$ vừa là bội của $8$.",
+          "answer": [
+            "-24"
+          ],
+          "points": 0.5,
+          "verify": "Array.from({length: 200}, (_, i) => -(i + 1)).find(x => x % 6 === 0 && x % 8 === 0)",
+          "explanation": "Bội chung của $-6$ và $8$ cũng là bội chung của $6$ và $8$, tức là bội của $\\text{BCNN}(6, 8) = 24$: $\\dots; -48; -24; 0; 24; 48; \\dots$ Số nguyên âm lớn nhất trong đó là $-24$."
+        }
+      ]
+    },
+    {
+      "slug": "toan6-so-nguyen-kha-04",
+      "title": "Số nguyên — Đề 7",
+      "level": "kha",
+      "sort_order": 4,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức Khá: độ cao, dịch chuyển trên trục số, lũy thừa số âm, tìm x, ước và bội, trò chơi bắn cung, nhiệt độ trung bình.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Đỉnh Phan-xi-păng cao khoảng 3143 m so với mực nước biển; mặt nước Biển Chết có độ cao khoảng $-430$ m so với mực nước biển. Đỉnh Phan-xi-păng cao hơn mặt nước Biển Chết khoảng bao nhiêu mét?",
+          "options": [
+            "$2713$",
+            "$-3573$",
+            "$-2713$",
+            "$3573$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "3143 - (-430)",
+          "explanation": "Độ chênh lệch bằng độ cao lớn trừ độ cao nhỏ: $3143 - (-430) = 3143 + 430 = 3573$ (m). Phương án $2713$ m là quên đổi dấu khi trừ số âm ($3143 - 430$); các phương án âm là trừ ngược thứ tự."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Trên trục số, điểm $P$ nằm bên trái gốc $O$ và cách $O$ một khoảng 7 đơn vị. Điểm $Q$ biểu diễn số đối của số mà $P$ biểu diễn. Dịch chuyển $Q$ sang trái 10 đơn vị ta được điểm $R$. Điểm $R$ biểu diễn số",
+          "options": [
+            "$3$",
+            "$-3$",
+            "$-17$",
+            "$17$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "-(-7) - 10",
+          "explanation": "$P$ nằm bên trái $O$, cách $O$ 7 đơn vị nên $P$ biểu diễn $-7$. Số đối của $-7$ là $7$, nên $Q$ biểu diễn $7$. Dịch sang trái 10 đơn vị: $7 - 10 = -3$. Phương án $-17$ là quên lấy số đối ($-7 - 10$); $17$ là dịch sang phải."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho $a = (-3)^2$, $b = -3^2$, $c = (-2)^3$. Khẳng định nào sau đây đúng?",
+          "options": [
+            "$b < c < a$",
+            "$c < b < a$",
+            "$a < c < b$",
+            "$c < a < b$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "$a = (-3)^2 = (-3) \\cdot (-3) = 9$; $b = -3^2 = -(3 \\cdot 3) = -9$ (lũy thừa làm trước, dấu \"$-$\" ở ngoài); $c = (-2)^3 = -8$. Vì $-9 < -8 < 9$ nên $b < c < a$. Phương án $c < b < a$ là cho rằng $-8 < -9$; hai phương án còn lại sai vì $a = 9$ là số lớn nhất trong ba số (lỗi thường gặp là hiểu $-3^2$ thành $(-3)^2 = 9$)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tổng tất cả các số nguyên $x$ thỏa mãn $-10 < x < 8$ là",
+          "options": [
+            "$17$",
+            "$-27$",
+            "$-17$",
+            "$-9$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "Array.from({length: 40}, (_, i) => i - 20).filter(x => -10 < x && x < 8).reduce((s, x) => s + x, 0)",
+          "explanation": "Các số nguyên thỏa mãn: $-9; -8; -7; \\dots; 6; 7$. Ghép các cặp số đối từ $-7$ đến $7$ có tổng bằng $0$, còn lại $(-9) + (-8) = -17$. Phương án $-27$ là tính cả $-10$; $-9$ là tính thêm $x = 8$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho $a = 12$, $b = -5$, $c = 7$. Giá trị của biểu thức $a - (b + c) - (a - c)$ là",
+          "options": [
+            "$-5$",
+            "$19$",
+            "$5$",
+            "$-9$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(() => { const a = 12, b = -5, c = 7; return a - (b + c) - (a - c); })()",
+          "explanation": "Bỏ ngoặc rồi rút gọn: $a - b - c - a + c = -b$. Với $b = -5$ thì giá trị là $-(-5) = 5$. (Kiểm tra trực tiếp: $12 - 2 - 5 = 5$.) Phương án $19$ là bỏ ngoặc $-(b + c)$ thành $-b + c$; $-9$ là bỏ ngoặc $-(a - c)$ thành $-a - c$; $-5$ là nhầm $-b = b$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tích của 15 số nguyên âm và 4 số nguyên dương là",
+          "options": [
+            "một số nguyên dương",
+            "một số nguyên âm",
+            "số $0$",
+            "có thể âm hoặc dương tùy các số"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Các thừa số dương không làm thay đổi dấu của tích. Tích có 15 thừa số âm (số lẻ) nên mang dấu \"$-$\", do đó là số nguyên âm. Tích không thể bằng $0$ vì không có thừa số nào bằng $0$. Phương án \"số nguyên dương\" là nhầm tổng số thừa số $15 + 4 = 19$ hoặc nghĩ \"âm nhân âm là dương\" cho mọi trường hợp."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu số nguyên vừa là ước của $30$ vừa là bội của $-3$?",
+          "options": [
+            "$4$",
+            "$16$",
+            "$6$",
+            "$8$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "Array.from({length: 61}, (_, i) => i - 30).filter(n => n !== 0 && 30 % n === 0 && n % 3 === 0).length",
+          "explanation": "Ước nguyên của $30$: $\\pm 1; \\pm 2; \\pm 3; \\pm 5; \\pm 6; \\pm 10; \\pm 15; \\pm 30$. Bội của $-3$ là các số chia hết cho $3$. Các số thỏa mãn: $\\pm 3; \\pm 6; \\pm 15; \\pm 30$, có 8 số. Phương án $4$ là quên các số âm; $16$ là đếm tất cả ước của $30$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một thợ lặn đang ở độ cao $-6$ m so với mặt nước biển. Mỗi phút người đó lặn sâu thêm 4 m. Sau 5 phút, độ cao của thợ lặn so với mặt nước biển là (đơn vị: m)",
+          "options": [
+            "$-26$",
+            "$14$",
+            "$26$",
+            "$-50$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(-6) + 5 * (-4)",
+          "explanation": "Lặn sâu thêm 4 m mỗi phút nghĩa là mỗi phút độ cao thay đổi $-4$ m. Sau 5 phút: $(-6) + 5 \\cdot (-4) = -6 - 20 = -26$ (m). Phương án $14$ là coi lặn sâu thêm là tăng độ cao ($-6 + 20$); $-50$ là nhầm thứ tự thực hiện, tính $[(-6) + (-4)] \\cdot 5$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Trong một trò chơi bắn cung, mỗi mũi tên trúng vòng vàng được $10$ điểm, trúng vòng đỏ được $5$ điểm, bắn trượt bị trừ $4$ điểm. Lan bắn 12 mũi tên, trong đó 3 mũi trúng vòng vàng, 5 mũi trúng vòng đỏ, các mũi còn lại bắn trượt. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Lan bắn trượt 4 mũi tên",
+            "Tổng điểm của Lan là $39$ điểm",
+            "Nếu một mũi trúng vòng đỏ của Lan bị đổi thành bắn trượt thì tổng điểm của Lan chỉ giảm 1 điểm",
+            "Bạn Bình cũng bắn 12 mũi, được 2 mũi vòng vàng, 4 mũi vòng đỏ, còn lại trượt. Điểm của Bình thấp hơn điểm của Lan đúng 30 điểm"
+          ],
+          "answer": [
+            true,
+            true,
+            false,
+            false
+          ],
+          "points": 2,
+          "verify": "(() => { const miss = 12 - 3 - 5; const lan = 3 * 10 + 5 * 5 + miss * (-4); const lan2 = 3 * 10 + 4 * 5 + (miss + 1) * (-4); const binh = 2 * 10 + 4 * 5 + (12 - 2 - 4) * (-4); return [miss === 4, lan === 39, lan - lan2 === 1, lan - binh === 30]; })()",
+          "explanation": "a) Đúng: số mũi trượt là $12 - 3 - 5 = 4$. b) Đúng: $3 \\cdot 10 + 5 \\cdot 5 + 4 \\cdot (-4) = 30 + 25 - 16 = 39$. c) Sai: mất 5 điểm của mũi vòng đỏ và bị trừ thêm 4 điểm, nên tổng điểm giảm $5 - (-4) = 9$ điểm (con số 1 là do tính $5 - 4$). d) Sai: Bình trượt $12 - 2 - 4 = 6$ mũi, được $20 + 20 + 6 \\cdot (-4) = 16$ điểm; Lan hơn Bình $39 - 16 = 23$ điểm, không phải 30."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho $A = 2 \\cdot (-3)^2 - 5 \\cdot (-4) - 14$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$(-3)^2 = -9$",
+            "$A = 24$",
+            "$A$ có 16 ước nguyên",
+            "Tổng tất cả các ước nguyên của $A$ bằng $60$"
+          ],
+          "answer": [
+            false,
+            true,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(() => { const A = 2 * Math.pow(-3, 2) - 5 * (-4) - 14; const D = Array.from({length: 2 * A + 1}, (_, i) => i - A).filter(d => d !== 0 && A % d === 0); return [Math.pow(-3, 2) === -9, A === 24, D.length === 16, D.reduce((s, d) => s + d, 0) === 60]; })()",
+          "explanation": "a) Sai: $(-3)^2 = (-3) \\cdot (-3) = 9$ (lũy thừa bậc chẵn của số âm là số dương). b) Đúng: $A = 2 \\cdot 9 - (-20) - 14 = 18 + 20 - 14 = 24$. c) Đúng: ước tự nhiên của $24$ là $1; 2; 3; 4; 6; 8; 12; 24$ (8 ước) nên $A$ có $8 \\cdot 2 = 16$ ước nguyên. d) Sai: các ước nguyên đi thành từng cặp số đối nên tổng bằng $0$; số $60$ chỉ là tổng các ước dương."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính: $(-379) - (217 - 379) + (217 - 100)$.",
+          "answer": [
+            "-100"
+          ],
+          "points": 0.5,
+          "verify": "(-379) - (217 - 379) + (217 - 100)",
+          "explanation": "Bỏ dấu ngoặc: $-379 - 217 + 379 + 217 - 100 = (-379 + 379) + (-217 + 217) - 100 = -100$. Chú ý: ngoặc thứ hai có dấu \"$-$\" đằng trước nên $-379$ trong ngoặc đổi thành $+379$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính: $(-8) \\cdot 125 \\cdot (-3) \\cdot (-2)$.",
+          "answer": [
+            "-6000"
+          ],
+          "points": 0.5,
+          "verify": "(-8) * 125 * (-3) * (-2)",
+          "explanation": "Tích có 3 thừa số âm (lẻ) nên mang dấu \"$-$\". Nhóm hợp lí: $8 \\cdot 125 = 1000$, $3 \\cdot 2 = 6$, nên tích bằng $-(1000 \\cdot 6) = -6000$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số nguyên $x$, biết: $(x + 4) \\cdot (-5) = 35$.",
+          "answer": [
+            "-11"
+          ],
+          "points": 0.5,
+          "verify": "Array.from({length: 201}, (_, i) => i - 100).find(x => (x + 4) * (-5) === 35)",
+          "explanation": "$x + 4 = 35 : (-5) = -7$, suy ra $x = -7 - 4 = -11$. Thử lại: $(-11 + 4) \\cdot (-5) = (-7) \\cdot (-5) = 35$ (đúng)."
+        },
+        {
+          "kind": "short",
+          "prompt": "Nhiệt độ lúc 6 giờ sáng ở Sa Pa trong 5 ngày liên tiếp lần lượt là $-3^\\circ$C, $-5^\\circ$C, $2^\\circ$C, $-4^\\circ$C, $0^\\circ$C. Tính nhiệt độ trung bình lúc 6 giờ sáng của 5 ngày đó (đơn vị: $^\\circ$C).",
+          "answer": [
+            "-2"
+          ],
+          "points": 0.5,
+          "verify": "((-3) + (-5) + 2 + (-4) + 0) / 5",
+          "explanation": "Tổng nhiệt độ 5 ngày: $(-3) + (-5) + 2 + (-4) + 0 = -10$. Nhiệt độ trung bình: $(-10) : 5 = -2\\ (^\\circ\\text{C})$."
+        }
+      ]
+    }
+  ]
+}
