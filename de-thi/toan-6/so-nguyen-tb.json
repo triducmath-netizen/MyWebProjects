@@ -122,12 +122,12 @@
         },
         {
           "kind": "tf",
-          "prompt": "Nhiệt độ lúc 6 giờ sáng ở một thành phố là $-4\\,^\\circ\\mathrm{C}$. Đến 12 giờ trưa, nhiệt độ tăng thêm $9\\,^\\circ\\mathrm{C}$. Đến 22 giờ, nhiệt độ giảm $7\\,^\\circ\\mathrm{C}$ so với lúc 12 giờ trưa. Xét tính đúng sai của các khẳng định sau:",
+          "prompt": "Nhiệt độ lúc 6 giờ sáng ở một thành phố là $-4\\,{}^\\circ\\mathrm{C}$. Đến 12 giờ trưa, nhiệt độ tăng thêm $9\\,{}^\\circ\\mathrm{C}$. Đến 22 giờ, nhiệt độ giảm $7\\,{}^\\circ\\mathrm{C}$ so với lúc 12 giờ trưa. Xét tính đúng sai của các khẳng định sau:",
           "options": [
-            "Nhiệt độ lúc 6 giờ sáng thấp hơn $0\\,^\\circ\\mathrm{C}$.",
-            "Nhiệt độ lúc 12 giờ trưa là $13\\,^\\circ\\mathrm{C}$.",
-            "Nhiệt độ lúc 22 giờ là $-2\\,^\\circ\\mathrm{C}$.",
-            "Nhiệt độ lúc 22 giờ cao hơn nhiệt độ lúc 6 giờ sáng là $6\\,^\\circ\\mathrm{C}$."
+            "Nhiệt độ lúc 6 giờ sáng thấp hơn $0\\,{}^\\circ\\mathrm{C}$.",
+            "Nhiệt độ lúc 12 giờ trưa là $13\\,{}^\\circ\\mathrm{C}$.",
+            "Nhiệt độ lúc 22 giờ là $-2\\,{}^\\circ\\mathrm{C}$.",
+            "Nhiệt độ lúc 22 giờ cao hơn nhiệt độ lúc 6 giờ sáng là $6\\,{}^\\circ\\mathrm{C}$."
           ],
           "answer": [
             true,
@@ -137,7 +137,7 @@
           ],
           "points": 2,
           "verify": "(() => { const t6 = -4, t12 = t6 + 9, t22 = t12 - 7; return [t6 < 0, t12 === 13, t22 === -2, t22 - t6 === 6]; })()",
-          "explanation": "a) Đúng. $-4 < 0$ nên nhiệt độ lúc 6 giờ sáng thấp hơn $0\\,^\\circ\\mathrm{C}$.\nb) Sai. Nhiệt độ lúc 12 giờ trưa là $(-4) + 9 = 5\\,(^\\circ\\mathrm{C})$, không phải $13\\,^\\circ\\mathrm{C}$ (lỗi tính $4 + 9$, bỏ quên dấu \"$-$\").\nc) Đúng. Nhiệt độ lúc 22 giờ là $5 - 7 = 5 + (-7) = -2\\,(^\\circ\\mathrm{C})$.\nd) Sai. Nhiệt độ lúc 22 giờ cao hơn lúc 6 giờ sáng là $(-2) - (-4) = (-2) + 4 = 2\\,(^\\circ\\mathrm{C})$, không phải $6\\,^\\circ\\mathrm{C}$ (lỗi tính $2 + 4$)."
+          "explanation": "a) Đúng. $-4 < 0$ nên nhiệt độ lúc 6 giờ sáng thấp hơn $0\\,{}^\\circ\\mathrm{C}$.\nb) Sai. Nhiệt độ lúc 12 giờ trưa là $(-4) + 9 = 5\\,(^\\circ\\mathrm{C})$, không phải $13\\,{}^\\circ\\mathrm{C}$ (lỗi tính $4 + 9$, bỏ quên dấu \"$-$\").\nc) Đúng. Nhiệt độ lúc 22 giờ là $5 - 7 = 5 + (-7) = -2\\,(^\\circ\\mathrm{C})$.\nd) Sai. Nhiệt độ lúc 22 giờ cao hơn lúc 6 giờ sáng là $(-2) - (-4) = (-2) + 4 = 2\\,(^\\circ\\mathrm{C})$, không phải $6\\,{}^\\circ\\mathrm{C}$ (lỗi tính $2 + 4$)."
         },
         {
           "kind": "tf",
@@ -465,7 +465,7 @@
         },
         {
           "kind": "mcq",
-          "prompt": "Nhiệt độ trong ngăn đá của một tủ lạnh là $-18\\,^\\circ\\mathrm{C}$, nhiệt độ trong phòng là $27\\,^\\circ\\mathrm{C}$. Nhiệt độ trong phòng cao hơn nhiệt độ trong ngăn đá bao nhiêu độ C?",
+          "prompt": "Nhiệt độ trong ngăn đá của một tủ lạnh là $-18\\,{}^\\circ\\mathrm{C}$, nhiệt độ trong phòng là $27\\,{}^\\circ\\mathrm{C}$. Nhiệt độ trong phòng cao hơn nhiệt độ trong ngăn đá bao nhiêu độ C?",
           "options": [
             "$9$",
             "$-9$",

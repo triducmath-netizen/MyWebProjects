@@ -207,7 +207,7 @@ body.portal { background: var(--tdm-paper); min-height: 100vh; display: flex; fl
 .topic-card h3 { margin: 0; }
 .level-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .level-btn { display: grid; gap: 2px; justify-items: center; padding: 12px 6px; border-radius: 12px; border: 1px solid var(--tdm-line); background: var(--tdm-paper); cursor: pointer; font: inherit; color: var(--tdm-ink); transition: transform .15s, border-color .15s; }
-.level-btn b { font-size: .95rem; }
+.level-btn b { font-size: .9rem; white-space: nowrap; }
 .level-btn span { font-size: .8rem; color: var(--tdm-slate); }
 .level-btn:hover:not([disabled]) { transform: translateY(-2px); }
 .level-btn.lv-tb { border-top: 3px solid var(--tdm-teal); }

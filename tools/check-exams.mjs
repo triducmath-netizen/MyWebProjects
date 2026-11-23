@@ -4,6 +4,7 @@
 // Thoát với mã 1 nếu có lỗi. Cảnh báo (WARN) không chặn tải lên.
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
+import { createRequire } from 'node:module';
 
 export const FORMAT = {
   time_limit_min: 45,
@@ -31,6 +32,22 @@ function evalVerify(expr) {
 function balancedDollars(s) {
   const n = (String(s).replace(/\\\$/g, '').match(/\$/g) || []).length;
   return n % 2 === 0;
+}
+
+// Kiểm tra mọi công thức hiển thị được bằng KaTeX (cài: npm i -D katex@0.16.11).
+// Công thức lỗi sẽ hiện thành chữ đỏ trên website, nên coi là LỖI.
+let katex = null;
+try { katex = createRequire(import.meta.url)('katex'); } catch { /* chưa cài katex: bỏ qua bước này */ }
+const MATH_RE = /\$\$([\s\S]+?)\$\$|\$((?:\\\$|[^$\n])+?)\$/g;
+function mathErrors(text) {
+  if (!katex || text == null) return [];
+  const out = [];
+  for (const m of String(text).matchAll(MATH_RE)) {
+    const tex = m[1] ?? m[2];
+    try { katex.renderToString(tex, { throwOnError: true, displayMode: m[1] != null, strict: 'ignore' }); }
+    catch (e) { out.push(`$${tex}$ → ${String(e.message).replace(/^KaTeX parse error: /, '').slice(0, 70)}`); }
+  }
+  return out;
 }
 
 export function checkFiles(paths, { partial = false } = {}) {
@@ -82,6 +99,7 @@ export function checkFiles(paths, { partial = false } = {}) {
         if (!q.explanation?.trim() || q.explanation.trim().length < 20) errors.push(qa('lời giải chi tiết quá ngắn hoặc thiếu'));
         for (const t of [q.prompt, q.explanation, ...(q.options || [])]) {
           if (t != null && !balancedDollars(t)) errors.push(qa(`dấu $ không cân: ${String(t).slice(0, 60)}`));
+          for (const me of mathErrors(t)) errors.push(qa(`công thức lỗi hiển thị: ${me}`));
         }
 
         if (q.kind === 'mcq' || q.kind === 'tf') {

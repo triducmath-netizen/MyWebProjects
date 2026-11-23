@@ -39,6 +39,7 @@ Trong mỗi mức, các đề phải **khác nhau thật sự**: khác số li�
 - Bối cảnh thực tế phù hợp tuổi học sinh, số liệu hợp lý (nhiệt độ, độ cao so với mực nước biển, tiền lãi/lỗ, tầng hầm, điểm thưởng/phạt…).
 - **Lời giải chi tiết** cho mọi câu: trình bày từng bước như giáo viên chữa bài; với trắc nghiệm nêu vì sao chọn đáp án đúng và chỉ ra lỗi dẫn tới phương án nhiễu chính; với Đúng/Sai giải thích **từng ý a, b, c, d**.
 - Công thức viết bằng LaTeX trong `$...$` (trong dòng) hoặc `$$...$$` (dòng riêng). Số âm viết `$-5$`; phép nhân `\cdot`; phân số `\frac{a}{b}`. Chú ý: trong JSON, dấu `\` phải viết thành `\\` (ví dụ `"$3 \\cdot (-4)$"`).
+- Độ C viết `$-4^\circ\mathrm{C}$` hoặc `$-4\,{}^\circ\mathrm{C}$`; **không** viết `\,^\circ` (KaTeX báo lỗi, hiện chữ đỏ trên web). Công cụ kiểm tra dựng thử mọi công thức bằng KaTeX và báo "công thức lỗi hiển thị" nếu sai.
 - Không dùng hình ảnh (chưa hỗ trợ khi nhập tự động).
 - Chỉ dùng kiến thức **đã học đến chuyên đề đó** theo CT GDPT 2018 (ví dụ: Toán 6 chưa học kí hiệu giá trị tuyệt đối $|a|$, lũy thừa số mũ âm, phân số âm ở chương Số nguyên).
 
@@ -84,7 +85,7 @@ Mỗi mức độ một file trong `de-thi/toan-<lớp>/`, tên `<slug-chuyên-�
 1. **Lập ma trận** cho chuyên đề: liệt kê các nội dung con theo SGK, phân bổ cho 10 đề và 3 mức (ghi ngắn vào đầu câu trả lời cuối).
 2. **Soạn** từng file mức độ.
 3. **Tự giải lại** từng câu như một học sinh giỏi, kiểm tra: đề có đủ dữ kiện, chỉ có **đúng một** phương án đúng, phương án nhiễu không vô tình cũng đúng, các ý Đúng/Sai đánh giá chính xác, đáp số trả lời ngắn duy nhất.
-4. **Chạy kiểm tra** (từ thư mục gốc dự án):
+4. **Chạy kiểm tra** (từ thư mục gốc dự án; lần đầu chạy `npm install` để có KaTeX kiểm tra công thức):
    `node tools/check-exams.mjs de-thi/toan-<lớp>/<slug>-*.json`
    Khi mới làm xong một mức, thêm `--partial` để bỏ qua yêu cầu đủ 10 đề của cả chuyên đề. Trước khi tải lên phải chạy **không có** `--partial` với cả 3 file. Sửa đến khi **0 lỗi**. Xử lý mọi WARN "chưa có verify" bằng cách thêm `verify` nếu câu tính toán được.
 5. **Tải lên**: `node tools/upload-exams.mjs de-thi/toan-<lớp>/<slug>-*.json`
