@@ -184,7 +184,9 @@ details p { padding: 0 24px 20px; margin: 0; color: var(--tdm-slate); }
   .cards, .steps { grid-template-columns: repeat(2, 1fr); }
   .hero-inner, .contact-inner { grid-template-columns: 1fr; gap: 40px; }
 }
-@media (max-width: 760px) {
+.menu a { white-space: nowrap; }
+.brand { white-space: nowrap; }
+@media (max-width: 1000px) {
   .nav-toggle { display: block; }
   .menu {
     position: absolute; top: 72px; left: 0; right: 0;
@@ -199,6 +201,8 @@ details p { padding: 0 24px 20px; margin: 0; color: var(--tdm-slate); }
   .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
   .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+}
+@media (max-width: 760px) {
   .values, .cards, .steps { grid-template-columns: 1fr; }
   .section { padding: 64px 0; }
   .hero { padding: 64px 0 80px; }
