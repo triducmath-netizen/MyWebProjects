@@ -23,7 +23,7 @@ Nguồn nền chung: Dunlosky, Rawson, Marsh, Nathan & Willingham (2013), *Impro
   - Adesope, Trevisan & Sundararajan (2017), *Rethinking the Use of Tests: A Meta-Analysis of Practice Testing*, Review of Educational Research 87(3), 659–701. doi:10.3102/0034654316689306
   - Agarwal, Nunes & Blunt (2021), Educational Psychology Review 33, 1409–1453. doi:10.1007/s10648-021-09595-9 (50 thí nghiệm trong trường học; lưu ý: hầu hết ở Mỹ và Tây Âu).
 - **Ví dụ Toán**: Lớp 8 — tự viết lại hằng đẳng thức đáng nhớ rồi tính nhanh 98², 51·49. Lớp 10–12 — tự viết lại bảng giá trị lượng giác, công thức đạo hàm, rồi đối chiếu.
-- **Trạng thái**: **đã có kịch bản (chờ duyệt)** — `video/kich-ban/tu-kiem-tra-tri-nho.json` (ví dụ Toán 8).
+- **Trạng thái**: **đã có kịch bản (chờ duyệt)** — `video/kich-ban/tu-kiem-tra-tri-nho.json` (ví dụ Toán 8; viết lại dạng video giấu mặt, chỉ giọng thầy Đức — 2026-11-23).
 
 ## 2. Ôn tập ngắt quãng (Spaced / distributed practice)
 - **Tóm tắt**: Chia cùng một lượng ôn tập thành nhiều buổi cách nhau vài ngày thay vì dồn một buổi. Ngay sau buổi học có thể chưa thấy khác, nhưng sau vài tuần thường nhớ tốt hơn rõ rệt.
@@ -33,7 +33,7 @@ Nguồn nền chung: Dunlosky, Rawson, Marsh, Nathan & Willingham (2013), *Impro
   - Rohrer & Taylor (2006), *The Effects of Overlearning and Distributed Practice on the Retention of Mathematics Knowledge*, Applied Cognitive Psychology 20(9), 1209–1224. doi:10.1002/acp.1266 — https://digitalcommons.usf.edu/psy_facpub/1770/ (cùng 10 bài Toán: chia 2 buổi cách 1 tuần thì sau 4 tuần nhớ tốt hơn nhiều; sau 1 tuần chưa khác; làm thêm nhiều bài trong một buổi không giúp nhớ lâu).
   - Kang (2016), *Spaced Repetition Promotes Efficient and Effective Learning*, Policy Insights from the Behavioral and Brain Sciences 3(1), 12–19. doi:10.1177/2372732215624708
 - **Ví dụ Toán**: Lớp 10 — định lí côsin (Hệ thức lượng trong tam giác): học hôm nay, làm lại 1 bài sau 2 ngày, 1 bài biến đổi sau 1 tuần. Lớp 6–9 — bài tập về nhà mỗi buổi có 2–3 câu của bài cũ.
-- **Trạng thái**: **đã có kịch bản (chờ duyệt)** — `video/kich-ban/on-tap-ngat-quang.json` (ví dụ Toán 10).
+- **Trạng thái**: **đã có kịch bản (chờ duyệt)** — `video/kich-ban/on-tap-ngat-quang.json` (ví dụ Toán 10; viết lại dạng video giấu mặt, chỉ giọng thầy Đức — 2026-11-23).
 
 ## 3. Học xen kẽ dạng bài (Interleaved practice)
 - **Tóm tắt**: Trộn nhiều dạng bài trong một buổi luyện (ví dụ phương trình bậc nhất, bậc hai, chứa căn lẫn lộn) thay vì làm 20 bài cùng một dạng. Học sinh phải tự nhận ra "bài này dùng cách nào" — đúng kỹ năng cần trong bài thi.

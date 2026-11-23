@@ -2,7 +2,8 @@
 // Kiểm tra kịch bản video:  node video/scripts/kiem-tra-kich-ban.mjs video/kich-ban/<slug>.json
 import { readFileSync } from 'node:fs';
 
-export const LOAI = ['mo-dau', 'hoi-thoai', 'bang', 'vi-du', 'tong-ket', 'ket-thuc'];
+export const LOAI = ['mo-dau', 'giang', 'bang', 'vi-du', 'tong-ket', 'ket-thuc'];
+export const BIEU_TUONG = ['sach', 'mat', 'nao', 'but', 'lich', 'dong-ho', 'bong-den', 'muc-tieu', 'dau-hoi', 'dau-tich', 'dau-x', 'bieu-do', 'lap-lai', 'ngoi-sao', 'ngu', 'trai-tim'];
 export const DIEU_BO = ['binh-thuong', 'giang-giai', 'chi-bang', 'suy-nghi', 'vui', 'ngac-nhien', 'buon', 'gat-dau', 'vay-tay', 'viet-bang'];
 const CAM = ['trong thời đại', 'hành trình', 'chinh phục', 'đột phá', 'bí kíp thần thánh', 'đảm bảo điểm 10', 'cam kết đỗ', 'trung tâm'];
 
@@ -19,21 +20,25 @@ export function kiemTra(kb) {
   if (kb.canh.some((c) => (c.loi || []).some((l) => /thầy là thầy Đức|thầy tên là/i.test(l.cau)))) canh('thầy Đức không tự giới thiệu tên');
   if (kb.canh.at(-1).loai !== 'ket-thuc') canh('cảnh cuối phải là ket-thuc');
   if (!kb.canh.some((c) => c.loai === 'vi-du')) canh('cần ít nhất 1 cảnh vi-du (ví dụ minh họa)');
-  let soChu = 0, coMinh = false, coDuc = false;
+  let soChu = 0;
   kb.canh.forEach((c, i) => {
     const at = `cảnh ${i + 1} (${c.loai})`;
     if (!LOAI.includes(c.loai)) canh(`${at}: loai không hợp lệ`);
     if (!Array.isArray(c.loi) || !c.loi.length) { canh(`${at}: thiếu loi`); return; }
     c.loi.forEach((l, j) => {
       const a = `${at}, câu ${j + 1}`;
-      if (!['duc', 'minh'].includes(l.nguoi)) canh(`${a}: nguoi phải là duc hoặc minh`);
-      if (l.nguoi === 'minh') coMinh = true; else coDuc = true;
+      if (l.nguoi !== 'duc') canh(`${a}: video giấu mặt — chỉ thầy Đức nói (nguoi phải là duc)`);
+      if (l.chu != null) {
+        const nc = String(l.chu).trim().split(/\s+/).length;
+        if (nc > 8) canh(`${a}: chu dài ${nc} chữ (tối đa 8)`);
+        if ((String(l.chu).match(/\$/g) || []).length % 2) canh(`${a}: dấu $ không cân trong chu`);
+      }
+      if (l.bieu_tuong && !BIEU_TUONG.includes(l.bieu_tuong)) canh(`${a}: bieu_tuong "${l.bieu_tuong}" không hợp lệ`);
       if (!l.cau?.trim()) { canh(`${a}: thiếu cau`); return; }
       const n = l.cau.trim().split(/\s+/).length;
       soChu += n;
       if (n > 28) canh(`${a}: ${n} chữ (tối đa 28) — "${l.cau.slice(0, 50)}…"`);
       if (/\$|\\[a-z]+/.test(l.cau)) canh(`${a}: lời đọc có LaTeX — viết bằng chữ để máy đọc`);
-      if (l.dieu_bo && !DIEU_BO.includes(l.dieu_bo)) canh(`${a}: dieu_bo "${l.dieu_bo}" không hợp lệ`);
       for (const x of CAM) if (l.cau.toLowerCase().includes(x)) canh(`${a}: tránh cụm "${x}"`);
     });
     if ((c.loai === 'bang' || c.loai === 'tong-ket') && !(Array.isArray(c.noi_dung) && c.noi_dung.length)) canh(`${at}: cần noi_dung (các dòng trên bảng)`);
@@ -42,9 +47,8 @@ export function kiemTra(kb) {
       if (t && ((String(t).match(/\$/g) || []).length % 2)) canh(`${at}: dấu $ không cân trong "${String(t).slice(0, 40)}"`);
     }
   });
-  if (!coDuc || !coMinh) canh('cần có cả lời thầy Đức và Minh');
-  if (soChu < 550) canh(`lời thoại ${soChu} chữ — quá ngắn (cần 550–900, ≈ 3–5 phút)`);
-  if (soChu > 950) canh(`lời thoại ${soChu} chữ — quá dài (cần 550–900)`);
+  if (soChu < 550) canh(`lời đọc ${soChu} chữ — quá ngắn (cần 550–850, ≈ 3,5–5 phút)`);
+  if (soChu > 900) canh(`lời đọc ${soChu} chữ — quá dài (cần 550–850)`);
   const m = kb.dang_mxh || {};
   if (!m.tieu_de || !m.mo_ta || !Array.isArray(m.hashtag) || !m.caption_ngan) canh('dang_mxh cần tieu_de, mo_ta, hashtag[], caption_ngan');
   return { loi, soChu };

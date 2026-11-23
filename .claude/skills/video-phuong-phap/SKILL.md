@@ -5,6 +5,8 @@ description: Làm video ngắn (3–5 phút) giới thiệu phương pháp học
 
 # Video phương pháp học tập — Trí Đức Math
 
+**Định dạng hiện tại: video giấu mặt** — chỉ có giọng thầy Đức (Azure) dẫn dắt; đồ hoạ chuyển động (từ khoá + biểu tượng, các bước, bảng Toán), phụ đề, nhạc nền. Nếu thư mục `video/nhan-vat/thay-duc/` có ảnh thầy Đức kiểu Pixar (vẽ bằng Gemini theo `video/nhan-vat/HUONG-DAN-VE.md`), ảnh tự xuất hiện cạnh nội dung và đổi cử chỉ theo lời. Thêm `--khong-nhan-vat` để tắt; `--3d` / `--2d` là các kiểu cũ.
+
 Quy trình có **2 lần duyệt** của chủ website: duyệt kịch bản, rồi duyệt video. Không bỏ qua bước duyệt nào. Video không tự đăng — chủ website tự tải lên mạng xã hội bằng các file đã chuẩn bị.
 
 Thư mục `video/`:

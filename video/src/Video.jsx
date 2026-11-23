@@ -7,6 +7,7 @@ import { Rich } from './RichText.jsx';
 import { buildTimeline, sec2f } from './timeline.js';
 import { ThreeCanvas } from '@remotion/three';
 import { Scene3D, layoutFor, boardRect } from './three/Scene3D.jsx';
+import { FacelessVideo } from './Faceless.jsx';
 
 function Logo({ s }) {
   return (
@@ -18,7 +19,7 @@ function Logo({ s }) {
   );
 }
 
-function Sound({ kichBan, lines, tl, nhac, amThanh, fps }) {
+export function Sound({ kichBan, lines, tl, nhac, amThanh, fps }) {
   return (
     <>
       {amThanh && lines.map((l) => (
@@ -42,7 +43,7 @@ function Sound({ kichBan, lines, tl, nhac, amThanh, fps }) {
 const { fontFamily } = loadFont('normal', { weights: ['500', '600', '700'], subsets: ['vietnamese', 'latin'] });
 
 // Props: { kichBan, durations: [[giây,...] mỗi cảnh], nhac: 'nhac/x.mp3' | null, amThanh: true/false }
-export function TriDucVideo({ kichBan, durations, nhac, amThanh, kieu }) {
+export function TriDucVideo({ kichBan, durations, nhac, amThanh, kieu, host }) {
   const frame = useCurrentFrame();
   const { width, height, fps } = useVideoConfig();
   const vertical = height > width;
@@ -63,7 +64,11 @@ export function TriDucVideo({ kichBan, durations, nhac, amThanh, kieu }) {
 
   const s = vertical ? width / 1080 : height / 1080; // tỉ lệ cỡ chữ
   const charH = vertical ? 760 : 640;
-  const is3d = (kieu ?? '3d') === '3d';
+  if ((kieu ?? 'giau-mat') === 'giau-mat') {
+    return <FacelessVideo kichBan={kichBan} tl={tl} lines={lines} cur={cur} scene={scene} sceneFrame={sceneFrame} sceneLen={sceneLen}
+      nhac={nhac} amThanh={amThanh} fontFamily={fontFamily} host={host} />;
+  }
+  const is3d = kieu === '3d';
   const showBoard = scene.loai !== 'mo-dau' && scene.loai !== 'ket-thuc';
   const ducPose = cur?.nguoi === 'duc' ? cur.dieu_bo ?? poseDuc : (listenerNod ? 'gat-dau' : poseDuc);
   const minhPose = cur?.nguoi === 'minh' ? cur.dieu_bo ?? poseMinh : poseMinh;
@@ -156,7 +161,7 @@ function estLines(text, fontPx, widthPx) {
   return Math.max(1, Math.ceil(plain.length / perLine));
 }
 
-function BoardText({ scene, sceneFrame, sceneLen, k, opacity, style }) {
+export function BoardText({ scene, sceneFrame, sceneLen, k, opacity, style }) {
   const items = scene.loai === 'vi-du' ? (scene.loi_giai || []) : (scene.noi_dung || []);
   const appearAt = (i) => scene.loai === 'vi-du'
     ? sceneLen * (0.35 + 0.5 * (i / Math.max(1, items.length)))

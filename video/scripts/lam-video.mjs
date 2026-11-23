@@ -47,6 +47,21 @@ if (tracks.length) {
   console.log('Nhạc nền: (chưa có file nào trong video/nhac/ — video sẽ không có nhạc)');
 }
 
+// Ảnh nhân vật thầy Đức (kiểu Pixar, vẽ bằng AI) — nếu có
+let host = null;
+const hostDir = resolve(videoDir, 'nhan-vat', 'thay-duc');
+if (existsSync(hostDir) && !args.includes('--khong-nhan-vat')) {
+  const imgs = readdirSync(hostDir).filter((f) => /\.(png|jpe?g|webp|svg)$/i.test(f));
+  if (imgs.length) {
+    const dest = resolve(videoDir, 'public', 'nhan-vat', 'thay-duc');
+    mkdirSync(dest, { recursive: true });
+    const poses = {};
+    for (const f of imgs) { copyFileSync(resolve(hostDir, f), resolve(dest, f)); poses[f.replace(/\.[^.]+$/, '')] = `nhan-vat/thay-duc/${f}`; }
+    host = { poses };
+    console.log(`Nhân vật: thầy Đức (${imgs.length} ảnh: ${Object.keys(poses).join(', ')})`);
+  }
+}
+
 const outDir = resolve(videoDir, 'xuat', kb.slug);
 mkdirSync(outDir, { recursive: true });
 const tl = buildTimeline(kb, durations);
@@ -55,8 +70,8 @@ writeFileSync(resolve(outDir, `${kb.slug}.srt`), toSrt(tl));
 // 3. Dựng
 console.log('Đang đóng gói hoạt hình…');
 const serveUrl = await bundle({ entryPoint: resolve(videoDir, 'src', 'index.jsx'), publicDir: resolve(videoDir, 'public') });
-const kieu = args.includes('--2d') ? '2d' : '3d';
-const inputProps = { kichBan: kb, durations, nhac, amThanh: true, kieu };
+const kieu = args.includes('--2d') ? '2d' : args.includes('--3d') ? '3d' : 'giau-mat';
+const inputProps = { kichBan: kb, durations, nhac, amThanh: true, kieu, host };
 const ids = args.includes('--chi-doc') ? ['Doc'] : args.includes('--chi-ngang') ? ['Ngang'] : ['Ngang', 'Doc'];
 
 for (const id of ids) {

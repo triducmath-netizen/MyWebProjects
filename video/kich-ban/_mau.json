@@ -2,18 +2,23 @@
   "slug": "_mau",
   "tieu_de": "Tự kiểm tra trí nhớ",
   "phuong_phap": "Luyện tập truy hồi",
+  "nhac": "vui-tuoi-ukulele.wav",
   "canh": [
     { "loai": "mo-dau", "tieu_de": "Học ít mà nhớ lâu", "phu_de": "Thử cách tự kiểm tra trí nhớ",
-      "loi": [ { "nguoi": "duc", "cau": "Chào các em!", "dieu_bo": "vay-tay" } ] },
-    { "loai": "hoi-thoai",
       "loi": [
-        { "nguoi": "minh", "cau": "Thầy ơi, em đọc lại bài ba lần mà vào thi vẫn quên.", "dieu_bo": "buon" },
-        { "nguoi": "duc", "cau": "Đọc lại thì quen mắt, nhưng chưa chắc đã nhớ đâu em.", "dieu_bo": "giang-giai" } ] },
+        { "nguoi": "duc", "cau": "Chào các em!" },
+        { "nguoi": "duc", "cau": "Em đọc bài ba lần, thấy quen hết, mà vào kiểm tra lại quên?", "chu": "Đọc 3 lần vẫn quên?", "bieu_tuong": "sach" } ] },
+    { "loai": "giang", "tieu_de": "Vì sao vậy?",
+      "loi": [
+        { "nguoi": "duc", "cau": "Đọc lại làm em quen mắt, nhưng quen mắt chưa phải là nhớ.", "chu": "Quen mắt ≠ nhớ", "bieu_tuong": "mat" },
+        { "nguoi": "duc", "cau": "Muốn nhớ, em phải tự lôi kiến thức ra khỏi đầu.", "chu": "Tự nhớ ra", "bieu_tuong": "nao" } ] },
     { "loai": "bang", "tieu_de": "Ba bước tự kiểm tra", "noi_dung": ["Gấp sách lại", "Tự nhớ và viết ra", "Mở sách, chấm và sửa"],
-      "loi": [ { "nguoi": "duc", "cau": "Cách làm rất đơn giản, chỉ có ba bước thôi.", "dieu_bo": "chi-bang" } ] },
-    { "loai": "vi-du", "tieu_de": "Thử ngay", "de_bai": "Viết lại hằng đẳng thức $(a+b)^2$ mà không nhìn sách.",
-      "loi_giai": ["$(a+b)^2 = a^2 + 2ab + b^2$"],
-      "loi": [ { "nguoi": "minh", "cau": "A cộng b bình phương bằng a bình phương cộng hai a b cộng b bình phương!", "dieu_bo": "vui" } ] },
-    { "loai": "ket-thuc", "loi": [ { "nguoi": "duc", "cau": "Hẹn gặp các em ở video sau nhé.", "dieu_bo": "vay-tay" } ] }
+      "loi": [ { "nguoi": "duc", "cau": "Cách làm rất đơn giản. Gấp sách lại, tự viết ra những gì nhớ được, rồi mở sách ra chấm." } ] },
+    { "loai": "vi-du", "tieu_de": "Thử ngay", "de_bai": "Viết lại hằng đẳng thức $(a-b)^2$ mà không nhìn sách.",
+      "loi_giai": ["Viết nhầm: $(a-b)^2 = a^2 - b^2$ ✗", "Thử $a=3,\\ b=1$: $(3-1)^2 = 4$ nhưng $9-1 = 8$", "Đúng: $(a-b)^2 = a^2 - 2ab + b^2$ ✓"],
+      "loi": [
+        { "nguoi": "duc", "cau": "Nhiều bạn viết nhầm thành a bình phương trừ b bình phương." },
+        { "nguoi": "duc", "cau": "Thử thay số là thấy ngay: bốn khác tám. Vậy phải có thêm trừ hai a b." } ] },
+    { "loai": "ket-thuc", "loi": [ { "nguoi": "duc", "cau": "Chúc các em học vui. Hẹn gặp lại!" } ] }
   ]
 }

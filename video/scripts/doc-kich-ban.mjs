@@ -3,7 +3,7 @@
 //   node video/scripts/doc-kich-ban.mjs video/kich-ban/<slug>.json [...]
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const TEN = { 'mo-dau': 'Mở đầu', 'hoi-thoai': 'Hội thoại', bang: 'Trên bảng', 'vi-du': 'Ví dụ minh họa', 'tong-ket': 'Tổng kết', 'ket-thuc': 'Kết thúc' };
+const TEN = { 'mo-dau': 'Mở đầu', giang: 'Thầy giảng', 'hoi-thoai': 'Hội thoại', bang: 'Các bước', 'vi-du': 'Ví dụ minh họa', 'tong-ket': 'Tổng kết', 'ket-thuc': 'Kết thúc' };
 for (const f of process.argv.slice(2)) {
   const kb = JSON.parse(readFileSync(f, 'utf8'));
   const soChu = kb.canh.flatMap((c) => c.loi).reduce((s, l) => s + l.cau.split(/\s+/).length, 0);
@@ -14,7 +14,10 @@ for (const f of process.argv.slice(2)) {
     if (c.de_bai) md += `> **Đề bài (trên bảng):** ${c.de_bai}\n\n`;
     if (c.noi_dung?.length) md += `> **Trên bảng:**\n${c.noi_dung.map((x, k) => `> ${k + 1}. ${x}`).join('\n')}\n\n`;
     if (c.loi_giai?.length) md += `> **Lời giải (hiện dần):**\n${c.loi_giai.map((x) => `> - ${x}`).join('\n')}\n\n`;
-    md += c.loi.map((l) => `**${l.nguoi === 'duc' ? 'Thầy Đức' : 'Minh'}** *(${l.dieu_bo ?? 'binh-thuong'})*: ${l.cau}`).join('  \n') + '\n\n';
+    md += c.loi.map((l) => {
+      const tag = [l.chu ? `chữ trên màn hình: **${l.chu}**` : null, l.bieu_tuong ? `hình: ${l.bieu_tuong}` : null, l.dieu_bo ? `cử chỉ: ${l.dieu_bo}` : null].filter(Boolean).join(' · ');
+      return `**${l.nguoi === 'duc' ? 'Thầy Đức' : 'Minh'}:** ${l.cau}${tag ? `  \n  ↳ *${tag}*` : ''}`;
+    }).join('  \n') + '\n\n';
   });
   const m = kb.dang_mxh || {};
   md += `## Đăng mạng xã hội\n\n- **Tiêu đề:** ${m.tieu_de ?? ''}\n- **Mô tả:** ${m.mo_ta ?? ''}\n- **Caption ngắn:** ${m.caption_ngan ?? ''}\n- **Hashtag:** ${(m.hashtag || []).join(' ')}\n\n`;
