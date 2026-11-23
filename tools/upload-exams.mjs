@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Tải đề luyện tập lên ngân hàng đề (sau khi đã kiểm tra).
 //   node tools/upload-exams.mjs de-thi/toan-6/so-nguyen-*.json
-// Đọc SUPABASE_URL và EXAM_IMPORT_TOKEN từ file .env.local ở thư mục gốc (không đưa lên Git).
+// Đọc SUPABASE_URL, EXAM_IMPORT_TOKEN (và tuỳ chọn EXAM_IMPORT_FUNCTION = tên đường dẫn hàm) từ file .env.local ở thư mục gốc (không đưa lên Git).
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -37,9 +37,9 @@ const payload = exams.map((e) => ({
 let ok = 0, fail = 0;
 for (let i = 0; i < payload.length; i += 10) {
   const batch = payload.slice(i, i + 10);
-  const res = await fetch(`${url}/functions/v1/import-exams`, {
+  const res = await fetch(`${url}/functions/v1/${env.EXAM_IMPORT_FUNCTION || 'import-exams'}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-import-token': token },
+    headers: { 'Content-Type': 'application/json', 'x-import-token': token, ...(env.SUPABASE_PUBLISHABLE_KEY ? { apikey: env.SUPABASE_PUBLISHABLE_KEY } : {}) },
     body: JSON.stringify({ exams: batch }),
   });
   const out = await res.json().catch(() => ({}));
