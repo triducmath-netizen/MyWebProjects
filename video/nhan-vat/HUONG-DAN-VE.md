@@ -3,7 +3,7 @@
 Dùng **Gemini** miễn phí: https://gemini.google.com (đăng nhập tài khoản Google). Vẽ **8 ảnh**, lưu vào thư mục này: `D:\MyWebProjects\video\nhan-vat\thay-duc\` với **đúng tên file** ở bảng dưới (đuôi `.png` hoặc `.jpg` đều được).
 
 ## Bước 1 — Vẽ ảnh gốc từ ảnh thật của thầy
-Mở một cuộc trò chuyện mới trong Gemini, bấm **+ / Tải tệp lên** và chọn ảnh thật của thầy (`D:\MyWebProjectsideo\Ảnh thầy đức.jpg`), rồi dán câu lệnh sau vào cùng tin nhắn:
+Mở một cuộc trò chuyện mới trong Gemini, bấm **+ / Tải tệp lên** và chọn ảnh thật của thầy (`D:\MyWebProjects\video\Ảnh thầy đức.jpg`), rồi dán câu lệnh sau vào cùng tin nhắn:
 
 ```
 Using the man in this photo as the reference, create a 3D animated character of him in the style of a Pixar movie. Keep his real likeness: his face shape, short black hair swept to the side, friendly smile, slim build. No glasses. He is a Vietnamese math teacher. Outfit: crisp white long-sleeve dress shirt with sleeves slightly rolled up, dark navy trousers, white sneakers. No bag, no car, nothing in his hands. Full body, standing, facing the viewer at a slight three-quarter angle, both feet visible, centered, with generous empty space around him. Pure plain white background (#FFFFFF), no floor, no shadow, no text, no other objects. Soft studio lighting, high detail, vertical image 3:4.
