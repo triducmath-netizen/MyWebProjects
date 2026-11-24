@@ -1,0 +1,204 @@
+{
+  "grade": 6,
+  "topic": "Số nguyên",
+  "exams": [
+    {
+      "slug": "toan6-so-nguyen-tb-01",
+      "title": "Số nguyên — Đề 1",
+      "level": "tb",
+      "sort_order": 1,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 1 (cơ bản): số nguyên âm, số đối, so sánh, cộng trừ, quy tắc dấu ngoặc, nhân, ước của số nguyên.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Trong các số sau, số nào là số nguyên âm?",
+          "options": [
+            "$5$",
+            "$0$",
+            "$-7$",
+            "$12$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "[5, 0, -7, 12].find(x => x < 0)",
+          "explanation": "Số nguyên âm là số nguyên có dấu \"$-$\" đứng trước số tự nhiên khác 0. Trong các số đã cho chỉ có $-7$ là số nguyên âm. Lưu ý: $0$ không phải số nguyên âm cũng không phải số nguyên dương. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số đối của $-15$ là",
+          "options": [
+            "$-15$",
+            "$15$",
+            "$0$",
+            "$51$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "-(-15)",
+          "explanation": "Hai số đối nhau nằm ở hai phía của điểm $0$ trên trục số và cách đều điểm $0$. Số đối của $-15$ là $15$ (vì $-15 + 15 = 0$). Phương án A sai vì đó chính là số đã cho. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Khẳng định nào sau đây đúng?",
+          "options": [
+            "$-3 > -1$",
+            "$-5 > 0$",
+            "$-8 < -6$",
+            "$2 < -4$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Trên trục số, điểm biểu diễn số nhỏ hơn nằm bên trái. Với hai số nguyên âm, số nào có phần số tự nhiên lớn hơn thì nhỏ hơn: $8 > 6$ nên $-8 < -6$. Các phương án khác sai: $-3 < -1$ (A sai do nhầm \"$3 > 1$ nên $-3 > -1$\"); mọi số nguyên âm đều nhỏ hơn $0$ (B sai); mọi số nguyên dương đều lớn hơn số nguyên âm (D sai). Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một chiếc tàu ngầm đang ở độ sâu $40$ m dưới mực nước biển, sau đó nổi lên thêm $15$ m. Độ cao mới của tàu ngầm so với mực nước biển là (đơn vị: m)",
+          "options": [
+            "$-55$",
+            "$-25$",
+            "$25$",
+            "$55$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(-40) + 15",
+          "explanation": "Độ sâu $40$ m dưới mực nước biển được biểu thị là $-40$ m. Nổi lên $15$ m nghĩa là cộng thêm $15$: $(-40) + 15 = -(40 - 15) = -25$ (m). Phương án A do coi \"nổi lên\" là đi xuống: $(-40) + (-15) = -55$; phương án C quên dấu \"$-$\" của kết quả. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Kết quả của phép tính $(-9) - 6$ là",
+          "options": [
+            "$-15$",
+            "$-3$",
+            "$3$",
+            "$15$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(-9) - 6",
+          "explanation": "Trừ một số là cộng với số đối của nó: $(-9) - 6 = (-9) + (-6) = -(9 + 6) = -15$. Phương án B do tính nhầm thành $(-9) + 6 = -3$. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Bỏ dấu ngoặc trong biểu thức $12 - (5 - 8)$ ta được",
+          "options": [
+            "$12 - 5 + 8$",
+            "$12 - 5 - 8$",
+            "$12 + 5 - 8$",
+            "$12 + 5 + 8$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Khi bỏ dấu ngoặc có dấu \"$-$\" đứng trước, ta phải đổi dấu tất cả các số hạng trong ngoặc: $5$ thành $-5$, $-8$ thành $+8$. Vậy $12 - (5 - 8) = 12 - 5 + 8$. Phương án B là lỗi thường gặp: chỉ đổi dấu số hạng đầu, quên đổi dấu $-8$. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tích $(-6) \\cdot 7$ bằng",
+          "options": [
+            "$-13$",
+            "$42$",
+            "$13$",
+            "$-42$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(-6) * 7",
+          "explanation": "Tích hai số nguyên khác dấu là một số nguyên âm, có phần số tự nhiên bằng tích hai phần số tự nhiên: $(-6) \\cdot 7 = -(6 \\cdot 7) = -42$. Phương án B quên dấu \"$-$\"; phương án A, C do nhầm sang cộng hai phần số tự nhiên ($6 + 7 = 13$). Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số nào sau đây là ước của $-12$?",
+          "options": [
+            "$5$",
+            "$-8$",
+            "$24$",
+            "$-4$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "[5, -8, 24, -4].find(x => -12 % x === 0)",
+          "explanation": "$a$ là ước của $-12$ nếu $-12$ chia hết cho $a$. Ta có $(-12) : (-4) = 3$ nên $-4$ là ước của $-12$. Các số còn lại: $-12$ không chia hết cho $5$, cho $-8$; còn $24$ là bội (không phải ước) của $-12$ — đây là lỗi nhầm giữa ước và bội. Chọn D."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Nhiệt độ lúc 6 giờ sáng ở một thành phố là $-4\\,{}^\\circ\\mathrm{C}$. Đến 12 giờ trưa, nhiệt độ tăng thêm $9\\,{}^\\circ\\mathrm{C}$. Đến 22 giờ, nhiệt độ giảm $7\\,{}^\\circ\\mathrm{C}$ so với lúc 12 giờ trưa. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Nhiệt độ lúc 6 giờ sáng thấp hơn $0\\,{}^\\circ\\mathrm{C}$.",
+            "Nhiệt độ lúc 12 giờ trưa là $13\\,{}^\\circ\\mathrm{C}$.",
+            "Nhiệt độ lúc 22 giờ là $-2\\,{}^\\circ\\mathrm{C}$.",
+            "Nhiệt độ lúc 22 giờ cao hơn nhiệt độ lúc 6 giờ sáng là $6\\,{}^\\circ\\mathrm{C}$."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(() => { const t6 = -4, t12 = t6 + 9, t22 = t12 - 7; return [t6 < 0, t12 === 13, t22 === -2, t22 - t6 === 6]; })()",
+          "explanation": "a) Đúng. $-4 < 0$ nên nhiệt độ lúc 6 giờ sáng thấp hơn $0\\,{}^\\circ\\mathrm{C}$.\nb) Sai. Nhiệt độ lúc 12 giờ trưa là $(-4) + 9 = 5\\,(^\\circ\\mathrm{C})$, không phải $13\\,{}^\\circ\\mathrm{C}$ (lỗi tính $4 + 9$, bỏ quên dấu \"$-$\").\nc) Đúng. Nhiệt độ lúc 22 giờ là $5 - 7 = 5 + (-7) = -2\\,(^\\circ\\mathrm{C})$.\nd) Sai. Nhiệt độ lúc 22 giờ cao hơn lúc 6 giờ sáng là $(-2) - (-4) = (-2) + 4 = 2\\,(^\\circ\\mathrm{C})$, không phải $6\\,{}^\\circ\\mathrm{C}$ (lỗi tính $2 + 4$)."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho biểu thức $A = (-3) \\cdot 4 \\cdot (-5)$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$A$ là một số nguyên dương.",
+            "$A = -60$.",
+            "$A$ chia hết cho $-12$.",
+            "$A$ là bội của $-15$."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            true
+          ],
+          "points": 2,
+          "verify": "(() => { const A = (-3) * 4 * (-5); return [A > 0, A === -60, A % (-12) === 0, A % (-15) === 0]; })()",
+          "explanation": "a) Đúng. Tích có hai thừa số nguyên âm (số chẵn thừa số âm) nên mang dấu \"$+$\": $A = (-3) \\cdot 4 \\cdot (-5) = (-12) \\cdot (-5) = 60 > 0$.\nb) Sai. $A = 60$; kết quả $-60$ là do quên quy tắc \"âm nhân âm được dương\".\nc) Đúng. $60 : (-12) = -5$ là số nguyên nên $A$ chia hết cho $-12$.\nd) Đúng. $60 = (-15) \\cdot (-4)$ nên $A$ là bội của $-15$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Sắp xếp các số $-5;\\ 3;\\ -12;\\ 0;\\ 7$ theo thứ tự tăng dần. Số đứng ở vị trí thứ hai là số nào?",
+          "answer": [
+            "-5"
+          ],
+          "points": 0.5,
+          "verify": "[-5, 3, -12, 0, 7].sort((a, b) => a - b)[1]",
+          "explanation": "Số nguyên âm nhỏ hơn $0$, $0$ nhỏ hơn số nguyên dương; trong hai số nguyên âm, số có phần số tự nhiên lớn hơn thì nhỏ hơn ($12 > 5$ nên $-12 < -5$). Thứ tự tăng dần: $-12;\\ -5;\\ 0;\\ 3;\\ 7$. Số đứng thứ hai là $-5$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính một cách hợp lí: $(-37) + 54 + (-63) + 46$.",
+          "answer": [
+            "0"
+          ],
+          "points": 0.5,
+          "verify": "(-37) + 54 + (-63) + 46",
+          "explanation": "Dùng tính chất giao hoán và kết hợp, nhóm các số cùng dấu tạo thành số tròn trăm:\n$(-37) + 54 + (-63) + 46 = [(-37) + (-63)] + (54 + 46) = (-100) + 100 = 0$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Một cửa hàng trong tháng thứ nhất lãi $12$ triệu đồng, tháng thứ hai lỗ $18$ triệu đồng. Hỏi sau hai tháng, số tiền lãi của cửa hàng là bao nhiêu triệu đồng? (Số tiền lỗ được biểu thị bằng số nguyên âm.)",
+          "answer": [
+            "-6"
+          ],
+          "points": 0.5,
+          "verify": "12 + (-18)",
+          "explanation": "Lãi $12$ triệu đồng biểu thị là $12$; lỗ $18$ triệu đồng biểu thị là $-18$. Sau hai tháng: $12 + (-18) = -(18 - 12) = -6$ (triệu đồng). Nghĩa là cửa hàng lỗ $6$ triệu đồng. Đáp số: $-6$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số nguyên $x$, biết $(-4) \\cdot x = 28$.",
+          "answer": [
+            "-7"
+          ],
+          "points": 0.5,
+          "verify": "28 / (-4)",
+          "explanation": "Ta có $x = 28 : (-4) = -7$ (thương của hai số nguyên khác dấu là số nguyên âm).\nThử lại: $(-4) \\cdot (-7) = 28$. Đáp số: $-7$."
+        }
+      ]
+    }
+  ]
+}

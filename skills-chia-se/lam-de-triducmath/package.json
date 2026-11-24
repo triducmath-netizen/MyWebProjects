@@ -1,0 +1,8 @@
+{
+  "name": "lam-de-triducmath",
+  "private": true,
+  "description": "Công cụ kiểm tra và tải đề luyện tập lên ngân hàng đề triducmath.vn",
+  "dependencies": {
+    "katex": "0.16.11"
+  }
+}
