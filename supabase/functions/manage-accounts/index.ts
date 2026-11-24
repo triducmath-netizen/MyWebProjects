@@ -5,7 +5,8 @@
 // Hành động:
 //   create_parent  { student_id }                tài khoản HỌC SINH (đăng nhập bằng mã HS) — giáo viên lớp đó hoặc quản trị
 //   reset_parent   { student_id }                cấp lại mật khẩu học sinh — giáo viên lớp đó hoặc quản trị
-//                  Mật khẩu học sinh = 6 chữ số trong mã (TDM000123 → 000123); học sinh phải tự đổi ở lần đăng nhập đầu.
+//                  Mật khẩu học sinh = 6 chữ số NGẪU NHIÊN, trả về cho người cấp để chép vào phiếu;
+//                  học sinh phải tự đổi ở lần đăng nhập đầu.
 //   change_student_password { password }         HỌC SINH tự đổi mật khẩu (đúng 6 chữ số)
 //   parent_reset_child_password { student_id }   PHỤ HUYNH đã liên kết đặt lại mật khẩu cho con (khi con quên)
 //   delete_parent  { student_id }                xóa tài khoản học sinh — chỉ quản trị
@@ -45,12 +46,13 @@ function validPassword(p: unknown): p is string {
   return typeof p === "string" && p.length >= 8 && p.length <= 72;
 }
 
-// Mật khẩu ban đầu của học sinh: 6 chữ số trong mã TDMxxxxxx; mã kiểu cũ → 6 chữ số ngẫu nhiên.
-function initialStudentPassword(code: string): string {
-  const m = /^TDM(\d{6})$/.exec(code);
-  if (m) return m[1];
-  const n = crypto.getRandomValues(new Uint32Array(1))[0] % 1000000;
-  return String(n).padStart(6, "0");
+// Mật khẩu ban đầu / mật khẩu tạm của học sinh: 6 chữ số ngẫu nhiên (không suy ra được từ mã học sinh).
+// Lấy mẫu loại bỏ để các số 000000–999999 có xác suất như nhau.
+function initialStudentPassword(): string {
+  const limit = Math.floor(0x100000000 / 1000000) * 1000000;
+  const buf = new Uint32Array(1);
+  do crypto.getRandomValues(buf); while (buf[0] >= limit);
+  return String(buf[0] % 1000000).padStart(6, "0");
 }
 
 Deno.serve(async (req) => {
@@ -75,7 +77,7 @@ Deno.serve(async (req) => {
   }
   const action = body.action;
 
-  // Học sinh tự đổi mật khẩu: đúng 6 chữ số, khác mật khẩu ban đầu.
+  // Học sinh tự đổi mật khẩu: đúng 6 chữ số, không trùng 6 số trong mã học sinh (dễ đoán).
   if (action === "change_student_password") {
     const { data: me1 } = await admin.from("students").select("id, code")
       .eq("parent_id", who.user.id).maybeSingle();
@@ -85,14 +87,14 @@ Deno.serve(async (req) => {
       return reply(400, { error: "Mật khẩu phải gồm đúng 6 chữ số" });
     }
     const m = /^TDM(\d{6})$/.exec(me1.code);
-    if (m && m[1] === pw) return reply(400, { error: "Hãy chọn mật khẩu khác mật khẩu ban đầu" });
+    if (m && m[1] === pw) return reply(400, { error: "Mật khẩu không được trùng 6 số trong mã học sinh, hãy chọn số khác" });
     const { error } = await admin.auth.admin.updateUserById(who.user.id, { password: pw });
     if (error) return reply(400, { error: error.message });
     await admin.from("students").update({ password_changed: true }).eq("id", me1.id);
     return reply(200, { ok: true });
   }
 
-  // Phụ huynh đã liên kết: đặt lại mật khẩu của con về mật khẩu ban đầu (con phải đổi lại khi đăng nhập).
+  // Phụ huynh đã liên kết: đặt lại mật khẩu của con thành mật khẩu tạm ngẫu nhiên (con phải đổi lại khi đăng nhập).
   if (action === "parent_reset_child_password") {
     if (typeof body.student_id !== "number") return reply(400, { error: "Thiếu học sinh" });
     const { data: link } = await admin.from("parent_links").select("student_id")
@@ -101,7 +103,7 @@ Deno.serve(async (req) => {
     const { data: kid } = await admin.from("students").select("id, code, parent_id")
       .eq("id", body.student_id).single();
     if (!kid?.parent_id) return reply(404, { error: "Con chưa có tài khoản học sinh. Vui lòng liên hệ giáo viên." });
-    const password = initialStudentPassword(kid.code);
+    const password = initialStudentPassword();
     const { error } = await admin.auth.admin.updateUserById(kid.parent_id, { password });
     if (error) return reply(400, { error: error.message });
     await admin.from("students").update({ password_changed: false }).eq("id", kid.id);
@@ -144,7 +146,7 @@ Deno.serve(async (req) => {
   if (action === "create_parent" || action === "reset_parent") {
     const { s, err } = await loadStudentForCaller(body.student_id);
     if (err) return err;
-    const password = initialStudentPassword(s!.code);
+    const password = initialStudentPassword();
 
     if (action === "create_parent") {
       if (s!.parent_id) return reply(409, { error: "Học sinh này đã có tài khoản" });

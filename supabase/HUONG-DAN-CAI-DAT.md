@@ -27,6 +27,9 @@ Làm **một lần duy nhất**, khoảng 20 phút. Các bước có đánh dấ
    - `20261124000000_bank_editing.sql`: giáo viên xem/sửa ngân hàng đề trên trang giáo viên
    - `20261125000000_parent_links.sql`: tài khoản phụ huynh theo dõi các con, mã học sinh tự sinh TDM000001…
    - `20261126000000_student_link_codes.sql`: ngày sinh học sinh, mã liên kết cố định cho từng em (bố và mẹ dùng chung)
+   - `20261127000000_admin_only_unlink.sql`: chỉ quản trị được gỡ liên kết phụ huynh – học sinh
+   - `20261128000000_delete_class_guard.sql`: không xóa được lớp còn học sinh
+   - `20261129000000_trial_signups.sql`: lưu đăng ký học thử từ trang chủ (khách chỉ gửi được, chỉ quản trị xem)
 3. Mỗi file phải báo *Success. No rows returned*.
 
 ## Bước 3. Tắt tự đăng ký tài khoản
@@ -69,7 +72,7 @@ Hai giá trị này được phép công khai. **Không gửi khóa `service_rol
 | Việc | Ai làm | Ở đâu |
 |---|---|---|
 | Tạo lớp, tạo tài khoản giáo viên, giao lớp | Quản trị | Trang giáo viên → *Lớp & giáo viên* |
-| Thêm học sinh: điền họ tên + ngày sinh; máy tự sinh mã TDM…, mật khẩu ban đầu (= 6 số cuối của mã) và mã liên kết | Quản trị | Trang giáo viên → *Học sinh & tài khoản* |
+| Thêm học sinh: điền họ tên + ngày sinh; máy tự sinh mã TDM…, mật khẩu ban đầu (6 chữ số ngẫu nhiên, chỉ hiện một lần) và mã liên kết | Quản trị | Trang giáo viên → *Học sinh & tài khoản* |
 | Xem / đổi mã liên kết, xem / gỡ phụ huynh đã liên kết | Giáo viên | Trang giáo viên → *Học sinh & tài khoản* → *Mã liên kết* |
 | Đăng ký tài khoản phụ huynh, liên kết với con | Phụ huynh | Cổng phụ huynh → *Đăng ký tài khoản phụ huynh* / ô *Liên kết với học sinh* |
 | Học sinh quên mật khẩu | Phụ huynh hoặc giáo viên | *Đặt lại mật khẩu cho con* / *Cấp lại MK học sinh* |

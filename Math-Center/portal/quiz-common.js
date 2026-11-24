@@ -1,5 +1,5 @@
 // Dùng chung cho trang giáo viên và trang học sinh: hiển thị công thức, hình, xem lại bài.
-import { el, sb, BUCKET, fmtNum } from './common.js?v=20261124c';
+import { el, sb, BUCKET, fmtNum } from './common.js?v=20261124g';
 
 let katex = null;
 try {
