@@ -6,6 +6,9 @@ import {
 
 let timer = null;
 let leaveGuard = null;
+// Tài khoản phụ huynh: chỉ xem bài con đã làm, không làm bài.
+let readOnly = false;
+export function setReadOnly(v) { readOnly = !!v; }
 function stopTaking() {
   if (timer) { clearInterval(timer); timer = null; }
   if (leaveGuard) { window.removeEventListener('beforeunload', leaveGuard); leaveGuard = null; }
@@ -39,6 +42,7 @@ async function loadAttempts(student) {
 
 export async function renderQuizList(box, student) {
   stopTaking();
+  if (readOnly) return renderChildAttempts(box, student);
   const body = el('div', {}, el('p', { class: 'muted', text: 'Đang tải…' }));
   const switcher = el('div', { class: 'child-switch' },
     [['practice', 'Luyện đề theo chuyên đề'], ['assigned', 'Bài giáo viên giao']].map(([m, label]) =>
@@ -72,6 +76,39 @@ function quizItem(box, student, z, a) {
     el('div', { class: 'meta' }, el('b', { text: z.title }), el('span', { class: 'muted small', text: info }),
       a && !a.submitted_at ? el('span', { class: 'badge', text: 'Đang làm dở' }) : null),
     right);
+}
+
+// Phụ huynh: danh sách bài trực tuyến con đã làm.
+const LEVEL_NAME = { tb: 'Mức độ 1', kha: 'Mức độ 2', gioi: 'Mức độ 3' };
+async function renderChildAttempts(box, student) {
+  box.replaceChildren(el('p', { class: 'muted', text: 'Đang tải…' }));
+  const { data: attempts, error } = await sb.from('quiz_attempts')
+    .select('id, quiz_id, submitted_at, score, max_score, started_at, quizzes(id, title, class_id, grade, topic, level, due_at, show_key_after)')
+    .eq('student_id', student.id).order('started_at', { ascending: false });
+  if (error) { box.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
+  const done = (attempts || []).filter((a) => a.submitted_at && a.quizzes);
+  if (!done.length) {
+    box.replaceChildren(el('div', { class: 'panel empty' },
+      el('h2', { text: 'Con chưa nộp bài trực tuyến nào' }),
+      el('p', { class: 'muted', text: 'Khi con làm và nộp bài luyện tập hoặc bài giáo viên giao, điểm và lời giải sẽ hiện ở đây.' })));
+    return;
+  }
+  const on10 = done.map((a) => (Number(a.score) / Number(a.max_score || 1)) * 10);
+  const avg = on10.reduce((x, y) => x + y, 0) / on10.length;
+  box.replaceChildren(
+    el('div', { class: 'stats' },
+      el('div', { class: 'stat' }, el('div', { class: 'k', text: 'Số bài đã nộp' }), el('div', { class: 'v', text: String(done.length) })),
+      el('div', { class: 'stat' }, el('div', { class: 'k', text: 'Điểm trung bình (thang 10)' }), el('div', { class: 'v', text: fmtNum(Math.round(avg * 10) / 10) }))),
+    el('div', { class: 'list section-gap' }, done.map((a) => {
+      const z = a.quizzes;
+      const kind = z.class_id ? 'Bài giáo viên giao' : `Luyện tập · Toán ${z.grade} · ${z.topic} · ${LEVEL_NAME[z.level] ?? ''}`;
+      return el('div', { class: 'item' },
+        el('div', { class: 'meta' }, el('b', { text: z.title }),
+          el('span', { class: 'muted small', text: `${kind} · Nộp lúc ${fmtDateTime(a.submitted_at)}` })),
+        el('div', { class: 'quiz-status' },
+          el('div', { class: 'score' }, el('b', { text: fmtNum(a.score) }), el('span', { text: ` / ${fmtNum(a.max_score)}` })),
+          el('button', { class: 'btn btn-outline btn-sm', text: 'Xem bài làm & lời giải', onclick: () => showResult(box, student, z, a.id) })));
+    })));
 }
 
 async function renderAssigned(body, box, student) {

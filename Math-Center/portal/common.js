@@ -95,6 +95,26 @@ export function codeToEmail(code) {
   return `${code.trim().toLowerCase()}@${PARENT_EMAIL_DOMAIN}`;
 }
 
+// Phụ huynh đăng nhập bằng số điện thoại (đổi thành email nội bộ) hoặc email thật.
+export const PHONE_EMAIL_DOMAIN = 'ph.triducmath.vn';
+export function phoneToEmail(raw) {
+  let d = String(raw).trim().replace(/[\s.\-()]/g, '');
+  if (d.startsWith('+84')) d = '0' + d.slice(3);
+  else if (/^84\d{9}$/.test(d)) d = '0' + d.slice(2);
+  return /^0\d{9}$/.test(d) ? `${d}@${PHONE_EMAIL_DOMAIN}` : null;
+}
+// Ô đăng nhập chung: email → giữ nguyên; số điện thoại → email nội bộ; còn lại → mã học sinh.
+export function loginToEmail(raw) {
+  const s = String(raw || '').trim();
+  if (s.includes('@')) return s.toLowerCase();
+  return phoneToEmail(s) || codeToEmail(normalizeCode(s));
+}
+// Hiển thị tên đăng nhập: email nội bộ của số điện thoại → số điện thoại.
+export function displayLogin(email) {
+  const e = String(email || '');
+  return e.endsWith('@' + PHONE_EMAIL_DOMAIN) ? e.split('@')[0] : e;
+}
+
 export function normalizeCode(code) {
   return code.trim().toUpperCase().replace(/\s+/g, '');
 }
@@ -233,4 +253,23 @@ export function notConfiguredNotice(root) {
   root.replaceChildren(el('div', { class: 'panel narrow-panel' },
     el('h2', { text: 'Chưa kết nối máy chủ' }),
     el('p', { text: 'Cổng thông tin chưa được cấu hình. Quản trị viên cần điền địa chỉ và khóa Supabase vào file portal/config.js.' })));
+}
+
+// Hộp "Mời phụ huynh": mã học sinh + mã liên kết, kèm tin nhắn để gửi qua Zalo.
+export function showParentInvite(d) {
+  const until = new Date(d.expires_at).toLocaleDateString('vi-VN');
+  const url = new URL('/phu-huynh/', location.origin).href;
+  const text = `Trí Đức Math — Mời phụ huynh theo dõi kết quả học tập của em ${d.full_name}\n` +
+    `1. Vào ${url} và bấm "Đăng ký tài khoản phụ huynh" (đã có tài khoản thì đăng nhập rồi bấm "Thêm con").\n` +
+    `2. Mã học sinh: ${d.student_code}\n3. Mã liên kết: ${d.code} (dùng 1 lần, hết hạn ngày ${until})`;
+  openDialog('Mời phụ huynh', el('div', { class: 'form-grid' },
+    el('p', { class: 'muted', text: 'Gửi tin nhắn này cho bố hoặc mẹ. Mỗi mã chỉ dùng cho một phụ huynh; cần thêm người thì bấm tạo mã mới.' }),
+    el('div', { class: 'cred' },
+      el('div', {}, 'Mã học sinh: ', el('code', { text: d.student_code })),
+      el('div', {}, 'Mã liên kết: ', el('code', { text: d.code })),
+      el('div', { class: 'small muted', text: `Hết hạn ngày ${until}` })),
+    el('button', { class: 'btn btn-gold', text: 'Sao chép để gửi qua Zalo', onclick: async (e) => {
+      try { await navigator.clipboard.writeText(text); e.target.textContent = 'Đã sao chép ✓'; }
+      catch { toast('Không sao chép được, vui lòng chép tay.', 'error'); }
+    } })));
 }

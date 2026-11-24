@@ -215,3 +215,8 @@ body.portal { background: var(--tdm-paper); min-height: 100vh; display: flex; fl
 .level-btn.lv-kha { border-top: 3px solid var(--tdm-gold); }
 .level-btn.lv-gioi { border-top: 3px solid var(--tdm-navy); }
 .level-btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+/* Danh sách phụ huynh đã liên kết (trang giáo viên) */
+.parent-list { margin-top: 6px; display: grid; gap: 4px; }
+.parent-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.parent-row .btn-sm { padding: 2px 10px; font-size: .8rem; }

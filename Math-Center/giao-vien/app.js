@@ -1,6 +1,6 @@
 import {
   sb, configured, $, el, normalizeCode, mondayOf, toISODate, weekLabel, fmtNum,
-  randomPassword, uploadTo, toast, errMsg, openDialog, showFiles, notConfiguredNotice,
+  randomPassword, uploadTo, toast, errMsg, openDialog, showFiles, notConfiguredNotice, showParentInvite, displayLogin,
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin,
 } from '../portal/common.js';
 import { SUPABASE_URL } from '../portal/config.js';
@@ -338,42 +338,90 @@ async function deleteAssessment(a) {
 async function renderStudents(view) {
   const listBox = el('div', { class: 'list section-gap' }, el('p', { class: 'muted', text: 'Đang tải…' }));
   const addForm = el('form', { class: 'row' },
-    el('label', { class: 'field' }, 'Mã học sinh', el('input', { name: 'code', required: true, placeholder: 'TD0123', autocapitalize: 'characters' })),
     el('label', { class: 'field' }, 'Họ tên học sinh', el('input', { name: 'name', required: true })),
     el('button', { class: 'btn btn-gold', type: 'submit', text: 'Thêm học sinh' }));
   addForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const code = normalizeCode(addForm.code.value);
-    if (!/^[A-Z0-9]{3,20}$/.test(code)) { toast('Mã học sinh chỉ gồm chữ không dấu và số, 3–20 ký tự.', 'error'); return; }
-    const { error } = await sb.from('students').insert({ code, full_name: addForm.name.value.trim(), class_id: state.classId });
-    if (error) { toast(errMsg(error), 'error'); return; }
-    toast(`Đã thêm học sinh ${code}.`);
+    const full_name = addForm.name.value.trim();
+    if (!full_name) { toast('Vui lòng nhập họ tên học sinh.', 'error'); return; }
+    const btn = addForm.querySelector('button');
+    btn.disabled = true;
+    // Mã học sinh do máy chủ tự cấp: TDM + 6 chữ số.
+    const { data: s, error } = await sb.from('students')
+      .insert({ full_name, class_id: state.classId }).select('id, code, full_name').single();
+    if (error) { btn.disabled = false; toast(errMsg(error), 'error'); return; }
+    try {
+      const out = await callAccounts({ action: 'create_parent', student_id: s.id });
+      showCredentials(`Tài khoản học sinh — ${s.full_name}`, s.code, out.password, 'Mã học sinh');
+    } catch (err) {
+      toast(`Đã thêm ${s.code} nhưng chưa tạo được tài khoản: ${errMsg(err)}. Bấm "Tạo TK học sinh" để thử lại.`, 'error');
+    }
     renderShell();
   });
 
   view.append(
     el('div', { class: 'panel' }, el('div', { class: 'row' }, classSelect(renderShell, { includeInactive: true }))),
     isAdmin()
-      ? el('div', { class: 'panel section-gap' }, el('h3', { text: 'Thêm học sinh vào lớp này' }), addForm)
+      ? el('div', { class: 'panel section-gap' }, el('h3', { text: 'Thêm học sinh vào lớp này' }),
+          el('p', { class: 'muted small', text: 'Mã học sinh được cấp tự động (TDM000001, TDM000002, …) và không đổi được. Mật khẩu ban đầu là 6 chữ số trong mã; học sinh phải tự đổi mật khẩu mới (6 chữ số) ở lần đăng nhập đầu.' }),
+          addForm)
       : el('p', { class: 'muted small section-gap', text: 'Chỉ quản trị viên được thêm, sửa, chuyển lớp hoặc xóa học sinh. Cần thay đổi, vui lòng liên hệ quản trị viên.' }),
     listBox);
 
-  const { data: students, error } = await sb.from('students')
-    .select('id, code, full_name, class_id, parent_id').eq('class_id', state.classId).order('full_name');
+  const [{ data: students, error }, { data: links }] = await Promise.all([
+    sb.from('students').select('id, code, full_name, class_id, parent_id, password_changed').eq('class_id', state.classId).order('full_name'),
+    sb.rpc('class_parent_links', { p_class: state.classId }),
+  ]);
   if (error) { listBox.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
   if (!students.length) { listBox.replaceChildren(el('p', { class: 'muted', text: 'Lớp này chưa có học sinh.' })); return; }
+  const parentsOf = (sid) => (links || []).filter((l) => l.student_id === sid);
 
-  listBox.replaceChildren(...students.map((s) => el('div', { class: 'item' },
-    el('div', { class: 'meta' },
-      el('b', { text: s.full_name }),
-      el('span', { class: 'muted small' }, `Mã: ${s.code} · `,
-        s.parent_id ? el('span', { class: 'badge', text: 'Đã có tài khoản PH' }) : el('span', { class: 'badge warn', text: 'Chưa có tài khoản PH' }))),
-    el('div', { class: 'acts' },
-      s.parent_id
-        ? el('button', { class: 'btn btn-outline btn-sm', text: 'Cấp lại mật khẩu', onclick: () => parentAccount(s, 'reset_parent') })
-        : el('button', { class: 'btn btn-navy btn-sm', text: 'Tạo tài khoản PH', onclick: () => parentAccount(s, 'create_parent') }),
-      isAdmin() ? el('button', { class: 'btn btn-outline btn-sm', text: 'Sửa', onclick: () => editStudent(s) }) : null,
-      isAdmin() ? el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: () => deleteStudent(s) }) : null))));
+  listBox.replaceChildren(
+    el('p', { class: 'muted small', text: 'Mỗi học sinh có 1 tài khoản đăng nhập bằng mã học sinh để làm bài. Phụ huynh tự đăng ký tài khoản riêng (số điện thoại hoặc email) rồi liên kết với con bằng mã liên kết — bấm "Mời phụ huynh" để lấy mã gửi qua Zalo. Một phụ huynh theo dõi được nhiều con.' }),
+    ...students.map((s) => el('div', { class: 'item' },
+      el('div', { class: 'meta' },
+        el('b', { text: s.full_name }),
+        el('span', { class: 'muted small' }, `Mã: ${s.code} · `,
+          !s.parent_id ? el('span', { class: 'badge warn', text: 'Chưa có TK học sinh' })
+            : s.password_changed ? el('span', { class: 'badge', text: 'Đã có TK học sinh' })
+              : el('span', { class: 'badge warn', text: 'Chưa đổi mật khẩu ban đầu' })),
+        el('div', { class: 'small parent-list' },
+          parentsOf(s.id).length
+            ? parentsOf(s.id).map((p) => el('div', { class: 'parent-row' },
+                el('span', { text: `Phụ huynh: ${p.full_name || '(chưa có tên)'} · ${displayLogin(p.login)} ` }),
+                el('button', { class: 'btn btn-outline btn-sm', text: 'Cấp lại MK', onclick: () => resetLinkedParent(s, p) }),
+                el('button', { class: 'btn btn-danger btn-sm', text: 'Gỡ', onclick: () => unlinkParent(s, p) })))
+            : el('span', { class: 'muted', text: 'Chưa có phụ huynh liên kết' }))),
+      el('div', { class: 'acts' },
+        s.parent_id
+          ? el('button', { class: 'btn btn-outline btn-sm', text: 'Cấp lại MK học sinh', onclick: () => parentAccount(s, 'reset_parent') })
+          : el('button', { class: 'btn btn-navy btn-sm', text: 'Tạo TK học sinh', onclick: () => parentAccount(s, 'create_parent') }),
+        el('button', { class: 'btn btn-gold btn-sm', text: 'Mời phụ huynh', onclick: () => inviteParent(s) }),
+        isAdmin() ? el('button', { class: 'btn btn-outline btn-sm', text: 'Sửa', onclick: () => editStudent(s) }) : null,
+        isAdmin() ? el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: () => deleteStudent(s) }) : null))));
+}
+
+async function inviteParent(s) {
+  const { data, error } = await sb.rpc('create_parent_link_code', { p_student: s.id });
+  if (error) { toast(errMsg(error), 'error'); return; }
+  showParentInvite(data);
+}
+
+async function unlinkParent(s, p) {
+  if (!confirm(`Gỡ liên kết phụ huynh ${p.full_name || displayLogin(p.login)} khỏi em ${s.full_name}? Phụ huynh sẽ không xem được kết quả của em nữa.`)) return;
+  const { error } = await sb.rpc('unlink_parent', { p_student: s.id, p_parent: p.parent_id });
+  if (error) { toast(errMsg(error), 'error'); return; }
+  toast('Đã gỡ liên kết.');
+  renderShell();
+}
+
+async function resetLinkedParent(s, p) {
+  if (!confirm(`Cấp lại mật khẩu cho phụ huynh ${p.full_name || displayLogin(p.login)}?`)) return;
+  const password = randomPassword();
+  try {
+    const out = await callAccounts({ action: 'reset_linked_parent', student_id: s.id, parent_id: p.parent_id, password });
+    showCredentials(`Phụ huynh — ${p.full_name || ''}`, displayLogin(out.login || p.login), password, 'Tên đăng nhập');
+  } catch (err) { toast(errMsg(err), 'error'); }
 }
 
 async function callAccounts(payload) {
@@ -389,12 +437,13 @@ async function callAccounts(payload) {
 }
 
 async function parentAccount(s, action) {
-  const verb = action === 'create_parent' ? 'Tạo tài khoản' : 'Cấp lại mật khẩu';
-  if (!confirm(`${verb} cho phụ huynh của ${s.full_name}?`)) return;
-  const password = randomPassword();
+  const msg = action === 'create_parent'
+    ? `Tạo tài khoản học sinh cho em ${s.full_name}?`
+    : `Cấp lại mật khẩu cho em ${s.full_name}? Mật khẩu trở về mật khẩu ban đầu và em phải đổi lại khi đăng nhập.`;
+  if (!confirm(msg)) return;
   try {
-    await callAccounts({ action, student_id: s.id, password });
-    showCredentials(`Tài khoản phụ huynh — ${s.full_name}`, s.code, password, 'Mã học sinh');
+    const out = await callAccounts({ action, student_id: s.id });
+    showCredentials(`Tài khoản học sinh — ${s.full_name}`, s.code, out.password, 'Mã học sinh');
     renderShell();
   } catch (err) { toast(errMsg(err), 'error'); }
 }
@@ -402,8 +451,10 @@ async function parentAccount(s, action) {
 function showCredentials(title, login, password, loginLabel) {
   const portal = new URL('../phu-huynh/', location.href).href;
   const text = loginLabel === 'Mã học sinh'
-    ? `Trí Đức Math — Cổng phụ huynh\n${portal}\nMã học sinh: ${login}\nMật khẩu: ${password}\n(Vui lòng đổi mật khẩu sau khi đăng nhập.)`
-    : `Trí Đức Math — Trang giáo viên\n${new URL('./', location.href).href}\nEmail: ${login}\nMật khẩu: ${password}`;
+    ? `Trí Đức Math — Tài khoản học sinh\n${portal}\nMã học sinh: ${login}\nMật khẩu ban đầu: ${password}\n(Lần đầu đăng nhập, em đặt mật khẩu mới gồm 6 chữ số.)`
+    : loginLabel === 'Tên đăng nhập'
+      ? `Trí Đức Math — Tài khoản phụ huynh\n${portal}\nTên đăng nhập: ${login}\nMật khẩu mới: ${password}\n(Vui lòng đổi mật khẩu sau khi đăng nhập.)`
+      : `Trí Đức Math — Trang giáo viên\n${new URL('./', location.href).href}\nEmail: ${login}\nMật khẩu: ${password}`;
   openDialog(title, el('div', { class: 'form-grid' },
     el('p', { class: 'muted', text: 'Gửi thông tin này cho người dùng. Mật khẩu chỉ hiện một lần — hãy sao chép ngay.' }),
     el('div', { class: 'cred' },
@@ -420,7 +471,7 @@ function editStudent(s) {
     el('label', {}, 'Họ tên', el('input', { name: 'name', required: true, value: s.full_name })),
     el('label', {}, 'Lớp', el('select', { name: 'cls' }, state.classes.map((c) =>
       el('option', { value: String(c.id), selected: c.id === s.class_id, text: c.name })))),
-    el('p', { class: 'muted small', text: `Mã học sinh ${s.code} là tên đăng nhập của phụ huynh nên không đổi được.` }),
+    el('p', { class: 'muted small', text: `Mã học sinh ${s.code} là tên đăng nhập của học sinh nên không đổi được.` }),
     el('button', { class: 'btn btn-gold', type: 'submit', text: 'Lưu' }));
   const dlg = openDialog(`Sửa học sinh ${s.code}`, form);
   form.addEventListener('submit', async (e) => {
@@ -433,10 +484,10 @@ function editStudent(s) {
 }
 
 async function deleteStudent(s) {
-  if (!confirm(`Xóa học sinh ${s.full_name} (${s.code}) cùng toàn bộ kết quả và tài khoản phụ huynh? Không thể khôi phục.`)) return;
+  if (!confirm(`Xóa học sinh ${s.full_name} (${s.code}) cùng toàn bộ kết quả và tài khoản học sinh? Phụ huynh liên kết sẽ không xem được em này nữa. Không thể khôi phục.`)) return;
   if (s.parent_id) {
     try { await callAccounts({ action: 'delete_parent', student_id: s.id }); }
-    catch (err) { toast(`Không xóa được tài khoản phụ huynh: ${errMsg(err)}`, 'error'); return; }
+    catch (err) { toast(`Không xóa được tài khoản học sinh: ${errMsg(err)}`, 'error'); return; }
   }
   const { data: rf } = await sb.from('result_files').select('path, results!inner(student_id)').eq('results.student_id', s.id);
   if (rf?.length) await sb.storage.from('tdm').remove(rf.map((x) => x.path));
