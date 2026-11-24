@@ -4,7 +4,7 @@ import {
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm,
 } from '../portal/common.js';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../portal/config.js';
-import { renderQuizList, setReadOnly } from './quiz.js';
+import { renderQuizList, setReadOnly } from './quiz.js?v=20261124';
 
 const app = $('#app');
 let currentTab = 'quiz';
