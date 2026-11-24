@@ -578,11 +578,20 @@ async function deleteStudent(s) {
 async function renderAdmin(view) {
   const classForm = el('form', { class: 'row' },
     el('label', { class: 'field' }, 'Tên lớp', el('input', { name: 'name', required: true, placeholder: 'Ví dụ: Toán 9A' })),
-    el('label', { class: 'field' }, 'Khối', el('select', { name: 'grade' },
-      [6, 7, 8, 9, 10, 11, 12].map((g) => el('option', { value: String(g), text: `Lớp ${g}` })))),
-    el('button', { class: 'btn btn-gold', type: 'submit', text: 'Tạo lớp' }));
+    el('label', { class: 'field' }, 'Khối', el('select', { name: 'grade', required: true },
+      el('option', { value: '', text: 'Chọn khối', disabled: true, selected: true }),
+      ...[6, 7, 8, 9, 10, 11, 12].map((g) => el('option', { value: String(g), text: `Khối ${g}` })))),
+    el('button', { class: 'btn btn-gold', type: 'submit', text: 'Tạo lớp', disabled: true }));
+  // Chỉ bấm "Tạo lớp" được khi đã nhập tên lớp và chọn khối.
+  const syncClassBtn = () => {
+    classForm.querySelector('button').disabled = !classForm.name.value.trim() || !classForm.grade.value;
+  };
+  classForm.addEventListener('input', syncClassBtn);
+  classForm.addEventListener('change', syncClassBtn);
   classForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (!classForm.name.value.trim()) { toast('Vui lòng nhập tên lớp.', 'error'); return; }
+    if (!classForm.grade.value) { toast('Vui lòng chọn khối.', 'error'); return; }
     const { error } = await sb.from('classes').insert({ name: classForm.name.value.trim(), grade: Number(classForm.grade.value) });
     if (error) { toast(errMsg(error), 'error'); return; }
     toast('Đã tạo lớp.'); await loadClasses(); renderShell();
