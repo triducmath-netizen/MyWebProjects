@@ -21,7 +21,8 @@ await db.exec(`
     $$ select (string_to_array(name, '/'))[1:array_length(string_to_array(name, '/'), 1) - 1] $$;
   grant execute on function storage.foldername(text) to authenticated;
 `);
-for (const f of readdirSync(MIG).sort()) {
+// Chỉ chạy tới migration của cách liên kết cũ (cách mới kiểm thử ở link-codes.test.mjs).
+for (const f of readdirSync(MIG).sort().filter((x) => x < '20261126')) {
   try { await db.exec(readFileSync(`${MIG}/${f}`, 'utf8')); }
   catch (e) { console.error('MIGRATION FAIL', f, e.message); process.exit(1); }
 }

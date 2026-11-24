@@ -1,6 +1,6 @@
 import {
   sb, configured, $, el, loginToEmail, phoneToEmail, weekLabel, fmtNum, fmtDateTime,
-  toast, errMsg, openDialog, showFiles, notConfiguredNotice, showParentInvite,
+  toast, errMsg, openDialog, showFiles, notConfiguredNotice,
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin,
 } from '../portal/common.js';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../portal/config.js';
@@ -89,10 +89,8 @@ function renderSignup() {
       el('input', { name: 'login', required: true, autocomplete: 'username', placeholder: 'Ví dụ: 0912345678' })),
     passwordField('Mật khẩu (ít nhất 8 ký tự)', { name: 'p1', minlength: '8', required: true, autocomplete: 'new-password' }),
     passwordField('Nhập lại mật khẩu', { name: 'p2', minlength: '8', required: true, autocomplete: 'new-password' }),
-    el('div', { class: 'notice' }, el('span', { text: 'Để chắc chắn quý phụ huynh đúng là phụ huynh của em, vui lòng nhập mã học sinh và mã liên kết do giáo viên Trí Đức Math (hoặc chính em học sinh) gửi.' })),
-    el('div', { class: 'row' },
-      el('label', { class: 'field' }, 'Mã học sinh', el('input', { name: 'student_code', required: true, autocapitalize: 'characters', autocomplete: 'off', placeholder: 'TD0123' })),
-      el('label', { class: 'field' }, 'Mã liên kết', el('input', { name: 'link_code', required: true, autocapitalize: 'characters', autocomplete: 'off', placeholder: '8 ký tự' }))),
+    el('div', { class: 'notice' }, el('span', { text: 'Để chắc chắn quý phụ huynh đúng là phụ huynh của em, vui lòng nhập mã liên kết do giáo viên Trí Đức Math gửi.' })),
+    el('label', {}, 'Mã liên kết', el('input', { name: 'link_code', required: true, autocapitalize: 'characters', autocomplete: 'off', placeholder: 'Ví dụ: ABCD-EFGH' })),
     btn, msg);
 
   form.addEventListener('submit', async (e) => {
@@ -103,7 +101,7 @@ function renderSignup() {
     if (!login.includes('@') && !phoneToEmail(login)) { msg.textContent = 'Số điện thoại cần 10 số (ví dụ 0912345678), hoặc nhập email.'; return; }
     if (form.p1.value.length < 8) { msg.textContent = 'Mật khẩu cần ít nhất 8 ký tự.'; return; }
     if (form.p1.value !== form.p2.value) { msg.textContent = 'Hai mật khẩu không khớp.'; return; }
-    if (!form.student_code.value.trim() || !form.link_code.value.trim()) { msg.textContent = 'Vui lòng nhập mã học sinh và mã liên kết.'; return; }
+    if (!form.link_code.value.trim()) { msg.textContent = 'Vui lòng nhập mã liên kết.'; return; }
     btn.disabled = true; btn.textContent = 'Đang đăng ký…';
     try {
       const res = await fetch(`${SUPABASE_URL}/functions/v1/parent-signup`, {
@@ -111,7 +109,7 @@ function renderSignup() {
         headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY },
         body: JSON.stringify({
           full_name: form.full_name.value.trim(), login, password: form.p1.value,
-          student_code: form.student_code.value, link_code: form.link_code.value,
+          link_code: form.link_code.value,
         }),
       });
       const out = await res.json().catch(() => ({}));
@@ -130,7 +128,7 @@ function renderSignup() {
 
   app.replaceChildren(el('div', { class: 'panel narrow-panel' },
     el('h1', { text: 'Đăng ký tài khoản phụ huynh' }),
-    el('p', { class: 'muted', text: 'Một tài khoản theo dõi được kết quả của tất cả các con học tại Trí Đức Math. Sau khi đăng ký, bấm "Thêm con" để liên kết thêm em khác.' }),
+    el('p', { class: 'muted', text: 'Một tài khoản theo dõi được kết quả của các con học tại Trí Đức Math. Sau khi đăng ký, nhập mã liên kết của em khác ở ô "Liên kết với học sinh".' }),
     form,
     el('p', { class: 'muted small' }, 'Đã có tài khoản? ',
       el('a', { href: '#', text: 'Đăng nhập', onclick: (e) => { e.preventDefault(); renderLogin(); } }))));
@@ -173,50 +171,52 @@ async function renderDashboard(user) {
     return;
   }
   top.replaceChildren(
-    parentMode
-      ? el('button', { class: 'btn btn-gold btn-sm', onclick: addChild, text: '+ Thêm con' })
-      : el('button', { class: 'btn btn-outline btn-sm', onclick: () => inviteParent(own), text: 'Mời phụ huynh' }),
+    ...(parentMode && students.length ? [el('button', { class: 'btn btn-gold btn-sm', onclick: addChild, text: '+ Liên kết với học sinh' })] : []),
     el('button', { class: 'btn btn-outline btn-sm', onclick: changePassword, text: 'Đổi mật khẩu' }),
     el('button', { class: 'btn btn-outline btn-sm', onclick: () => sb.auth.signOut(), text: 'Đăng xuất' }));
   if (!students.length) {
+    const form = linkForm();
     app.replaceChildren(el('div', { class: 'panel narrow-panel' },
-      el('h2', { text: 'Tài khoản chưa liên kết với học sinh nào' }),
-      el('p', { class: 'muted', text: 'Bấm "Thêm con" và nhập mã học sinh cùng mã liên kết do giáo viên gửi.' }),
-      el('button', { class: 'btn btn-gold', onclick: addChild, text: '+ Thêm con' })));
+      el('h2', { text: 'Liên kết với học sinh' }),
+      el('p', { class: 'muted', text: 'Nhập mã liên kết do giáo viên Trí Đức Math gửi để xem kết quả học tập của con. Chỉ cần liên kết một lần; những lần sau thông tin của con tự hiện.' }),
+      form));
+    form.querySelector('input').focus();
     return;
   }
   showStudent(students, own || students[0]);
 }
 
-// Phụ huynh: liên kết thêm một con bằng mã học sinh + mã liên kết.
-function addChild() {
+// Ô "Liên kết với học sinh": mỗi lần nhập 1 mã liên kết = liên kết với 1 học sinh.
+function linkForm(onDone) {
   const msg = el('p', { class: 'small error-text', role: 'alert' });
   const btn = el('button', { class: 'btn btn-gold', type: 'submit', text: 'Liên kết' });
   const form = el('form', { class: 'form-grid' },
-    el('p', { class: 'muted small', text: 'Nhập mã học sinh và mã liên kết (8 ký tự) do giáo viên Trí Đức Math hoặc chính em học sinh gửi. Mỗi mã chỉ dùng được một lần.' }),
-    el('label', {}, 'Mã học sinh', el('input', { name: 'student_code', required: true, autocapitalize: 'characters', autocomplete: 'off' })),
-    el('label', {}, 'Mã liên kết', el('input', { name: 'link_code', required: true, autocapitalize: 'characters', autocomplete: 'off' })),
+    el('label', {}, 'Mã liên kết', el('input', { name: 'link_code', required: true, autocapitalize: 'characters', autocomplete: 'off', placeholder: 'Ví dụ: ABCD-EFGH' })),
     btn, msg);
-  const dlg = openDialog('Thêm con', form);
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (!form.link_code.value.trim()) { msg.textContent = 'Vui lòng nhập mã liên kết.'; return; }
     btn.disabled = true; msg.textContent = '';
-    const { data, error } = await sb.rpc('link_child', { p_student_code: form.student_code.value, p_link_code: form.link_code.value });
+    const { data, error } = await sb.rpc('link_child_by_code', { p_link_code: form.link_code.value });
     btn.disabled = false;
     if (error) { msg.textContent = errMsg(error); return; }
     if (!data?.ok) { msg.textContent = data?.error || 'Không liên kết được.'; return; }
-    dlg.close();
+    onDone?.();
     toast(`Đã liên kết với em ${data.full_name}.`);
     const { data: { user } } = await sb.auth.getUser();
     renderDashboard(user);
   });
+  return form;
 }
 
-// Học sinh: tạo mã liên kết để gửi cho bố mẹ.
-async function inviteParent(s) {
-  const { data, error } = await sb.rpc('create_parent_link_code', { p_student: s.id });
-  if (error) { toast(errMsg(error), 'error'); return; }
-  showParentInvite(data);
+// Phụ huynh đã có con: liên kết thêm (mở hộp thoại).
+function addChild() {
+  let dlg;
+  const form = linkForm(() => dlg.close());
+  dlg = openDialog('Liên kết với học sinh', el('div', { class: 'form-grid' },
+    el('p', { class: 'muted small', text: 'Nhập mã liên kết của em do giáo viên Trí Đức Math gửi. Mỗi mã liên kết với một học sinh.' }),
+    form));
+  form.querySelector('input').focus();
 }
 
 

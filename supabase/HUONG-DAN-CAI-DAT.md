@@ -26,6 +26,7 @@ Làm **một lần duy nhất**, khoảng 20 phút. Các bước có đánh dấ
    - `20261123060000_practice_bank.sql`: ngân hàng đề luyện tập theo chuyên đề
    - `20261124000000_bank_editing.sql`: giáo viên xem/sửa ngân hàng đề trên trang giáo viên
    - `20261125000000_parent_links.sql`: tài khoản phụ huynh theo dõi các con, mã học sinh tự sinh TDM000001…
+   - `20261126000000_student_link_codes.sql`: ngày sinh học sinh, mã liên kết cố định cho từng em (bố và mẹ dùng chung)
 3. Mỗi file phải báo *Success. No rows returned*.
 
 ## Bước 3. Tắt tự đăng ký tài khoản
@@ -68,9 +69,9 @@ Hai giá trị này được phép công khai. **Không gửi khóa `service_rol
 | Việc | Ai làm | Ở đâu |
 |---|---|---|
 | Tạo lớp, tạo tài khoản giáo viên, giao lớp | Quản trị | Trang giáo viên → *Lớp & giáo viên* |
-| Thêm học sinh (mã TDM… và tài khoản tự tạo, mật khẩu ban đầu = 6 số cuối của mã) | Quản trị | Trang giáo viên → *Học sinh & tài khoản* |
-| Lấy mã liên kết mời phụ huynh, xem/gỡ phụ huynh đã liên kết | Giáo viên | Trang giáo viên → *Học sinh & tài khoản* → *Mời phụ huynh* |
-| Đăng ký tài khoản phụ huynh, thêm con | Phụ huynh | Cổng phụ huynh → *Đăng ký tài khoản phụ huynh* / *+ Thêm con* |
+| Thêm học sinh: điền họ tên + ngày sinh; máy tự sinh mã TDM…, mật khẩu ban đầu (= 6 số cuối của mã) và mã liên kết | Quản trị | Trang giáo viên → *Học sinh & tài khoản* |
+| Xem / đổi mã liên kết, xem / gỡ phụ huynh đã liên kết | Giáo viên | Trang giáo viên → *Học sinh & tài khoản* → *Mã liên kết* |
+| Đăng ký tài khoản phụ huynh, liên kết với con | Phụ huynh | Cổng phụ huynh → *Đăng ký tài khoản phụ huynh* / ô *Liên kết với học sinh* |
 | Học sinh quên mật khẩu | Phụ huynh hoặc giáo viên | *Đặt lại mật khẩu cho con* / *Cấp lại MK học sinh* |
 | Tạo bài kiểm tra tuần, tải đề, nhập điểm, nhận xét, tải bài làm | Giáo viên | Trang giáo viên → *Nhập kết quả* |
 | Xem kết quả, đề bài, bài làm, nhận xét | Phụ huynh | Cổng phụ huynh |
@@ -79,6 +80,7 @@ Hai giá trị này được phép công khai. **Không gửi khóa `service_rol
 
 - Học sinh đăng nhập bằng **mã học sinh**; lần đầu bắt buộc đổi sang mật khẩu mới gồm đúng 6 chữ số. Mã học sinh không đổi được.
 - Phụ huynh đăng nhập bằng **số điện thoại hoặc email** đã đăng ký; chỉ xem được kết quả của các con đã liên kết.
+- Mỗi học sinh có **một mã liên kết cố định** (8 ký tự, ví dụ ABCD-EFGH). Mỗi lần nhập một mã là liên kết với một em; bố và mẹ dùng chung mã. Mã không hết hạn; giáo viên bấm *Đổi mã mới* nếu lộ mã (phụ huynh đã liên kết vẫn giữ). Nhập sai quá 10 lần trong 1 giờ thì bị tạm khóa.
 - Phụ huynh quên mật khẩu: giáo viên bấm **Cấp lại MK** cạnh tên phụ huynh rồi gửi qua Zalo.
 - Ảnh chụp bài làm được tự thu nhỏ trước khi tải lên để tiết kiệm dung lượng.
 

@@ -255,21 +255,8 @@ export function notConfiguredNotice(root) {
     el('p', { text: 'Cổng thông tin chưa được cấu hình. Quản trị viên cần điền địa chỉ và khóa Supabase vào file portal/config.js.' })));
 }
 
-// Hộp "Mời phụ huynh": mã học sinh + mã liên kết, kèm tin nhắn để gửi qua Zalo.
-export function showParentInvite(d) {
-  const until = new Date(d.expires_at).toLocaleDateString('vi-VN');
-  const url = new URL('/phu-huynh/', location.origin).href;
-  const text = `Trí Đức Math — Mời phụ huynh theo dõi kết quả học tập của em ${d.full_name}\n` +
-    `1. Vào ${url} và bấm "Đăng ký tài khoản phụ huynh" (đã có tài khoản thì đăng nhập rồi bấm "Thêm con").\n` +
-    `2. Mã học sinh: ${d.student_code}\n3. Mã liên kết: ${d.code} (dùng 1 lần, hết hạn ngày ${until})`;
-  openDialog('Mời phụ huynh', el('div', { class: 'form-grid' },
-    el('p', { class: 'muted', text: 'Gửi tin nhắn này cho bố hoặc mẹ. Mỗi mã chỉ dùng cho một phụ huynh; cần thêm người thì bấm tạo mã mới.' }),
-    el('div', { class: 'cred' },
-      el('div', {}, 'Mã học sinh: ', el('code', { text: d.student_code })),
-      el('div', {}, 'Mã liên kết: ', el('code', { text: d.code })),
-      el('div', { class: 'small muted', text: `Hết hạn ngày ${until}` })),
-    el('button', { class: 'btn btn-gold', text: 'Sao chép để gửi qua Zalo', onclick: async (e) => {
-      try { await navigator.clipboard.writeText(text); e.target.textContent = 'Đã sao chép ✓'; }
-      catch { toast('Không sao chép được, vui lòng chép tay.', 'error'); }
-    } })));
+// Mã liên kết hiển thị dạng ABCD-EFGH cho dễ đọc.
+export function formatLinkCode(c) {
+  const x = String(c || '').toUpperCase();
+  return x.length === 8 ? `${x.slice(0, 4)}-${x.slice(4)}` : x;
 }

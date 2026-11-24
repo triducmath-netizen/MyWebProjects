@@ -1,9 +1,10 @@
 // Trí Đức Math — phụ huynh tự đăng ký tài khoản.
-// Phụ huynh phải có MÃ HỌC SINH + MÃ LIÊN KẾT (giáo viên hoặc học sinh tạo) mới đăng ký được,
+// Phụ huynh phải có MÃ LIÊN KẾT của con (giáo viên gửi) mới đăng ký được,
 // nên người lạ không tự tạo tài khoản hay xem được thông tin học sinh nào.
+// Nhập sai mã quá 10 lần/giờ từ cùng một máy thì bị tạm khóa.
 // Khi deploy: TẮT "Verify JWT" (người đăng ký chưa có tài khoản để đăng nhập).
 //
-// POST { login, password, full_name, student_code, link_code }
+// POST { login, password, full_name, link_code }
 //   login: số điện thoại (0912345678, +84912345678) hoặc email.
 
 import { createClient } from "jsr:@supabase/supabase-js@2";
@@ -51,17 +52,20 @@ Deno.serve(async (req) => {
   }
   const fullName = typeof body?.full_name === "string" ? body.full_name.trim().slice(0, 100) : "";
   if (!fullName) return reply(400, { error: "Vui lòng nhập họ tên phụ huynh" });
-  const studentCode = typeof body?.student_code === "string" ? body.student_code : "";
-  const linkCode = typeof body?.link_code === "string" ? body.link_code : "";
-  if (!studentCode.trim() || !linkCode.trim()) return reply(400, { error: "Vui lòng nhập mã học sinh và mã liên kết" });
+  const linkCode = typeof body?.link_code === "string" ? body.link_code.slice(0, 40) : "";
+  if (!linkCode.trim()) return reply(400, { error: "Vui lòng nhập mã liên kết" });
+  // Khóa đếm số lần nhập sai: địa chỉ máy người đăng ký.
+  const ip = (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim()
+    || req.headers.get("x-real-ip") || "khong-ro";
+  const key = "ip:" + ip;
 
   const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, {
     auth: { persistSession: false },
   });
 
-  // 1) Kiểm tra mã trước khi tạo tài khoản (nhập sai được đếm, sai 5 lần thì khóa mã).
-  const { data: chk, error: chkErr } = await admin.rpc("link_child_internal", {
-    p_parent: null, p_student_code: studentCode, p_link_code: linkCode,
+  // 1) Kiểm tra mã trước khi tạo tài khoản (nhập sai được đếm).
+  const { data: chk, error: chkErr } = await admin.rpc("link_by_code_internal", {
+    p_parent: null, p_link_code: linkCode, p_key: key,
   });
   if (chkErr) return reply(500, { error: "Máy chủ đang bận, vui lòng thử lại" });
   if (!chk?.ok) return reply(400, { error: chk?.error ?? "Mã không đúng" });
@@ -75,7 +79,7 @@ Deno.serve(async (req) => {
     const exists = /already|registered|exists/i.test(ce?.message ?? "");
     return reply(exists ? 409 : 400, {
       error: exists
-        ? "Số điện thoại / email này đã có tài khoản. Hãy đăng nhập rồi bấm \"Thêm con\"."
+        ? "Số điện thoại / email này đã có tài khoản. Hãy đăng nhập rồi nhập mã ở ô \"Liên kết với học sinh\"."
         : (ce?.message ?? "Không tạo được tài khoản"),
     });
   }
@@ -87,9 +91,9 @@ Deno.serve(async (req) => {
     return reply(500, { error: "Không tạo được hồ sơ phụ huynh" });
   }
 
-  // 3) Liên kết với học sinh (dùng mã).
-  const { data: link, error: le } = await admin.rpc("link_child_internal", {
-    p_parent: uid, p_student_code: studentCode, p_link_code: linkCode,
+  // 3) Liên kết với học sinh có mã liên kết này.
+  const { data: link, error: le } = await admin.rpc("link_by_code_internal", {
+    p_parent: uid, p_link_code: linkCode, p_key: key,
   });
   if (le || !link?.ok) {
     await admin.auth.admin.deleteUser(uid);
