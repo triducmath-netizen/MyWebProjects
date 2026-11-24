@@ -332,6 +332,23 @@ async function deleteAssessment(a) {
   } catch (err) { toast(errMsg(err), 'error'); }
 }
 
+// Xóa lớp (chỉ quản trị viên). Lớp còn học sinh thì không xóa được.
+async function deleteClass(c) {
+  const count = (t) => sb.from(t).select('id', { count: 'exact', head: true }).eq('class_id', c.id);
+  const [{ count: hs }, { count: kt }, { count: bt }] = await Promise.all([count('students'), count('assessments'), count('quizzes')]);
+  if (hs) {
+    toast(`Lớp ${c.name} còn ${hs} học sinh. Hãy chuyển lớp (nút "Sửa" ở tab Học sinh & tài khoản) hoặc xóa các em trước khi xóa lớp.`, 'error');
+    return;
+  }
+  const lost = [kt ? `${kt} bài kiểm tra tuần` : '', bt ? `${bt} bài tập trực tuyến` : ''].filter(Boolean).join(' và ');
+  if (!await askConfirm(`Xóa lớp ${c.name}?${lost ? ` Sẽ xóa luôn ${lost} của lớp.` : ''} Giáo viên phụ trách sẽ không còn lớp này. Không thể khôi phục.`)) return;
+  const { data: gone, error } = await sb.from('classes').delete().eq('id', c.id).select('id');
+  if (error) { toast(errMsg(error), 'error'); return; }
+  if (!gone?.length) { toast('Không xóa được lớp (chỉ quản trị viên được xóa lớp).', 'error'); return; }
+  toast(`Đã xóa lớp ${c.name}.`);
+  await loadClasses(); renderShell();
+}
+
 // =====================================================================
 // Học sinh & tài khoản phụ huynh
 // =====================================================================
@@ -589,11 +606,13 @@ async function renderAdmin(view) {
   const classList = el('div', { class: 'list' }, state.classes.map((c) => el('div', { class: 'item' },
     el('div', { class: 'meta' }, el('b', { text: c.name }), el('span', { class: 'muted small', text: `Khối ${c.grade}${c.active ? '' : ' · đã ẩn'}` })),
     el('div', { class: 'acts' },
-      el('button', { class: 'btn btn-outline btn-sm', text: c.active ? 'Ẩn lớp' : 'Hiện lại', onclick: async () => {
-        const { error } = await sb.from('classes').update({ active: !c.active }).eq('id', c.id);
+      // Lớp đã ẩn từ trước vẫn hiện lại được; lớp mới không còn nút ẩn.
+      ...(c.active ? [] : [el('button', { class: 'btn btn-outline btn-sm', text: 'Hiện lại', onclick: async () => {
+        const { error } = await sb.from('classes').update({ active: true }).eq('id', c.id);
         if (error) { toast(errMsg(error), 'error'); return; }
         await loadClasses(); renderShell();
-      } })))));
+      } })]),
+      el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: () => deleteClass(c) })))));
 
   const teacherList = el('div', { class: 'list' }, el('p', { class: 'muted', text: 'Đang tải…' }));
 

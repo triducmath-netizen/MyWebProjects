@@ -132,6 +132,16 @@ await expect('Quản trị gỡ PH2 khỏi em A', async () => { await as('admin'
   return as('ph2', 'select code from public.students'); }, rows(0));
 await expect('Giáo viên KHÔNG xóa học sinh', () => as('t1', 'delete from public.students where id=3'), blocked);
 
+// --- Xóa lớp (migration 20261128) ---
+await db.exec(`insert into public.classes (name, grade) values ('8A', 8);
+  insert into public.assessments (class_id, week_start, title) values (3, '2026-11-23', 'KT 8A');
+  insert into public.quizzes (class_id, title, published) values (3, 'Bài lớp 8A', true);`);
+await expect('Giáo viên KHÔNG xóa được lớp', () => as('t1', 'delete from public.classes where id=3'), blocked);
+await expect('Quản trị KHÔNG xóa lớp còn học sinh', () => as('admin', 'delete from public.classes where id=1'), errRes);
+await expect('Quản trị xóa lớp trống (kèm bài của lớp)', async () => { await as('admin', 'delete from public.classes where id=3');
+  return db.query(`select (select count(*)::int from public.classes where id=3) c, (select count(*)::int from public.assessments where class_id=3) a, (select count(*)::int from public.quizzes where class_id=3) q`); },
+  (r, e) => !e && r.rows[0].c === 0 && r.rows[0].a === 0 && r.rows[0].q === 0);
+
 // --- Xóa học sinh xóa luôn mã ---
 await expect('Xóa học sinh D → mã của D cũng mất', async () => {
   await as('admin', 'delete from public.students where id=4');
