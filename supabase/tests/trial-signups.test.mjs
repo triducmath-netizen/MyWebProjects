@@ -72,6 +72,13 @@ await expect('Giáo viên không đánh dấu đã liên hệ được', () => a
 await expect('Quản trị đánh dấu đã liên hệ', () => as('admin',
   `update public.trial_signups set contacted = true, contacted_at = now(), contacted_by = '${U.admin}' where parent_phone = '0912345678' and grade = 8 returning id`), rows(1));
 await expect('Quản trị không sửa được SĐT (chỉ cột trạng thái)', () => as('admin', "update public.trial_signups set parent_phone = '0900000000' where grade = 8"), errRes);
+await expect('Đăng ký mới đều bắt đầu ở trạng thái "moi"', () => as('admin', "select id from public.trial_signups where status = 'moi'"), rows(2));
+await expect('Khách không tự đặt trạng thái / ghi chú quản trị', () => as(null,
+  "insert into public.trial_signups (student_name, grade, parent_phone, status) values ('Lê E', 9, '0922222222', 'nhap_hoc')"), errRes);
+await expect('Giáo viên không đổi trạng thái được', () => as('t1', "update public.trial_signups set status = 'da_goi' returning id"), rows(0));
+await expect('Quản trị đổi trạng thái + ghi chú', () => as('admin',
+  "update public.trial_signups set status = 'da_hoc_thu', admin_note = 'Hẹn thứ 7, 8h' where grade = 8 returning id"), rows(1));
+await expect('Trạng thái lạ bị chặn', () => as('admin', "update public.trial_signups set status = 'abc' where grade = 8"), errRes);
 await expect('Giáo viên không xóa được', () => as('t1', 'delete from public.trial_signups returning id'), rows(0));
 await expect('Quản trị xóa được', () => as('admin', 'delete from public.trial_signups where contacted = false returning id'), rows(1));
 

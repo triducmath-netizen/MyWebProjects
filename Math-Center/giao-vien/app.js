@@ -69,7 +69,7 @@ async function enter(user) {
   top.replaceChildren(
     el('span', { class: 'who', text: profile.full_name || user.email }),
     el('button', { class: 'btn btn-outline btn-sm', onclick: logout, text: 'Đăng xuất' }));
-  await loadClasses();
+  await Promise.all([loadClasses(), refreshTrialCount()]);
   renderShell();
 }
 
@@ -87,7 +87,7 @@ async function loadClasses() {
 
 function renderShell() {
   const tabs = [['grades', 'Nhập kết quả'], ['quiz', 'Bài tập trực tuyến'], ['bank', 'Ngân hàng đề'], ['students', 'Học sinh & tài khoản']];
-  if (isAdmin()) tabs.push(['admin', 'Lớp & giáo viên'], ['trials', 'Đăng ký học thử']);
+  if (isAdmin()) tabs.push(['admin', 'Lớp & giáo viên'], ['trials', state.newTrials ? `Đăng ký học thử (${state.newTrials})` : 'Đăng ký học thử']);
   const view = el('div');
   app.replaceChildren(
     el('div', { class: 'tabs', role: 'tablist' }, tabs.map(([id, label]) =>
@@ -709,46 +709,77 @@ async function renderAdmin(view) {
 // =====================================================================
 // Đăng ký học thử (từ form Liên hệ trên trang chủ) — chỉ quản trị
 // =====================================================================
+const TRIAL_STATUS = [
+  ['moi', 'Mới'], ['da_goi', 'Đã gọi'], ['da_hoc_thu', 'Đã học thử'],
+  ['nhap_hoc', 'Đã nhập học'], ['khong_lien_he_duoc', 'Không liên hệ được'],
+];
+const TRIAL_OPEN = ['moi', 'da_goi'];
+
+// Số đăng ký học thử "Mới" (hiện trên tên thẻ) — chỉ quản trị.
+async function refreshTrialCount() {
+  if (!isAdmin()) { state.newTrials = 0; return; }
+  const { count, error } = await sb.from('trial_signups').select('id', { count: 'exact', head: true }).eq('status', 'moi');
+  state.newTrials = error ? 0 : count || 0;
+}
+
 async function renderTrials(view) {
   const list = el('div', { class: 'list' }, el('p', { class: 'muted', text: 'Đang tải…' }));
   const showDone = el('input', { type: 'checkbox', checked: !!state.trialsShowDone,
     onchange: (e) => { state.trialsShowDone = e.target.checked; renderShell(); } });
   view.append(el('div', { class: 'panel' },
     el('h3', { text: 'Đăng ký học thử' }),
-    el('p', { class: 'muted small', text: 'Phụ huynh gửi từ mục Liên hệ trên trang chủ. Gọi lại xong thì bấm "Đã liên hệ".' }),
-    el('label', { class: 'muted small' }, showDone, ' Hiện cả các đăng ký đã liên hệ'),
+    el('p', { class: 'muted small', text: 'Phụ huynh gửi từ mục Liên hệ trên trang chủ. Gọi lại rồi cập nhật trạng thái và ghi chú để không bỏ sót.' }),
+    el('label', { class: 'muted small' }, showDone, ' Hiện cả các đăng ký đã xong (đã học thử, đã nhập học, không liên hệ được)'),
     el('div', { class: 'section-gap' }, list)));
 
-  let q = sb.from('trial_signups').select('id, created_at, student_name, grade, parent_phone, note, contacted, contacted_at')
+  let q = sb.from('trial_signups').select('id, created_at, student_name, grade, parent_phone, note, status, admin_note, contacted_at')
     .order('created_at', { ascending: false }).limit(200);
-  if (!state.trialsShowDone) q = q.eq('contacted', false);
+  if (!state.trialsShowDone) q = q.in('status', TRIAL_OPEN);
   const { data, error } = await q;
   if (error) { list.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
   if (!data.length) {
-    list.replaceChildren(el('p', { class: 'muted', text: state.trialsShowDone ? 'Chưa có đăng ký nào.' : 'Không có đăng ký nào đang chờ gọi lại.' }));
+    list.replaceChildren(el('p', { class: 'muted', text: state.trialsShowDone ? 'Chưa có đăng ký nào.' : 'Không có đăng ký nào đang chờ xử lý.' }));
     return;
   }
   const phoneText = (p) => p.replace(/^(\d{4})(\d{3})(\d{3})$/, '$1 $2 $3');
-  list.replaceChildren(...data.map((r) => el('div', { class: 'item' },
-    el('div', { class: 'meta' },
-      el('b', { text: `${r.student_name} · Lớp ${r.grade}` }),
-      el('span', {}, 'Phụ huynh: ', el('a', { href: `tel:${r.parent_phone}`, text: phoneText(r.parent_phone) }),
-        ' · ', el('a', { href: `https://zalo.me/${r.parent_phone}`, target: '_blank', rel: 'noopener', text: 'Zalo' })),
-      r.note ? el('span', { class: 'small', text: `Ghi chú: ${r.note}` }) : null,
-      el('span', { class: 'muted small', text: `Gửi lúc ${fmtDateTime(r.created_at)}${r.contacted ? ` · đã liên hệ ${r.contacted_at ? fmtDateTime(r.contacted_at) : ''}` : ''}` })),
-    el('div', { class: 'acts' },
-      el('button', { class: 'btn btn-outline btn-sm', text: r.contacted ? 'Đánh dấu chưa liên hệ' : 'Đã liên hệ', onclick: async () => {
-        const done = !r.contacted;
-        const { error: e } = await sb.from('trial_signups')
-          .update({ contacted: done, contacted_at: done ? new Date().toISOString() : null, contacted_by: done ? state.user.id : null })
-          .eq('id', r.id);
-        if (e) { toast(errMsg(e), 'error'); return; }
-        renderShell();
-      } }),
-      el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: async () => {
-        if (!await askConfirm(`Xóa đăng ký của em ${r.student_name}? Không khôi phục được.`)) return;
-        const { error: e } = await sb.from('trial_signups').delete().eq('id', r.id);
-        if (e) { toast(errMsg(e), 'error'); return; }
-        toast('Đã xóa đăng ký.'); renderShell();
-      } })))));
+  const statusName = Object.fromEntries(TRIAL_STATUS);
+  list.replaceChildren(...data.map((r) => {
+    const sel = el('select', { 'aria-label': `Trạng thái đăng ký của ${r.student_name}` },
+      TRIAL_STATUS.map(([k, label]) => el('option', { value: k, selected: r.status === k, text: label })));
+    const note = el('input', { value: r.admin_note || '', maxlength: '500', placeholder: 'Ví dụ: hẹn thứ 7, 8h' });
+    const save = async () => {
+      const st = sel.value;
+      const { error: e } = await sb.from('trial_signups').update({
+        status: st, admin_note: note.value.trim() || null,
+        contacted: st !== 'moi',
+        contacted_at: st === 'moi' ? null : (r.contacted_at || new Date().toISOString()),
+        contacted_by: st === 'moi' ? null : state.user.id,
+      }).eq('id', r.id);
+      if (e) { toast(errMsg(e), 'error'); return; }
+      toast('Đã lưu.');
+      await refreshTrialCount();
+      renderShell();
+    };
+    sel.addEventListener('change', save);
+    note.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); save(); } });
+    return el('div', { class: `item trial-item${r.status === 'moi' ? ' is-new' : ''}` },
+      el('div', { class: 'meta' },
+        el('b', { text: `${r.student_name} · Lớp ${r.grade}` }),
+        el('span', {}, 'Phụ huynh: ', el('a', { href: `tel:${r.parent_phone}`, text: phoneText(r.parent_phone) }),
+          ' · ', el('a', { href: `https://zalo.me/${r.parent_phone}`, target: '_blank', rel: 'noopener', text: 'Zalo' })),
+        r.note ? el('span', { class: 'small', text: `Ghi chú của phụ huynh: ${r.note}` }) : null,
+        el('span', { class: 'muted small' }, `Gửi lúc ${fmtDateTime(r.created_at)} · `,
+          el('span', { class: `badge${r.status === 'moi' ? ' warn' : ''}`, text: statusName[r.status] || r.status }))),
+      el('div', { class: 'trial-edit' },
+        el('label', { class: 'field' }, 'Trạng thái', sel),
+        el('label', { class: 'field' }, 'Ghi chú của thầy', note),
+        el('div', { class: 'acts' },
+          el('button', { class: 'btn btn-gold btn-sm', text: 'Lưu', onclick: save }),
+          el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: async () => {
+            if (!await askConfirm(`Xóa đăng ký của em ${r.student_name}? Không khôi phục được.`)) return;
+            const { error: e } = await sb.from('trial_signups').delete().eq('id', r.id);
+            if (e) { toast(errMsg(e), 'error'); return; }
+            toast('Đã xóa đăng ký.'); await refreshTrialCount(); renderShell();
+          } }))));
+  }));
 }
