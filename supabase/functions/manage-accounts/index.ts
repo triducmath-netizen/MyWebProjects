@@ -7,6 +7,7 @@
 //   reset_parent   { student_id }                cấp lại mật khẩu học sinh — giáo viên lớp đó hoặc quản trị
 //                  Mật khẩu học sinh = 6 chữ số trong mã (TDM000123 → 000123); học sinh phải tự đổi ở lần đăng nhập đầu.
 //   change_student_password { password }         HỌC SINH tự đổi mật khẩu (đúng 6 chữ số)
+//   parent_reset_child_password { student_id }   PHỤ HUYNH đã liên kết đặt lại mật khẩu cho con (khi con quên)
 //   delete_parent  { student_id }                xóa tài khoản học sinh — chỉ quản trị
 //   reset_linked_parent { student_id, parent_id, password }  cấp lại mật khẩu PHỤ HUYNH đã liên kết với học sinh
 //                                                — giáo viên lớp đó hoặc quản trị
@@ -89,6 +90,22 @@ Deno.serve(async (req) => {
     if (error) return reply(400, { error: error.message });
     await admin.from("students").update({ password_changed: true }).eq("id", me1.id);
     return reply(200, { ok: true });
+  }
+
+  // Phụ huynh đã liên kết: đặt lại mật khẩu của con về mật khẩu ban đầu (con phải đổi lại khi đăng nhập).
+  if (action === "parent_reset_child_password") {
+    if (typeof body.student_id !== "number") return reply(400, { error: "Thiếu học sinh" });
+    const { data: link } = await admin.from("parent_links").select("student_id")
+      .eq("parent_id", who.user.id).eq("student_id", body.student_id).maybeSingle();
+    if (!link) return reply(403, { error: "Bạn chưa liên kết với học sinh này" });
+    const { data: kid } = await admin.from("students").select("id, code, parent_id")
+      .eq("id", body.student_id).single();
+    if (!kid?.parent_id) return reply(404, { error: "Con chưa có tài khoản học sinh. Vui lòng liên hệ giáo viên." });
+    const password = initialStudentPassword(kid.code);
+    const { error } = await admin.auth.admin.updateUserById(kid.parent_id, { password });
+    if (error) return reply(400, { error: error.message });
+    await admin.from("students").update({ password_changed: false }).eq("id", kid.id);
+    return reply(200, { ok: true, login_code: kid.code, password });
   }
 
   const { data: me } = await admin
