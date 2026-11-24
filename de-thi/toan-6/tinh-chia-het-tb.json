@@ -1,0 +1,597 @@
+{
+  "grade": 6,
+  "topic": "Tính chia hết trong tập hợp các số tự nhiên",
+  "exams": [
+    {
+      "slug": "toan6-tinh-chia-het-tb-01",
+      "title": "Tính chia hết trong tập hợp các số tự nhiên — Đề 1",
+      "level": "tb",
+      "sort_order": 1,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 1 (cơ bản): ước và bội, dấu hiệu chia hết cho 2, 5, 3, 9, số nguyên tố, phân tích ra thừa số nguyên tố, ƯCLN, BCNN.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Số nào sau đây là ước của $12$?",
+          "options": [
+            "$24$",
+            "$5$",
+            "$6$",
+            "$8$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "[24, 5, 6, 8].find(x => 12 % x === 0)",
+          "explanation": "Số $a$ là ước của $12$ nếu $12$ chia hết cho $a$. Ta có $12 : 6 = 2$ nên $6$ là ước của $12$. Các số $5$ và $8$ không phải ước của $12$ vì $12$ chia cho chúng còn dư ($12 = 5 \\cdot 2 + 2$, $12 = 8 \\cdot 1 + 4$). Phương án A sai do nhầm ước với bội: $24$ là bội của $12$ chứ không phải ước. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tập hợp các bội của $4$ nhỏ hơn $20$ là",
+          "options": [
+            "$\\{0; 4; 8; 12; 16\\}$",
+            "$\\{4; 8; 12; 16\\}$",
+            "$\\{1; 2; 4\\}$",
+            "$\\{0; 4; 8; 12; 16; 20\\}$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Muốn tìm các bội của $4$, ta nhân $4$ lần lượt với $0, 1, 2, 3, \\ldots$: được $0; 4; 8; 12; 16; 20; \\ldots$ Các bội nhỏ hơn $20$ là $0; 4; 8; 12; 16$. Phương án B quên số $0$ (số $0$ là bội của mọi số tự nhiên khác $0$); phương án C là tập hợp các ước của $4$; phương án D lấy cả $20$, trong khi đề yêu cầu nhỏ hơn $20$. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số nào sau đây chia hết cho cả $2$ và $5$?",
+          "options": [
+            "$125$",
+            "$340$",
+            "$352$",
+            "$255$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "[125, 340, 352, 255].find(x => x % 2 === 0 && x % 5 === 0)",
+          "explanation": "Số chia hết cho cả $2$ và $5$ là số có chữ số tận cùng là $0$. Trong các số đã cho, chỉ có $340$ tận cùng bằng $0$. Số $352$ chỉ chia hết cho $2$ (tận cùng là $2$); các số $125$, $255$ chỉ chia hết cho $5$ (tận cùng là $5$). Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số nào sau đây chia hết cho $9$?",
+          "options": [
+            "$1234$",
+            "$3045$",
+            "$4518$",
+            "$6013$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "[1234, 3045, 4518, 6013].find(x => x % 9 === 0)",
+          "explanation": "Số chia hết cho $9$ là số có tổng các chữ số chia hết cho $9$. Tính tổng các chữ số: $1 + 2 + 3 + 4 = 10$; $3 + 0 + 4 + 5 = 12$; $4 + 5 + 1 + 8 = 18$; $6 + 0 + 1 + 3 = 10$. Chỉ có $18$ chia hết cho $9$, nên $4518$ chia hết cho $9$. Phương án B dễ gây nhầm: tổng $12$ chia hết cho $3$ nên $3045$ chia hết cho $3$, nhưng $12$ không chia hết cho $9$. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số nào sau đây là số nguyên tố?",
+          "options": [
+            "$1$",
+            "$9$",
+            "$15$",
+            "$13$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "[1, 9, 15, 13].find((n=>n>1&&Array.from({length:n},(_,i)=>i).slice(2).every(d=>n%d!==0)))",
+          "explanation": "Số nguyên tố là số tự nhiên lớn hơn $1$, chỉ có hai ước là $1$ và chính nó. Số $13$ chỉ có hai ước là $1$ và $13$ nên là số nguyên tố. Số $1$ chỉ có một ước nên không là số nguyên tố; $9$ có ước $3$, $15$ có ước $3$ và $5$ nên đều là hợp số. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Kết quả phân tích số $60$ ra thừa số nguyên tố là",
+          "options": [
+            "$2^2 \\cdot 3 \\cdot 5$",
+            "$2 \\cdot 3 \\cdot 10$",
+            "$4 \\cdot 3 \\cdot 5$",
+            "$2 \\cdot 3^2 \\cdot 5$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Chia lần lượt cho các số nguyên tố: $60 : 2 = 30$, $30 : 2 = 15$, $15 : 3 = 5$, $5 : 5 = 1$. Vậy $60 = 2 \\cdot 2 \\cdot 3 \\cdot 5 = 2^2 \\cdot 3 \\cdot 5$. Phương án B và C có tích bằng $60$ nhưng chứa thừa số $10$, $4$ không phải số nguyên tố; phương án D có tích bằng $90$. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "$\\text{ƯCLN}(12, 18)$ bằng",
+          "options": [
+            "$36$",
+            "$6$",
+            "$3$",
+            "$2$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "gcd(12, 18)",
+          "explanation": "Ta có $12 = 2^2 \\cdot 3$, $18 = 2 \\cdot 3^2$. Thừa số nguyên tố chung là $2$ và $3$, lấy số mũ nhỏ nhất: $\\text{ƯCLN}(12, 18) = 2 \\cdot 3 = 6$. Phương án A là $\\text{BCNN}(12, 18) = 36$ (nhầm ƯCLN với BCNN); $2$ và $3$ chỉ là ước chung chứ chưa phải ước chung lớn nhất. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "$\\text{BCNN}(4, 6)$ bằng",
+          "options": [
+            "$24$",
+            "$2$",
+            "$10$",
+            "$12$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "4 * 6 / gcd(4, 6)",
+          "explanation": "Ta có $4 = 2^2$, $6 = 2 \\cdot 3$. Lấy các thừa số nguyên tố chung và riêng với số mũ lớn nhất: $\\text{BCNN}(4, 6) = 2^2 \\cdot 3 = 12$. Phương án A lấy tích $4 \\cdot 6 = 24$: đó là một bội chung nhưng không phải nhỏ nhất; phương án B là ƯCLN; phương án C là tổng $4 + 6$. Chọn D."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho số $540$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$540$ chia hết cho cả $2$ và $5$.",
+            "$540$ chia hết cho cả $3$ và $9$.",
+            "Phân tích $540$ ra thừa số nguyên tố được $540 = 2^2 \\cdot 3^2 \\cdot 15$.",
+            "$540$ là bội chung của $8$ và $9$."
+          ],
+          "answer": [
+            true,
+            true,
+            false,
+            false
+          ],
+          "points": 2,
+          "verify": "[540 % 2 === 0 && 540 % 5 === 0, 540 % 3 === 0 && 540 % 9 === 0, 4 * 9 * 15 === 540 && [2, 3, 15].every((n=>n>1&&Array.from({length:n},(_,i)=>i).slice(2).every(d=>n%d!==0))), 540 % 8 === 0 && 540 % 9 === 0]",
+          "explanation": "a) Đúng. $540$ có chữ số tận cùng là $0$ nên chia hết cho cả $2$ và $5$.\n\nb) Đúng. Tổng các chữ số là $5 + 4 + 0 = 9$, chia hết cho $9$ nên $540$ chia hết cho $9$, do đó cũng chia hết cho $3$.\n\nc) Sai. Tuy $2^2 \\cdot 3^2 \\cdot 15 = 540$ nhưng $15 = 3 \\cdot 5$ không phải số nguyên tố, nên đây chưa phải là phân tích ra thừa số nguyên tố. Phân tích đúng: $540 = 2^2 \\cdot 3^3 \\cdot 5$.\n\nd) Sai. $540$ chia hết cho $9$ nhưng $540 : 8 = 67$ dư $4$, tức $540$ không chia hết cho $8$. Vậy $540$ không phải bội chung của $8$ và $9$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hai số $24$ và $36$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$6$ là một ước chung của $24$ và $36$.",
+            "$\\text{ƯCLN}(24, 36) = 6$.",
+            "$\\text{BCNN}(24, 36) = 72$.",
+            "Tập hợp $\\text{ƯC}(24, 36)$ có đúng $6$ phần tử."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            true
+          ],
+          "points": 2,
+          "verify": "[24 % 6 === 0 && 36 % 6 === 0, gcd(24, 36) === 6, 24 * 36 / gcd(24, 36) === 72, Array.from({length: 36}, (_, i) => i + 1).filter(d => 24 % d === 0 && 36 % d === 0).length === 6]",
+          "explanation": "a) Đúng. $24 : 6 = 4$ và $36 : 6 = 6$, nên $6$ là ước của cả hai số, tức là một ước chung.\n\nb) Sai. $24 = 2^3 \\cdot 3$, $36 = 2^2 \\cdot 3^2$. $\\text{ƯCLN}(24, 36) = 2^2 \\cdot 3 = 12$. Số $6$ chỉ là một ước chung, không phải ước chung lớn nhất.\n\nc) Đúng. $\\text{BCNN}(24, 36) = 2^3 \\cdot 3^2 = 8 \\cdot 9 = 72$.\n\nd) Đúng. Các ước chung của $24$ và $36$ là các ước của $\\text{ƯCLN} = 12$: $\\text{ƯC}(24, 36) = \\{1; 2; 3; 4; 6; 12\\}$, có $6$ phần tử."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm chữ số $x$ để số $\\overline{25x}$ chia hết cho cả $2$ và $5$.",
+          "answer": [
+            "0"
+          ],
+          "points": 0.5,
+          "verify": "Array.from({length: 10}, (_, i) => i).find(x => (250 + x) % 2 === 0 && (250 + x) % 5 === 0)",
+          "explanation": "Số chia hết cho cả $2$ và $5$ phải có chữ số tận cùng là $0$. Chữ số tận cùng của $\\overline{25x}$ là $x$, nên $x = 0$. Khi đó số $250$ chia hết cho cả $2$ và $5$.\n\nĐáp số: $0$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Phân tích $84$ ra thừa số nguyên tố ta được $84 = 2^a \\cdot 3^b \\cdot 7^c$. Tính $a + b + c$.",
+          "answer": [
+            "4"
+          ],
+          "points": 0.5,
+          "verify": "(() => { let n = 84, a = 0, b = 0, c = 0; while (n % 2 === 0) { n /= 2; a++; } while (n % 3 === 0) { n /= 3; b++; } while (n % 7 === 0) { n /= 7; c++; } return a + b + c; })()",
+          "explanation": "Chia lần lượt: $84 : 2 = 42$, $42 : 2 = 21$, $21 : 3 = 7$, $7 : 7 = 1$. Vậy $84 = 2^2 \\cdot 3 \\cdot 7$, tức $a = 2$, $b = 1$, $c = 1$.\n\nDo đó $a + b + c = 2 + 1 + 1 = 4$.\n\nĐáp số: $4$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Lớp 6A có $24$ bạn nam và $18$ bạn nữ. Cô giáo muốn chia lớp thành các tổ sao cho số bạn nam ở các tổ bằng nhau và số bạn nữ ở các tổ cũng bằng nhau. Có thể chia được nhiều nhất bao nhiêu tổ?",
+          "answer": [
+            "6"
+          ],
+          "points": 0.5,
+          "verify": "gcd(24, 18)",
+          "explanation": "Số tổ phải là ước của $24$ (để chia đều bạn nam) và là ước của $18$ (để chia đều bạn nữ), tức là ước chung của $24$ và $18$. Số tổ nhiều nhất là $\\text{ƯCLN}(24, 18)$.\n\n$24 = 2^3 \\cdot 3$, $18 = 2 \\cdot 3^2$ nên $\\text{ƯCLN}(24, 18) = 2 \\cdot 3 = 6$.\n\nKhi đó mỗi tổ có $4$ bạn nam và $3$ bạn nữ.\n\nĐáp số: $6$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tại một bến xe, cứ $10$ phút lại có một chuyến xe buýt tuyến A xuất bến, cứ $15$ phút lại có một chuyến xe buýt tuyến B xuất bến. Lúc $6$ giờ sáng, hai tuyến cùng xuất bến một chuyến. Hỏi sau ít nhất bao nhiêu phút thì hai tuyến lại cùng xuất bến?",
+          "answer": [
+            "30"
+          ],
+          "points": 0.5,
+          "verify": "10 * 15 / gcd(10, 15)",
+          "explanation": "Thời gian (phút) để hai tuyến lại cùng xuất bến phải là bội của $10$ và bội của $15$, tức là bội chung của $10$ và $15$. Thời gian ít nhất là $\\text{BCNN}(10, 15)$.\n\n$10 = 2 \\cdot 5$, $15 = 3 \\cdot 5$ nên $\\text{BCNN}(10, 15) = 2 \\cdot 3 \\cdot 5 = 30$.\n\nVậy sau ít nhất $30$ phút (tức lúc $6$ giờ $30$ phút) hai tuyến lại cùng xuất bến.\n\nĐáp số: $30$."
+        }
+      ]
+    },
+    {
+      "slug": "toan6-tinh-chia-het-tb-02",
+      "title": "Tính chia hết trong tập hợp các số tự nhiên — Đề 2",
+      "level": "tb",
+      "sort_order": 2,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 1 (cơ bản): tính chất chia hết của một tổng, tập hợp ước, dấu hiệu chia hết, số nguyên tố và hợp số, phân số tối giản, ƯCLN, BCNN.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Không tính tổng, cho biết tổng nào sau đây chia hết cho $6$?",
+          "options": [
+            "$12 + 18 + 25$",
+            "$24 + 36 + 42$",
+            "$30 + 15$",
+            "$6 + 13$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Nếu tất cả các số hạng của một tổng đều chia hết cho $6$ thì tổng chia hết cho $6$. Ở phương án B: $24$, $36$, $42$ đều chia hết cho $6$ nên $24 + 36 + 42$ chia hết cho $6$. Ở các phương án còn lại, có đúng một số hạng không chia hết cho $6$ ($25$, $15$, $13$) còn các số hạng khác chia hết cho $6$, nên tổng không chia hết cho $6$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tập hợp các ước của $18$ là",
+          "options": [
+            "$\\{1; 2; 3; 6; 9; 18\\}$",
+            "$\\{2; 3; 6; 9\\}$",
+            "$\\{0; 18; 36\\}$",
+            "$\\{1; 2; 3; 6; 9\\}$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Lần lượt chia $18$ cho $1, 2, 3, \\ldots, 18$, ta thấy $18$ chia hết cho $1; 2; 3; 6; 9; 18$. Vậy $\\text{Ư}(18) = \\{1; 2; 3; 6; 9; 18\\}$. Phương án B quên hai ước $1$ và $18$; phương án D quên ước $18$ (mọi số đều là ước của chính nó); phương án C là một số bội của $18$ (nhầm ước với bội). Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Chữ số nào sau đây có thể thay cho dấu $*$ để số $\\overline{4{*}5}$ chia hết cho $3$?",
+          "options": [
+            "$1$",
+            "$2$",
+            "$3$",
+            "$4$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "[1, 2, 3, 4].find(x => (405 + 10 * x) % 3 === 0)",
+          "explanation": "Số chia hết cho $3$ khi tổng các chữ số chia hết cho $3$. Tổng các chữ số của $\\overline{4{*}5}$ là $4 + * + 5 = 9 + *$. Thử các phương án: $9 + 1 = 10$, $9 + 2 = 11$, $9 + 3 = 12$, $9 + 4 = 13$; chỉ có $12$ chia hết cho $3$. Vậy $* = 3$, được số $435$. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số nào sau đây là hợp số?",
+          "options": [
+            "$2$",
+            "$11$",
+            "$29$",
+            "$21$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "[2, 11, 29, 21].find(n => n > 1 && !(n=>n>1&&Array.from({length:n},(_,i)=>i).slice(2).every(d=>n%d!==0))(n))",
+          "explanation": "Hợp số là số tự nhiên lớn hơn $1$, có nhiều hơn hai ước. Ta có $21 = 3 \\cdot 7$ nên $21$ có các ước $1; 3; 7; 21$, là hợp số. Các số $2$, $11$, $29$ chỉ có hai ước là $1$ và chính nó nên đều là số nguyên tố. Lưu ý: nhiều bạn nghĩ số lẻ nào cũng là số nguyên tố, nhưng $21$ là số lẻ vẫn là hợp số. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Khẳng định nào sau đây đúng?",
+          "options": [
+            "Số $1$ là số nguyên tố.",
+            "Mọi số nguyên tố đều là số lẻ.",
+            "Số $2$ là số nguyên tố chẵn duy nhất.",
+            "Số $0$ là hợp số."
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Số $2$ chỉ có hai ước là $1$ và $2$ nên là số nguyên tố; mọi số chẵn lớn hơn $2$ đều có ước $2$ nên là hợp số. Vậy $2$ là số nguyên tố chẵn duy nhất, C đúng. A sai: số $1$ chỉ có một ước nên không là số nguyên tố, cũng không là hợp số. B sai vì $2$ là số nguyên tố chẵn. D sai: số $0$ không là số nguyên tố, cũng không là hợp số. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Phân số nào sau đây là phân số tối giản?",
+          "options": [
+            "$\\frac{8}{15}$",
+            "$\\frac{6}{15}$",
+            "$\\frac{14}{21}$",
+            "$\\frac{9}{12}$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Phân số tối giản là phân số mà tử và mẫu chỉ có ước chung là $1$, tức ƯCLN của tử và mẫu bằng $1$. Ta có $\\text{ƯCLN}(8, 15) = 1$ nên $\\frac{8}{15}$ tối giản. Các phân số còn lại rút gọn được: $\\frac{6}{15} = \\frac{2}{5}$ (chia cho $3$), $\\frac{14}{21} = \\frac{2}{3}$ (chia cho $7$), $\\frac{9}{12} = \\frac{3}{4}$ (chia cho $3$). Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "$\\text{ƯCLN}(15, 45)$ bằng",
+          "options": [
+            "$45$",
+            "$15$",
+            "$5$",
+            "$3$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "gcd(15, 45)",
+          "explanation": "Vì $45 = 15 \\cdot 3$ nên $45$ chia hết cho $15$. Khi số lớn chia hết cho số nhỏ thì ƯCLN của hai số chính là số nhỏ: $\\text{ƯCLN}(15, 45) = 15$. Phương án A là BCNN của hai số (nhầm ƯCLN với BCNN); $5$ và $3$ chỉ là ước chung, chưa phải lớn nhất. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "$\\text{BCNN}(5, 7)$ bằng",
+          "options": [
+            "$1$",
+            "$12$",
+            "$70$",
+            "$35$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "5 * 7 / gcd(5, 7)",
+          "explanation": "$5$ và $7$ là hai số nguyên tố khác nhau nên không có thừa số nguyên tố chung. BCNN của chúng bằng tích: $\\text{BCNN}(5, 7) = 5 \\cdot 7 = 35$. Phương án A là ƯCLN; phương án B là tổng $5 + 7$; $70$ là một bội chung nhưng không phải nhỏ nhất. Chọn D."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho các số $105$; $230$; $471$; $3204$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$230$ chia hết cho cả $2$ và $5$.",
+            "$471$ chia hết cho $9$.",
+            "$3204$ chia hết cho $9$.",
+            "Trong bốn số đã cho có đúng hai số chia hết cho $3$."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "[230 % 2 === 0 && 230 % 5 === 0, 471 % 9 === 0, 3204 % 9 === 0, [105, 230, 471, 3204].filter(x => x % 3 === 0).length === 2]",
+          "explanation": "a) Đúng. $230$ có chữ số tận cùng là $0$ nên chia hết cho cả $2$ và $5$.\n\nb) Sai. Tổng các chữ số của $471$ là $4 + 7 + 1 = 12$, không chia hết cho $9$ nên $471$ không chia hết cho $9$ (nhưng $471$ chia hết cho $3$ vì $12$ chia hết cho $3$).\n\nc) Đúng. Tổng các chữ số của $3204$ là $3 + 2 + 0 + 4 = 9$, chia hết cho $9$.\n\nd) Sai. Tổng các chữ số: $105 \\to 6$; $230 \\to 5$; $471 \\to 12$; $3204 \\to 9$. Các tổng $6$, $12$, $9$ chia hết cho $3$, còn $5$ thì không. Vậy có ba số chia hết cho $3$ là $105$, $471$, $3204$, không phải hai số."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Bạn An có $48$ chiếc bút và $60$ quyển vở. An muốn chia đều số bút và số vở vào các phần quà sao cho các phần quà giống nhau, mỗi phần đều có cả bút và vở, không thừa chiếc bút hay quyển vở nào. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "An có thể chia được $8$ phần quà.",
+            "Số phần quà phải là một ước chung của $48$ và $60$.",
+            "An chia được nhiều nhất $12$ phần quà.",
+            "Khi chia được nhiều phần quà nhất, mỗi phần có $4$ chiếc bút và $6$ quyển vở."
+          ],
+          "answer": [
+            false,
+            true,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "[48 % 8 === 0 && 60 % 8 === 0, Array.from({length: 48}, (_, i) => i + 1).filter(k => 48 % k === 0 && 60 % k === 0).every(k => 48 % k === 0 && 60 % k === 0), gcd(48, 60) === 12, 48 / gcd(48, 60) === 4 && 60 / gcd(48, 60) === 6]",
+          "explanation": "a) Sai. $48 : 8 = 6$ nhưng $60 : 8 = 7$ dư $4$, nên chia $8$ phần quà thì thừa vở.\n\nb) Đúng. Để chia đều $48$ chiếc bút thì số phần quà phải là ước của $48$; để chia đều $60$ quyển vở thì số phần quà phải là ước của $60$. Vậy số phần quà là một ước chung của $48$ và $60$.\n\nc) Đúng. Số phần quà nhiều nhất là $\\text{ƯCLN}(48, 60)$. $48 = 2^4 \\cdot 3$, $60 = 2^2 \\cdot 3 \\cdot 5$ nên $\\text{ƯCLN}(48, 60) = 2^2 \\cdot 3 = 12$.\n\nd) Sai. Với $12$ phần quà, mỗi phần có $48 : 12 = 4$ chiếc bút và $60 : 12 = 5$ quyển vở, không phải $6$ quyển vở."
+        },
+        {
+          "kind": "short",
+          "prompt": "Có bao nhiêu bội của $7$ lớn hơn $20$ và nhỏ hơn $60$?",
+          "answer": [
+            "6"
+          ],
+          "points": 0.5,
+          "verify": "Array.from({length: 60}, (_, i) => i).filter(x => x > 20 && x % 7 === 0).length",
+          "explanation": "Các bội của $7$ là $0; 7; 14; 21; 28; 35; 42; 49; 56; 63; \\ldots$\n\nCác bội lớn hơn $20$ và nhỏ hơn $60$ là $21; 28; 35; 42; 49; 56$.\n\nCó $6$ số.\n\nĐáp số: $6$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Biết kết quả phân tích số tự nhiên $n$ ra thừa số nguyên tố là $n = 2^3 \\cdot 3^2 \\cdot 5$. Tìm $n$.",
+          "answer": [
+            "360"
+          ],
+          "points": 0.5,
+          "verify": "Math.pow(2, 3) * Math.pow(3, 2) * 5",
+          "explanation": "Ta có $2^3 = 8$, $3^2 = 9$.\n\n$n = 8 \\cdot 9 \\cdot 5 = 72 \\cdot 5 = 360$.\n\nLưu ý: $2^3 = 2 \\cdot 2 \\cdot 2 = 8$, không phải $2 \\cdot 3 = 6$.\n\nĐáp số: $360$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Rút gọn phân số $\\frac{56}{140}$ về phân số tối giản. Mẫu số của phân số tối giản nhận được là bao nhiêu?",
+          "answer": [
+            "5"
+          ],
+          "points": 0.5,
+          "verify": "140 / gcd(56, 140)",
+          "explanation": "Để rút gọn về phân số tối giản, ta chia cả tử và mẫu cho $\\text{ƯCLN}(56, 140)$.\n\n$56 = 2^3 \\cdot 7$, $140 = 2^2 \\cdot 5 \\cdot 7$ nên $\\text{ƯCLN}(56, 140) = 2^2 \\cdot 7 = 28$.\n\n$\\frac{56}{140} = \\frac{56 : 28}{140 : 28} = \\frac{2}{5}$.\n\nMẫu số của phân số tối giản là $5$.\n\nĐáp số: $5$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Số học sinh khối 6 của một trường khi xếp thành hàng $8$, hàng $12$ hay hàng $18$ đều vừa đủ, không thừa ai. Biết số học sinh đó trong khoảng từ $100$ đến $150$. Tính số học sinh khối 6 của trường.",
+          "answer": [
+            "144"
+          ],
+          "points": 0.5,
+          "verify": "Array.from({length: 51}, (_, i) => 100 + i).find(x => x % 8 === 0 && x % 12 === 0 && x % 18 === 0)",
+          "explanation": "Số học sinh chia hết cho $8$, $12$ và $18$ nên là bội chung của $8$, $12$, $18$.\n\n$8 = 2^3$, $12 = 2^2 \\cdot 3$, $18 = 2 \\cdot 3^2$ nên $\\text{BCNN}(8, 12, 18) = 2^3 \\cdot 3^2 = 72$.\n\n$\\text{BC}(8, 12, 18) = \\text{B}(72) = \\{0; 72; 144; 216; \\ldots\\}$.\n\nTrong khoảng từ $100$ đến $150$ chỉ có $144$.\n\nĐáp số: $144$."
+        }
+      ]
+    },
+    {
+      "slug": "toan6-tinh-chia-het-tb-03",
+      "title": "Tính chia hết trong tập hợp các số tự nhiên — Đề 3",
+      "level": "tb",
+      "sort_order": 3,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 1 (cơ bản): bội và ước, chia hết của một tổng, dấu hiệu chia hết, số nguyên tố, phân tích ra thừa số nguyên tố, ước chung, bội chung.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Số $35$ là bội của số nào sau đây?",
+          "options": [
+            "$3$",
+            "$7$",
+            "$6$",
+            "$70$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "[3, 7, 6, 70].find(x => 35 % x === 0)",
+          "explanation": "$35$ là bội của $b$ khi $35$ chia hết cho $b$. Ta có $35 = 7 \\cdot 5$ nên $35$ chia hết cho $7$, tức $35$ là bội của $7$. $35$ không chia hết cho $3$ và $6$. Phương án D sai do nhầm chiều: $70$ là bội của $35$, chứ $35$ không phải bội của $70$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tổng $20 + 35 + x$ chia hết cho $5$ khi $x$ bằng",
+          "options": [
+            "$12$",
+            "$21$",
+            "$33$",
+            "$15$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "[12, 21, 33, 15].find(x => (20 + 35 + x) % 5 === 0)",
+          "explanation": "Vì $20$ và $35$ đều chia hết cho $5$ nên tổng $20 + 35 + x$ chia hết cho $5$ khi và chỉ khi $x$ chia hết cho $5$. Trong các phương án chỉ có $15$ chia hết cho $5$. Kiểm tra: $20 + 35 + 15 = 70$ chia hết cho $5$. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số nào sau đây chia hết cho $3$ nhưng không chia hết cho $9$?",
+          "options": [
+            "$405$",
+            "$612$",
+            "$123$",
+            "$541$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "[405, 612, 123, 541].find(x => x % 3 === 0 && x % 9 !== 0)",
+          "explanation": "Tính tổng các chữ số: $405 \\to 4 + 0 + 5 = 9$; $612 \\to 6 + 1 + 2 = 9$; $123 \\to 1 + 2 + 3 = 6$; $541 \\to 5 + 4 + 1 = 10$. Số $123$ có tổng $6$ chia hết cho $3$ nhưng không chia hết cho $9$. Các số $405$, $612$ chia hết cho cả $3$ và $9$; số $541$ không chia hết cho $3$. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số nào sau đây chia hết cho $2$ nhưng không chia hết cho $5$?",
+          "options": [
+            "$374$",
+            "$230$",
+            "$145$",
+            "$105$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "[374, 230, 145, 105].find(x => x % 2 === 0 && x % 5 !== 0)",
+          "explanation": "Số chia hết cho $2$ có chữ số tận cùng là chữ số chẵn; số chia hết cho $5$ có chữ số tận cùng là $0$ hoặc $5$. Số $374$ tận cùng là $4$: chia hết cho $2$, không chia hết cho $5$. Số $230$ tận cùng là $0$ nên chia hết cho cả $2$ và $5$; các số $145$, $105$ tận cùng là $5$ nên không chia hết cho $2$. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tập hợp các số nguyên tố nhỏ hơn $10$ là",
+          "options": [
+            "$\\{1; 2; 3; 5; 7\\}$",
+            "$\\{2; 3; 5; 7\\}$",
+            "$\\{3; 5; 7; 9\\}$",
+            "$\\{2; 3; 5; 7; 9\\}$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Xét các số từ $2$ đến $9$: các số $2, 3, 5, 7$ chỉ có hai ước là $1$ và chính nó nên là số nguyên tố; $4, 6, 8, 9$ là hợp số. Vậy tập hợp cần tìm là $\\{2; 3; 5; 7\\}$. Phương án A sai vì $1$ không là số nguyên tố; phương án C, D sai vì $9 = 3 \\cdot 3$ là hợp số (C còn thiếu số $2$). Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Kết quả phân tích số $120$ ra thừa số nguyên tố là",
+          "options": [
+            "$2^2 \\cdot 3 \\cdot 10$",
+            "$2^3 \\cdot 15$",
+            "$2^3 \\cdot 3 \\cdot 5$",
+            "$2 \\cdot 3 \\cdot 4 \\cdot 5$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Chia lần lượt cho các số nguyên tố: $120 : 2 = 60$, $60 : 2 = 30$, $30 : 2 = 15$, $15 : 3 = 5$, $5 : 5 = 1$. Vậy $120 = 2^3 \\cdot 3 \\cdot 5$. Các phương án A, B, D tuy có tích bằng $120$ nhưng chứa thừa số $10$, $15$, $4$ không phải số nguyên tố, nên chưa phải là phân tích ra thừa số nguyên tố. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tập hợp $\\text{ƯC}(12, 20)$ là",
+          "options": [
+            "$\\{1; 2; 4; 5\\}$",
+            "$\\{0; 4\\}$",
+            "$\\{2; 4\\}$",
+            "$\\{1; 2; 4\\}$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "$\\text{Ư}(12) = \\{1; 2; 3; 4; 6; 12\\}$, $\\text{Ư}(20) = \\{1; 2; 4; 5; 10; 20\\}$. Các số có mặt trong cả hai tập hợp là $1; 2; 4$. Vậy $\\text{ƯC}(12, 20) = \\{1; 2; 4\\}$. Phương án A có số $5$ không phải ước của $12$; phương án C quên ước chung $1$; phương án B sai vì $0$ không là ước của số nào. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "$\\text{BCNN}(6, 9)$ bằng",
+          "options": [
+            "$18$",
+            "$3$",
+            "$54$",
+            "$36$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "6 * 9 / gcd(6, 9)",
+          "explanation": "$6 = 2 \\cdot 3$, $9 = 3^2$. Lấy các thừa số nguyên tố chung và riêng với số mũ lớn nhất: $\\text{BCNN}(6, 9) = 2 \\cdot 3^2 = 18$. Phương án C là tích $6 \\cdot 9 = 54$ (một bội chung nhưng không nhỏ nhất); phương án B là ƯCLN; $36$ là bội chung nhưng lớn hơn $18$. Chọn A."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho số có ba chữ số $\\overline{2x5}$, trong đó $x$ là một chữ số. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Với mọi chữ số $x$, số $\\overline{2x5}$ đều chia hết cho $5$.",
+            "Với $x = 4$, số $\\overline{2x5}$ chia hết cho $2$.",
+            "Với $x = 2$, số $\\overline{2x5}$ chia hết cho $9$.",
+            "Có đúng $4$ chữ số $x$ để số $\\overline{2x5}$ chia hết cho $3$."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "[Array.from({length: 10}, (_, x) => 205 + 10 * x).every(n => n % 5 === 0), 245 % 2 === 0, 225 % 9 === 0, Array.from({length: 10}, (_, x) => 205 + 10 * x).filter(n => n % 3 === 0).length === 4]",
+          "explanation": "a) Đúng. Số $\\overline{2x5}$ luôn có chữ số tận cùng là $5$ nên luôn chia hết cho $5$, với mọi chữ số $x$.\n\nb) Sai. Với $x = 4$ ta được số $245$, tận cùng là $5$ (chữ số lẻ) nên không chia hết cho $2$. Dấu hiệu chia hết cho $2$ chỉ xét chữ số tận cùng, không xét chữ số $x$ ở hàng chục.\n\nc) Đúng. Với $x = 2$ ta được số $225$, có tổng các chữ số $2 + 2 + 5 = 9$ chia hết cho $9$.\n\nd) Sai. Tổng các chữ số là $2 + x + 5 = 7 + x$. Để chia hết cho $3$ thì $7 + x \\in \\{9; 12; 15\\}$ (vì $7 \\le 7 + x \\le 16$), tức $x \\in \\{2; 5; 8\\}$. Chỉ có $3$ chữ số $x$, không phải $4$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho $a = 2^2 \\cdot 3 \\cdot 5$ và $b = 2 \\cdot 3^2$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$a = 60$.",
+            "$\\text{ƯCLN}(a, b) = 2^2 \\cdot 3^2$.",
+            "$\\text{BCNN}(a, b) = 180$.",
+            "Rút gọn phân số $\\frac{b}{a}$ về phân số tối giản được $\\frac{3}{10}$."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            true
+          ],
+          "points": 2,
+          "verify": "(() => { const a = 4 * 3 * 5, b = 2 * 9; return [a === 60, gcd(a, b) === 4 * 9, a * b / gcd(a, b) === 180, b / gcd(a, b) === 3 && a / gcd(a, b) === 10]; })()",
+          "explanation": "a) Đúng. $a = 4 \\cdot 3 \\cdot 5 = 60$.\n\nb) Sai. Muốn tìm ƯCLN, ta lấy các thừa số nguyên tố chung ($2$ và $3$) với số mũ nhỏ nhất: $\\text{ƯCLN}(a, b) = 2 \\cdot 3 = 6$. Khẳng định đã lấy số mũ lớn nhất, đó là nhầm với cách tìm BCNN.\n\nc) Đúng. Lấy các thừa số nguyên tố chung và riêng ($2$, $3$, $5$) với số mũ lớn nhất: $\\text{BCNN}(a, b) = 2^2 \\cdot 3^2 \\cdot 5 = 180$.\n\nd) Đúng. $b = 18$, $a = 60$, $\\text{ƯCLN}(18, 60) = 6$. $\\frac{18}{60} = \\frac{18 : 6}{60 : 6} = \\frac{3}{10}$, và $\\text{ƯCLN}(3, 10) = 1$ nên $\\frac{3}{10}$ là phân số tối giản."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm chữ số $a$ để số $\\overline{7a4}$ chia hết cho $9$.",
+          "answer": [
+            "7"
+          ],
+          "points": 0.5,
+          "verify": "Array.from({length: 10}, (_, a) => a).find(a => (704 + 10 * a) % 9 === 0)",
+          "explanation": "Số $\\overline{7a4}$ chia hết cho $9$ khi tổng các chữ số $7 + a + 4 = 11 + a$ chia hết cho $9$.\n\nVì $a$ là chữ số nên $11 \\le 11 + a \\le 20$. Số chia hết cho $9$ trong khoảng này chỉ có $18$, nên $11 + a = 18$, suy ra $a = 7$.\n\nThử lại: $774$ có tổng các chữ số $18$, chia hết cho $9$.\n\nĐáp số: $7$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính tổng tất cả các số nguyên tố nhỏ hơn $20$.",
+          "answer": [
+            "77"
+          ],
+          "points": 0.5,
+          "verify": "Array.from({length: 20}, (_, i) => i).filter((n=>n>1&&Array.from({length:n},(_,i)=>i).slice(2).every(d=>n%d!==0))).reduce((s, x) => s + x, 0)",
+          "explanation": "Các số nguyên tố nhỏ hơn $20$ là $2; 3; 5; 7; 11; 13; 17; 19$ (các số còn lại từ $2$ đến $19$ như $4, 6, 8, 9, 10, 12, 14, 15, 16, 18$ đều là hợp số; số $1$ không là số nguyên tố).\n\nTổng: $2 + 3 + 5 + 7 + 11 + 13 + 17 + 19 = 77$.\n\nĐáp số: $77$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Một mảnh vườn hình chữ nhật có chiều dài $60$ m, chiều rộng $36$ m. Người ta muốn chia mảnh vườn thành các ô vuông bằng nhau, cạnh là một số tự nhiên (đơn vị: mét), sao cho không thừa phần đất nào. Hỏi cạnh ô vuông lớn nhất có thể là bao nhiêu mét?",
+          "answer": [
+            "12"
+          ],
+          "points": 0.5,
+          "verify": "gcd(60, 36)",
+          "explanation": "Cạnh ô vuông phải là ước của chiều dài $60$ và ước của chiều rộng $36$, tức là ước chung của $60$ và $36$. Cạnh lớn nhất là $\\text{ƯCLN}(60, 36)$.\n\n$60 = 2^2 \\cdot 3 \\cdot 5$, $36 = 2^2 \\cdot 3^2$ nên $\\text{ƯCLN}(60, 36) = 2^2 \\cdot 3 = 12$.\n\nKhi đó mảnh vườn được chia thành $5 \\cdot 3 = 15$ ô vuông cạnh $12$ m.\n\nĐáp số: $12$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Hai bạn Mai và Lan cùng đến thư viện vào một ngày. Sau đó, cứ $6$ ngày Mai lại đến thư viện một lần, cứ $8$ ngày Lan lại đến thư viện một lần. Hỏi sau ít nhất bao nhiêu ngày thì hai bạn lại cùng đến thư viện?",
+          "answer": [
+            "24"
+          ],
+          "points": 0.5,
+          "verify": "6 * 8 / gcd(6, 8)",
+          "explanation": "Số ngày cần tìm phải là bội của $6$ và bội của $8$, tức là bội chung của $6$ và $8$. Số ngày ít nhất là $\\text{BCNN}(6, 8)$.\n\n$6 = 2 \\cdot 3$, $8 = 2^3$ nên $\\text{BCNN}(6, 8) = 2^3 \\cdot 3 = 24$.\n\nLưu ý: tích $6 \\cdot 8 = 48$ cũng là bội chung nhưng không phải nhỏ nhất.\n\nĐáp số: $24$."
+        }
+      ]
+    }
+  ]
+}

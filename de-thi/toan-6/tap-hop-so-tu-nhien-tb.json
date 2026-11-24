@@ -1,0 +1,428 @@
+{
+  "grade": 6,
+  "topic": "Tập hợp các số tự nhiên",
+  "exams": [
+    {
+      "slug": "toan6-tap-hop-so-tu-nhien-tb-01",
+      "title": "Tập hợp các số tự nhiên — Đề 1",
+      "level": "tb",
+      "sort_order": 1,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 1 (cơ bản): kí hiệu thuộc, không thuộc; giá trị chữ số; số La Mã; số liền trước; tính nhanh; lũy thừa; phép chia có dư; thứ tự thực hiện phép tính.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Cho tập hợp $A = \\{2; 4; 6; 8\\}$. Khẳng định nào sau đây đúng?",
+          "options": ["$3 \\in A$", "$4 \\notin A$", "$6 \\in A$", "$8 \\notin A$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Các phần tử của $A$ là $2; 4; 6; 8$. Số $6$ là một phần tử của $A$ nên $6 \\in A$ (C đúng). A sai vì $3$ không có trong $A$, phải viết $3 \\notin A$. B và D sai vì $4$ và $8$ đều là phần tử của $A$, phải viết $4 \\in A$, $8 \\in A$ (nhầm nghĩa kí hiệu $\\in$ và $\\notin$). Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Trong số $5\\,827$, chữ số $8$ có giá trị là",
+          "options": ["$800$", "$80$", "$8$", "$8\\,000$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "Math.floor(5827 / 100) % 10 * 100",
+          "explanation": "Số $5\\,827$ có: chữ số $5$ ở hàng nghìn, $8$ ở hàng trăm, $2$ ở hàng chục, $7$ ở hàng đơn vị. Chữ số $8$ ở hàng trăm nên có giá trị $8 \\cdot 100 = 800$. Phương án C nhầm giá trị của chữ số với chính chữ số đó; B nhầm $8$ ở hàng chục. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số La Mã XIV biểu diễn số tự nhiên nào?",
+          "options": ["$16$", "$14$", "$4$", "$15$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "10 + (5 - 1)",
+          "explanation": "Tách XIV $=$ X $+$ IV. Ta có X $= 10$, IV $= 4$ (I đứng trước V nghĩa là $5 - 1$). Vậy XIV $= 10 + 4 = 14$. Phương án A sai do đọc IV thành VI $= 6$ (cộng I vào V thay vì trừ). Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số liền trước của số $2\\,000$ là",
+          "options": ["$2\\,001$", "$1\\,000$", "$1\\,990$", "$1\\,999$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "2000 - 1",
+          "explanation": "Số liền trước của số tự nhiên $a$ (với $a > 0$) là $a - 1$. Vậy số liền trước của $2\\,000$ là $2\\,000 - 1 = 1\\,999$. Phương án A là số liền sau (nhầm \"liền trước\" với \"liền sau\"); C là số đã giảm đi $10$ chứ không phải $1$. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tính nhanh $25 \\cdot 7 \\cdot 4$ ta được kết quả là",
+          "options": ["$700$", "$100$", "$36$", "$7\\,000$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "25 * 7 * 4",
+          "explanation": "Dùng tính chất giao hoán và kết hợp của phép nhân: $25 \\cdot 7 \\cdot 4 = (25 \\cdot 4) \\cdot 7 = 100 \\cdot 7 = 700$. Phương án B quên nhân với $7$; C là tổng $25 + 7 + 4$ (nhầm phép nhân thành phép cộng); D nhân thừa một chữ số $0$. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị của lũy thừa $2^5$ là",
+          "options": ["$10$", "$32$", "$25$", "$7$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "Math.pow(2, 5)",
+          "explanation": "$2^5$ là tích của $5$ thừa số $2$: $2^5 = 2 \\cdot 2 \\cdot 2 \\cdot 2 \\cdot 2 = 32$. Phương án A là lỗi hay gặp: lấy cơ số nhân với số mũ ($2 \\cdot 5 = 10$); C nhầm thành $5^2$; D lấy $2 + 5$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Viết kết quả phép tính $3^4 \\cdot 3^2$ dưới dạng một lũy thừa.",
+          "options": ["$3^8$", "$9^6$", "$3^6$", "$3^2$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Khi nhân hai lũy thừa cùng cơ số, ta giữ nguyên cơ số và cộng các số mũ: $a^m \\cdot a^n = a^{m+n}$. Vậy $3^4 \\cdot 3^2 = 3^{4+2} = 3^6$. Phương án A nhân hai số mũ ($4 \\cdot 2 = 8$); B nhân cả hai cơ số; D là phép chia $3^4 : 3^2$. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị của biểu thức $20 - 4 \\cdot 3$ là",
+          "options": ["$48$", "$12$", "$16$", "$8$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "20 - 4 * 3",
+          "explanation": "Biểu thức không có dấu ngoặc, có phép trừ và phép nhân: thực hiện phép nhân trước, phép trừ sau. $20 - 4 \\cdot 3 = 20 - 12 = 8$. Phương án A tính từ trái sang phải $(20 - 4) \\cdot 3 = 48$ (sai thứ tự thực hiện); B chỉ tính $4 \\cdot 3$; C chỉ tính $20 - 4$. Chọn D."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho $M$ là tập hợp các số tự nhiên lớn hơn $3$ và nhỏ hơn $9$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$M = \\{4; 5; 6; 7; 8\\}$",
+            "$9 \\in M$",
+            "Tập hợp $M$ có $5$ phần tử",
+            "Có thể viết $M = \\{x \\in \\mathbb{N} \\mid 3 \\le x < 9\\}$"
+          ],
+          "answer": [true, false, true, false],
+          "points": 2,
+          "verify": "(() => { const r = (f) => Array.from({ length: 20 }, (_, i) => i).filter(f).join(); const M = Array.from({ length: 20 }, (_, i) => i).filter(x => x > 3 && x < 9); return [M.join() === '4,5,6,7,8', M.includes(9), M.length === 5, r(x => x >= 3 && x < 9) === M.join()]; })()",
+          "explanation": "Các số tự nhiên lớn hơn $3$ và nhỏ hơn $9$ là $4; 5; 6; 7; 8$.\na) Đúng: $M = \\{4; 5; 6; 7; 8\\}$.\nb) Sai: $9$ không nhỏ hơn $9$ nên $9 \\notin M$.\nc) Đúng: $M$ có các phần tử $4, 5, 6, 7, 8$, tức là $5$ phần tử.\nd) Sai: điều kiện $3 \\le x < 9$ cho phép $x = 3$, nên tập hợp đó là $\\{3; 4; 5; 6; 7; 8\\}$, có thêm số $3$. Cách viết đúng là $M = \\{x \\in \\mathbb{N} \\mid 3 < x < 9\\}$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Lớp 6A có $47$ học sinh. Cô giáo xếp học sinh ngồi vào các bàn, mỗi bàn $5$ bạn. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Phép chia $47 : 5$ có thương là $9$ và số dư là $2$",
+            "Ta có $47 = 5 \\cdot 2 + 9$",
+            "Xếp được $9$ bàn có đủ $5$ bạn và còn thừa $2$ bạn",
+            "Cần ít nhất $9$ bàn để mọi học sinh đều có chỗ ngồi"
+          ],
+          "answer": [true, false, true, false],
+          "points": 2,
+          "verify": "[Math.floor(47 / 5) === 9 && 47 % 5 === 2, 47 === 5 * 2 + 9, Math.floor(47 / 5) === 9 && 47 - 5 * 9 === 2, Math.ceil(47 / 5) === 9]",
+          "explanation": "a) Đúng: $5 \\cdot 9 = 45$, $47 - 45 = 2$ và $2 < 5$, nên $47 : 5$ được thương $9$, dư $2$.\nb) Sai: phép chia có dư viết là $a = b \\cdot q + r$ (số bị chia $=$ số chia $\\cdot$ thương $+$ số dư), tức là $47 = 5 \\cdot 9 + 2$. Còn $5 \\cdot 2 + 9 = 19 \\ne 47$ (đổi chỗ thương và số dư).\nc) Đúng: thương $9$ cho biết có $9$ bàn đủ $5$ bạn, số dư $2$ là số bạn còn thừa.\nd) Sai: $2$ bạn còn thừa cũng cần một bàn nữa, nên cần ít nhất $9 + 1 = 10$ bàn."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính $2^3 + 5^2$.",
+          "answer": ["33"],
+          "points": 0.5,
+          "verify": "Math.pow(2, 3) + Math.pow(5, 2)",
+          "explanation": "Tính lũy thừa trước: $2^3 = 2 \\cdot 2 \\cdot 2 = 8$; $5^2 = 5 \\cdot 5 = 25$. Vậy $2^3 + 5^2 = 8 + 25 = 33$. Đáp số: $33$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số tự nhiên $x$, biết $x + 37 = 105$.",
+          "answer": ["68"],
+          "points": 0.5,
+          "verify": "105 - 37",
+          "explanation": "$x$ là số hạng chưa biết: muốn tìm số hạng chưa biết ta lấy tổng trừ đi số hạng đã biết. $x = 105 - 37 = 68$. Thử lại: $68 + 37 = 105$. Đáp số: $68$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính nhanh $37 \\cdot 64 + 37 \\cdot 36$.",
+          "answer": ["3700"],
+          "points": 0.5,
+          "verify": "37 * 64 + 37 * 36",
+          "explanation": "Dùng tính chất phân phối của phép nhân đối với phép cộng: $37 \\cdot 64 + 37 \\cdot 36 = 37 \\cdot (64 + 36) = 37 \\cdot 100 = 3\\,700$. Đáp số: $3700$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính giá trị của biểu thức $90 : [3 + (20 - 8) : 2]$.",
+          "answer": ["10"],
+          "points": 0.5,
+          "verify": "90 / (3 + (20 - 8) / 2)",
+          "explanation": "Thực hiện trong ngoặc tròn trước, rồi đến ngoặc vuông: $20 - 8 = 12$; $12 : 2 = 6$; $3 + 6 = 9$. Vậy $90 : [3 + (20 - 8) : 2] = 90 : 9 = 10$. Lưu ý: trong ngoặc vuông phải chia $12 : 2$ trước rồi mới cộng với $3$. Đáp số: $10$."
+        }
+      ]
+    },
+    {
+      "slug": "toan6-tap-hop-so-tu-nhien-tb-02",
+      "title": "Tập hợp các số tự nhiên — Đề 2",
+      "level": "tb",
+      "sort_order": 2,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 1 (cơ bản): liệt kê phần tử, tập hợp N và N*, số La Mã, tìm số chưa biết, số dư, lũy thừa của 10, chia hai lũy thừa cùng cơ số, bài toán thực tế cộng trừ.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Gọi $B$ là tập hợp các số tự nhiên nhỏ hơn $5$. Cách viết nào sau đây đúng?",
+          "options": ["$B = \\{1; 2; 3; 4\\}$", "$B = \\{0; 1; 2; 3; 4\\}$", "$B = \\{0; 1; 2; 3; 4; 5\\}$", "$B = \\{1; 2; 3; 4; 5\\}$"],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Các số tự nhiên nhỏ hơn $5$ là $0; 1; 2; 3; 4$ (số $0$ cũng là số tự nhiên). Vậy $B = \\{0; 1; 2; 3; 4\\}$. Phương án A quên số $0$; C và D có thêm số $5$, nhưng $5$ không nhỏ hơn $5$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số $19$ được viết bằng số La Mã là",
+          "options": ["IXX", "XVIIII", "XXI", "XIX"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "$19 = 10 + 9$. Số $10$ viết là X, số $9$ viết là IX. Vậy $19$ viết là XIX. Phương án B sai vì trong số La Mã không viết một chữ số I liền nhau quá ba lần ($9$ phải viết là IX); A viết sai thứ tự; C là số $21$. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số tự nhiên lớn nhất có ba chữ số khác nhau là",
+          "options": ["$987$", "$999$", "$989$", "$978$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "Math.max(...Array.from({ length: 900 }, (_, i) => i + 100).filter(n => new Set(String(n)).size === 3))",
+          "explanation": "Để được số lớn nhất, chọn chữ số hàng trăm lớn nhất là $9$; chữ số hàng chục lớn nhất khác $9$ là $8$; chữ số hàng đơn vị lớn nhất khác $9$ và $8$ là $7$. Ta được $987$. Phương án B và C có chữ số lặp lại (không thỏa \"khác nhau\"); D có ba chữ số khác nhau nhưng nhỏ hơn $987$. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Khẳng định nào sau đây đúng?",
+          "options": ["$0 \\in \\mathbb{N}^*$", "$0 \\notin \\mathbb{N}$", "$2\\,025 \\in \\mathbb{N}^*$", "$7 \\notin \\mathbb{N}$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "$\\mathbb{N}$ là tập hợp các số tự nhiên $\\{0; 1; 2; 3; \\dots\\}$; $\\mathbb{N}^*$ là tập hợp các số tự nhiên khác $0$. Số $2\\,025$ là số tự nhiên khác $0$ nên $2\\,025 \\in \\mathbb{N}^*$ (C đúng). A sai vì $\\mathbb{N}^*$ không chứa số $0$; B sai vì $0$ là số tự nhiên; D sai vì $7$ là số tự nhiên. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số tự nhiên $x$ thỏa mãn $x - 25 = 40$ là",
+          "options": ["$15$", "$65$", "$55$", "$45$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "40 + 25",
+          "explanation": "$x$ là số bị trừ: muốn tìm số bị trừ ta lấy hiệu cộng với số trừ. $x = 40 + 25 = 65$. Thử lại: $65 - 25 = 40$. Phương án A do lấy $40 - 25$ (nhầm cách tìm số bị trừ với cách tìm số trừ). Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Khi chia một số tự nhiên cho $6$, số dư lớn nhất có thể là",
+          "options": ["$5$", "$6$", "$1$", "$0$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "Math.max(...Array.from({ length: 100 }, (_, i) => i % 6))",
+          "explanation": "Trong phép chia có dư $a = b \\cdot q + r$, số dư luôn thỏa mãn $0 \\le r < b$. Với $b = 6$, số dư có thể là $0; 1; 2; 3; 4; 5$, lớn nhất là $5$. Phương án B sai vì số dư phải nhỏ hơn số chia. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Lũy thừa $10^4$ có giá trị là",
+          "options": ["$40$", "$1\\,000$", "$100\\,000$", "$10\\,000$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "Math.pow(10, 4)",
+          "explanation": "$10^4 = 10 \\cdot 10 \\cdot 10 \\cdot 10 = 10\\,000$ (chữ số $1$ theo sau là $4$ chữ số $0$). Phương án A lấy cơ số nhân với số mũ; B chỉ có $3$ chữ số $0$; C có $5$ chữ số $0$. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Viết kết quả phép tính $5^7 : 5^3$ dưới dạng một lũy thừa.",
+          "options": ["$5^{10}$", "$1^4$", "$5^4$", "$5^{21}$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Khi chia hai lũy thừa cùng cơ số (khác $0$), ta giữ nguyên cơ số và trừ các số mũ: $a^m : a^n = a^{m-n}$ ($m \\ge n$). Vậy $5^7 : 5^3 = 5^{7-3} = 5^4$. Phương án A cộng số mũ (nhầm với phép nhân); B chia cả cơ số; D nhân số mũ. Chọn C."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho biểu thức $A = 4 \\cdot 5^2 - 3 \\cdot (12 - 8)$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$5^2 = 10$",
+            "$4 \\cdot 5^2 = 100$",
+            "$A = 88$",
+            "Nếu bỏ dấu ngoặc, viết thành $4 \\cdot 5^2 - 3 \\cdot 12 - 8$, thì giá trị biểu thức không thay đổi"
+          ],
+          "answer": [false, true, true, false],
+          "points": 2,
+          "verify": "[Math.pow(5, 2) === 10, 4 * Math.pow(5, 2) === 100, 4 * Math.pow(5, 2) - 3 * (12 - 8) === 88, 4 * Math.pow(5, 2) - 3 * 12 - 8 === 4 * Math.pow(5, 2) - 3 * (12 - 8)]",
+          "explanation": "a) Sai: $5^2 = 5 \\cdot 5 = 25$, không phải $5 \\cdot 2 = 10$.\nb) Đúng: $4 \\cdot 5^2 = 4 \\cdot 25 = 100$ (tính lũy thừa trước rồi mới nhân).\nc) Đúng: $A = 4 \\cdot 25 - 3 \\cdot 4 = 100 - 12 = 88$.\nd) Sai: $4 \\cdot 5^2 - 3 \\cdot 12 - 8 = 100 - 36 - 8 = 56 \\ne 88$. Dấu ngoặc cho biết phải nhân $3$ với cả hiệu $(12 - 8)$, nên không được tùy ý bỏ ngoặc."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Một cửa hàng ngày thứ nhất bán được $125$ kg gạo, ngày thứ hai bán nhiều hơn ngày thứ nhất $18$ kg, ngày thứ ba bán ít hơn ngày thứ hai $23$ kg. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Ngày thứ hai cửa hàng bán được $143$ kg gạo",
+            "Ngày thứ ba cửa hàng bán được $166$ kg gạo",
+            "Cả ba ngày cửa hàng bán được $388$ kg gạo",
+            "Ngày thứ ba cửa hàng bán ít hơn ngày thứ nhất $5$ kg gạo"
+          ],
+          "answer": [true, false, true, true],
+          "points": 2,
+          "verify": "(() => { const d1 = 125, d2 = d1 + 18, d3 = d2 - 23; return [d2 === 143, d3 === 166, d1 + d2 + d3 === 388, d1 - d3 === 5]; })()",
+          "explanation": "a) Đúng: ngày thứ hai bán $125 + 18 = 143$ (kg).\nb) Sai: \"ít hơn\" nên phải trừ: ngày thứ ba bán $143 - 23 = 120$ (kg). Số $166$ là do cộng nhầm $143 + 23$.\nc) Đúng: cả ba ngày bán $125 + 143 + 120 = 388$ (kg).\nd) Đúng: $125 - 120 = 5$ (kg), nên ngày thứ ba bán ít hơn ngày thứ nhất $5$ kg."
+        },
+        {
+          "kind": "short",
+          "prompt": "Số La Mã XXVI biểu diễn số tự nhiên nào?",
+          "answer": ["26"],
+          "points": 0.5,
+          "verify": "10 + 10 + 5 + 1",
+          "explanation": "Tách XXVI $=$ X $+$ X $+$ VI $= 10 + 10 + 6 = 26$ (I đứng sau V nên cộng: VI $= 5 + 1 = 6$). Đáp số: $26$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tập hợp $C = \\{x \\in \\mathbb{N} \\mid 10 \\le x \\le 20\\}$ có bao nhiêu phần tử?",
+          "answer": ["11"],
+          "points": 0.5,
+          "verify": "Array.from({ length: 50 }, (_, i) => i).filter(x => x >= 10 && x <= 20).length",
+          "explanation": "Liệt kê: $C = \\{10; 11; 12; \\dots; 20\\}$. Đây là các số tự nhiên liên tiếp từ $10$ đến $20$, số phần tử là $20 - 10 + 1 = 11$. Lưu ý: dấu \"$\\le$\" nên cả $10$ và $20$ đều thuộc $C$; nếu chỉ lấy $20 - 10 = 10$ là thiếu một phần tử. Đáp số: $11$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính giá trị của biểu thức $4 \\cdot 3^2 + 2^4 : 2$.",
+          "answer": ["44"],
+          "points": 0.5,
+          "verify": "4 * Math.pow(3, 2) + Math.pow(2, 4) / 2",
+          "explanation": "Thứ tự: lũy thừa $\\to$ nhân, chia $\\to$ cộng. $3^2 = 9$, $2^4 = 16$. Khi đó $4 \\cdot 9 + 16 : 2 = 36 + 8 = 44$. Đáp số: $44$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Trong một phép chia có dư, số chia là $7$, thương là $12$ và số dư là $5$. Tìm số bị chia.",
+          "answer": ["89"],
+          "points": 0.5,
+          "verify": "7 * 12 + 5",
+          "explanation": "Số bị chia $=$ số chia $\\cdot$ thương $+$ số dư $= 7 \\cdot 12 + 5 = 84 + 5 = 89$. Kiểm tra: $89 : 7$ được thương $12$, dư $5$ (và $5 < 7$). Đáp số: $89$."
+        }
+      ]
+    },
+    {
+      "slug": "toan6-tap-hop-so-tu-nhien-tb-03",
+      "title": "Tập hợp các số tự nhiên — Đề 3",
+      "level": "tb",
+      "sort_order": 3,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 1 (cơ bản): tính chất đặc trưng của tập hợp, cấu tạo số trong hệ thập phân, số La Mã, so sánh số, tính nhanh, bài toán mua hàng, lũy thừa, thứ tự thực hiện phép tính có ngoặc.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Tập hợp $D = \\{0; 2; 4; 6; 8\\}$ được viết bằng cách chỉ ra tính chất đặc trưng của các phần tử là",
+          "options": [
+            "$D = \\{x \\in \\mathbb{N} \\mid x \\text{ là số chẵn}, x < 10\\}$",
+            "$D = \\{x \\in \\mathbb{N} \\mid x \\text{ là số chẵn}, x < 8\\}$",
+            "$D = \\{x \\in \\mathbb{N}^* \\mid x \\text{ là số chẵn}, x < 10\\}$",
+            "$D = \\{x \\in \\mathbb{N} \\mid x \\text{ là số chẵn}, x \\le 10\\}$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Các số tự nhiên chẵn nhỏ hơn $10$ là $0; 2; 4; 6; 8$, đúng bằng $D$. Phương án B thiếu số $8$ (vì $8$ không nhỏ hơn $8$); C thiếu số $0$ (vì $\\mathbb{N}^*$ không chứa $0$); D thừa số $10$ (vì $10 \\le 10$). Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số gồm $5$ nghìn, $3$ chục và $7$ đơn vị là",
+          "options": ["$5\\,370$", "$5\\,037$", "$537$", "$50\\,307$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "5 * 1000 + 3 * 10 + 7",
+          "explanation": "Số cần tìm là $5 \\cdot 1000 + 0 \\cdot 100 + 3 \\cdot 10 + 7 = 5\\,037$. Không có hàng trăm nên chữ số hàng trăm là $0$. Phương án A đặt $3$ vào hàng trăm; C bỏ quên hàng trăm (viết liền các chữ số). Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số $24$ được viết bằng số La Mã là",
+          "options": ["XXIIII", "IVXX", "XXIV", "XXVI"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "$24 = 10 + 10 + 4$. Số $10$ viết là X, số $4$ viết là IV. Vậy $24$ viết là XXIV. Phương án A sai vì không viết bốn chữ I liền nhau ($4$ phải viết là IV); B sai thứ tự (các thành phần lớn viết trước); D là số $26$ (nhầm IV với VI). Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Trong các số sau, số nào nhỏ hơn $35$?",
+          "options": ["$53$", "$350$", "$36$", "$34$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "[53, 350, 36, 34].find(x => x < 35)",
+          "explanation": "So sánh với $35$: $53 > 35$ (hàng chục $5 > 3$); $350 > 35$ (có nhiều chữ số hơn); $36 > 35$ (cùng hàng chục, hàng đơn vị $6 > 5$); $34 < 35$ (hàng đơn vị $4 < 5$). Trên tia số, điểm $34$ nằm bên trái điểm $35$. Phương án A là lỗi đổi chỗ hai chữ số. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tính nhanh $46 + 17 + 54$ ta được",
+          "options": ["$107$", "$117$", "$127$", "$100$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "46 + 17 + 54",
+          "explanation": "Dùng tính chất giao hoán và kết hợp của phép cộng: $46 + 17 + 54 = (46 + 54) + 17 = 100 + 17 = 117$. Phương án D chỉ tính $46 + 54$ mà quên cộng $17$; A và C là lỗi nhớ sai khi cộng. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Mỗi hộp bút có $12$ chiếc bút. Hỏi $15$ hộp như thế có tất cả bao nhiêu chiếc bút?",
+          "options": ["$27$", "$120$", "$180$", "$150$"],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "12 * 15",
+          "explanation": "Số bút là $12 \\cdot 15 = 180$ (chiếc). Có thể tính nhẩm: $12 \\cdot 15 = 12 \\cdot 10 + 12 \\cdot 5 = 120 + 60 = 180$. Phương án A cộng $12 + 15$ thay vì nhân; B chỉ tính $12 \\cdot 10$ (quên $12 \\cdot 5$). Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số $64$ được viết dưới dạng lũy thừa của $2$ là",
+          "options": ["$2^5$", "$2^8$", "$2^{32}$", "$2^6$"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "$2^1 = 2$, $2^2 = 4$, $2^3 = 8$, $2^4 = 16$, $2^5 = 32$, $2^6 = 64$. Vậy $64 = 2^6$. Phương án A bằng $32$; B nhầm $64 = 8^2$ thành $2^8$; C lấy $64 : 2 = 32$ làm số mũ. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị của biểu thức $(15 + 5) : 5 \\cdot 2$ là",
+          "options": ["$8$", "$2$", "$17$", "$4$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(15 + 5) / 5 * 2",
+          "explanation": "Tính trong ngoặc trước: $15 + 5 = 20$. Sau đó, chỉ còn phép chia và phép nhân nên thực hiện từ trái sang phải: $20 : 5 = 4$, $4 \\cdot 2 = 8$. Phương án B tính nhân trước $20 : (5 \\cdot 2) = 2$ (sai thứ tự); D quên nhân với $2$; C bỏ qua dấu ngoặc: $15 + 5 : 5 \\cdot 2 = 17$. Chọn A."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Bạn An mua $3$ quyển vở, mỗi quyển giá $8\\,000$ đồng, và $2$ chiếc bút bi, mỗi chiếc giá $5\\,000$ đồng. An đưa cho cô bán hàng tờ tiền $50\\,000$ đồng. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Số tiền mua vở là $24\\,000$ đồng",
+            "Số tiền mua bút là $7\\,000$ đồng",
+            "Tổng số tiền An phải trả là $34\\,000$ đồng",
+            "An được cô bán hàng trả lại $26\\,000$ đồng"
+          ],
+          "answer": [true, false, true, false],
+          "points": 2,
+          "verify": "(() => { const vo = 3 * 8000, but = 2 * 5000; return [vo === 24000, but === 7000, vo + but === 34000, 50000 - (vo + but) === 26000]; })()",
+          "explanation": "a) Đúng: tiền vở là $3 \\cdot 8\\,000 = 24\\,000$ (đồng).\nb) Sai: tiền bút là $2 \\cdot 5\\,000 = 10\\,000$ (đồng); số $7\\,000$ là do cộng nhầm $2 + 5$ nghìn.\nc) Đúng: tổng tiền là $24\\,000 + 10\\,000 = 34\\,000$ (đồng).\nd) Sai: số tiền được trả lại là $50\\,000 - 34\\,000 = 16\\,000$ (đồng), không phải $26\\,000$ đồng."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho $a = 2^3$ và $b = 3^2$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$a = 6$",
+            "$b = 9$",
+            "$a < b$",
+            "$a \\cdot a = 2^6$"
+          ],
+          "answer": [false, true, true, true],
+          "points": 2,
+          "verify": "(() => { const a = Math.pow(2, 3), b = Math.pow(3, 2); return [a === 6, b === 9, a < b, a * a === Math.pow(2, 6)]; })()",
+          "explanation": "a) Sai: $a = 2^3 = 2 \\cdot 2 \\cdot 2 = 8$, không phải $2 \\cdot 3 = 6$.\nb) Đúng: $b = 3^2 = 3 \\cdot 3 = 9$.\nc) Đúng: $a = 8 < 9 = b$.\nd) Đúng: $a \\cdot a = 2^3 \\cdot 2^3 = 2^{3+3} = 2^6$ (kiểm tra: $8 \\cdot 8 = 64 = 2^6$)."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số tự nhiên nhỏ nhất có bốn chữ số khác nhau.",
+          "answer": ["1023"],
+          "points": 0.5,
+          "verify": "Array.from({ length: 9000 }, (_, i) => i + 1000).find(n => new Set(String(n)).size === 4)",
+          "explanation": "Chữ số hàng nghìn phải khác $0$, nhỏ nhất là $1$. Các chữ số còn lại chọn nhỏ nhất và khác nhau, khác $1$: hàng trăm $0$, hàng chục $2$, hàng đơn vị $3$. Ta được $1\\,023$. (Số $1\\,000$ là số nhỏ nhất có bốn chữ số nhưng các chữ số không khác nhau.) Đáp số: $1023$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính giá trị của biểu thức $135 - 35 : 5$.",
+          "answer": ["128"],
+          "points": 0.5,
+          "verify": "135 - 35 / 5",
+          "explanation": "Thực hiện phép chia trước, phép trừ sau: $35 : 5 = 7$; $135 - 7 = 128$. Nếu tính từ trái sang phải $(135 - 35) : 5 = 20$ là sai thứ tự thực hiện phép tính. Đáp số: $128$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số tự nhiên $x$, biết $3 \\cdot x - 7 = 32$.",
+          "answer": ["13"],
+          "points": 0.5,
+          "verify": "(32 + 7) / 3",
+          "explanation": "Coi $3 \\cdot x$ là số bị trừ: $3 \\cdot x = 32 + 7 = 39$. Khi đó $x$ là thừa số chưa biết: $x = 39 : 3 = 13$. Thử lại: $3 \\cdot 13 - 7 = 39 - 7 = 32$. Đáp số: $13$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính giá trị của biểu thức $2 \\cdot [30 - (4 + 2)^2 : 6]$.",
+          "answer": ["48"],
+          "points": 0.5,
+          "verify": "2 * (30 - Math.pow(4 + 2, 2) / 6)",
+          "explanation": "Thực hiện ngoặc tròn trước: $4 + 2 = 6$. Trong ngoặc vuông: lũy thừa $6^2 = 36$, rồi chia $36 : 6 = 6$, rồi trừ $30 - 6 = 24$. Cuối cùng $2 \\cdot 24 = 48$. Lưu ý: $(4 + 2)^2 = 36$, khác với $4 + 2^2 = 8$. Đáp số: $48$."
+        }
+      ]
+    }
+  ]
+}

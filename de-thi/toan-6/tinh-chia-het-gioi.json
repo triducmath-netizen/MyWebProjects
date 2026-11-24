@@ -1,0 +1,602 @@
+{
+  "grade": 6,
+  "topic": "Tính chia hết trong tập hợp các số tự nhiên",
+  "exams": [
+    {
+      "slug": "toan6-tinh-chia-het-gioi-01",
+      "title": "Tính chia hết trong tập hợp các số tự nhiên — Đề 8",
+      "level": "gioi",
+      "sort_order": 1,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): điều kiện chia hết của một tổng, tìm chữ số, đếm số ước, ƯCLN với số dư, BCNN trong lịch xe buýt, phân số tối giản, số nguyên tố lớn hơn 3, tổng lũy thừa.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Cho $A = 12 + 18 + 30 + x$ với $x$ là số tự nhiên. Khẳng định nào sau đây đúng?",
+          "options": [
+            "$A$ chia hết cho $6$ khi và chỉ khi $x$ chia hết cho $3$",
+            "$A$ chia hết cho $6$ khi và chỉ khi $x$ chia hết cho $6$",
+            "$A$ chia hết cho $6$ khi và chỉ khi $x$ chia hết cho $12$",
+            "$A$ chia hết cho $6$ khi và chỉ khi $x$ chia hết cho $2$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Ta có $12 + 18 + 30 = 60$ chia hết cho $6$. Theo tính chất chia hết của một tổng: nếu $x$ chia hết cho $6$ thì $A = 60 + x$ chia hết cho $6$; ngược lại nếu $A$ chia hết cho $6$ thì $x = A - 60$ cũng chia hết cho $6$ (tính chất chia hết của một hiệu). Vậy $A$ chia hết cho $6$ khi và chỉ khi $x$ chia hết cho $6$. Phương án A, D sai: chẳng hạn $x = 3$ chia hết cho $3$ hay $x = 2$ chia hết cho $2$ nhưng $A = 63$, $A = 62$ không chia hết cho $6$. Phương án C sai vì $x = 6$ không chia hết cho $12$ mà $A = 66$ vẫn chia hết cho $6$ (điều kiện \"chia hết cho 12\" chỉ là đủ, không cần). Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu số có dạng $\\overline{3a4b}$ chia hết cho cả $2$, $3$ và $5$?",
+          "options": [
+            "$1$",
+            "$6$",
+            "$3$",
+            "$4$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let a=0;a<10;a++)for(let b=0;b<10;b++){const n=3040+a*100+b;if(n%2===0&&n%3===0&&n%5===0)c++}return c})()",
+          "explanation": "Số chia hết cho cả $2$ và $5$ thì có chữ số tận cùng là $0$, nên $b = 0$. Khi đó tổng các chữ số là $3 + a + 4 + 0 = 7 + a$ phải chia hết cho $3$, với $a$ là chữ số từ $0$ đến $9$: $7 + a \\in \\{9;\\ 12;\\ 15\\}$, suy ra $a \\in \\{2;\\ 5;\\ 8\\}$. Có $3$ số: $3240$, $3540$, $3840$. Phương án A là do nhầm điều kiện chia hết cho $9$ (chỉ được $a = 2$); phương án B do cho cả $b = 5$ (số tận cùng là $5$ không chia hết cho $2$). Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số $360$ có bao nhiêu ước?",
+          "options": [
+            "$24$",
+            "$6$",
+            "$12$",
+            "$22$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(n=>{let c=0;for(let d=1;d<=n;d++)if(n%d===0)c++;return c})(360)",
+          "explanation": "Phân tích ra thừa số nguyên tố: $360 = 2^3 \\cdot 3^2 \\cdot 5$. Mỗi ước của $360$ có dạng $2^x \\cdot 3^y \\cdot 5^z$ với $x$ có $4$ cách chọn ($0, 1, 2, 3$), $y$ có $3$ cách chọn, $z$ có $2$ cách chọn. Số ước là $(3+1)\\cdot(2+1)\\cdot(1+1) = 4 \\cdot 3 \\cdot 2 = 24$. Phương án B do cộng hoặc nhân các số mũ ($3+2+1 = 6$ hay $3 \\cdot 2 \\cdot 1 = 6$) mà quên cộng thêm $1$; phương án D do không tính hai ước $1$ và $360$. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số tự nhiên $a$ lớn nhất sao cho khi chia $245$ và $317$ cho $a$ đều được số dư là $5$ là",
+          "options": [
+            "$12$",
+            "$48$",
+            "$6$",
+            "$24$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "gcd(245-5, 317-5)",
+          "explanation": "Vì $245$ và $317$ chia cho $a$ đều dư $5$ nên $a > 5$ và $245 - 5 = 240$, $317 - 5 = 312$ đều chia hết cho $a$. Do đó $a$ là ước chung của $240$ và $312$; $a$ lớn nhất nên $a = \\text{ƯCLN}(240, 312)$. Ta có $240 = 2^4 \\cdot 3 \\cdot 5$, $312 = 2^3 \\cdot 3 \\cdot 13$, nên $\\text{ƯCLN}(240, 312) = 2^3 \\cdot 3 = 24$ (thỏa mãn $24 > 5$). Phương án A, C là ước chung nhưng không lớn nhất; phương án B do lấy $2^4$ (số mũ lớn nhất) thay vì số mũ nhỏ nhất. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tại một bến xe, cứ $10$ phút có một chuyến xe buýt tuyến 1 xuất bến, cứ $12$ phút có một chuyến tuyến 2 và cứ $15$ phút có một chuyến tuyến 3. Lúc $6$ giờ sáng, ba tuyến cùng xuất bến một chuyến. Từ $6$ giờ đến $11$ giờ trưa cùng ngày (kể cả hai thời điểm này), có bao nhiêu lần ba tuyến cùng xuất bến một lúc?",
+          "options": [
+            "$5$",
+            "$4$",
+            "$6$",
+            "$12$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "Math.floor(300/((a,b)=>a*b/gcd(a,b))(((a,b)=>a*b/gcd(a,b))(10,12),15))+1",
+          "explanation": "Thời gian giữa hai lần liên tiếp ba tuyến cùng xuất bến là $\\text{BCNN}(10, 12, 15)$. Ta có $10 = 2 \\cdot 5$, $12 = 2^2 \\cdot 3$, $15 = 3 \\cdot 5$ nên $\\text{BCNN} = 2^2 \\cdot 3 \\cdot 5 = 60$ (phút) $= 1$ giờ. Các lần cùng xuất bến: $6$ giờ, $7$ giờ, $8$ giờ, $9$ giờ, $10$ giờ, $11$ giờ — tất cả $6$ lần. Phương án A do quên tính lần lúc $6$ giờ (hoặc lúc $11$ giờ); phương án D do tính nhầm chu kì là $30$ phút. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu số tự nhiên $n$ với $1 \\le n \\le 30$ sao cho phân số $\\frac{n}{30}$ là phân số tối giản?",
+          "options": [
+            "$15$",
+            "$10$",
+            "$7$",
+            "$8$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let n=1;n<=30;n++)if(gcd(n,30)===1)c++;return c})()",
+          "explanation": "$\\frac{n}{30}$ tối giản khi và chỉ khi $\\text{ƯCLN}(n, 30) = 1$. Vì $30 = 2 \\cdot 3 \\cdot 5$ nên $n$ không được chia hết cho $2$, cho $3$, cho $5$. Các số lẻ từ $1$ đến $29$ là $15$ số; bỏ các số chia hết cho $3$ ($3, 9, 15, 21, 27$) còn $10$ số; bỏ tiếp các số chia hết cho $5$ ($5, 25$) còn $8$ số: $1, 7, 11, 13, 17, 19, 23, 29$. Phương án A chỉ loại số chẵn; phương án B quên loại các số chia hết cho $5$. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Khẳng định nào sau đây đúng với mọi số nguyên tố $p > 3$?",
+          "options": [
+            "$(p-1)\\cdot(p+1)$ chia hết cho $48$",
+            "$(p-1)\\cdot(p+1)$ chia hết cho $24$",
+            "$(p-1)\\cdot(p+1)$ chia hết cho $9$",
+            "$(p-1)\\cdot(p+1)$ chia hết cho $5$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Vì $p$ là số nguyên tố lớn hơn $3$ nên $p$ lẻ và $p$ không chia hết cho $3$. Khi đó $p - 1$, $p + 1$ là hai số chẵn liên tiếp, một trong hai số chia hết cho $4$, nên tích $(p-1)(p+1)$ chia hết cho $2 \\cdot 4 = 8$. Trong ba số tự nhiên liên tiếp $p - 1$, $p$, $p + 1$ có một số chia hết cho $3$, mà $p$ không chia hết cho $3$ nên $p - 1$ hoặc $p + 1$ chia hết cho $3$. Tích chia hết cho $8$ và $3$, mà $\\text{ƯCLN}(8, 3) = 1$, nên chia hết cho $24$. Các phương án khác sai: với $p = 5$ thì $4 \\cdot 6 = 24$ không chia hết cho $48$, cho $9$, cho $5$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho $S = 1 + 3 + 3^2 + 3^3 + \\dots + 3^{11}$. Số nào sau đây **không** phải là ước của $S$?",
+          "options": [
+            "$11$",
+            "$4$",
+            "$13$",
+            "$40$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{let S=0;for(let k=0;k<12;k++)S+=3**k;return [11,4,13,40].find(d=>S%d!==0)})()",
+          "explanation": "$S$ có $12$ số hạng. Nhóm $2$ số hạng: $S = (1 + 3) + 3^2(1 + 3) + \\dots + 3^{10}(1 + 3) = 4 \\cdot (1 + 3^2 + \\dots + 3^{10})$ nên $S$ chia hết cho $4$. Nhóm $3$ số hạng: $1 + 3 + 3^2 = 13$ nên $S = 13 \\cdot (1 + 3^3 + 3^6 + 3^9)$ chia hết cho $13$. Nhóm $4$ số hạng: $1 + 3 + 9 + 27 = 40$ nên $S = 40 \\cdot (1 + 3^4 + 3^8)$ chia hết cho $40$. Vậy $4$, $13$, $40$ đều là ước của $S$; còn lại $11$ (thật vậy $S = 265\\,720$ chia cho $11$ dư $4$). Chọn A."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho $a = 2^2 \\cdot 3 \\cdot 7$ và $b = 2 \\cdot 3^2 \\cdot 7$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$\\text{ƯCLN}(a, b) = 42$",
+            "$\\text{BCNN}(a, b) = 504$",
+            "$a$ và $b$ có đúng $8$ ước chung",
+            "Có đúng $4$ bội chung khác $0$ của $a$ và $b$ nhỏ hơn $1000$"
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(()=>{const a=4*3*7,b=2*9*7,g=gcd(a,b),l=a*b/g;let c=0;for(let m=l;m<1000;m+=l)c++;return [g===42,l===504,(n=>{let c=0;for(let d=1;d<=n;d++)if(n%d===0)c++;return c})(g)===8,c===4]})()",
+          "explanation": "Ta có $a = 84$, $b = 126$. a) Đúng. Lấy các thừa số nguyên tố chung $2, 3, 7$ với số mũ nhỏ nhất: $\\text{ƯCLN}(a, b) = 2 \\cdot 3 \\cdot 7 = 42$. b) Sai. Lấy tất cả thừa số nguyên tố với số mũ lớn nhất: $\\text{BCNN}(a, b) = 2^2 \\cdot 3^2 \\cdot 7 = 252$. Số $504 = 2 \\cdot 252$ chỉ là một bội chung, không phải bội chung nhỏ nhất. c) Đúng. Ước chung của $a$ và $b$ chính là ước của $\\text{ƯCLN} = 42$: $1, 2, 3, 6, 7, 14, 21, 42$ — đúng $8$ số. d) Sai. Bội chung của $a$ và $b$ là bội của $252$: các bội khác $0$ nhỏ hơn $1000$ là $252, 504, 756$ (vì $4 \\cdot 252 = 1008 > 1000$) — chỉ có $3$ số."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Học sinh khối 6 của một trường khi xếp thành hàng $10$, hàng $12$ hay hàng $15$ đều thừa $3$ bạn. Biết số học sinh khối 6 trong khoảng từ $200$ đến $300$ bạn. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$\\text{BCNN}(10, 12, 15) = 60$",
+            "Số học sinh khối 6 là bội chung của $10$, $12$ và $15$",
+            "Khối 6 có $243$ học sinh",
+            "Nếu xếp thành hàng $9$ thì vừa đủ, không thừa bạn nào"
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            true
+          ],
+          "points": 2,
+          "verify": "(()=>{const l=((a,b)=>a*b/gcd(a,b))(((a,b)=>a*b/gcd(a,b))(10,12),15);let x=0;for(let n=200;n<=300;n++)if(n%10===3&&n%12===3&&n%15===3)x=n;return [l===60,x%10===0&&x%12===0&&x%15===0,x===243,x%9===0]})()",
+          "explanation": "a) Đúng. $10 = 2 \\cdot 5$, $12 = 2^2 \\cdot 3$, $15 = 3 \\cdot 5$ nên $\\text{BCNN}(10, 12, 15) = 2^2 \\cdot 3 \\cdot 5 = 60$. b) Sai. Vì xếp hàng nào cũng thừa $3$ bạn nên số học sinh **bớt đi $3$** mới là bội chung của $10$, $12$, $15$; bản thân số học sinh chia cho $10$ dư $3$ nên không chia hết cho $10$. c) Đúng. Gọi số học sinh là $x$ thì $x - 3 \\in \\text{BC}(10, 12, 15) = \\text{B}(60) = \\{0; 60; 120; 180; 240; 300; \\dots\\}$. Vì $200 \\le x \\le 300$ nên $197 \\le x - 3 \\le 297$, suy ra $x - 3 = 240$, $x = 243$. d) Đúng. $243$ có tổng các chữ số $2 + 4 + 3 = 9$ chia hết cho $9$ nên $243$ chia hết cho $9$ ($243 = 9 \\cdot 27$): xếp hàng $9$ vừa đủ $27$ hàng."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số tự nhiên lớn nhất có bốn chữ số mà khi chia cho $2$, $3$, $5$ và $9$ đều dư $1$.",
+          "answer": [
+            "9991"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{for(let n=9999;n>=1000;n--)if(n%2===1&&n%3===1&&n%5===1&&n%9===1)return n})()",
+          "explanation": "Gọi số cần tìm là $n$. Khi đó $n - 1$ chia hết cho $2, 3, 5, 9$, tức $n - 1 \\in \\text{BC}(2, 3, 5, 9)$. Ta có $\\text{BCNN}(2, 3, 5, 9) = 2 \\cdot 3^2 \\cdot 5 = 90$. Số $n$ có bốn chữ số và lớn nhất nên $n - 1$ là bội lớn nhất của $90$ không vượt quá $9998$. Vì $9998 = 90 \\cdot 111 + 8$ nên $n - 1 = 90 \\cdot 111 = 9990$, suy ra $n = 9991$. Thử lại: $9991$ lẻ, tận cùng là $1$, tổng chữ số $28$ chia $3$ và chia $9$ đều dư $1$. Đáp số: $9991$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính tổng tất cả các số tự nhiên $n$ sao cho $n + 7$ chia hết cho $n + 1$.",
+          "answer": [
+            "8"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let s=0;for(let n=0;n<=1000;n++)if((n+7)%(n+1)===0)s+=n;return s})()",
+          "explanation": "Ta có $n + 7 = (n + 1) + 6$. Vì $n + 1$ chia hết cho $n + 1$ nên $n + 7$ chia hết cho $n + 1$ khi và chỉ khi $6$ chia hết cho $n + 1$, tức $n + 1 \\in \\text{Ư}(6) = \\{1; 2; 3; 6\\}$. Suy ra $n \\in \\{0; 1; 2; 5\\}$. Thử lại: $7 : 1$, $8 : 2$, $9 : 3$, $12 : 6$ đều là phép chia hết. Tổng các giá trị: $0 + 1 + 2 + 5 = 8$. Đáp số: $8$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Lớp 6A có $96$ chiếc bút, $120$ quyển vở và $144$ tập giấy màu. Cô giáo muốn chia đều số bút, số vở, số tập giấy vào các phần quà sao cho được nhiều phần quà nhất. Hỏi khi đó mỗi phần quà có tổng cộng bao nhiêu đồ vật?",
+          "answer": [
+            "15"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{const g=gcd(gcd(96,120),144);return 96/g+120/g+144/g})()",
+          "explanation": "Số phần quà phải là ước chung của $96$, $120$, $144$; nhiều phần quà nhất nên số phần quà là $\\text{ƯCLN}(96, 120, 144)$. Ta có $96 = 2^5 \\cdot 3$, $120 = 2^3 \\cdot 3 \\cdot 5$, $144 = 2^4 \\cdot 3^2$, nên $\\text{ƯCLN} = 2^3 \\cdot 3 = 24$. Mỗi phần quà có $96 : 24 = 4$ bút, $120 : 24 = 5$ vở, $144 : 24 = 6$ tập giấy, tổng cộng $4 + 5 + 6 = 15$ đồ vật. Lưu ý: đề hỏi số đồ vật trong mỗi phần, không phải số phần quà ($24$). Đáp số: $15$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số nguyên tố $p$ sao cho $p + 10$ và $p + 14$ cũng là số nguyên tố.",
+          "answer": [
+            "3"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{const P=(n=>{if(n<2)return false;for(let d=2;d*d<=n;d++)if(n%d===0)return false;return true});const r=[];for(let p=2;p<5000;p++)if(P(p)&&P(p+10)&&P(p+14))r.push(p);return r.length===1?r[0]:-1})()",
+          "explanation": "Xét số dư khi chia $p$ cho $3$. Nếu $p = 3$ thì $p + 10 = 13$, $p + 14 = 17$ đều là số nguyên tố (thỏa mãn). Nếu $p$ chia $3$ dư $1$ thì $p + 14$ chia hết cho $3$ (vì $1 + 14 = 15$) và lớn hơn $3$ nên là hợp số. Nếu $p$ chia $3$ dư $2$ thì $p + 10$ chia hết cho $3$ (vì $2 + 10 = 12$) và lớn hơn $3$ nên là hợp số. Vậy chỉ có $p = 3$. Đáp số: $3$."
+        }
+      ]
+    },
+    {
+      "slug": "toan6-tinh-chia-het-gioi-02",
+      "title": "Tính chia hết trong tập hợp các số tự nhiên — Đề 9",
+      "level": "gioi",
+      "sort_order": 2,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): phép chia có dư, chia hết cho 45, tổng và tích số nguyên tố, tìm hai số biết ƯCLN, BCNN của 1 đến 10, biện luận phân số tối giản, tổng lũy thừa của 5, trồng cây quanh vườn.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Số tự nhiên $a$ chia cho $12$ được số dư là $8$. Khẳng định nào sau đây đúng?",
+          "options": [
+            "$a$ chia hết cho $3$",
+            "$a$ chia hết cho $12$",
+            "$a$ chia hết cho $4$ nhưng không chia hết cho $3$",
+            "$a$ chia hết cho $8$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Ta có $a = 12k + 8$ với $k$ là số tự nhiên. Vì $12k$ và $8$ đều chia hết cho $4$ nên $a$ chia hết cho $4$. Vì $12k$ chia hết cho $3$ còn $8$ không chia hết cho $3$ nên $a$ không chia hết cho $3$ (tính chất chia hết của tổng). Do đó C đúng, A sai; B sai vì $a$ chia $12$ dư $8$; D sai, chẳng hạn $a = 20$ chia cho $12$ dư $8$ nhưng không chia hết cho $8$. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu cặp chữ số $(a; b)$ để số $\\overline{7a5b}$ chia hết cho $45$?",
+          "options": [
+            "$1$",
+            "$2$",
+            "$3$",
+            "$4$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let a=0;a<10;a++)for(let b=0;b<10;b++)if((7050+a*100+b)%45===0)c++;return c})()",
+          "explanation": "$45 = 5 \\cdot 9$ với $\\text{ƯCLN}(5, 9) = 1$, nên $\\overline{7a5b}$ chia hết cho $45$ khi và chỉ khi nó chia hết cho cả $5$ và $9$. Chia hết cho $5$: $b \\in \\{0; 5\\}$. Nếu $b = 0$: tổng chữ số $7 + a + 5 = 12 + a$ chia hết cho $9$ nên $a = 6$, được số $7650$. Nếu $b = 5$: tổng $17 + a$ chia hết cho $9$ nên $a = 1$, được số $7155$. Có $2$ cặp: $(6; 0)$ và $(1; 5)$. Phương án A là do chỉ xét $b = 0$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tổng của hai số nguyên tố bằng $105$. Tích của hai số nguyên tố đó là",
+          "options": [
+            "$103$",
+            "$2756$",
+            "$210$",
+            "$206$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{const P=(n=>{if(n<2)return false;for(let d=2;d*d<=n;d++)if(n%d===0)return false;return true});for(let p=2;p<105;p++)if(P(p)&&P(105-p))return p*(105-p)})()",
+          "explanation": "$105$ là số lẻ. Nếu cả hai số nguyên tố đều lẻ thì tổng là số chẵn, vô lí. Vậy một trong hai số là số nguyên tố chẵn duy nhất $2$, số còn lại là $105 - 2 = 103$ (là số nguyên tố vì không chia hết cho $2, 3, 5, 7$ và $11 \\cdot 11 > 103$). Tích là $2 \\cdot 103 = 206$. Phương án A là số còn lại chứ không phải tích; phương án C là $2 \\cdot 105$; phương án B do chọn đại hai số gần nhau $52 \\cdot 53$ (mà $52$ là hợp số). Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu cặp số tự nhiên $(a; b)$ với $a < b$, $a + b = 96$ và $\\text{ƯCLN}(a, b) = 12$?",
+          "options": [
+            "$2$",
+            "$3$",
+            "$4$",
+            "$1$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let a=0;a<48;a++)if(gcd(a,96-a)===12)c++;return c})()",
+          "explanation": "Vì $\\text{ƯCLN}(a, b) = 12$ nên $a = 12m$, $b = 12n$ với $m, n$ là số tự nhiên, $\\text{ƯCLN}(m, n) = 1$ và $m < n$. Từ $a + b = 96$ suy ra $12(m + n) = 96$, nên $m + n = 8$. Các cặp $m < n$ có tổng $8$: $(1; 7)$, $(2; 6)$, $(3; 5)$; loại $(2; 6)$ vì $\\text{ƯCLN}(2, 6) = 2 \\ne 1$. Còn $2$ cặp: $(a; b) = (12; 84)$ và $(36; 60)$. Phương án B do quên điều kiện $\\text{ƯCLN}(m, n) = 1$ (khi đó $(24; 72)$ có ƯCLN là $24$). Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số tự nhiên nhỏ nhất khác $0$ chia hết cho tất cả các số $1, 2, 3, 4, 5, 6, 7, 8, 9, 10$ là",
+          "options": [
+            "$5040$",
+            "$1260$",
+            "$2520$",
+            "$840$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{let l=1;for(let k=1;k<=10;k++)l=((a,b)=>a*b/gcd(a,b))(l,k);return l})()",
+          "explanation": "Số cần tìm là $\\text{BCNN}(1, 2, \\dots, 10)$. Lấy mỗi thừa số nguyên tố với số mũ lớn nhất: $2^3$ (từ $8$), $3^2$ (từ $9$), $5$, $7$. Vậy $\\text{BCNN} = 2^3 \\cdot 3^2 \\cdot 5 \\cdot 7 = 2520$. Phương án B ($1260 = 2^2 \\cdot 3^2 \\cdot 5 \\cdot 7$) không chia hết cho $8$; phương án D ($840 = 2^3 \\cdot 3 \\cdot 5 \\cdot 7$) không chia hết cho $9$; phương án A là một bội chung nhưng không nhỏ nhất. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu số tự nhiên $n$ nhỏ hơn $20$ để phân số $\\frac{2n + 7}{n + 2}$ **chưa** tối giản?",
+          "options": [
+            "$7$",
+            "$6$",
+            "$13$",
+            "$20$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let n=0;n<20;n++)if(gcd(2*n+7,n+2)>1)c++;return c})()",
+          "explanation": "Gọi $d$ là một ước chung của $2n + 7$ và $n + 2$. Khi đó $d$ là ước của $2(n + 2) = 2n + 4$, nên $d$ là ước của hiệu $(2n + 7) - (2n + 4) = 3$. Do đó phân số chưa tối giản khi và chỉ khi $2n + 7$ và $n + 2$ cùng chia hết cho $3$; mà khi $n + 2$ chia hết cho $3$ thì $2n + 7 = 2(n + 2) + 3$ cũng chia hết cho $3$. Vậy cần $n + 2$ chia hết cho $3$: $n \\in \\{1; 4; 7; 10; 13; 16; 19\\}$ — có $7$ số. Phương án C là số giá trị làm phân số tối giản ($20 - 7 = 13$); phương án B do bỏ sót $n = 19$. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số dư khi chia $10^{25} + 14$ cho $9$ là",
+          "options": [
+            "$5$",
+            "$6$",
+            "$0$",
+            "$4$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "Number((10n**25n + 14n) % 9n)",
+          "explanation": "$10^{25}$ là số gồm chữ số $1$ và $25$ chữ số $0$, nên $10^{25} + 14 = 100\\dots014$ có tổng các chữ số là $1 + 1 + 4 = 6$. Một số và tổng các chữ số của nó có cùng số dư khi chia cho $9$, nên số dư là $6$. Phương án A do quên chữ số $1$ của $10^{25}$ (chỉ tính $1 + 4 = 5$). Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số tự nhiên nhỏ nhất có đúng $6$ ước là",
+          "options": [
+            "$6$",
+            "$30$",
+            "$32$",
+            "$12$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{const N=(n=>{let c=0;for(let d=1;d<=n;d++)if(n%d===0)c++;return c});for(let n=1;;n++)if(N(n)===6)return n})()",
+          "explanation": "Số có đúng $6$ ước có dạng $p^5$ (số ước $5 + 1 = 6$) hoặc $p^2 \\cdot q$ với $p, q$ là hai số nguyên tố khác nhau (số ước $(2+1)(1+1) = 6$). Nhỏ nhất ở dạng thứ nhất là $2^5 = 32$; ở dạng thứ hai là $2^2 \\cdot 3 = 12$. Vậy số cần tìm là $12$ (các ước: $1, 2, 3, 4, 6, 12$). Phương án A nhầm \"có $6$ ước\" với \"bằng $6$\" ($6$ chỉ có $4$ ước); phương án B ($30 = 2 \\cdot 3 \\cdot 5$) có $8$ ước; phương án C có $6$ ước nhưng không nhỏ nhất. Chọn D."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho $A = 5 + 5^2 + 5^3 + \\dots + 5^{20}$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$A$ chia hết cho $5$",
+            "$A$ chia hết cho $6$",
+            "$A$ chia hết cho $13$",
+            "$A$ chia hết cho $31$"
+          ],
+          "answer": [
+            true,
+            true,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(()=>{let A=0n;for(let k=1n;k<=20n;k++)A+=5n**k;return [A%5n===0n,A%6n===0n,A%13n===0n,A%31n===0n]})()",
+          "explanation": "$A$ có $20$ số hạng. a) Đúng. Mọi số hạng đều chia hết cho $5$ nên tổng $A$ chia hết cho $5$. b) Đúng. Nhóm hai số hạng: $A = (5 + 5^2) + 5^2(5 + 5^2) + \\dots + 5^{18}(5 + 5^2) = 30 \\cdot (1 + 5^2 + \\dots + 5^{18})$, chia hết cho $30$ nên chia hết cho $6$. c) Đúng. Nhóm bốn số hạng ($20$ chia hết cho $4$): $5 + 5^2 + 5^3 + 5^4 = 5 + 25 + 125 + 625 = 780 = 13 \\cdot 60$, nên $A = 780 \\cdot (1 + 5^4 + 5^8 + 5^{12} + 5^{16})$ chia hết cho $13$. d) Sai. Ta có $5 + 5^2 + 5^3 = 155 = 5 \\cdot 31$. Nhóm $18$ số hạng đầu thành $6$ nhóm ba số hạng, mỗi nhóm chia hết cho $31$; còn lại $5^{19} + 5^{20} = 5^{19} \\cdot 6 = 2 \\cdot 3 \\cdot 5^{19}$. Phân tích này không chứa thừa số nguyên tố $31$ nên $5^{19} + 5^{20}$ không chia hết cho $31$. Tổng của một số chia hết cho $31$ và một số không chia hết cho $31$ thì không chia hết cho $31$. Vậy $A$ không chia hết cho $31$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Một mảnh vườn hình chữ nhật có chiều dài $96$ m, chiều rộng $60$ m. Người ta trồng cây xung quanh vườn sao cho mỗi góc vườn có một cây và khoảng cách giữa hai cây liên tiếp đều bằng nhau, là một số tự nhiên (đơn vị mét). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Khoảng cách giữa hai cây liên tiếp phải là ước chung của $96$ và $60$",
+            "Khoảng cách lớn nhất có thể giữa hai cây liên tiếp là $12$ m",
+            "Với khoảng cách lớn nhất đó, cần trồng tất cả $30$ cây",
+            "Có tất cả $6$ cách chọn khoảng cách giữa hai cây liên tiếp thỏa mãn yêu cầu"
+          ],
+          "answer": [
+            true,
+            true,
+            false,
+            true
+          ],
+          "points": 2,
+          "verify": "(()=>{const g=gcd(96,60);return [96%g===0&&60%g===0,g===12,2*(96+60)/g===30,(n=>{let c=0;for(let d=1;d<=n;d++)if(n%d===0)c++;return c})(g)===6]})()",
+          "explanation": "a) Đúng. Vì mỗi góc có một cây và các cây cách đều nhau nên mỗi cạnh $96$ m và $60$ m được chia thành các đoạn bằng khoảng cách đó; khoảng cách phải là ước của $96$ và của $60$. b) Đúng. $96 = 2^5 \\cdot 3$, $60 = 2^2 \\cdot 3 \\cdot 5$ nên $\\text{ƯCLN}(96, 60) = 2^2 \\cdot 3 = 12$ (m). c) Sai. Chu vi vườn là $2 \\cdot (96 + 60) = 312$ (m). Trồng cây trên đường khép kín thì số cây bằng số khoảng: $312 : 12 = 26$ cây. Con số $30$ là do tính mỗi cạnh \"số khoảng cộng $1$\" ($9 + 6 + 9 + 6 = 30$) nên đếm trùng $4$ cây ở góc. d) Đúng. Khoảng cách là ước chung của $96$ và $60$, tức là ước của $12$: $1, 2, 3, 4, 6, 12$ — có $6$ cách."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính tổng tất cả các số có dạng $\\overline{a35b}$ chia hết cho cả $5$ và $9$.",
+          "answer": [
+            "6705"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let s=0;for(let a=1;a<10;a++)for(let b=0;b<10;b++){const n=a*1000+350+b;if(n%5===0&&n%9===0)s+=n}return s})()",
+          "explanation": "Chia hết cho $5$ nên $b \\in \\{0; 5\\}$; $a$ là chữ số từ $1$ đến $9$. Nếu $b = 0$: tổng chữ số $a + 3 + 5 + 0 = a + 8$ chia hết cho $9$ nên $a = 1$, được số $1350$. Nếu $b = 5$: tổng $a + 13$ chia hết cho $9$ nên $a = 5$, được số $5355$. Tổng hai số: $1350 + 5355 = 6705$. Đáp số: $6705$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Có bao nhiêu số tự nhiên có hai chữ số là bội của $6$ nhưng không là bội của $9$?",
+          "answer": [
+            "10"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let n=10;n<100;n++)if(n%6===0&&n%9!==0)c++;return c})()",
+          "explanation": "Các bội của $6$ có hai chữ số là $12, 18, \\dots, 96$, gồm $(96 - 12) : 6 + 1 = 15$ số. Số vừa là bội của $6$ vừa là bội của $9$ là bội của $\\text{BCNN}(6, 9) = 18$: $18, 36, 54, 72, 90$ — có $5$ số. Vậy số cần đếm là $15 - 5 = 10$. Lưu ý: không được trừ các bội của $9$ nói chung (như $27$, $45$) vì chúng không phải bội của $6$. Đáp số: $10$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số tự nhiên nhỏ nhất có ba chữ số mà khi chia cho $4$ dư $3$, chia cho $5$ dư $4$ và chia cho $6$ dư $5$.",
+          "answer": [
+            "119"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{for(let n=100;n<1000;n++)if(n%4===3&&n%5===4&&n%6===5)return n})()",
+          "explanation": "Gọi số cần tìm là $n$. Số dư mỗi lần đều kém số chia $1$ đơn vị, nên $n + 1$ chia hết cho $4$, $5$ và $6$, tức $n + 1 \\in \\text{BC}(4, 5, 6)$. $\\text{BCNN}(4, 5, 6) = 2^2 \\cdot 3 \\cdot 5 = 60$, nên $n + 1 \\in \\{60; 120; 180; \\dots\\}$, $n \\in \\{59; 119; 179; \\dots\\}$. Số nhỏ nhất có ba chữ số là $n = 119$. Thử lại: $119 = 4 \\cdot 29 + 3 = 5 \\cdot 23 + 4 = 6 \\cdot 19 + 5$. Đáp số: $119$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Số $3150$ có bao nhiêu ước?",
+          "answer": [
+            "36"
+          ],
+          "points": 0.5,
+          "verify": "(n=>{let c=0;for(let d=1;d<=n;d++)if(n%d===0)c++;return c})(3150)",
+          "explanation": "Phân tích ra thừa số nguyên tố: $3150 = 2 \\cdot 3^2 \\cdot 5^2 \\cdot 7$. Mỗi ước có dạng $2^x \\cdot 3^y \\cdot 5^z \\cdot 7^t$ với $x \\in \\{0; 1\\}$ ($2$ cách), $y \\in \\{0; 1; 2\\}$ ($3$ cách), $z \\in \\{0; 1; 2\\}$ ($3$ cách), $t \\in \\{0; 1\\}$ ($2$ cách). Số ước là $2 \\cdot 3 \\cdot 3 \\cdot 2 = 36$. Đáp số: $36$."
+        }
+      ]
+    },
+    {
+      "slug": "toan6-tinh-chia-het-gioi-03",
+      "title": "Tính chia hết trong tập hợp các số tự nhiên — Đề 10",
+      "level": "gioi",
+      "sort_order": 3,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): cấu tạo số, lập số chia hết cho 15, hiệu hai số nguyên tố, hai số nguyên tố cùng nhau, bánh răng ăn khớp, đếm bội, chia phần quà, tìm hai số biết ƯCLN và BCNN.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Với mọi chữ số $a, b$ khác $0$, tổng $\\overline{ab} + \\overline{ba}$ luôn chia hết cho số nào sau đây?",
+          "options": [
+            "$2$",
+            "$9$",
+            "$11$",
+            "$10$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "[2,9,11,10].find(d=>{for(let a=1;a<10;a++)for(let b=1;b<10;b++)if((11*a+11*b)%d!==0)return false;return true})",
+          "explanation": "Ta có $\\overline{ab} = 10a + b$ và $\\overline{ba} = 10b + a$. Do đó $\\overline{ab} + \\overline{ba} = 11a + 11b = 11 \\cdot (a + b)$, luôn chia hết cho $11$. Các phương án khác sai, chẳng hạn $12 + 21 = 33$ không chia hết cho $2$, $9$, $10$. (Phương án B là tính chất của hiệu $\\overline{ab} - \\overline{ba} = 9(a - b)$ khi $a > b$, dễ nhầm.) Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Từ bốn chữ số $0, 3, 5, 6$ lập được bao nhiêu số có ba chữ số khác nhau và chia hết cho $15$?",
+          "options": [
+            "$2$",
+            "$4$",
+            "$6$",
+            "$3$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{const D=[0,3,5,6];let c=0;for(const x of D)for(const y of D)for(const z of D){if(x===0||x===y||y===z||x===z)continue;if((100*x+10*y+z)%15===0)c++}return c})()",
+          "explanation": "Số chia hết cho $15$ khi và chỉ khi chia hết cho cả $3$ và $5$. Chọn ba chữ số khác nhau có tổng chia hết cho $3$: $\\{0; 3; 6\\}$ (tổng $9$) thỏa mãn; $\\{0; 3; 5\\}$ (tổng $8$), $\\{0; 5; 6\\}$ (tổng $11$), $\\{3; 5; 6\\}$ (tổng $14$) không thỏa mãn. Với $\\{0; 3; 6\\}$, số chia hết cho $5$ phải tận cùng là $0$: được $360$ và $630$. Có $2$ số. Phương án B do đếm cả $306$, $603$ (chia hết cho $3$ nhưng không chia hết cho $5$). Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Hiệu của hai số nguyên tố bằng $2025$. Số lớn hơn trong hai số đó là",
+          "options": [
+            "$2023$",
+            "$1013$",
+            "$2025$",
+            "$2027$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{const P=(n=>{if(n<2)return false;for(let d=2;d*d<=n;d++)if(n%d===0)return false;return true});for(let p=2;p<3000;p++)if(P(p)&&P(p+2025))return p+2025})()",
+          "explanation": "$2025$ là số lẻ. Nếu cả hai số nguyên tố đều lẻ thì hiệu của chúng là số chẵn, vô lí. Vậy số nhỏ hơn là số nguyên tố chẵn $2$, số lớn hơn là $2 + 2025 = 2027$ (là số nguyên tố). Phương án A do lấy $2025 - 2$ (nhầm hiệu thành tổng); phương án C là chính hiệu. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Với mọi số tự nhiên $n$, $\\text{ƯCLN}(2n + 1,\\ 3n + 1)$ bằng",
+          "options": [
+            "$n$",
+            "$1$",
+            "$2$",
+            "$n + 1$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{for(let n=0;n<500;n++)if(gcd(2*n+1,3*n+1)!==1)return -1;return 1})()",
+          "explanation": "Gọi $d = \\text{ƯCLN}(2n + 1, 3n + 1)$. Khi đó $d$ là ước của $3(2n + 1) = 6n + 3$ và của $2(3n + 1) = 6n + 2$, nên $d$ là ước của hiệu $(6n + 3) - (6n + 2) = 1$. Vậy $d = 1$, tức là $2n + 1$ và $3n + 1$ luôn nguyên tố cùng nhau. Phương án A, D phụ thuộc $n$ nên không thể đúng với mọi $n$ (ví dụ $n = 1$: $\\text{ƯCLN}(3, 4) = 1$); phương án C sai vì $2n + 1$ luôn lẻ. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Hai bánh răng ăn khớp với nhau: bánh thứ nhất có $18$ răng, bánh thứ hai có $24$ răng. Ban đầu hai răng được đánh dấu đang khớp nhau. Bánh thứ nhất phải quay ít nhất bao nhiêu vòng thì hai răng đánh dấu lại khớp với nhau lần đầu tiên?",
+          "options": [
+            "$3$",
+            "$6$",
+            "$72$",
+            "$4$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "((a,b)=>a*b/gcd(a,b))(18,24)/18",
+          "explanation": "Mỗi khi hai bánh răng quay, số răng đi qua chỗ ăn khớp của hai bánh là như nhau. Hai răng đánh dấu khớp lại khi số răng đi qua vừa là bội của $18$ (bánh thứ nhất quay đủ vòng) vừa là bội của $24$ (bánh thứ hai quay đủ vòng); lần đầu tiên ứng với $\\text{BCNN}(18, 24)$. Ta có $18 = 2 \\cdot 3^2$, $24 = 2^3 \\cdot 3$ nên $\\text{BCNN} = 2^3 \\cdot 3^2 = 72$ răng. Bánh thứ nhất quay $72 : 18 = 4$ vòng (bánh thứ hai quay $72 : 24 = 3$ vòng). Phương án A là số vòng của bánh thứ hai; phương án C là số răng; phương án B là $\\text{ƯCLN}(18, 24)$. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Rút gọn phân số $\\frac{1224}{1530}$ về phân số tối giản $\\frac{a}{b}$. Tổng $a + b$ bằng",
+          "options": [
+            "$18$",
+            "$9$",
+            "$27$",
+            "$45$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{const g=gcd(1224,1530);return 1224/g+1530/g})()",
+          "explanation": "Ta có $1224 = 2^3 \\cdot 3^2 \\cdot 17$ và $1530 = 2 \\cdot 3^2 \\cdot 5 \\cdot 17$, nên $\\text{ƯCLN}(1224, 1530) = 2 \\cdot 3^2 \\cdot 17 = 306$. Chia cả tử và mẫu cho $306$: $\\frac{1224}{1530} = \\frac{4}{5}$, phân số tối giản. Vậy $a + b = 4 + 5 = 9$. Các phương án A ($\\frac{8}{10}$), C ($\\frac{12}{15}$), D ($\\frac{20}{25}$) là do chia cho một ước chung nhưng chưa phải ƯCLN, phân số thu được chưa tối giản. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu số tự nhiên từ $1$ đến $100$ chia hết cho $2$ hoặc chia hết cho $3$?",
+          "options": [
+            "$83$",
+            "$50$",
+            "$67$",
+            "$66$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let n=1;n<=100;n++)if(n%2===0||n%3===0)c++;return c})()",
+          "explanation": "Từ $1$ đến $100$: có $50$ số chia hết cho $2$; có $33$ số chia hết cho $3$ ($3, 6, \\dots, 99$). Các số chia hết cho cả $2$ và $3$ là bội của $\\text{BCNN}(2, 3) = 6$: $6, 12, \\dots, 96$, có $16$ số; những số này bị đếm hai lần. Vậy có $50 + 33 - 16 = 67$ số. Phương án A ($50 + 33$) do đếm trùng các bội của $6$; phương án B chỉ đếm các số chẵn. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Khẳng định nào sau đây **sai**?",
+          "options": [
+            "Tổng của bốn số tự nhiên liên tiếp luôn chia hết cho $4$",
+            "Tích của hai số tự nhiên liên tiếp luôn chia hết cho $2$",
+            "Tích của ba số tự nhiên liên tiếp luôn chia hết cho $6$",
+            "Tổng của ba số tự nhiên liên tiếp luôn chia hết cho $3$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "A sai: $0 + 1 + 2 + 3 = 6$ không chia hết cho $4$ (tổng quát $n + (n+1) + (n+2) + (n+3) = 4n + 6$, mà $6$ không chia hết cho $4$). B đúng: trong hai số tự nhiên liên tiếp có một số chẵn. C đúng: trong ba số tự nhiên liên tiếp có ít nhất một số chẵn và có một số chia hết cho $3$; tích chia hết cho $2$ và $3$ nên chia hết cho $6$. D đúng: $n + (n+1) + (n+2) = 3n + 3 = 3(n + 1)$. Chọn A."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho $a = 2^3 \\cdot 3^2 \\cdot 7$ và $b = 2^2 \\cdot 3^3 \\cdot 5$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$a$ chia hết cho $6$ nhưng không chia hết cho $5$",
+            "$\\text{ƯCLN}(a, b) = 36$",
+            "$\\text{BCNN}(a, b) = 3780$",
+            "$a$ có đúng $24$ ước"
+          ],
+          "answer": [
+            true,
+            true,
+            false,
+            true
+          ],
+          "points": 2,
+          "verify": "(()=>{const a=8*9*7,b=4*27*5;return [a%6===0&&a%5!==0,gcd(a,b)===36,a*b/gcd(a,b)===3780,(n=>{let c=0;for(let d=1;d<=n;d++)if(n%d===0)c++;return c})(a)===24]})()",
+          "explanation": "Ta có $a = 504$, $b = 540$. a) Đúng. Phân tích của $a$ chứa thừa số $2$ và $3$ nên $a$ chia hết cho $6$; không chứa thừa số nguyên tố $5$ nên $a$ không chia hết cho $5$. b) Đúng. Thừa số nguyên tố chung là $2$ và $3$, lấy số mũ nhỏ nhất: $\\text{ƯCLN}(a, b) = 2^2 \\cdot 3^2 = 36$. c) Sai. Lấy tất cả các thừa số nguyên tố với số mũ lớn nhất: $\\text{BCNN}(a, b) = 2^3 \\cdot 3^3 \\cdot 5 \\cdot 7 = 7560$. Số $3780 = 2^2 \\cdot 3^3 \\cdot 5 \\cdot 7$ do lấy nhầm $2^2$; nó không chia hết cho $a$ vì $3780 : 504$ không phải phép chia hết. d) Đúng. Số ước của $a$ là $(3 + 1)(2 + 1)(1 + 1) = 4 \\cdot 3 \\cdot 2 = 24$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cô giáo có $156$ quyển vở, $120$ chiếc bút bi và $84$ chiếc thước kẻ. Cô muốn chia đều mỗi loại vào các phần quà (mỗi phần có cả ba loại, số lượng mỗi loại ở các phần là như nhau). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Số phần quà phải là ước chung của $156$, $120$ và $84$",
+            "Cô chia được nhiều nhất $12$ phần quà",
+            "Khi chia được nhiều phần quà nhất, mỗi phần có tổng cộng $30$ đồ vật",
+            "Có đúng $6$ cách chia thành từ $2$ phần quà trở lên"
+          ],
+          "answer": [
+            true,
+            true,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(()=>{const g=gcd(gcd(156,120),84);return [156%g===0&&120%g===0&&84%g===0,g===12,156/g+120/g+84/g===30,(n=>{let c=0;for(let d=1;d<=n;d++)if(n%d===0)c++;return c})(g)-1===6]})()",
+          "explanation": "a) Đúng. Mỗi loại được chia đều vào các phần nên số phần quà là ước của $156$, của $120$ và của $84$. b) Đúng. $156 = 2^2 \\cdot 3 \\cdot 13$, $120 = 2^3 \\cdot 3 \\cdot 5$, $84 = 2^2 \\cdot 3 \\cdot 7$ nên $\\text{ƯCLN} = 2^2 \\cdot 3 = 12$. c) Đúng. Mỗi phần có $156 : 12 = 13$ vở, $120 : 12 = 10$ bút, $84 : 12 = 7$ thước, tổng $13 + 10 + 7 = 30$ đồ vật. d) Sai. Số phần quà là ước chung, tức là ước của $12$: $1, 2, 3, 4, 6, 12$. Bỏ trường hợp $1$ phần, còn $2, 3, 4, 6, 12$ — chỉ có $5$ cách."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số tự nhiên lớn nhất có năm chữ số khác nhau và chia hết cho $9$.",
+          "answer": [
+            "98730"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{for(let n=99999;n>=10000;n--){const s=String(n);if(new Set(s).size===5&&n%9===0)return n}})()",
+          "explanation": "Số chia hết cho $9$ khi tổng các chữ số chia hết cho $9$. Muốn số lớn nhất, ta ưu tiên các chữ số hàng cao lớn nhất: $9$, $8$, $7$. Tổng năm chữ số khác nhau không vượt quá $9 + 8 + 7 + 6 + 5 = 35$, nên tổng chỉ có thể là $27$ hoặc $36$; tổng $36$ không đạt được. Với $\\overline{987xy}$, cần $24 + x + y = 27$, tức $x + y = 3$ với $x, y$ khác nhau và khác $9, 8, 7$: có $(3; 0)$, $(2; 1)$, $(1; 2)$, $(0; 3)$. Lớn nhất là $x = 3$, $y = 0$, được $98730$. Đáp số: $98730$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Hai số tự nhiên $a$ và $b$ ($a < b$) có $\\text{ƯCLN}(a, b) = 15$, $\\text{BCNN}(a, b) = 300$ và $b - a = 15$. Tính $a + b$.",
+          "answer": [
+            "135"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{for(let a=1;a<300;a++){const b=a+15;if(gcd(a,b)===15&&a*b/gcd(a,b)===300)return a+b}})()",
+          "explanation": "Vì $\\text{ƯCLN}(a, b) = 15$ nên $a = 15m$, $b = 15n$ với $\\text{ƯCLN}(m, n) = 1$, $m < n$. Khi đó $\\text{BCNN}(a, b) = 15 \\cdot m \\cdot n$, nên $15mn = 300$, tức $m \\cdot n = 20$. Các cặp $m < n$ nguyên tố cùng nhau có tích $20$: $(1; 20)$, $(4; 5)$. Từ $b - a = 15$ suy ra $15(n - m) = 15$, $n - m = 1$, nên $(m; n) = (4; 5)$. Vậy $a = 60$, $b = 75$, $a + b = 135$. Thử lại: $\\text{ƯCLN}(60, 75) = 15$, $\\text{BCNN}(60, 75) = 300$. Đáp số: $135$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Có bao nhiêu số tự nhiên $a$ sao cho khi chia $150$ và $230$ cho $a$ đều được số dư là $6$?",
+          "answer": [
+            "2"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let a=1;a<=230;a++)if(150%a===6&&230%a===6)c++;return c})()",
+          "explanation": "Vì số dư là $6$ nên $a > 6$, đồng thời $150 - 6 = 144$ và $230 - 6 = 224$ đều chia hết cho $a$. Vậy $a$ là ước chung của $144$ và $224$. Ta có $144 = 2^4 \\cdot 3^2$, $224 = 2^5 \\cdot 7$, nên $\\text{ƯCLN}(144, 224) = 2^4 = 16$ và $\\text{ƯC}(144, 224) = \\{1; 2; 4; 8; 16\\}$. Kết hợp điều kiện $a > 6$: $a \\in \\{8; 16\\}$. Có $2$ số. Lưu ý: không lấy $a = 1, 2, 4$ vì số dư phải nhỏ hơn số chia. Đáp số: $2$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số tự nhiên $n \\ge 1$ sao cho $(n - 1) \\cdot (n + 3)$ là số nguyên tố.",
+          "answer": [
+            "2"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{const P=(n=>{if(n<2)return false;for(let d=2;d*d<=n;d++)if(n%d===0)return false;return true});const r=[];for(let n=1;n<1000;n++)if(P((n-1)*(n+3)))r.push(n);return r.length===1?r[0]:-1})()",
+          "explanation": "Số nguyên tố chỉ có hai ước là $1$ và chính nó. Vì $n - 1 < n + 3$ nên tích $(n - 1)(n + 3)$ là số nguyên tố thì phải có $n - 1 = 1$ và $n + 3$ là số nguyên tố. Từ $n - 1 = 1$ suy ra $n = 2$, khi đó $n + 3 = 5$ là số nguyên tố, tích bằng $5$ (thỏa mãn). Với $n = 1$ tích bằng $0$; với $n \\ge 3$ thì $n - 1 \\ge 2$ nên tích có ít nhất ba ước $1$, $n - 1$, tích — là hợp số. Đáp số: $2$."
+        }
+      ]
+    }
+  ]
+}
