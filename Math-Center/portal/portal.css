@@ -77,7 +77,11 @@ body.portal { background: var(--tdm-paper); min-height: 100vh; display: flex; fl
 .grade-card { background: var(--tdm-white); border: 1px solid var(--tdm-line); border-radius: 12px; padding: 16px 20px; display: grid; grid-template-columns: 200px 110px 1fr; gap: 12px 16px; align-items: start; }
 .grade-card .who b { display: block; color: var(--tdm-navy); }
 .grade-card .files { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-.grade-card .files input { flex: 1 1 220px; width: auto; }
+.grade-card .files input { flex: 1 1 220px; width: auto; min-width: 0; max-width: 100%; }
+.grade-card > * { min-width: 0; }
+/* Ô chọn file và mọi phần tử con không được đẩy trang rộng hơn màn hình điện thoại. */
+.portal input[type=file] { max-width: 100%; min-width: 0; }
+.portal main { overflow-wrap: anywhere; }
 .grade-card.saved { border-color: var(--tdm-teal); }
 .btn-sm { padding: 8px 14px; font-size: .9rem; }
 .assess-head { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; }
@@ -114,7 +118,13 @@ body.portal { background: var(--tdm-paper); min-height: 100vh; display: flex; fl
   .portal .brand img { width: 36px; height: 36px; }
 }
 @media (max-width: 560px) {
-  .top-actions { gap: 6px; }
+  /* Thẻ (tab) xuống dòng thay vì bị cắt khuất bên phải. */
+  .tabs { flex-wrap: wrap; overflow-x: visible; gap: 2px 4px; }
+  .tab { padding: 10px 12px; font-size: .92rem; }
+  /* Thanh trên cùng: chỉ giữ logo, các nút tự xuống dòng — không tràn ra ngoài màn hình. */
+  .portal .brand > span { display: none; }
+  .portal .site-header .nav { height: auto; min-height: 56px; padding-top: 8px; padding-bottom: 8px; gap: 10px; }
+  .top-actions { gap: 6px; flex: 1; min-width: 0; flex-wrap: wrap; justify-content: flex-end; }
   .top-actions .btn-sm { padding: 6px 10px; font-size: .8rem; }
 }
 @media (max-width: 760px) {

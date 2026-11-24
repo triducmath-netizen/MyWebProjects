@@ -2,9 +2,9 @@ import {
   sb, logout, configured, $, el, loginToEmail, phoneToEmail, weekLabel, fmtNum, fmtDateTime,
   toast, errMsg, openDialog, showFiles, notConfiguredNotice,
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm,
-} from '../portal/common.js?v=20261124d';
+} from '../portal/common.js?v=20261124g';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../portal/config.js';
-import { renderQuizList, setReadOnly } from './quiz.js?v=20261124d';
+import { renderQuizList, setReadOnly } from './quiz.js?v=20261124g';
 
 const app = $('#app');
 let currentTab = 'quiz';

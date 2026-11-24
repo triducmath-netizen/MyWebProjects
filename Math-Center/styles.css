@@ -98,7 +98,7 @@ p { margin: 0 0 calc(var(--u) * 2); }
   min-width: 0;
 }
 .news [hidden] { display: none; }
-.news-head {display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.news-head {display: flex; align-items: center; justify-content: space-between; gap: 8px 12px; margin-bottom: 16px; flex-wrap: wrap; }
 .news-title { display: flex; align-items: center; gap: 10px; margin: 0; color: var(--tdm-gold); font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
 .news-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--tdm-gold); box-shadow: 0 0 0 4px rgba(201,162,63,.2); }
 .news-ctrl { display: flex; gap: 6px; }
@@ -188,6 +188,12 @@ table.schedule { min-width: 0; }
 @media (max-width: 480px) {
   .schedule tbody th { width: 72px; padding: 14px 12px; }
   .schedule td { padding: 10px 12px; }
+}
+@media (max-width: 380px) {
+  .schedule tbody th { width: 60px; padding: 12px 8px; white-space: normal; }
+  .schedule td { padding: 8px; }
+  .slot { margin-right: 6px; padding: 5px 10px; white-space: normal; flex-wrap: wrap; gap: 2px 6px; }
+  .news { padding: 16px; }
 }
 
 details { background: var(--tdm-white); border: 1px solid var(--tdm-line); border-radius: 12px; margin-top: 12px; }
