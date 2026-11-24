@@ -161,10 +161,19 @@ async function renderPractice(body, box, student) {
       el('p', { class: 'muted', text: 'Các đề luyện tập theo chuyên đề sẽ sớm có ở đây.' })));
     return;
   }
-  const grades = [...new Set(rows.map((r) => r.grade))].sort((a, b) => a - b);
-  if (!grades.includes(nav.grade)) { const g0 = student.classes?.grade; nav.grade = grades.includes(g0) ? g0 : grades[0]; }
+  // Học sinh chỉ thấy đề của khối lớp mình (lớp chưa gán khối thì thấy tất cả).
+  const myGrade = student.classes?.grade != null ? Number(student.classes.grade) : null;
+  const allGrades = [...new Set(rows.map((r) => Number(r.grade)))].sort((a, b) => a - b);
+  const grades = myGrade != null ? allGrades.filter((g) => g === myGrade) : allGrades;
+  if (!grades.length) {
+    body.replaceChildren(el('div', { class: 'panel empty' },
+      el('h2', { text: `Ngân hàng đề Toán ${myGrade} đang được chuẩn bị` }),
+      el('p', { class: 'muted', text: 'Các đề luyện tập theo chuyên đề của khối lớp em sẽ sớm có ở đây.' })));
+    return;
+  }
+  if (!grades.includes(nav.grade)) nav.grade = grades[0];
   const topics = new Map();
-  rows.filter((r) => r.grade === nav.grade).forEach((r) => {
+  rows.filter((r) => Number(r.grade) === nav.grade).forEach((r) => {
     if (!topics.has(r.topic)) topics.set(r.topic, {});
     topics.get(r.topic)[r.level] = r.quiz_count;
   });
@@ -172,8 +181,8 @@ async function renderPractice(body, box, student) {
   body.replaceChildren(
     el('div', { class: 'panel' },
       el('h2', { text: 'Luyện đề theo chuyên đề' }),
-      el('p', { class: 'muted', text: 'Chọn khối lớp, chuyên đề và mức độ phù hợp với em. Mỗi đề 45 phút, thang điểm 10.' }),
-      el('div', { class: 'child-switch' }, grades.map((g) =>
+      el('p', { class: 'muted', text: `${grades.length > 1 ? 'Chọn khối lớp, chuyên đề' : `Đề Toán ${nav.grade} — chọn chuyên đề`} và mức độ phù hợp với em. Mỗi đề 45 phút, thang điểm 10.` }),
+      grades.length < 2 ? null : el('div', { class: 'child-switch' }, grades.map((g) =>
         el('button', { class: `btn btn-sm ${g === nav.grade ? 'btn-navy' : 'btn-outline'}`, text: `Toán ${g}`,
           onclick: () => { nav.grade = g; renderQuizList(box, student); } })))),
     el('div', { class: 'topic-grid section-gap' }, [...topics.entries()].map(([topic, counts]) =>
