@@ -28,6 +28,8 @@ async function start() {
 // ---------- Đăng nhập ----------
 function renderLogin() {
   top.replaceChildren();
+  const tag = document.querySelector('.portal-tag');
+  if (tag) tag.textContent = 'Học sinh & PH';
   const msg = el('p', { class: 'error-text small', role: 'alert' });
   const btn = el('button', { class: 'btn btn-gold', type: 'submit', text: 'Đăng nhập' });
   const lastCode = rememberedLogin('parent');
@@ -157,6 +159,8 @@ async function renderDashboard(user) {
   const own = students.find((x) => x.parent_id === user.id);
   parentMode = !own;
   setReadOnly(parentMode);
+  const tag = document.querySelector('.portal-tag');
+  if (tag) tag.textContent = parentMode ? 'Phụ huynh' : 'Học sinh';
   // Học sinh còn dùng mật khẩu ban đầu (đoán được từ mã) → bắt đổi trước khi dùng.
   if (own && !own.password_changed) {
     top.replaceChildren(el('button', { class: 'btn btn-outline btn-sm', onclick: () => sb.auth.signOut(), text: 'Đăng xuất' }));
