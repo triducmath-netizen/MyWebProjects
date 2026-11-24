@@ -121,7 +121,10 @@ body.portal { background: var(--tdm-paper); min-height: 100vh; display: flex; fl
   /* Thẻ (tab) xuống dòng thay vì bị cắt khuất bên phải. */
   .tabs { flex-wrap: wrap; overflow-x: visible; gap: 2px 4px; }
   .tab { padding: 10px 12px; font-size: .92rem; }
-  .top-actions { gap: 6px; }
+  /* Thanh trên cùng: chỉ giữ logo, các nút tự xuống dòng — không tràn ra ngoài màn hình. */
+  .portal .brand > span { display: none; }
+  .portal .site-header .nav { height: auto; min-height: 56px; padding-top: 8px; padding-bottom: 8px; gap: 10px; }
+  .top-actions { gap: 6px; flex: 1; min-width: 0; flex-wrap: wrap; justify-content: flex-end; }
   .top-actions .btn-sm { padding: 6px 10px; font-size: .8rem; }
 }
 @media (max-width: 760px) {
