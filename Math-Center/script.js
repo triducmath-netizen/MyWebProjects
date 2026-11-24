@@ -20,42 +20,93 @@ menu.addEventListener('click', (e) => {
 // Năm ở chân trang
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Form đăng ký: web tĩnh chưa có máy chủ, nên form mở ứng dụng email
-// với nội dung đã điền sẵn để phụ huynh bấm Gửi.
+// Form đăng ký học thử: lưu thẳng vào Supabase (bảng trial_signups — khách chỉ được thêm,
+// không đọc được). Quản trị xem danh sách ở trang giáo viên → thẻ "Đăng ký học thử".
+// Nếu không gửi được (mất mạng…), hiện số điện thoại / Zalo và cách gửi bằng email.
 const CONTACT_EMAIL = 'triducmath@gmail.com';
 const form = document.getElementById('signup-form');
 const msg = form.querySelector('.form-msg');
+const submitBtn = form.querySelector('button[type="submit"]');
 
-form.addEventListener('submit', (e) => {
+// "0912 345 678", "+84 912345678", "84912345678" → "0912345678"; sai → null
+function normalizePhone(raw) {
+  let d = String(raw || '').replace(/[^0-9]/g, '');
+  if (d.startsWith('84') && d.length === 11) d = '0' + d.slice(2);
+  return /^0[0-9]{9}$/.test(d) ? d : null;
+}
+
+function showMsg(parts, isError) {
+  msg.replaceChildren(...parts.map((p) => {
+    if (typeof p === 'string') return document.createTextNode(p);
+    const a = document.createElement('a');
+    a.href = p.href; a.textContent = p.text;
+    return a;
+  }));
+  msg.classList.toggle('error', !!isError);
+}
+
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
+  if (form.website && form.website.value) return; // ô bẫy: chỉ máy gửi tự động mới điền
   let ok = true;
   form.querySelectorAll('[required]').forEach((el) => {
-    const bad = !el.value.trim() ||
-      (el.name === 'phone' && !/^[0-9+\s.-]{9,15}$/.test(el.value.trim()));
+    const v = el.value.trim();
+    const bad = !v || (el.name === 'phone' && !normalizePhone(v)) || (el.name === 'name' && v.length < 2);
     el.classList.toggle('invalid', bad);
     el.setAttribute('aria-invalid', String(bad));
     if (bad) ok = false;
   });
-
   if (!ok) {
-    msg.textContent = 'Vui lòng điền đủ họ tên, lớp và số điện thoại hợp lệ.';
-    msg.classList.add('error');
+    showMsg(['Vui lòng điền đủ họ tên, lớp và số điện thoại 10 số (ví dụ 0912345678).'], true);
     return;
   }
 
   const d = new FormData(form);
-  const body =
-    `Họ tên học sinh: ${d.get('name')}\n` +
-    `Lớp: ${d.get('grade')}\n` +
-    `SĐT phụ huynh: ${d.get('phone')}\n` +
-    `Ghi chú: ${d.get('note') || '(không có)'}`;
-  const subject = `Đăng ký học thử - ${d.get('name')}`;
+  const row = {
+    student_name: String(d.get('name')).trim().slice(0, 80),
+    grade: parseInt(String(d.get('grade')).replace(/[^0-9]/g, ''), 10),
+    parent_phone: normalizePhone(d.get('phone')),
+    note: String(d.get('note') || '').trim().slice(0, 500) || null,
+  };
 
-  window.location.href =
-    `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-  msg.classList.remove('error');
-  msg.textContent = 'Ứng dụng email đã được mở với nội dung điền sẵn — bấm Gửi để hoàn tất. Hoặc gọi/Zalo trực tiếp: 0904 440 886 – 0347 176 606.';
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Đang gửi…';
+  showMsg([''], false);
+  try {
+    const { SUPABASE_URL, SUPABASE_ANON_KEY } = await import('./portal/config.js');
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/trial_signups`, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal',
+      },
+      body: JSON.stringify(row),
+    });
+    if (!res.ok) {
+      const out = await res.json().catch(() => ({}));
+      // Lỗi do máy chủ viết sẵn bằng tiếng Việt (trùng đăng ký, quá tải) → hiện nguyên văn
+      if (out.code === 'P0001' && out.message) { showMsg([out.message], true); return; }
+      throw new Error(out.message || `HTTP ${res.status}`);
+    }
+    form.reset();
+    showMsg([`Đã nhận đăng ký của em ${row.student_name}. Trí Đức Math sẽ gọi lại số ${row.parent_phone} trong thời gian sớm nhất.`], false);
+  } catch (err) {
+    const body = `Họ tên học sinh: ${row.student_name}
+Lớp: ${row.grade}
+SĐT phụ huynh: ${row.parent_phone}
+Ghi chú: ${row.note || '(không có)'}`;
+    showMsg([
+      'Chưa gửi được đăng ký (có thể do mạng). Quý phụ huynh vui lòng gọi hoặc nhắn Zalo ',
+      { href: 'tel:0904440886', text: '0904 440 886' }, ', hoặc ',
+      { href: `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Đăng ký học thử - ' + row.student_name)}&body=${encodeURIComponent(body)}`, text: 'gửi bằng email' },
+      '.',
+    ], true);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Gửi đăng ký';
+  }
 });
 
 // Khung "Mới trên website": nội dung lấy từ assets/tin-moi.js

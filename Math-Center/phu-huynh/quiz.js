@@ -1,8 +1,8 @@
 // Trang học sinh — làm bài trực tuyến, xem điểm và lời giải.
-import { sb, el, fmtNum, toast, errMsg, openDialog, fmtDateTime, askConfirm } from '../portal/common.js?v=20261124c';
+import { sb, el, fmtNum, toast, errMsg, openDialog, fmtDateTime, askConfirm } from '../portal/common.js?v=20261124d';
 import {
   rich, imageUrls, qImage, KIND_LABEL, LETTERS, TF_LETTERS, reviewQuestion, isAnswered, fmtDeadline,
-} from '../portal/quiz-common.js?v=20261124c';
+} from '../portal/quiz-common.js?v=20261124d';
 
 let timer = null;
 let leaveGuard = null;

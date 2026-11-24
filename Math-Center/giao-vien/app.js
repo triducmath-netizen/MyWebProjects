@@ -1,11 +1,11 @@
 import {
   sb, logout, configured, $, el, normalizeCode, mondayOf, toISODate, weekLabel, fmtNum,
   randomPassword, uploadTo, toast, errMsg, openDialog, showFiles, notConfiguredNotice, formatLinkCode, displayLogin,
-  passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm, copyBox,
-} from '../portal/common.js?v=20261124c';
+  passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm, copyBox, fmtDateTime,
+} from '../portal/common.js?v=20261124d';
 import { SUPABASE_URL } from '../portal/config.js';
-import { renderQuizTab } from './quiz.js?v=20261124c';
-import { renderBankTab } from './bank.js?v=20261124c';
+import { renderQuizTab } from './quiz.js?v=20261124d';
+import { renderBankTab } from './bank.js?v=20261124d';
 
 const app = $('#app');
 const top = $('#top-actions');
@@ -87,14 +87,14 @@ async function loadClasses() {
 
 function renderShell() {
   const tabs = [['grades', 'Nhập kết quả'], ['quiz', 'Bài tập trực tuyến'], ['bank', 'Ngân hàng đề'], ['students', 'Học sinh & tài khoản']];
-  if (isAdmin()) tabs.push(['admin', 'Lớp & giáo viên']);
+  if (isAdmin()) tabs.push(['admin', 'Lớp & giáo viên'], ['trials', 'Đăng ký học thử']);
   const view = el('div');
   app.replaceChildren(
     el('div', { class: 'tabs', role: 'tablist' }, tabs.map(([id, label]) =>
       el('button', { class: 'tab', role: 'tab', 'aria-selected': String(state.tab === id), text: label,
         onclick: () => { state.tab = id; state.quizId = null; state.quizResultsId = null; state.bankQuizId = null; renderShell(); } }))),
     view);
-  if (!state.classes.length && state.tab !== 'admin' && state.tab !== 'bank') {
+  if (!state.classes.length && !['admin', 'bank', 'trials'].includes(state.tab)) {
     view.append(el('div', { class: 'panel empty' },
       el('h2', { text: 'Bạn chưa được phân công lớp nào' }),
       el('p', { class: 'muted', text: isAdmin()
@@ -106,6 +106,7 @@ function renderShell() {
   else if (state.tab === 'quiz') renderQuizTab(view, { state, classSelect, rerender: renderShell });
   else if (state.tab === 'bank') renderBankTab(view, { state, classSelect, rerender: renderShell, isAdmin });
   else if (state.tab === 'students') renderStudents(view);
+  else if (state.tab === 'trials') renderTrials(view);
   else renderAdmin(view);
 }
 
@@ -383,7 +384,7 @@ async function renderStudents(view) {
     el('div', { class: 'panel' }, el('div', { class: 'row' }, classSelect(renderShell, { includeInactive: true }))),
     isAdmin()
       ? el('div', { class: 'panel section-gap' }, el('h3', { text: 'Thêm học sinh vào lớp này' }),
-          el('p', { class: 'muted small', text: 'Điền họ tên và ngày sinh. Máy tự sinh mã học sinh (TDM000001, TDM000002, …; không đổi được), mật khẩu ban đầu (6 chữ số trong mã; lần đầu đăng nhập em phải đổi) và mã liên kết cho phụ huynh. Gửi cả 3 cho học sinh và phụ huynh.' }),
+          el('p', { class: 'muted small', text: 'Điền họ tên và ngày sinh. Máy tự sinh mã học sinh (TDM000001, TDM000002, …; không đổi được), mật khẩu ban đầu (6 chữ số ngẫu nhiên, chỉ hiện một lần — hãy chép lại; lần đầu đăng nhập em phải đổi) và mã liên kết cho phụ huynh. Gửi cả 3 cho học sinh và phụ huynh.' }),
           addForm)
       : el('p', { class: 'muted small section-gap', text: 'Chỉ quản trị viên được thêm, sửa, chuyển lớp hoặc xóa học sinh. Cần thay đổi, vui lòng liên hệ quản trị viên.' }),
     listBox);
@@ -516,7 +517,7 @@ async function callAccounts(payload) {
 async function parentAccount(s, action) {
   const msg = action === 'create_parent'
     ? `Tạo tài khoản học sinh cho em ${s.full_name}?`
-    : `Cấp lại mật khẩu cho em ${s.full_name}? Mật khẩu trở về mật khẩu ban đầu và em phải đổi lại khi đăng nhập.`;
+    : `Cấp lại mật khẩu cho em ${s.full_name}? Em sẽ nhận một mật khẩu tạm mới (6 chữ số ngẫu nhiên) và phải đổi lại khi đăng nhập.`;
   if (!await askConfirm(msg)) return;
   try {
     const out = await callAccounts({ action, student_id: s.id });
@@ -669,4 +670,51 @@ async function renderAdmin(view) {
           } catch (err) { toast(errMsg(err), 'error'); }
         } })));
   }));
+}
+
+// =====================================================================
+// Đăng ký học thử (từ form Liên hệ trên trang chủ) — chỉ quản trị
+// =====================================================================
+async function renderTrials(view) {
+  const list = el('div', { class: 'list' }, el('p', { class: 'muted', text: 'Đang tải…' }));
+  const showDone = el('input', { type: 'checkbox', checked: !!state.trialsShowDone,
+    onchange: (e) => { state.trialsShowDone = e.target.checked; renderShell(); } });
+  view.append(el('div', { class: 'panel' },
+    el('h3', { text: 'Đăng ký học thử' }),
+    el('p', { class: 'muted small', text: 'Phụ huynh gửi từ mục Liên hệ trên trang chủ. Gọi lại xong thì bấm "Đã liên hệ".' }),
+    el('label', { class: 'muted small' }, showDone, ' Hiện cả các đăng ký đã liên hệ'),
+    el('div', { class: 'section-gap' }, list)));
+
+  let q = sb.from('trial_signups').select('id, created_at, student_name, grade, parent_phone, note, contacted, contacted_at')
+    .order('created_at', { ascending: false }).limit(200);
+  if (!state.trialsShowDone) q = q.eq('contacted', false);
+  const { data, error } = await q;
+  if (error) { list.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
+  if (!data.length) {
+    list.replaceChildren(el('p', { class: 'muted', text: state.trialsShowDone ? 'Chưa có đăng ký nào.' : 'Không có đăng ký nào đang chờ gọi lại.' }));
+    return;
+  }
+  const phoneText = (p) => p.replace(/^(\d{4})(\d{3})(\d{3})$/, '$1 $2 $3');
+  list.replaceChildren(...data.map((r) => el('div', { class: 'item' },
+    el('div', { class: 'meta' },
+      el('b', { text: `${r.student_name} · Lớp ${r.grade}` }),
+      el('span', {}, 'Phụ huynh: ', el('a', { href: `tel:${r.parent_phone}`, text: phoneText(r.parent_phone) }),
+        ' · ', el('a', { href: `https://zalo.me/${r.parent_phone}`, target: '_blank', rel: 'noopener', text: 'Zalo' })),
+      r.note ? el('span', { class: 'small', text: `Ghi chú: ${r.note}` }) : null,
+      el('span', { class: 'muted small', text: `Gửi lúc ${fmtDateTime(r.created_at)}${r.contacted ? ` · đã liên hệ ${r.contacted_at ? fmtDateTime(r.contacted_at) : ''}` : ''}` })),
+    el('div', { class: 'acts' },
+      el('button', { class: 'btn btn-outline btn-sm', text: r.contacted ? 'Đánh dấu chưa liên hệ' : 'Đã liên hệ', onclick: async () => {
+        const done = !r.contacted;
+        const { error: e } = await sb.from('trial_signups')
+          .update({ contacted: done, contacted_at: done ? new Date().toISOString() : null, contacted_by: done ? state.user.id : null })
+          .eq('id', r.id);
+        if (e) { toast(errMsg(e), 'error'); return; }
+        renderShell();
+      } }),
+      el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: async () => {
+        if (!await askConfirm(`Xóa đăng ký của em ${r.student_name}? Không khôi phục được.`)) return;
+        const { error: e } = await sb.from('trial_signups').delete().eq('id', r.id);
+        if (e) { toast(errMsg(e), 'error'); return; }
+        toast('Đã xóa đăng ký.'); renderShell();
+      } })))));
 }

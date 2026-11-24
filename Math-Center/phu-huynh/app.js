@@ -2,9 +2,9 @@ import {
   sb, logout, configured, $, el, loginToEmail, phoneToEmail, weekLabel, fmtNum, fmtDateTime,
   toast, errMsg, openDialog, showFiles, notConfiguredNotice,
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm,
-} from '../portal/common.js?v=20261124c';
+} from '../portal/common.js?v=20261124d';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../portal/config.js';
-import { renderQuizList, setReadOnly } from './quiz.js?v=20261124c';
+import { renderQuizList, setReadOnly } from './quiz.js?v=20261124d';
 
 const app = $('#app');
 let currentTab = 'quiz';
@@ -72,7 +72,7 @@ function forgotPassword() {
   openDialog('Quên mật khẩu', el('div', { class: 'form-grid' },
     el('h3', { text: 'Học sinh' }),
     el('p', {}, 'Em nhờ bố hoặc mẹ đăng nhập tài khoản phụ huynh và bấm ', el('b', { text: '"Đặt lại mật khẩu cho con"' }),
-      ', hoặc nhờ giáo viên Trí Đức Math cấp lại. Mật khẩu sẽ trở về 6 số cuối trong mã học sinh (ví dụ mã TDM000123 → mật khẩu 000123); em đăng nhập rồi đặt mật khẩu mới.'),
+      ', hoặc nhờ giáo viên Trí Đức Math cấp lại. Em sẽ nhận một mật khẩu tạm gồm 6 chữ số; em đăng nhập bằng mật khẩu đó rồi đặt mật khẩu mới.'),
     el('p', { class: 'muted small', text: 'Vì sao không tự đặt lại được? Nếu ai biết mã học sinh cũng tự đặt lại được thì người khác có thể vào tài khoản của em.' }),
     el('h3', { text: 'Phụ huynh' }),
     el('p', { text: 'Vui lòng liên hệ giáo viên Trí Đức Math qua Zalo để được cấp lại mật khẩu.' })));
@@ -159,7 +159,7 @@ async function renderDashboard(user) {
   setReadOnly(parentMode);
   const tag = document.querySelector('.portal-tag');
   if (tag) tag.textContent = parentMode ? 'Phụ huynh' : 'Học sinh';
-  // Học sinh còn dùng mật khẩu ban đầu (đoán được từ mã) → bắt đổi trước khi dùng.
+  // Học sinh còn dùng mật khẩu ban đầu / mật khẩu tạm do người khác cấp → bắt đổi trước khi dùng.
   if (own && !own.password_changed) {
     top.replaceChildren(el('button', { class: 'btn btn-outline btn-sm', onclick: logout, text: 'Đăng xuất' }));
     const form = studentPasswordForm(() => { toast('Đã đổi mật khẩu. Chào mừng em!'); renderDashboard(user); });
@@ -305,7 +305,7 @@ function weekCard(r) {
 
 // Phụ huynh đặt lại mật khẩu cho con (khi con quên).
 async function resetChildPassword(s) {
-  if (!await askConfirm(`Đặt lại mật khẩu cho em ${s.full_name}? Mật khẩu trở về mật khẩu ban đầu, em đăng nhập rồi đặt mật khẩu mới.`)) return;
+  if (!await askConfirm(`Đặt lại mật khẩu cho em ${s.full_name}? Em sẽ nhận một mật khẩu tạm mới, đăng nhập rồi đặt mật khẩu mới.`)) return;
   try {
     const { data: { session } } = await sb.auth.getSession();
     const res = await fetch(`${SUPABASE_URL}/functions/v1/manage-accounts`, {
