@@ -251,6 +251,31 @@ export function askConfirm(message, { ok } = {}) {
   });
 }
 
+// Sao chép chữ. Một số trình duyệt/ứng dụng chặn navigator.clipboard → dùng cách cũ (execCommand).
+export async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch { /* thử cách cũ */ }
+  const ta = el('textarea', { readonly: true, style: 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0' });
+  ta.value = text;
+  (document.querySelector('dialog[open]') || document.body).append(ta);
+  ta.focus(); ta.select();
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch { ok = false; }
+  ta.remove();
+  return ok;
+}
+
+// Khung tin nhắn (xem và tự bôi đen được) + nút "Sao chép để gửi qua Zalo".
+export function copyBox(text) {
+  const box = el('textarea', { class: 'copy-box', readonly: true, rows: String(Math.min(9, text.split('\n').length + 1)) });
+  box.value = text;
+  const btn = el('button', { class: 'btn btn-gold', type: 'button', text: 'Sao chép để gửi qua Zalo', onclick: async () => {
+    if (await copyText(text)) { btn.textContent = 'Đã sao chép ✓ — dán vào Zalo'; return; }
+    box.focus(); box.select();
+    toast('Máy không cho tự sao chép. Tin nhắn đã được bôi đen: bấm Ctrl+C (điện thoại: giữ ngón tay → Sao chép).', 'error');
+  } });
+  return el('div', { class: 'form-grid' }, box, btn);
+}
+
 export async function showFiles(title, paths) {
   const body = el('div', { class: 'gallery' }, el('p', { class: 'muted', text: 'Đang tải…' }));
   openDialog(title, body, { wide: true });

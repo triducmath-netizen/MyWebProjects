@@ -83,6 +83,7 @@ body.portal { background: var(--tdm-paper); min-height: 100vh; display: flex; fl
 .assess-head { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; }
 .cred { background: var(--tdm-paper); border: 1px dashed var(--tdm-gold); border-radius: 12px; padding: 16px 20px; font-size: 1.05rem; display: grid; gap: 6px; }
 .cred code { font-size: 1.2rem; font-weight: 700; color: var(--tdm-navy); letter-spacing: 1px; }
+.copy-box { width: 100%; box-sizing: border-box; font: inherit; font-size: .9rem; line-height: 1.45; padding: 10px 12px; border: 1px solid var(--tdm-line, #d9dce3); border-radius: 10px; background: #fff; color: inherit; resize: vertical; }
 .checks { display: flex; flex-wrap: wrap; gap: 8px 16px; }
 .checks label { display: flex; gap: 6px; align-items: center; font-weight: 400; }
 

@@ -1,7 +1,7 @@
 import {
   sb, configured, $, el, normalizeCode, mondayOf, toISODate, weekLabel, fmtNum,
   randomPassword, uploadTo, toast, errMsg, openDialog, showFiles, notConfiguredNotice, formatLinkCode, displayLogin,
-  passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm,
+  passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm, copyBox,
 } from '../portal/common.js';
 import { SUPABASE_URL } from '../portal/config.js';
 import { renderQuizTab } from './quiz.js';
@@ -422,12 +422,7 @@ function studentInfoText(name, code, password, link) {
   return lines.join('\n');
 }
 
-function copyButton(text) {
-  return el('button', { class: 'btn btn-gold', type: 'button', text: 'Sao chép để gửi qua Zalo', onclick: async (e) => {
-    try { await navigator.clipboard.writeText(text); e.target.textContent = 'Đã sao chép ✓'; }
-    catch { toast('Không sao chép được, vui lòng chép tay.', 'error'); }
-  } });
-}
+const copyButton = (text) => copyBox(text);
 
 // Sau khi tạo / cấp lại tài khoản học sinh: hiện mã học sinh, mật khẩu và mã liên kết.
 async function showStudentInfo(s, password) {
@@ -525,10 +520,7 @@ function showCredentials(title, login, password, loginLabel) {
     el('div', { class: 'cred' },
       el('div', {}, `${loginLabel}: `, el('code', { text: login })),
       el('div', {}, 'Mật khẩu: ', el('code', { text: password }))),
-    el('button', { class: 'btn btn-gold', text: 'Sao chép để gửi qua Zalo', onclick: async (e) => {
-      try { await navigator.clipboard.writeText(text); e.target.textContent = 'Đã sao chép ✓'; }
-      catch { toast('Không sao chép được, vui lòng chép tay.', 'error'); }
-    } })));
+    copyBox(text)));
 }
 
 function editStudent(s) {
