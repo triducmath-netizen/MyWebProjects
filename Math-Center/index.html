@@ -14,6 +14,22 @@
 <body>
   <a class="skip" href="#main">Bỏ qua, tới nội dung chính</a>
 
+  <div class="portal-bar">
+    <div class="container portal-inner">
+      <span class="portal-note">Cổng trực tuyến</span>
+      <div class="portal-btns">
+        <a class="portal-btn" href="giao-vien/">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-5 9 5-9 5-9-5z"/><path d="M7 11.5V16c0 1.5 2.2 3 5 3s5-1.5 5-3v-4.5"/></svg>
+          Trang giáo viên
+        </a>
+        <a class="portal-btn gold" href="phu-huynh/">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c0-3 2.5-5.2 5.5-5.2s5.5 2.2 5.5 5.2"/><circle cx="17" cy="9.5" r="2.4"/><path d="M15.5 14.2c3 .1 5 2 5 4.8"/></svg>
+          Học sinh &amp; Phụ huynh
+        </a>
+      </div>
+    </div>
+  </div>
+
   <header class="site-header">
     <div class="container nav">
       <a class="brand" href="#top" aria-label="Trí Đức Math, về đầu trang">
@@ -29,7 +45,6 @@
         <a href="#phuong-phap">Phương pháp</a>
         <a href="#lich-hoc">Lịch học</a>
         <a href="#hoi-dap">Hỏi đáp</a>
-        <a href="phu-huynh/">Học sinh &amp; PH</a>
         <a class="btn btn-gold btn-sm" href="#lien-he">Đăng ký học thử</a>
       </nav>
     </div>
@@ -48,18 +63,26 @@
             <a class="btn btn-ghost" href="#chuong-trinh">Xem chương trình</a>
           </div>
         </div>
-        <div class="hero-card" aria-hidden="true">
-          <div class="formula">f(x) = ax² + bx + c</div>
-          <svg viewBox="0 0 240 160" class="chart">
-            <g stroke="rgba(255,255,255,.15)">
-              <path d="M0 40H240M0 80H240M0 120H240M60 0V160M120 0V160M180 0V160"/>
-            </g>
-            <path d="M0 150H240M10 0V160" stroke="rgba(255,255,255,.5)"/>
-            <path d="M10 140 C 60 135, 90 110, 120 85 S 190 25, 230 15" fill="none" stroke="#C9A23F" stroke-width="4" stroke-linecap="round"/>
-            <circle cx="230" cy="15" r="6" fill="#C9A23F"/>
-          </svg>
-          <p class="chart-cap">Tiến bộ từng bước — mỗi buổi học đều có mục tiêu rõ ràng.</p>
-        </div>
+        <section class="news" id="tin-moi" aria-roledescription="carousel" aria-labelledby="tin-moi-title" hidden>
+          <div class="news-head">
+            <h2 class="news-title" id="tin-moi-title"><span class="news-dot" aria-hidden="true"></span>Mới trên website</h2>
+            <div class="news-ctrl">
+              <button type="button" class="news-btn" data-act="prev" aria-label="Tin trước">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+              </button>
+              <button type="button" class="news-btn" data-act="pause" aria-label="Tạm dừng tự chạy">
+                <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>
+                <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+              </button>
+              <button type="button" class="news-btn" data-act="next" aria-label="Tin tiếp theo">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="news-slides" aria-live="off"></div>
+          <div class="news-dots" role="group" aria-label="Chọn tin"></div>
+        </section>
+      </div>
       </div>
     </section>
 
@@ -245,6 +268,7 @@
     </div>
   </footer>
 
+  <script src="assets/tin-moi.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
