@@ -25,6 +25,7 @@ Làm **một lần duy nhất**, khoảng 20 phút. Các bước có đánh dấ
    - `20261123050000_quiz_question_count.sql`: hiện số câu của đề cho học sinh
    - `20261123060000_practice_bank.sql`: ngân hàng đề luyện tập theo chuyên đề
    - `20261124000000_bank_editing.sql`: giáo viên xem/sửa ngân hàng đề trên trang giáo viên
+   - `20261125000000_parent_links.sql`: tài khoản phụ huynh liên kết nhiều con, mã học sinh tự sinh TDM000001…
 3. Mỗi file phải báo *Success. No rows returned*.
 
 ## Bước 3. Tắt tự đăng ký tài khoản
@@ -38,6 +39,10 @@ Hàm `manage-accounts` dùng để tạo tài khoản phụ huynh và giáo viê
 **Cách A — trên trang Supabase:** **Edge Functions → Deploy a new function → Via Editor**, đặt tên `manage-accounts`, dán nội dung file `supabase/functions/manage-accounts/index.ts` rồi bấm **Deploy**.
 
 **Cách B — Claude làm qua dòng lệnh:** chạy `npx supabase login`, đăng nhập trên trình duyệt, rồi nhờ Claude chạy lệnh deploy.
+
+**Hàm `parent-signup`** (phụ huynh tự đăng ký): **Deploy a new function → Via Editor**, đặt tên `parent-signup`, dán nội dung `supabase/functions/parent-signup/index.ts`, bấm **Deploy function**, rồi vào **Settings** của hàm, **tắt "Verify JWT"** và bấm **Save changes**.
+
+**Mật khẩu học sinh 6 chữ số:** trong **Authentication → Sign In / Providers → Email**, giữ **Minimum password length = 6** và **Password requirements = No required characters**.
 
 ## Bước 5. Tạo tài khoản quản trị cho bạn
 
@@ -63,14 +68,18 @@ Hai giá trị này được phép công khai. **Không gửi khóa `service_rol
 | Việc | Ai làm | Ở đâu |
 |---|---|---|
 | Tạo lớp, tạo tài khoản giáo viên, giao lớp | Quản trị | Trang giáo viên → *Lớp & giáo viên* |
-| Thêm học sinh, tạo tài khoản phụ huynh | Giáo viên | Trang giáo viên → *Học sinh & tài khoản* |
+| Thêm học sinh (mã TDM… và tài khoản tự tạo, mật khẩu ban đầu = 6 số cuối của mã) | Quản trị | Trang giáo viên → *Học sinh & tài khoản* |
+| Lấy mã liên kết mời phụ huynh, xem/gỡ phụ huynh đã liên kết | Giáo viên | Trang giáo viên → *Học sinh & tài khoản* → *Mời phụ huynh* |
+| Đăng ký tài khoản phụ huynh, thêm con | Phụ huynh | Cổng phụ huynh → *Đăng ký tài khoản phụ huynh* / *+ Thêm con* |
+| Học sinh quên mật khẩu | Phụ huynh hoặc giáo viên | *Đặt lại mật khẩu cho con* / *Cấp lại MK học sinh* |
 | Tạo bài kiểm tra tuần, tải đề, nhập điểm, nhận xét, tải bài làm | Giáo viên | Trang giáo viên → *Nhập kết quả* |
 | Xem kết quả, đề bài, bài làm, nhận xét | Phụ huynh | Cổng phụ huynh |
 | Xem, sửa đề luyện tập (câu hỏi, đáp án, lời giải, thời gian) | Giáo viên | Trang giáo viên → *Ngân hàng đề* |
 | Ẩn/hiện đề luyện tập, xóa câu, xóa đề (chỉ đề chưa ai làm) | Quản trị | Trang giáo viên → *Ngân hàng đề* |
 
-- Phụ huynh đăng nhập bằng **mã học sinh** và mật khẩu do giáo viên cấp, sau đó tự đổi mật khẩu.
-- Quên mật khẩu: giáo viên bấm **Cấp lại mật khẩu** rồi gửi mật khẩu mới qua Zalo.
+- Học sinh đăng nhập bằng **mã học sinh**; lần đầu bắt buộc đổi sang mật khẩu mới gồm đúng 6 chữ số. Mã học sinh không đổi được.
+- Phụ huynh đăng nhập bằng **số điện thoại hoặc email** đã đăng ký; chỉ xem được kết quả của các con đã liên kết.
+- Phụ huynh quên mật khẩu: giáo viên bấm **Cấp lại MK** cạnh tên phụ huynh rồi gửi qua Zalo.
 - Ảnh chụp bài làm được tự thu nhỏ trước khi tải lên để tiết kiệm dung lượng.
 
 ## Giới hạn gói miễn phí
