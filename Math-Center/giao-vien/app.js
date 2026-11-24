@@ -1,11 +1,11 @@
 import {
-  sb, configured, $, el, normalizeCode, mondayOf, toISODate, weekLabel, fmtNum,
+  sb, logout, configured, $, el, normalizeCode, mondayOf, toISODate, weekLabel, fmtNum,
   randomPassword, uploadTo, toast, errMsg, openDialog, showFiles, notConfiguredNotice, formatLinkCode, displayLogin,
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm, copyBox,
-} from '../portal/common.js';
+} from '../portal/common.js?v=20261124c';
 import { SUPABASE_URL } from '../portal/config.js';
-import { renderQuizTab } from './quiz.js';
-import { renderBankTab } from './bank.js';
+import { renderQuizTab } from './quiz.js?v=20261124c';
+import { renderBankTab } from './bank.js?v=20261124c';
 
 const app = $('#app');
 const top = $('#top-actions');
@@ -63,12 +63,12 @@ async function enter(user) {
     app.replaceChildren(el('div', { class: 'panel narrow-panel' },
       el('h2', { text: 'Tài khoản này không phải tài khoản giáo viên' }),
       el('p', {}, 'Phụ huynh vui lòng dùng ', el('a', { href: '../phu-huynh/', text: 'cổng phụ huynh' }), '.'),
-      el('button', { class: 'btn btn-outline', onclick: () => sb.auth.signOut(), text: 'Đăng xuất' })));
+      el('button', { class: 'btn btn-outline', onclick: logout, text: 'Đăng xuất' })));
     return;
   }
   top.replaceChildren(
     el('span', { class: 'who', text: profile.full_name || user.email }),
-    el('button', { class: 'btn btn-outline btn-sm', onclick: () => sb.auth.signOut(), text: 'Đăng xuất' }));
+    el('button', { class: 'btn btn-outline btn-sm', onclick: logout, text: 'Đăng xuất' }));
   await loadClasses();
   renderShell();
 }

@@ -1,10 +1,10 @@
 import {
-  sb, configured, $, el, loginToEmail, phoneToEmail, weekLabel, fmtNum, fmtDateTime,
+  sb, logout, configured, $, el, loginToEmail, phoneToEmail, weekLabel, fmtNum, fmtDateTime,
   toast, errMsg, openDialog, showFiles, notConfiguredNotice,
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm,
-} from '../portal/common.js';
+} from '../portal/common.js?v=20261124c';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../portal/config.js';
-import { renderQuizList, setReadOnly } from './quiz.js?v=20261124b';
+import { renderQuizList, setReadOnly } from './quiz.js?v=20261124c';
 
 const app = $('#app');
 let currentTab = 'quiz';
@@ -161,7 +161,7 @@ async function renderDashboard(user) {
   if (tag) tag.textContent = parentMode ? 'Phụ huynh' : 'Học sinh';
   // Học sinh còn dùng mật khẩu ban đầu (đoán được từ mã) → bắt đổi trước khi dùng.
   if (own && !own.password_changed) {
-    top.replaceChildren(el('button', { class: 'btn btn-outline btn-sm', onclick: () => sb.auth.signOut(), text: 'Đăng xuất' }));
+    top.replaceChildren(el('button', { class: 'btn btn-outline btn-sm', onclick: logout, text: 'Đăng xuất' }));
     const form = studentPasswordForm(() => { toast('Đã đổi mật khẩu. Chào mừng em!'); renderDashboard(user); });
     app.replaceChildren(el('div', { class: 'panel narrow-panel' },
       el('h1', { text: `Chào em ${own.full_name}!` }),
@@ -173,7 +173,7 @@ async function renderDashboard(user) {
   top.replaceChildren(
     ...(parentMode && students.length ? [el('button', { class: 'btn btn-gold btn-sm', onclick: addChild, text: '+ Liên kết với học sinh' })] : []),
     el('button', { class: 'btn btn-outline btn-sm', onclick: changePassword, text: 'Đổi mật khẩu' }),
-    el('button', { class: 'btn btn-outline btn-sm', onclick: () => sb.auth.signOut(), text: 'Đăng xuất' }));
+    el('button', { class: 'btn btn-outline btn-sm', onclick: logout, text: 'Đăng xuất' }));
   if (!students.length) {
     const form = linkForm();
     app.replaceChildren(el('div', { class: 'panel narrow-panel' },

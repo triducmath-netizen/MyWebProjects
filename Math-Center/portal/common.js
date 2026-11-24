@@ -33,6 +33,20 @@ export const sb = configured
   ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { storage: authStorage, persistSession: true, autoRefreshToken: true } })
   : null;
 
+// Đăng xuất. Nếu phiên trên máy đã hỏng (hết hạn, không làm mới được) thì Supabase báo lỗi
+// và không xóa phiên — khi đó tự xóa phiên trên máy rồi tải lại trang.
+export async function logout() {
+  let ok = false;
+  try { ok = !(await sb.auth.signOut()).error; } catch { /* xử lý bên dưới */ }
+  if (ok) return;
+  try {
+    for (const store of [localStorage, sessionStorage]) {
+      Object.keys(store).filter((k) => /^sb-.+-auth-token/.test(k)).forEach((k) => store.removeItem(k));
+    }
+  } catch { /* bỏ qua */ }
+  location.reload();
+}
+
 // Nhớ email / mã học sinh lần đăng nhập trước (không phải mật khẩu).
 export function rememberedLogin(kind) {
   try { return localStorage.getItem(`tdm-login-${kind}`) || ''; } catch { return ''; }
