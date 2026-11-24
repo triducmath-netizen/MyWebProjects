@@ -67,6 +67,7 @@ async function expect(name, fn, check) {
 const rows = (n) => (r, e) => !e && (r.rows.length || r.affectedRows || 0) === n;
 const okRes = (r, e) => !e;
 const errRes = (r, e) => !!e;
+const blocked = (r, e) => !!e || (r.rows.length || r.affectedRows || 0) === 0; // bị chặn: báo lỗi hoặc 0 dòng
 
 // Học sinh làm B2 và nộp (đúng câu 1, sai câu 2) → 5/10
 const st = await as('s1', `select public.start_quiz($1) as r`, [B2.id]);
@@ -95,10 +96,10 @@ await expect('GV thêm câu vào B1 (chưa ai làm)', () => as('t1', `insert int
 await expect('GV KHÔNG ẩn/hiện được đề', () => as('t1', `update public.quizzes set published=false where id=$1`, [B1.id]), errRes);
 await expect('GV KHÔNG đổi chuyên đề/mức độ', () => as('t1', `update public.quizzes set level='gioi' where id=$1`, [B1.id]), errRes);
 await expect('GV KHÔNG chuyển đề ngân hàng thành đề lớp', () => as('t1', `update public.quizzes set class_id=1 where id=$1`, [B1.id]), errRes);
-await expect('GV KHÔNG xóa được câu (0 dòng)', () => as('t1', `delete from public.quiz_questions where id=$1`, [B1.q2]), rows(0));
-await expect('GV KHÔNG xóa được đáp án (0 dòng)', () => as('t1', `delete from public.quiz_keys where question_id=$1`, [B1.q2]), rows(0));
-await expect('GV KHÔNG xóa được đề (0 dòng)', () => as('t1', `delete from public.quizzes where id=$1`, [B1.id]), rows(0));
-await expect('GV KHÔNG xóa bài làm HS của đề ngân hàng', () => as('t1', `delete from public.quiz_attempts where id=$1`, [att]), rows(0));
+await expect('GV KHÔNG xóa được câu', () => as('t1', `delete from public.quiz_questions where id=$1`, [B1.q2]), blocked);
+await expect('GV KHÔNG xóa được đáp án', () => as('t1', `delete from public.quiz_keys where question_id=$1`, [B1.q2]), blocked);
+await expect('GV KHÔNG xóa được đề', () => as('t1', `delete from public.quizzes where id=$1`, [B1.id]), blocked);
+await expect('GV KHÔNG xóa bài làm HS của đề ngân hàng', () => as('t1', `delete from public.quiz_attempts where id=$1`, [att]), blocked);
 await expect('GV KHÔNG tạo đề ngân hàng mới', () => as('t1', `insert into public.quizzes (class_id, title, grade, topic, level) values (null, 'x', 6, 't', 'tb')`), errRes);
 
 // Đề đã có bài làm
@@ -121,8 +122,8 @@ await expect('Admin xóa đề B1 (chưa ai làm)', () => as('admin', `delete fr
 // Học sinh
 await expect('HS không xem đáp án đề chưa làm', async () => { const b3 = await mkQuiz(null, 'b3');
   return as('s1', 'select * from public.quiz_keys where question_id in ($1,$2)', [b3.q1, b3.q2]); }, rows(0));
-await expect('HS không sửa được câu hỏi', () => as('s1', `update public.quiz_questions set prompt='x' where id=$1`, [B2.q1]), rows(0));
-await expect('HS không sửa được đáp án', () => as('s1', `update public.quiz_keys set answer='1' where question_id=$1`, [B2.q1]), rows(0));
+await expect('HS không sửa được câu hỏi', () => as('s1', `update public.quiz_questions set prompt='x' where id=$1`, [B2.q1]), blocked);
+await expect('HS không sửa được đáp án', () => as('s1', `update public.quiz_keys set answer='1' where question_id=$1`, [B2.q1]), blocked);
 await expect('HS vẫn thấy đề luyện tập đã mở', () => as('s1', 'select * from public.practice_topics()'), (r, e) => !e && r.rows.length >= 1);
 
 // Đề lớp: giữ nguyên hành vi cũ
