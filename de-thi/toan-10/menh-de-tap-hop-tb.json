@@ -1,0 +1,533 @@
+{
+  "grade": 10,
+  "topic": "Mệnh đề và tập hợp",
+  "exams": [
+    {
+      "slug": "toan10-menh-de-tap-hop-tb-01",
+      "title": "Mệnh đề và tập hợp — Đề 1",
+      "level": "tb",
+      "sort_order": 1,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 1 (cơ bản): nhận biết mệnh đề, phủ định, mệnh đề chứa biến, kí hiệu với mọi, liệt kê phần tử, tập con, giao – hợp – hiệu, khoảng – đoạn, biểu đồ Ven.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Câu nào sau đây là một mệnh đề?",
+          "options": [
+            "Hôm nay trời đẹp quá!",
+            "Bạn có đi học không?",
+            "$x + 2 = 5$.",
+            "Số $7$ là số nguyên tố."
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Mệnh đề là một câu khẳng định có tính đúng hoặc sai (không thể vừa đúng vừa sai). A là câu cảm thán, B là câu hỏi nên không phải mệnh đề. C chứa biến $x$, chưa biết đúng hay sai (đó là mệnh đề chứa biến), nên không phải mệnh đề. D là câu khẳng định và đúng (7 chỉ có hai ước là 1 và 7) nên là mệnh đề. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Phủ định của mệnh đề \"Số $15$ chia hết cho $4$\" là",
+          "options": [
+            "\"Số $15$ không chia hết cho $4$\".",
+            "\"Số $15$ chia hết cho $5$\".",
+            "\"Số $4$ chia hết cho $15$\".",
+            "\"Số $15$ không chia hết cho $5$\"."
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Phủ định của mệnh đề $P$ là mệnh đề \"không phải $P$\", ta chỉ cần thêm (hoặc bớt) chữ \"không\" ở đúng vị trí: \"Số $15$ không chia hết cho $4$\". Các phương án B, D nói về số $5$ — một mệnh đề khác, không phải phủ định; C đổi chỗ hai số nên cũng không phải phủ định. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho tập hợp $A = \\{x \\in \\mathbb{N} \\mid x < 5\\}$. Số phần tử của tập $A$ là",
+          "options": [
+            "$4$",
+            "$5$",
+            "$6$",
+            "$3$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "[0,1,2,3,4,5,6,7,8,9].filter(x => x < 5).length",
+          "explanation": "Liệt kê các phần tử: $A = \\{0; 1; 2; 3; 4\\}$ (chú ý $0 \\in \\mathbb{N}$ và không lấy $5$ vì điều kiện là $x < 5$). Vậy $A$ có $5$ phần tử. Phương án A là do quên số $0$; phương án C là do lấy cả số $5$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai tập hợp $A = \\{1; 2; 3; 4\\}$ và $B = \\{2; 4; 6\\}$. Tập hợp $A \\cap B$ là",
+          "options": [
+            "$\\{1; 2; 3; 4; 6\\}$",
+            "$\\{2; 4\\}$",
+            "$\\{1; 3\\}$",
+            "$\\{6\\}$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "$A \\cap B$ gồm các phần tử vừa thuộc $A$ vừa thuộc $B$. Hai tập chung nhau các phần tử $2$ và $4$, nên $A \\cap B = \\{2; 4\\}$. Phương án A là $A \\cup B$ (nhầm giao với hợp); C là $A \\setminus B$; D là $B \\setminus A$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tập hợp $A = \\{a; b; c\\}$ có bao nhiêu tập con?",
+          "options": [
+            "$6$",
+            "$7$",
+            "$8$",
+            "$3$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "2 ** 3",
+          "explanation": "Liệt kê các tập con của $A$: $\\varnothing$; $\\{a\\}$, $\\{b\\}$, $\\{c\\}$; $\\{a; b\\}$, $\\{a; c\\}$, $\\{b; c\\}$; $\\{a; b; c\\}$. Có tất cả $8$ tập con. Phương án B là do quên tập rỗng $\\varnothing$; phương án A là do quên cả $\\varnothing$ và chính tập $A$. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tập hợp $\\{x \\in \\mathbb{R} \\mid -2 < x \\le 3\\}$ được viết dưới dạng",
+          "options": [
+            "$[-2; 3]$",
+            "$(-2; 3)$",
+            "$(-2; 3]$",
+            "$[-2; 3)$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Điều kiện $-2 < x$ (dấu bé hơn chặt) nên không lấy $-2$: dùng dấu ngoặc tròn \"$($\" ở đầu trái. Điều kiện $x \\le 3$ nên lấy cả $3$: dùng dấu ngoặc vuông \"$]$\" ở đầu phải. Vậy tập hợp là nửa khoảng $(-2; 3]$. Phương án D đặt ngược hai loại ngoặc. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho mệnh đề chứa biến $P(x)$: \"$x > x^2$\" với $x$ là số thực. Mệnh đề nào sau đây đúng?",
+          "options": [
+            "$P(2)$",
+            "$P(1)$",
+            "$P(-1)$",
+            "$P\\left(\\frac{1}{2}\\right)$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Thay từng giá trị: $P(2)$: $2 > 4$ sai. $P(1)$: $1 > 1$ sai (hai số bằng nhau). $P(-1)$: $-1 > 1$ sai. $P\\left(\\frac{1}{2}\\right)$: $\\frac{1}{2} > \\frac{1}{4}$ đúng. Học sinh hay chọn nhầm B vì quên rằng \"$>$\" là bất đẳng thức chặt. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Phủ định của mệnh đề \"$\\forall x \\in \\mathbb{R}, x^2 \\ge 0$\" là",
+          "options": [
+            "\"$\\exists x \\in \\mathbb{R}, x^2 < 0$\"",
+            "\"$\\forall x \\in \\mathbb{R}, x^2 < 0$\"",
+            "\"$\\exists x \\in \\mathbb{R}, x^2 \\ge 0$\"",
+            "\"$\\exists x \\in \\mathbb{R}, x^2 \\le 0$\""
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Phủ định của \"$\\forall x \\in X, P(x)$\" là \"$\\exists x \\in X, \\overline{P(x)}$\". Ở đây đổi $\\forall$ thành $\\exists$ và phủ định \"$x^2 \\ge 0$\" thành \"$x^2 < 0$\". Ta được \"$\\exists x \\in \\mathbb{R}, x^2 < 0$\". Phương án B quên đổi $\\forall$ thành $\\exists$; C quên phủ định tính chất; D phủ định sai ($\\ge$ phải đổi thành $<$, không phải $\\le$). Chọn A."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hai tập hợp $A = \\{1; 2; 3; 4; 5\\}$ và $B = \\{4; 5; 6; 7\\}$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$A \\cap B = \\{4; 5\\}$.",
+            "Tập $A \\cup B$ có $8$ phần tử.",
+            "$A \\setminus B = \\{1; 2; 3\\}$.",
+            "Tập $A \\cap B$ có đúng $4$ tập con."
+          ],
+          "answer": [true, false, true, true],
+          "points": 2,
+          "verify": "(() => { const A=[1,2,3,4,5], B=[4,5,6,7]; const eq=(X,Y)=>X.length===Y.length&&X.every(x=>Y.includes(x)); const I=A.filter(x=>B.includes(x)); const U=[...new Set([...A,...B])]; const D=A.filter(x=>!B.includes(x)); return [eq(I,[4,5]), U.length===8, eq(D,[1,2,3]), 2**I.length===4]; })()",
+          "explanation": "a) Đúng. Các phần tử chung của $A$ và $B$ là $4$ và $5$, nên $A \\cap B = \\{4; 5\\}$.\n\nb) Sai. $A \\cup B = \\{1; 2; 3; 4; 5; 6; 7\\}$ có $7$ phần tử. Hai phần tử chung $4$ và $5$ chỉ được đếm một lần: $5 + 4 - 2 = 7$.\n\nc) Đúng. $A \\setminus B$ gồm các phần tử thuộc $A$ nhưng không thuộc $B$: bỏ $4$ và $5$ khỏi $A$, còn $\\{1; 2; 3\\}$.\n\nd) Đúng. $A \\cap B = \\{4; 5\\}$ có các tập con: $\\varnothing$, $\\{4\\}$, $\\{5\\}$, $\\{4; 5\\}$ — đúng $4$ tập con."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Với $n$ là số tự nhiên, cho hai mệnh đề chứa biến $P(n)$: \"$n$ chia hết cho $6$\" và $Q(n)$: \"$n$ chia hết cho $3$\". Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$P(12)$ là mệnh đề đúng.",
+            "Mệnh đề \"Với mọi số tự nhiên $n$, nếu $P(n)$ thì $Q(n)$\" là mệnh đề đúng.",
+            "Mệnh đề đảo \"Với mọi số tự nhiên $n$, nếu $Q(n)$ thì $P(n)$\" là mệnh đề đúng.",
+            "\"$n$ chia hết cho $3$\" là điều kiện cần để \"$n$ chia hết cho $6$\"."
+          ],
+          "answer": [true, true, false, true],
+          "points": 2,
+          "verify": "(() => { const N=Array.from({length:1001},(_,i)=>i); return [12%6===0, N.every(n=>n%6!==0||n%3===0), N.every(n=>n%3!==0||n%6===0), N.every(n=>n%6!==0||n%3===0)]; })()",
+          "explanation": "a) Đúng. $12 = 6 \\cdot 2$ nên $12$ chia hết cho $6$.\n\nb) Đúng. Nếu $n$ chia hết cho $6$ thì $n = 6k = 3 \\cdot (2k)$ nên $n$ chia hết cho $3$.\n\nc) Sai. Chỉ cần một phản ví dụ: $n = 3$ chia hết cho $3$ nhưng không chia hết cho $6$.\n\nd) Đúng. Mệnh đề \"$P(n) \\Rightarrow Q(n)$\" đúng (ý b), nên $Q(n)$ là điều kiện cần để có $P(n)$, tức là \"$n$ chia hết cho $3$ là điều kiện cần để $n$ chia hết cho $6$\" (đồng thời $P(n)$ là điều kiện đủ để có $Q(n)$)."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho tập hợp $A = \\{x \\in \\mathbb{Z} \\mid -2 \\le x \\le 3\\}$. Tập $A$ có bao nhiêu phần tử?",
+          "answer": ["6"],
+          "points": 0.5,
+          "verify": "Array.from({length:21},(_,i)=>i-10).filter(x => x >= -2 && x <= 3).length",
+          "explanation": "Các số nguyên $x$ thỏa mãn $-2 \\le x \\le 3$ là: $-2; -1; 0; 1; 2; 3$. Vậy $A = \\{-2; -1; 0; 1; 2; 3\\}$ có $6$ phần tử. Chú ý không quên số $0$ và lấy cả hai đầu mút vì dấu \"$\\le$\".\n\nĐáp số: $6$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Lớp 10A có $40$ học sinh, trong đó có $25$ học sinh thích bóng đá, $20$ học sinh thích cầu lông và $10$ học sinh thích cả hai môn. Hỏi lớp 10A có bao nhiêu học sinh không thích môn nào trong hai môn trên?",
+          "answer": ["5"],
+          "points": 0.5,
+          "verify": "40 - (25 + 20 - 10)",
+          "explanation": "Gọi $A$ là tập học sinh thích bóng đá, $B$ là tập học sinh thích cầu lông. Khi cộng $25 + 20$, ta đã đếm hai lần $10$ học sinh thích cả hai môn, nên số học sinh thích ít nhất một môn là\n$$25 + 20 - 10 = 35.$$\nSố học sinh không thích môn nào là $40 - 35 = 5$.\n\nĐáp số: $5$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai tập hợp $A = [-1; 5]$ và $B = (2; 7)$. Có bao nhiêu số nguyên thuộc tập $A \\cap B$?",
+          "answer": ["3"],
+          "points": 0.5,
+          "verify": "Array.from({length:21},(_,i)=>i-10).filter(x => (x >= -1 && x <= 5) && (x > 2 && x < 7)).length",
+          "explanation": "Biểu diễn trên trục số: $A$ gồm các số từ $-1$ đến $5$ (lấy cả hai đầu), $B$ gồm các số lớn hơn $2$ và nhỏ hơn $7$. Phần chung là $A \\cap B = (2; 5]$ (không lấy $2$, lấy $5$). Các số nguyên thuộc $(2; 5]$ là $3; 4; 5$.\n\nĐáp số: $3$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho tập hợp $A = \\{x \\in \\mathbb{R} \\mid x^2 - 5x + 4 = 0\\}$. Tính tổng tất cả các phần tử của tập $A$.",
+          "answer": ["5"],
+          "points": 0.5,
+          "verify": "Array.from({length:21},(_,i)=>i-10).filter(x => x*x - 5*x + 4 === 0).reduce((s,x)=>s+x, 0)",
+          "explanation": "Giải phương trình $x^2 - 5x + 4 = 0 \\Leftrightarrow (x - 1)(x - 4) = 0 \\Leftrightarrow x = 1$ hoặc $x = 4$. Vậy $A = \\{1; 4\\}$ và tổng các phần tử là $1 + 4 = 5$.\n\nĐáp số: $5$."
+        }
+      ]
+    },
+    {
+      "slug": "toan10-menh-de-tap-hop-tb-02",
+      "title": "Mệnh đề và tập hợp — Đề 2",
+      "level": "tb",
+      "sort_order": 2,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 1 (cơ bản): mệnh đề đảo, điều kiện cần – đủ, mệnh đề tương đương, kí hiệu tồn tại, tập rỗng, hai tập bằng nhau, phép toán trên khoảng – đoạn, phần bù, biểu đồ Ven.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Mệnh đề đảo của mệnh đề \"Nếu tứ giác $ABCD$ là hình vuông thì $ABCD$ là hình chữ nhật\" là",
+          "options": [
+            "\"Nếu tứ giác $ABCD$ là hình chữ nhật thì $ABCD$ là hình vuông\".",
+            "\"Nếu tứ giác $ABCD$ không là hình vuông thì $ABCD$ không là hình chữ nhật\".",
+            "\"Nếu tứ giác $ABCD$ không là hình chữ nhật thì $ABCD$ không là hình vuông\".",
+            "\"Tứ giác $ABCD$ là hình vuông khi và chỉ khi $ABCD$ là hình chữ nhật\"."
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Mệnh đề đảo của \"$P \\Rightarrow Q$\" là \"$Q \\Rightarrow P$\": chỉ đổi chỗ giả thiết và kết luận, không thêm chữ \"không\". Với $P$: \"$ABCD$ là hình vuông\", $Q$: \"$ABCD$ là hình chữ nhật\", mệnh đề đảo là \"Nếu tứ giác $ABCD$ là hình chữ nhật thì $ABCD$ là hình vuông\". Phương án B, C có thêm chữ \"không\" nên không phải mệnh đề đảo; D là mệnh đề tương đương. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tập hợp nào sau đây là tập rỗng?",
+          "options": [
+            "$\\{x \\in \\mathbb{Z} \\mid x^2 = 4\\}$",
+            "$\\{0\\}$",
+            "$\\{x \\in \\mathbb{R} \\mid x^2 + 1 = 0\\}$",
+            "$\\{x \\in \\mathbb{N} \\mid x < 1\\}$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Tập rỗng là tập không có phần tử nào. A: $x^2 = 4$ có nghiệm nguyên $x = 2$, $x = -2$ nên A $= \\{-2; 2\\}$. B: $\\{0\\}$ có một phần tử là số $0$ (học sinh hay nhầm $\\{0\\}$ với $\\varnothing$). D: số tự nhiên nhỏ hơn $1$ là $0$, nên D $= \\{0\\}$. C: $x^2 + 1 \\ge 1 > 0$ với mọi số thực $x$, nên phương trình $x^2 + 1 = 0$ vô nghiệm, tập C là tập rỗng. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Mệnh đề nào sau đây là mệnh đề sai?",
+          "options": [
+            "\"$\\exists x \\in \\mathbb{N}, x^2 = 9$\"",
+            "\"$\\forall x \\in \\mathbb{R}, x^2 + 1 > 0$\"",
+            "\"$\\forall n \\in \\mathbb{N}, 2n \\ge n$\"",
+            "\"$\\exists x \\in \\mathbb{R}, x^2 < 0$\""
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "A đúng: có $x = 3 \\in \\mathbb{N}$ thỏa mãn $3^2 = 9$. B đúng: $x^2 \\ge 0$ nên $x^2 + 1 \\ge 1 > 0$ với mọi $x$. C đúng: $2n - n = n \\ge 0$ với mọi số tự nhiên $n$ (kể cả $n = 0$: $0 \\ge 0$). D sai: bình phương của mọi số thực đều không âm, không tồn tại số thực $x$ nào có $x^2 < 0$. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho tập hợp $A = (-\\infty; 2]$. Phần bù của $A$ trong $\\mathbb{R}$, tức là tập $\\mathbb{R} \\setminus A$, là",
+          "options": [
+            "$(2; +\\infty)$",
+            "$[2; +\\infty)$",
+            "$(-\\infty; 2)$",
+            "$(-2; +\\infty)$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "$A$ gồm các số thực $x \\le 2$. Phần bù của $A$ trong $\\mathbb{R}$ gồm các số thực không thuộc $A$, tức là $x > 2$. Vậy $\\mathbb{R} \\setminus A = (2; +\\infty)$. Phương án B sai vì số $2$ đã thuộc $A$ nên không thể thuộc phần bù; D sai do đổi nhầm dấu của số $2$. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai tập hợp $A = [1; 4)$ và $B = (2; 6]$. Tập hợp $A \\cup B$ là",
+          "options": [
+            "$(2; 4)$",
+            "$[1; 6]$",
+            "$[1; 2)$",
+            "$(4; 6]$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Trên trục số, $A$ trải từ $1$ (lấy) đến $4$ (không lấy), $B$ trải từ $2$ (không lấy) đến $6$ (lấy). Hai tập chồng lên nhau ở đoạn giữa nên hợp của chúng phủ kín từ $1$ đến $6$; số $1$ thuộc $A$, số $6$ thuộc $B$, số $4$ thuộc $B$. Vậy $A \\cup B = [1; 6]$. Phương án A là $A \\cap B$ (nhầm hợp với giao); C là $A \\setminus B$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho tập hợp $A$ gồm các ước tự nhiên của $12$. Số phần tử của tập $A$ là",
+          "options": [
+            "$4$",
+            "$6$",
+            "$5$",
+            "$12$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "Array.from({length:12},(_,i)=>i+1).filter(d => 12 % d === 0).length",
+          "explanation": "Các ước tự nhiên của $12$ là $1; 2; 3; 4; 6; 12$. Vậy $A = \\{1; 2; 3; 4; 6; 12\\}$ có $6$ phần tử. Phương án A là do quên hai ước $1$ và $12$; phương án D nhầm giữa số phần tử với chính số $12$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho mệnh đề \"Nếu một số tự nhiên có chữ số tận cùng là $0$ thì số đó chia hết cho $5$\". Phát biểu nào sau đây đúng?",
+          "options": [
+            "Số tự nhiên chia hết cho $5$ là điều kiện đủ để số đó có chữ số tận cùng là $0$.",
+            "Số tự nhiên có chữ số tận cùng là $0$ là điều kiện cần để số đó chia hết cho $5$.",
+            "Số tự nhiên chia hết cho $5$ là điều kiện cần và đủ để số đó có chữ số tận cùng là $0$.",
+            "Số tự nhiên có chữ số tận cùng là $0$ là điều kiện đủ để số đó chia hết cho $5$."
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Với mệnh đề đúng \"$P \\Rightarrow Q$\", ta nói $P$ là điều kiện đủ để có $Q$, và $Q$ là điều kiện cần để có $P$. Ở đây $P$: \"có chữ số tận cùng là $0$\", $Q$: \"chia hết cho $5$\". Vậy \"có chữ số tận cùng là $0$ là điều kiện đủ để chia hết cho $5$\" (D). Phương án A, B đảo ngược vai trò cần – đủ. C sai vì chiều ngược lại không đúng: $15$ chia hết cho $5$ nhưng tận cùng là $5$. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tập hợp nào sau đây bằng tập hợp $A = \\{x \\in \\mathbb{R} \\mid (x - 1)(x + 2) = 0\\}$?",
+          "options": [
+            "$\\{1; 2\\}$",
+            "$\\{-1; 2\\}$",
+            "$\\{1; -2\\}$",
+            "$\\{-1; -2\\}$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "$(x - 1)(x + 2) = 0 \\Leftrightarrow x - 1 = 0$ hoặc $x + 2 = 0 \\Leftrightarrow x = 1$ hoặc $x = -2$. Vậy $A = \\{1; -2\\}$. Hai tập hợp bằng nhau khi chúng có cùng các phần tử. Các phương án A, B, D là do lấy sai dấu nghiệm (ví dụ từ $x + 2 = 0$ suy ra nhầm $x = 2$, hoặc từ $x - 1 = 0$ suy ra nhầm $x = -1$). Chọn C."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hai tập hợp $A = [-3; 4)$ và $B = (1; +\\infty)$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$0 \\in A$.",
+            "$A \\cap B = (1; 4)$.",
+            "$A \\cup B = [-3; +\\infty)$.",
+            "$A \\setminus B = [-3; 1)$."
+          ],
+          "answer": [true, true, true, false],
+          "points": 2,
+          "verify": "(() => { const G=Array.from({length:41},(_,i)=>-10+i/2); const inA=x=>x>=-3&&x<4, inB=x=>x>1; return [inA(0), G.every(x=>(inA(x)&&inB(x))===(x>1&&x<4)), G.every(x=>(inA(x)||inB(x))===(x>=-3)), G.every(x=>(inA(x)&&!inB(x))===(x>=-3&&x<1))]; })()",
+          "explanation": "a) Đúng. $-3 \\le 0 < 4$ nên $0 \\in A$.\n\nb) Đúng. Phần chung của $[-3; 4)$ và $(1; +\\infty)$ gồm các số lớn hơn $1$ và nhỏ hơn $4$, tức là $(1; 4)$.\n\nc) Đúng. Hợp của hai tập phủ kín từ $-3$ (thuộc $A$) trở đi tới $+\\infty$; các số từ $4$ trở đi thuộc $B$. Vậy $A \\cup B = [-3; +\\infty)$.\n\nd) Sai. $A \\setminus B$ gồm các số thuộc $A$ nhưng không thuộc $B$, tức là $-3 \\le x < 4$ và $x \\le 1$, nên $A \\setminus B = [-3; 1]$. Số $1$ không thuộc $B$ (vì $B$ là khoảng mở tại $1$) nên số $1$ phải thuộc $A \\setminus B$; viết $[-3; 1)$ là thiếu số $1$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Với $n$ là số nguyên, cho hai mệnh đề chứa biến $P(n)$: \"$n$ là số chẵn\" và $Q(n)$: \"$n^2$ là số chẵn\". Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$Q(3)$ là mệnh đề đúng.",
+            "Mệnh đề \"Với mọi số nguyên $n$, nếu $P(n)$ thì $Q(n)$\" là mệnh đề đúng.",
+            "Mệnh đề đảo \"Với mọi số nguyên $n$, nếu $Q(n)$ thì $P(n)$\" là mệnh đề sai.",
+            "\"$n$ là số chẵn\" là điều kiện cần và đủ để \"$n^2$ là số chẵn\"."
+          ],
+          "answer": [false, true, false, true],
+          "points": 2,
+          "verify": "(() => { const N=Array.from({length:201},(_,i)=>i-100); const ev=x=>x%2===0; const imp=N.every(n=>!ev(n)||ev(n*n)); const conv=N.every(n=>!ev(n*n)||ev(n)); return [ev(3*3), imp, !conv, imp&&conv]; })()",
+          "explanation": "a) Sai. $Q(3)$: \"$3^2 = 9$ là số chẵn\" — sai vì $9$ là số lẻ.\n\nb) Đúng. Nếu $n = 2k$ thì $n^2 = 4k^2 = 2 \\cdot (2k^2)$ là số chẵn.\n\nc) Sai (vì mệnh đề đảo là đúng). Nếu $n$ lẻ, $n = 2k + 1$ thì $n^2 = 4k^2 + 4k + 1$ là số lẻ. Do đó nếu $n^2$ chẵn thì $n$ không thể lẻ, tức là $n$ chẵn. Vậy mệnh đề \"nếu $Q(n)$ thì $P(n)$\" đúng, khẳng định \"là mệnh đề sai\" là sai.\n\nd) Đúng. Cả hai mệnh đề $P(n) \\Rightarrow Q(n)$ và $Q(n) \\Rightarrow P(n)$ đều đúng nên $P(n) \\Leftrightarrow Q(n)$, tức là \"$n$ chẵn là điều kiện cần và đủ để $n^2$ chẵn\"."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai tập hợp $A = \\{x \\in \\mathbb{Z} \\mid -3 < x < 3\\}$ và $B = \\{x \\in \\mathbb{N} \\mid x \\le 4\\}$. Tập hợp $A \\cup B$ có bao nhiêu phần tử?",
+          "answer": ["7"],
+          "points": 0.5,
+          "verify": "(() => { const Z=Array.from({length:21},(_,i)=>i-10); const A=Z.filter(x=>x>-3&&x<3), B=Z.filter(x=>x>=0&&x<=4); return new Set([...A,...B]).size; })()",
+          "explanation": "Liệt kê: $A = \\{-2; -1; 0; 1; 2\\}$ (không lấy $-3$ và $3$ vì dấu bất đẳng thức chặt), $B = \\{0; 1; 2; 3; 4\\}$. Hợp của hai tập (mỗi phần tử chung chỉ viết một lần):\n$$A \\cup B = \\{-2; -1; 0; 1; 2; 3; 4\\}.$$\nVậy $A \\cup B$ có $7$ phần tử. (Nếu cộng $5 + 5 = 10$ là sai vì đếm hai lần ba phần tử chung $0; 1; 2$.)\n\nĐáp số: $7$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Có bao nhiêu số nguyên thuộc tập hợp $[-2; 3) \\cup (5; 8]$?",
+          "answer": ["8"],
+          "points": 0.5,
+          "verify": "Array.from({length:41},(_,i)=>i-20).filter(x => (x >= -2 && x < 3) || (x > 5 && x <= 8)).length",
+          "explanation": "Các số nguyên thuộc $[-2; 3)$ là $-2; -1; 0; 1; 2$ (5 số, không lấy $3$). Các số nguyên thuộc $(5; 8]$ là $6; 7; 8$ (3 số, không lấy $5$). Hai tập không có phần tử chung nên tổng cộng có $5 + 3 = 8$ số nguyên.\n\nĐáp số: $8$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Trong một nhóm $30$ học sinh, có $18$ học sinh biết chơi cờ vua và $15$ học sinh biết chơi cờ tướng. Biết rằng mỗi học sinh trong nhóm đều biết chơi ít nhất một trong hai loại cờ đó. Hỏi có bao nhiêu học sinh biết chơi cả hai loại cờ?",
+          "answer": ["3"],
+          "points": 0.5,
+          "verify": "18 + 15 - 30",
+          "explanation": "Gọi $A$ là tập học sinh biết chơi cờ vua, $B$ là tập học sinh biết chơi cờ tướng. Vì mỗi học sinh biết ít nhất một loại cờ nên $A \\cup B$ có $30$ phần tử. Khi cộng $18 + 15 = 33$, các học sinh biết cả hai loại cờ bị đếm hai lần, nên số học sinh biết cả hai loại cờ là\n$$18 + 15 - 30 = 3.$$\nĐáp số: $3$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai tập hợp $A = \\{1; 3; 5; 7; 9\\}$ và $B = \\{3; 6; 9\\}$. Tính tổng tất cả các phần tử của tập hợp $A \\setminus B$.",
+          "answer": ["13"],
+          "points": 0.5,
+          "verify": "[1,3,5,7,9].filter(x => ![3,6,9].includes(x)).reduce((s,x)=>s+x, 0)",
+          "explanation": "$A \\setminus B$ gồm các phần tử thuộc $A$ nhưng không thuộc $B$. Bỏ $3$ và $9$ khỏi $A$, ta được $A \\setminus B = \\{1; 5; 7\\}$. Tổng các phần tử là $1 + 5 + 7 = 13$. (Chú ý không nhầm với $B \\setminus A = \\{6\\}$.)\n\nĐáp số: $13$."
+        }
+      ]
+    },
+    {
+      "slug": "toan10-menh-de-tap-hop-tb-03",
+      "title": "Mệnh đề và tập hợp — Đề 3",
+      "level": "tb",
+      "sort_order": 3,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 1 (cơ bản): kí hiệu thuộc – tập con, cách cho tập hợp bằng tính chất đặc trưng, phủ định mệnh đề có kí hiệu tồn tại, mệnh đề tương đương, hiệu và phần bù của khoảng, số tập con, bài toán thực tế về câu lạc bộ.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Cách viết nào sau đây diễn đạt đúng câu \"$5$ là một số tự nhiên\"?",
+          "options": [
+            "$5 \\subset \\mathbb{N}$",
+            "$5 \\in \\mathbb{N}$",
+            "$5 \\notin \\mathbb{N}$",
+            "$\\{5\\} \\in \\mathbb{N}$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Kí hiệu $\\in$ (thuộc) dùng giữa một phần tử và một tập hợp; kí hiệu $\\subset$ (là tập con) dùng giữa hai tập hợp. Số $5$ là một phần tử của $\\mathbb{N}$ nên viết $5 \\in \\mathbb{N}$. Phương án A, D dùng sai kí hiệu (đúng ra phải là $\\{5\\} \\subset \\mathbb{N}$); C nói ngược nghĩa. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tập hợp $A = \\{0; 2; 4; 6; 8\\}$ được viết bằng cách chỉ ra tính chất đặc trưng của các phần tử là",
+          "options": [
+            "$A = \\{x \\in \\mathbb{N} \\mid x < 10\\}$",
+            "$A = \\{x \\in \\mathbb{N} \\mid x \\text{ chẵn và } x \\le 8\\}$",
+            "$A = \\{x \\in \\mathbb{N}^* \\mid x \\text{ chẵn và } x < 10\\}$",
+            "$A = \\{x \\in \\mathbb{N} \\mid x \\text{ chẵn và } x \\le 10\\}$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Các phần tử của $A$ là các số tự nhiên chẵn từ $0$ đến $8$, nên $A = \\{x \\in \\mathbb{N} \\mid x$ chẵn và $x \\le 8\\}$. Kiểm tra các phương án nhiễu: A gồm cả số lẻ ($1; 3; \\ldots$); C dùng $\\mathbb{N}^*$ nên thiếu số $0$; D lấy thêm số $10$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Phủ định của mệnh đề \"$\\exists x \\in \\mathbb{R}, x^2 - x + 1 = 0$\" là",
+          "options": [
+            "\"$\\exists x \\in \\mathbb{R}, x^2 - x + 1 \\ne 0$\"",
+            "\"$\\forall x \\in \\mathbb{R}, x^2 - x + 1 = 0$\"",
+            "\"$\\forall x \\in \\mathbb{R}, x^2 - x + 1 \\ne 0$\"",
+            "\"$\\exists x \\in \\mathbb{R}, x^2 - x + 1 > 0$\""
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Phủ định của \"$\\exists x \\in X, P(x)$\" là \"$\\forall x \\in X, \\overline{P(x)}$\": đổi $\\exists$ thành $\\forall$ và phủ định tính chất. Phủ định của \"$x^2 - x + 1 = 0$\" là \"$x^2 - x + 1 \\ne 0$\". Vậy ta được \"$\\forall x \\in \\mathbb{R}, x^2 - x + 1 \\ne 0$\". Phương án A quên đổi $\\exists$ thành $\\forall$; B quên phủ định tính chất. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho tập hợp $A = \\{1; 2; 3; 4\\}$. Tập hợp nào sau đây **không** là tập con của $A$?",
+          "options": [
+            "$\\{1; 4\\}$",
+            "$\\varnothing$",
+            "$\\{2; 3; 4\\}$",
+            "$\\{0; 1\\}$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Tập $B$ là tập con của $A$ khi mọi phần tử của $B$ đều thuộc $A$. Các tập $\\{1; 4\\}$, $\\{2; 3; 4\\}$ có mọi phần tử thuộc $A$; tập rỗng $\\varnothing$ là tập con của mọi tập hợp. Tập $\\{0; 1\\}$ có phần tử $0 \\notin A$ nên không là tập con của $A$. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai tập hợp $A = (-\\infty; 3)$ và $B = [-1; 5]$. Tập hợp $A \\setminus B$ là",
+          "options": [
+            "$(-\\infty; -1]$",
+            "$[-1; 3)$",
+            "$(-\\infty; -1)$",
+            "$(3; 5]$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "$A \\setminus B$ gồm các số thuộc $A$ ($x < 3$) nhưng không thuộc $B$ (tức là $x < -1$ hoặc $x > 5$). Kết hợp lại được $x < -1$, nên $A \\setminus B = (-\\infty; -1)$. Phương án A sai vì số $-1$ thuộc $B$ nên phải bỏ đi; B là $A \\cap B$; D gần với $B \\setminus A = [3; 5]$ nhưng còn sai cả ngoặc. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho tập hợp $A = \\{x \\in \\mathbb{Z} \\mid x^2 < 10\\}$. Số phần tử của tập $A$ là",
+          "options": [
+            "$3$",
+            "$4$",
+            "$6$",
+            "$7$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "Array.from({length:21},(_,i)=>i-10).filter(x => x*x < 10).length",
+          "explanation": "Ta có $3^2 = 9 < 10$ và $4^2 = 16 > 10$, nên các số nguyên thỏa mãn $x^2 < 10$ là $-3; -2; -1; 0; 1; 2; 3$. Vậy $A$ có $7$ phần tử. Phương án B là do chỉ xét số tự nhiên ($0; 1; 2; 3$), quên các số nguyên âm; phương án C là do quên số $0$. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai mệnh đề $P$: \"Tam giác $ABC$ có ba góc bằng nhau\" và $Q$: \"Tam giác $ABC$ là tam giác đều\". Mệnh đề $P \\Leftrightarrow Q$ được phát biểu là",
+          "options": [
+            "\"Tam giác $ABC$ có ba góc bằng nhau khi và chỉ khi tam giác $ABC$ là tam giác đều\".",
+            "\"Nếu tam giác $ABC$ có ba góc bằng nhau thì tam giác $ABC$ là tam giác đều\".",
+            "\"Nếu tam giác $ABC$ là tam giác đều thì tam giác $ABC$ có ba góc bằng nhau\".",
+            "\"Tam giác $ABC$ có ba góc bằng nhau hoặc tam giác $ABC$ là tam giác đều\"."
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Mệnh đề $P \\Leftrightarrow Q$ được đọc là \"$P$ khi và chỉ khi $Q$\" (hoặc \"$P$ nếu và chỉ nếu $Q$\", \"$P$ là điều kiện cần và đủ để có $Q$\"). Phương án B chỉ là $P \\Rightarrow Q$, phương án C chỉ là $Q \\Rightarrow P$; D dùng chữ \"hoặc\" không phải là mệnh đề tương đương. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai tập hợp $A = \\{1; 2; 3; 5\\}$ và $B = \\{2; 3; 4\\}$. Tập hợp $A \\cup B$ có bao nhiêu phần tử?",
+          "options": [
+            "$5$",
+            "$7$",
+            "$2$",
+            "$4$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "new Set([1,2,3,5,2,3,4]).size",
+          "explanation": "$A \\cup B = \\{1; 2; 3; 4; 5\\}$ (các phần tử chung $2; 3$ chỉ viết một lần). Vậy $A \\cup B$ có $5$ phần tử. Phương án B là do cộng $4 + 3 = 7$, đếm hai lần các phần tử chung; phương án C là số phần tử của $A \\cap B$. Chọn A."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hai tập hợp $A = \\{x \\in \\mathbb{R} \\mid x \\ge -2\\}$ và $B = \\{x \\in \\mathbb{R} \\mid x < 3\\}$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$A = [-2; +\\infty)$.",
+            "$B = (-\\infty; 3]$.",
+            "$A \\cap B = [-2; 3)$.",
+            "$\\mathbb{R} \\setminus A = (-\\infty; -2]$."
+          ],
+          "answer": [true, false, true, false],
+          "points": 2,
+          "verify": "(() => { const G=Array.from({length:41},(_,i)=>-10+i/2); const inA=x=>x>=-2, inB=x=>x<3; return [G.every(x=>inA(x)===(x>=-2)), G.every(x=>inB(x)===(x<=3)), G.every(x=>(inA(x)&&inB(x))===(x>=-2&&x<3)), G.every(x=>!inA(x)===(x<=-2))]; })()",
+          "explanation": "a) Đúng. $x \\ge -2$ (lấy cả $-2$) nên $A = [-2; +\\infty)$.\n\nb) Sai. $x < 3$ (không lấy $3$) nên $B = (-\\infty; 3)$; viết $(-\\infty; 3]$ là lấy thừa số $3$.\n\nc) Đúng. $A \\cap B$ gồm các số thỏa mãn đồng thời $x \\ge -2$ và $x < 3$, tức là $-2 \\le x < 3$, nên $A \\cap B = [-2; 3)$.\n\nd) Sai. Phần bù của $A$ trong $\\mathbb{R}$ gồm các số $x < -2$, nên $\\mathbb{R} \\setminus A = (-\\infty; -2)$. Số $-2$ thuộc $A$ nên không thể thuộc phần bù của $A$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Lớp 10B có $35$ học sinh, mỗi học sinh tham gia ít nhất một trong hai câu lạc bộ Toán và Tiếng Anh. Có $20$ học sinh tham gia câu lạc bộ Toán và $22$ học sinh tham gia câu lạc bộ Tiếng Anh. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Có $7$ học sinh tham gia cả hai câu lạc bộ.",
+            "Có $12$ học sinh chỉ tham gia câu lạc bộ Toán.",
+            "Có $13$ học sinh chỉ tham gia câu lạc bộ Tiếng Anh.",
+            "Có $28$ học sinh tham gia đúng một câu lạc bộ."
+          ],
+          "answer": [true, false, false, true],
+          "points": 2,
+          "verify": "(() => { const both=20+22-35; const onlyT=20-both, onlyE=22-both; return [both===7, onlyT===12, onlyE===13, onlyT+onlyE===28]; })()",
+          "explanation": "Gọi $T$, $E$ lần lượt là tập học sinh tham gia câu lạc bộ Toán, Tiếng Anh. Vì mỗi học sinh tham gia ít nhất một câu lạc bộ nên $T \\cup E$ có $35$ phần tử.\n\na) Đúng. Số học sinh tham gia cả hai câu lạc bộ là $20 + 22 - 35 = 7$.\n\nb) Sai. Số học sinh chỉ tham gia câu lạc bộ Toán là $20 - 7 = 13$, không phải $12$.\n\nc) Sai. Số học sinh chỉ tham gia câu lạc bộ Tiếng Anh là $22 - 7 = 15$, không phải $13$ (con số $13$ là số học sinh chỉ học Toán).\n\nd) Đúng. Số học sinh tham gia đúng một câu lạc bộ là $13 + 15 = 28$ (hoặc $35 - 7 = 28$)."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho $A = \\{x \\in \\mathbb{N} \\mid x < 6\\}$ và $B$ là tập hợp các số tự nhiên lẻ. Tập hợp $A \\cap B$ có bao nhiêu phần tử?",
+          "answer": ["3"],
+          "points": 0.5,
+          "verify": "[0,1,2,3,4,5,6,7,8,9].filter(x => x < 6 && x % 2 === 1).length",
+          "explanation": "$A = \\{0; 1; 2; 3; 4; 5\\}$. $A \\cap B$ gồm các phần tử của $A$ là số lẻ: $A \\cap B = \\{1; 3; 5\\}$. Vậy $A \\cap B$ có $3$ phần tử.\n\nĐáp số: $3$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai tập hợp $A = (-3; 5]$ và $B = [0; +\\infty)$. Có bao nhiêu số nguyên thuộc tập hợp $A \\setminus B$?",
+          "answer": ["2"],
+          "points": 0.5,
+          "verify": "Array.from({length:41},(_,i)=>i-20).filter(x => (x > -3 && x <= 5) && !(x >= 0)).length",
+          "explanation": "$A \\setminus B$ gồm các số thuộc $A$ ($-3 < x \\le 5$) nhưng không thuộc $B$ (tức là $x < 0$). Vậy $A \\setminus B = (-3; 0)$. Các số nguyên thuộc $(-3; 0)$ là $-2; -1$ (không lấy $-3$ và $0$).\n\nĐáp số: $2$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tập hợp $A = \\{x \\in \\mathbb{N} \\mid x \\le 3\\}$ có bao nhiêu tập con?",
+          "answer": ["16"],
+          "points": 0.5,
+          "verify": "2 ** [0,1,2,3,4,5].filter(x => x <= 3).length",
+          "explanation": "$A = \\{0; 1; 2; 3\\}$ có $4$ phần tử. Đếm các tập con theo số phần tử: $1$ tập rỗng; $4$ tập có $1$ phần tử; $6$ tập có $2$ phần tử ($\\{0;1\\}, \\{0;2\\}, \\{0;3\\}, \\{1;2\\}, \\{1;3\\}, \\{2;3\\}$); $4$ tập có $3$ phần tử; $1$ tập là chính $A$. Tổng cộng $1 + 4 + 6 + 4 + 1 = 16$ tập con. (Chú ý $0 \\in \\mathbb{N}$, nếu quên số $0$ sẽ được sai là $8$.)\n\nĐáp số: $16$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho mệnh đề chứa biến $P(n)$: \"$n^2 + 1 < 20$\" với $n$ là số tự nhiên. Có bao nhiêu số tự nhiên $n$ để $P(n)$ là mệnh đề đúng?",
+          "answer": ["5"],
+          "points": 0.5,
+          "verify": "Array.from({length:50},(_,i)=>i).filter(n => n*n + 1 < 20).length",
+          "explanation": "$n^2 + 1 < 20 \\Leftrightarrow n^2 < 19$. Ta có $4^2 = 16 < 19$ còn $5^2 = 25 > 19$; với $n \\ge 5$ thì $n^2 \\ge 25$ nên $P(n)$ sai. Vậy các số tự nhiên thỏa mãn là $n = 0; 1; 2; 3; 4$ — có $5$ số (đừng quên $n = 0$).\n\nĐáp số: $5$."
+        }
+      ]
+    }
+  ]
+}

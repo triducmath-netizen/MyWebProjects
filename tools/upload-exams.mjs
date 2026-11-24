@@ -16,10 +16,12 @@ const url = env.SUPABASE_URL;
 const token = env.EXAM_IMPORT_TOKEN;
 if (!url || !token) { console.error('.env.local cần SUPABASE_URL và EXAM_IMPORT_TOKEN'); process.exit(2); }
 
-const files = process.argv.slice(2);
-if (!files.length) { console.error('Cách dùng: node tools/upload-exams.mjs <file.json> [...]'); process.exit(2); }
+// --partial: cho phép tải lên chương chưa đủ 10 đề (từng đề vẫn phải đạt kiểm tra).
+const partial = process.argv.includes('--partial');
+const files = process.argv.slice(2).filter((a) => a !== '--partial');
+if (!files.length) { console.error('Cách dùng: node tools/upload-exams.mjs [--partial] <file.json> [...]'); process.exit(2); }
 
-const { errors, exams } = checkFiles(files);
+const { errors, exams } = checkFiles(files, { partial });
 if (errors.length) {
   for (const e of errors) console.log(`LỖI   ${e}`);
   console.error(`\nKhông tải lên: còn ${errors.length} lỗi. Chạy tools/check-exams.mjs để xem chi tiết.`);

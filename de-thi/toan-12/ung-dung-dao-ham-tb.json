@@ -1,0 +1,421 @@
+{
+  "grade": 12,
+  "topic": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số",
+  "exams": [
+    {
+      "slug": "toan12-ung-dung-dao-ham-tb-01",
+      "title": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số — Đề 1",
+      "level": "tb",
+      "sort_order": 1,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 1 (cơ bản): khoảng đơn điệu, cực trị hàm bậc ba, bậc bốn; giá trị lớn nhất, nhỏ nhất trên đoạn; tiệm cận đứng, ngang, xiên; tâm đối xứng; bài toán hộp không nắp và vận tốc.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Hàm số $y = x^3 - 3x^2 + 1$ nghịch biến trên khoảng nào dưới đây?",
+          "options": ["$(-\\infty;0)$", "$(0;2)$", "$(2;+\\infty)$", "$(-2;0)$"],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Tập xác định $\\mathbb{R}$. Ta có $y' = 3x^2 - 6x = 3x(x-2)$; $y' = 0 \\Leftrightarrow x = 0$ hoặc $x = 2$. Xét dấu: $y' < 0$ khi $0 < x < 2$, $y' > 0$ khi $x < 0$ hoặc $x > 2$. Vậy hàm số nghịch biến trên $(0;2)$. Các khoảng $(-\\infty;0)$ và $(2;+\\infty)$ là khoảng đồng biến (A, C sai do nhầm dấu của $y'$); D sai do giải nhầm $y' = 0$ được $x = -2$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị cực đại của hàm số $y = -x^3 + 3x + 2$ bằng",
+          "options": ["$0$", "$1$", "$2$", "$4$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{const f=x=>-(x**3)+3*x+2;const d=x=>-3*x*x+3;const r=[];for(let i=-50;i<=50;i++){const x=i/10;if(d(x-0.05)>0&&d(x+0.05)<0)r.push(f(x));}return r[0];})()",
+          "explanation": "$y' = -3x^2 + 3$; $y' = 0 \\Leftrightarrow x = \\pm 1$. Vì $y' < 0$ khi $x < -1$, $y' > 0$ khi $-1 < x < 1$, $y' < 0$ khi $x > 1$ nên hàm số đạt cực đại tại $x = 1$, giá trị cực đại $y(1) = -1 + 3 + 2 = 4$. Phương án A là giá trị cực tiểu $y(-1) = 0$; phương án B nhầm điểm cực đại $x = 1$ với giá trị cực đại; phương án C là $y(0)$. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị lớn nhất của hàm số $f(x) = x^3 - 3x + 2$ trên đoạn $[0;2]$ bằng",
+          "options": ["$2$", "$0$", "$4$", "$8$"],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "Math.max(...Array.from({length:2001},(_,i)=>{const x=i/1000;return x**3-3*x+2;}))",
+          "explanation": "$f'(x) = 3x^2 - 3$; trên đoạn $[0;2]$, $f'(x) = 0 \\Leftrightarrow x = 1$. Tính $f(0) = 2$, $f(1) = 0$, $f(2) = 8 - 6 + 2 = 4$. So sánh được $\\max\\limits_{[0;2]} f(x) = 4$ tại $x = 2$. Phương án B là giá trị nhỏ nhất (tại điểm cực trị), học sinh hay nhầm “điểm tới hạn cho giá trị lớn nhất”; phương án A chỉ tính tại $x = 0$. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tiệm cận đứng của đồ thị hàm số $y = \\dfrac{2x - 1}{x + 1}$ là đường thẳng",
+          "options": ["$x = -1$", "$x = 1$", "$y = 2$", "$x = \\frac{1}{2}$"],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Mẫu số bằng $0$ khi $x = -1$ và tử số tại đó bằng $-3 \\ne 0$, nên $\\lim\\limits_{x \\to -1^+} y = -\\infty$, $\\lim\\limits_{x \\to -1^-} y = +\\infty$. Vậy tiệm cận đứng là $x = -1$. Phương án B sai dấu; phương án C là tiệm cận ngang; phương án D là nghiệm của tử số. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tiệm cận ngang của đồ thị hàm số $y = \\dfrac{3x + 1}{x - 2}$ là đường thẳng",
+          "options": ["$x = 2$", "$y = -\\frac{1}{2}$", "$y = 3$", "$y = -3$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "$\\lim\\limits_{x \\to \\pm\\infty} \\dfrac{3x + 1}{x - 2} = \\lim\\limits_{x \\to \\pm\\infty} \\dfrac{3 + \\frac{1}{x}}{1 - \\frac{2}{x}} = 3$, nên tiệm cận ngang là $y = 3$ (tỉ số hai hệ số của $x$). Phương án A là tiệm cận đứng; phương án B lấy tỉ số hai hệ số tự do $\\frac{1}{-2}$; phương án D sai dấu. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tiệm cận xiên của đồ thị hàm số $y = \\dfrac{x^2 + x - 1}{x - 1}$ là đường thẳng",
+          "options": ["$y = x + 2$", "$y = x$", "$y = x + 1$", "$x = 1$"],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Chia đa thức: $x^2 + x - 1 = (x - 1)(x + 2) + 1$, nên $y = x + 2 + \\dfrac{1}{x - 1}$. Vì $\\lim\\limits_{x \\to \\pm\\infty} \\left[y - (x + 2)\\right] = \\lim\\limits_{x \\to \\pm\\infty} \\dfrac{1}{x - 1} = 0$ nên tiệm cận xiên là $y = x + 2$. Phương án B chỉ lấy hệ số góc mà quên hệ số tự do; phương án C chia sai; phương án D là tiệm cận đứng. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Đồ thị của hàm số $y = x^3 - 3x^2 + 2$ có tâm đối xứng là điểm",
+          "options": ["$(0;2)$", "$(1;0)$", "$(2;-2)$", "$(-1;-2)$"],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Đồ thị hàm số bậc ba nhận điểm có hoành độ là nghiệm của $y'' = 0$ làm tâm đối xứng. Ta có $y' = 3x^2 - 6x$, $y'' = 6x - 6 = 0 \\Leftrightarrow x = 1$, $y(1) = 1 - 3 + 2 = 0$. Tâm đối xứng là $(1;0)$. Phương án A là điểm cực đại, phương án C là điểm cực tiểu (đều là nghiệm của $y' = 0$, không phải $y'' = 0$). Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một vật chuyển động thẳng với quãng đường $s(t) = -t^3 + 9t^2$, trong đó $t$ (giây) là thời gian tính từ lúc bắt đầu chuyển động và $s$ tính bằng mét. Trong $10$ giây đầu, vận tốc lớn nhất của vật bằng bao nhiêu mét/giây?",
+          "options": ["$54$", "$18$", "$3$", "$27$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "Math.max(...Array.from({length:10001},(_,i)=>{const t=i/1000;return -3*t*t+18*t;}))",
+          "explanation": "Vận tốc $v(t) = s'(t) = -3t^2 + 18t$ với $t \\in [0;10]$. Ta có $v'(t) = -6t + 18 = 0 \\Leftrightarrow t = 3$; $v(0) = 0$, $v(3) = -27 + 54 = 27$, $v(10) = -300 + 180 = -120$. Vậy vận tốc lớn nhất là $27$ m/s tại $t = 3$ s. Phương án A là quãng đường $s(3) = 54$ (nhầm $s$ với $v$); phương án C là thời điểm $t = 3$. Chọn D."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hàm số $y = x^3 - 3x^2 - 9x + 5$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Đạo hàm của hàm số là $y' = 3x^2 - 6x - 9$.",
+            "Hàm số đồng biến trên khoảng $(-1;3)$.",
+            "Giá trị cực tiểu của hàm số bằng $-22$.",
+            "Hai điểm cực trị của đồ thị hàm số nằm về hai phía của trục hoành."
+          ],
+          "answer": [true, false, true, true],
+          "points": 2,
+          "verify": "(()=>{const f=x=>x**3-3*x*x-9*x+5;const g=x=>(f(x+1e-5)-f(x-1e-5))/2e-5;const r=[];for(let i=-50;i<=50;i++){const x=i/10;if(g(x-0.05)*g(x+0.05)<0)r.push(x);}const cts=r.filter(x=>g(x-0.05)<0);return [[-2,0,1,4].every(x=>Math.abs(g(x)-(3*x*x-6*x-9))<1e-4), g(0)>0, Math.abs(f(cts[0])+22)<1e-9, f(r[0])*f(r[1])<0];})()",
+          "explanation": "a) Đúng: $y' = 3x^2 - 6x - 9$. b) Sai: $y' = 3(x^2 - 2x - 3) = 3(x + 1)(x - 3) < 0$ khi $-1 < x < 3$, nên hàm số nghịch biến (không phải đồng biến) trên $(-1;3)$. c) Đúng: $y'$ đổi dấu từ âm sang dương tại $x = 3$ nên đây là điểm cực tiểu, $y_{\text{CT}} = y(3) = 27 - 27 - 27 + 5 = -22$. d) Đúng: điểm cực đại $(-1;10)$ vì $y(-1) = -1 - 3 + 9 + 5 = 10 > 0$, điểm cực tiểu $(3;-22)$ có tung độ âm; hai tung độ trái dấu nên hai điểm nằm về hai phía trục hoành."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Từ một tấm bìa hình vuông cạnh $12$ cm, bạn Minh cắt bỏ ở bốn góc bốn hình vuông bằng nhau cạnh $x$ (cm) rồi gập lại thành một chiếc hộp hình hộp chữ nhật không nắp. Gọi $V(x)$ là thể tích chiếc hộp (cm$^3$). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Điều kiện của $x$ là $0 < x < 6$.",
+            "$V(x) = 4x^3 - 48x^2 + 144x$.",
+            "Thể tích chiếc hộp lớn nhất khi $x = 3$.",
+            "Thể tích lớn nhất của chiếc hộp là $128$ cm$^3$."
+          ],
+          "answer": [true, true, false, true],
+          "points": 2,
+          "verify": "(()=>{const V=x=>x*(12-2*x)**2;let bx=0,bv=-1;for(let i=1;i<6000;i++){const x=i/1000,v=V(x);if(v>bv){bv=v;bx=x;}}return [12-2*6===0&&V(3)>0, [1,2,3,4.5].every(x=>Math.abs(V(x)-(4*x**3-48*x*x+144*x))<1e-9), Math.abs(bx-3)<1e-6, Math.abs(bv-128)<1e-6];})()",
+          "explanation": "Đáy hộp là hình vuông cạnh $12 - 2x$, chiều cao $x$. a) Đúng: cần $x > 0$ và $12 - 2x > 0$, tức $0 < x < 6$. b) Đúng: $V(x) = x(12 - 2x)^2 = x(144 - 48x + 4x^2) = 4x^3 - 48x^2 + 144x$. c) Sai: $V'(x) = 12x^2 - 96x + 144 = 12(x - 2)(x - 6)$; trên $(0;6)$, $V' > 0$ khi $0 < x < 2$ và $V' < 0$ khi $2 < x < 6$, nên $V$ lớn nhất tại $x = 2$ (không phải $x = 3$, là trung điểm của khoảng). d) Đúng: $V_{\\max} = V(2) = 2 \\cdot 8^2 = 128$ cm$^3$ (so sánh: $V(3) = 3 \\cdot 36 = 108 < 128$)."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm giá trị nhỏ nhất của hàm số $f(x) = x + \\dfrac{4}{x}$ trên đoạn $[1;4]$.",
+          "answer": ["4"],
+          "points": 0.5,
+          "verify": "Math.min(...Array.from({length:3001},(_,i)=>{const x=1+i/1000;return x+4/x;}))",
+          "explanation": "$f'(x) = 1 - \\dfrac{4}{x^2} = \\dfrac{x^2 - 4}{x^2}$; trên $[1;4]$, $f'(x) = 0 \\Leftrightarrow x = 2$. Ta có $f(1) = 5$, $f(2) = 2 + 2 = 4$, $f(4) = 4 + 1 = 5$. Vậy $\\min\\limits_{[1;4]} f(x) = 4$ tại $x = 2$. Đáp số: $4$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm giá trị cực đại của hàm số $y = x^4 - 2x^2 + 5$.",
+          "answer": ["5"],
+          "points": 0.5,
+          "verify": "(()=>{const f=x=>x**4-2*x*x+5;const d=x=>4*x**3-4*x;const r=[];for(let i=-30;i<=30;i++){const x=i/10;if(d(x-0.05)>0&&d(x+0.05)<0)r.push(f(x));}return r[0];})()",
+          "explanation": "$y' = 4x^3 - 4x = 4x(x - 1)(x + 1)$; $y' = 0 \\Leftrightarrow x \\in \\{-1; 0; 1\\}$. Xét dấu: $y' < 0$ trên $(-\\infty;-1)$, $y' > 0$ trên $(-1;0)$, $y' < 0$ trên $(0;1)$, $y' > 0$ trên $(1;+\\infty)$. Do đó hàm số đạt cực đại tại $x = 0$, giá trị cực đại $y(0) = 5$ (còn $x = \\pm 1$ là điểm cực tiểu, $y_{\text{CT}} = 4$). Đáp số: $5$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Đồ thị hàm số $y = \\dfrac{2x + 3}{x - 4}$ có tiệm cận đứng là đường thẳng $x = a$ và tiệm cận ngang là đường thẳng $y = b$. Tính $a + b$.",
+          "answer": ["6"],
+          "points": 0.5,
+          "verify": "(()=>{const f=x=>(2*x+3)/(x-4);const a=Array.from({length:21},(_,i)=>i-10).find(x=>x-4===0);const b=Math.round(f(1e9)*1e6)/1e6;return a+b;})()",
+          "explanation": "Mẫu số $x - 4 = 0 \\Leftrightarrow x = 4$, tử số tại đó bằng $11 \\ne 0$ nên tiệm cận đứng là $x = 4$, tức $a = 4$. $\\lim\\limits_{x \\to \\pm\\infty} y = \\dfrac{2}{1} = 2$ nên tiệm cận ngang là $y = 2$, tức $b = 2$. Vậy $a + b = 6$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Số lượng vi khuẩn trong một mẫu nuôi cấy sau $t$ giờ là $N(t) = 500 + 30t^2 - t^3$ ($0 \\le t \\le 20$). Tốc độ tăng trưởng của số vi khuẩn là $N'(t)$. Tại thời điểm $t$ bằng bao nhiêu giờ thì tốc độ tăng trưởng lớn nhất?",
+          "answer": ["10"],
+          "points": 0.5,
+          "verify": "(()=>{let bt=0,bv=-Infinity;for(let i=0;i<=20000;i++){const t=i/1000;const v=60*t-3*t*t;if(v>bv){bv=v;bt=t;}}return bt;})()",
+          "explanation": "Tốc độ tăng trưởng $N'(t) = 60t - 3t^2$. Xét $g(t) = 60t - 3t^2$ trên $[0;20]$: $g'(t) = 60 - 6t = 0 \\Leftrightarrow t = 10$; $g(0) = 0$, $g(10) = 300$, $g(20) = 0$. Vậy tốc độ tăng trưởng lớn nhất tại $t = 10$ giờ. Lưu ý: không nhầm với thời điểm $N(t)$ lớn nhất ($t = 20$). Đáp số: $10$."
+        }
+      ]
+    },
+    {
+      "slug": "toan12-ung-dung-dao-ham-tb-02",
+      "title": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số — Đề 2",
+      "level": "tb",
+      "sort_order": 2,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 1 (cơ bản): hàm số đồng biến trên ℝ, đếm cực trị từ biểu thức đạo hàm; giá trị lớn nhất, nhỏ nhất của hàm đa thức, phân thức, căn thức; đếm tiệm cận, tiệm cận xiên; khảo sát hàm phân thức bậc nhất; chuyển động thẳng, chi phí trung bình, rào vườn.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Hàm số nào dưới đây đồng biến trên $\\mathbb{R}$?",
+          "options": ["$y = x^3 - 3x$", "$y = \\dfrac{x - 1}{x + 2}$", "$y = x^3 + 3x + 1$", "$y = x^4 + 1$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Với $y = x^3 + 3x + 1$: $y' = 3x^2 + 3 > 0$ với mọi $x \\in \\mathbb{R}$ nên hàm số đồng biến trên $\\mathbb{R}$. Các phương án khác: A có $y' = 3x^2 - 3 < 0$ trên $(-1;1)$; B có $y' = \\dfrac{3}{(x + 2)^2} > 0$ nhưng hàm số không xác định tại $x = -2$, chỉ đồng biến trên từng khoảng $(-\\infty;-2)$ và $(-2;+\\infty)$; D có $y' = 4x^3 < 0$ khi $x < 0$. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hàm số $y = f(x)$ có đạo hàm $f'(x) = x(x - 1)^2(x + 2)$ với mọi $x \\in \\mathbb{R}$. Số điểm cực trị của hàm số $y = f(x)$ là",
+          "options": ["$1$", "$2$", "$3$", "$0$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{const d=x=>x*(x-1)**2*(x+2);return [-2,0,1].filter(r=>d(r-0.01)*d(r+0.01)<0).length;})()",
+          "explanation": "$f'(x) = 0 \\Leftrightarrow x \\in \\{-2; 0; 1\\}$. Vì $(x - 1)^2 \\ge 0$ nên dấu của $f'(x)$ là dấu của $x(x + 2)$: dương khi $x < -2$, âm khi $-2 < x < 0$, dương khi $x > 0$ (kể cả hai phía của $x = 1$). Do đó $f'$ đổi dấu tại $x = -2$ và $x = 0$, không đổi dấu tại $x = 1$ (nghiệm bội chẵn). Hàm số có $2$ điểm cực trị. Phương án C sai vì đếm cả nghiệm $x = 1$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị nhỏ nhất của hàm số $y = x^4 - 8x^2 + 1$ trên đoạn $[-1;3]$ bằng",
+          "options": ["$-15$", "$-6$", "$1$", "$10$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "Math.min(...Array.from({length:4001},(_,i)=>{const x=-1+i/1000;return x**4-8*x*x+1;}))",
+          "explanation": "$y' = 4x^3 - 16x = 4x(x^2 - 4)$; trên $[-1;3]$, $y' = 0 \\Leftrightarrow x = 0$ hoặc $x = 2$ (loại $x = -2 \\notin [-1;3]$). Tính $y(-1) = -6$, $y(0) = 1$, $y(2) = 16 - 32 + 1 = -15$, $y(3) = 81 - 72 + 1 = 10$. Vậy giá trị nhỏ nhất là $-15$. Phương án B chỉ so sánh giá trị tại hai đầu mút; phương án D là giá trị lớn nhất. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị lớn nhất của hàm số $y = \\dfrac{x - 1}{x + 1}$ trên đoạn $[0;3]$ bằng",
+          "options": ["$-1$", "$0{,}5$", "$1$", "$2$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "Math.max(...Array.from({length:3001},(_,i)=>{const x=i/1000;return (x-1)/(x+1);}))",
+          "explanation": "$y' = \\dfrac{1 \\cdot 1 - (-1) \\cdot 1}{(x + 1)^2} = \\dfrac{2}{(x + 1)^2} > 0$ trên $[0;3]$, nên hàm số đồng biến trên đoạn này. Giá trị lớn nhất đạt tại $x = 3$: $y(3) = \\dfrac{2}{4} = 0{,}5$. Phương án A là giá trị nhỏ nhất $y(0) = -1$; phương án C là tiệm cận ngang $y = 1$ (hàm số không đạt giá trị này). Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Đồ thị hàm số $y = \\dfrac{x^2 - 1}{x^2 - 3x + 2}$ có tất cả bao nhiêu đường tiệm cận (đứng và ngang)?",
+          "options": ["$0$", "$1$", "$3$", "$2$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{const f=x=>(x*x-1)/(x*x-3*x+2);let n=0;for(const r of [1,2]){if(Math.abs(f(r+1e-7))>1e5)n++;}if(Math.abs(f(1e8)-Math.round(f(1e8)))<1e-6)n++;return n;})()",
+          "explanation": "Tập xác định $\\mathbb{R} \\setminus \\{1; 2\\}$. Với $x \\ne 1$: $y = \\dfrac{(x - 1)(x + 1)}{(x - 1)(x - 2)} = \\dfrac{x + 1}{x - 2}$. Khi $x \\to 1$, $y \\to \\dfrac{2}{-1} = -2$ (hữu hạn) nên $x = 1$ không là tiệm cận đứng; khi $x \\to 2^+$, $y \\to +\\infty$ nên $x = 2$ là tiệm cận đứng. $\\lim\\limits_{x \\to \\pm\\infty} y = 1$ nên $y = 1$ là tiệm cận ngang. Tổng cộng $2$ đường tiệm cận. Phương án C sai do coi cả $x = 1$ là tiệm cận đứng mà không rút gọn. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tiệm cận xiên của đồ thị hàm số $y = 2x - 1 + \\dfrac{3}{x + 2}$ là đường thẳng",
+          "options": ["$y = 2x - 1$", "$y = 2x$", "$x = -2$", "$y = 2x + 3$"],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Ta có $\\lim\\limits_{x \\to \\pm\\infty} \\left[y - (2x - 1)\\right] = \\lim\\limits_{x \\to \\pm\\infty} \\dfrac{3}{x + 2} = 0$, nên đường thẳng $y = 2x - 1$ là tiệm cận xiên. Phương án B bỏ quên hệ số tự do; phương án C là tiệm cận đứng; phương án D cộng nhầm tử số $3$ vào. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Đồ thị của hàm số $y = \\dfrac{2x + 1}{x - 1}$ có tâm đối xứng là điểm",
+          "options": ["$(2;1)$", "$(-1;2)$", "$(1;-2)$", "$(1;2)$"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Đồ thị hàm số phân thức bậc nhất trên bậc nhất nhận giao điểm của hai đường tiệm cận làm tâm đối xứng. Tiệm cận đứng $x = 1$ (nghiệm của mẫu), tiệm cận ngang $y = \\dfrac{2}{1} = 2$. Tâm đối xứng là $I(1;2)$. Phương án A đổi chỗ hoành độ và tung độ; B, C sai dấu. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Chi phí để một xưởng sản xuất $x$ chiếc bàn học là $C(x) = x^2 + 100x + 2500$ (nghìn đồng), $x > 0$. Chi phí trung bình cho mỗi chiếc bàn là $\\overline{C}(x) = \\dfrac{C(x)}{x}$. Xưởng cần sản xuất bao nhiêu chiếc bàn để chi phí trung bình nhỏ nhất?",
+          "options": ["$25$", "$100$", "$50$", "$200$"],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{let bx=0,bv=Infinity;for(let x=1;x<=1000;x++){const v=(x*x+100*x+2500)/x;if(v<bv){bv=v;bx=x;}}return bx;})()",
+          "explanation": "$\\overline{C}(x) = x + 100 + \\dfrac{2500}{x}$, $\\overline{C}'(x) = 1 - \\dfrac{2500}{x^2}$; với $x > 0$: $\\overline{C}'(x) = 0 \\Leftrightarrow x = 50$. $\\overline{C}' < 0$ trên $(0;50)$ và $\\overline{C}' > 0$ trên $(50;+\\infty)$, nên $\\overline{C}$ nhỏ nhất tại $x = 50$ (khi đó chi phí trung bình là $200$ nghìn đồng/chiếc — phương án D là giá trị nhỏ nhất chứ không phải số bàn). Phương án A do giải nhầm $x^2 = 625$. Chọn C."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hàm số $y = \\dfrac{x + 2}{x - 1}$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Tập xác định của hàm số là $\\mathbb{R} \\setminus \\{1\\}$.",
+            "$y' = \\dfrac{3}{(x - 1)^2}$ với mọi $x \\ne 1$.",
+            "Hàm số nghịch biến trên mỗi khoảng $(-\\infty;1)$ và $(1;+\\infty)$.",
+            "Giá trị nhỏ nhất của hàm số trên đoạn $[2;4]$ bằng $2$."
+          ],
+          "answer": [true, false, true, true],
+          "points": 2,
+          "verify": "(()=>{const f=x=>(x+2)/(x-1);const g=x=>(f(x+1e-6)-f(x-1e-6))/2e-6;const mn=Math.min(...Array.from({length:2001},(_,i)=>f(2+i/1000)));return [(1-1)===0&&[0,2,-3].every(x=>x-1!==0), Math.abs(g(2)-3/((2-1)**2))<1e-3, [-5,0,0.5,1.5,3,10].every(x=>g(x)<0), Math.abs(mn-2)<1e-9];})()",
+          "explanation": "a) Đúng: hàm số xác định khi $x - 1 \\ne 0 \\Leftrightarrow x \\ne 1$. b) Sai: $y' = \\dfrac{1 \\cdot (x - 1) - (x + 2) \\cdot 1}{(x - 1)^2} = \\dfrac{-3}{(x - 1)^2}$ (lỗi thường gặp: đổi nhầm thứ tự khi tính $ad - bc = 1 \\cdot (-1) - 2 \\cdot 1 = -3$). c) Đúng: $y' < 0$ với mọi $x \\ne 1$ nên hàm số nghịch biến trên từng khoảng xác định. d) Đúng: trên $[2;4]$ hàm số nghịch biến nên giá trị nhỏ nhất là $y(4) = \\dfrac{6}{3} = 2$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Một vật chuyển động thẳng có phương trình $s(t) = t^3 - 6t^2 + 9t$, trong đó $t \\ge 0$ tính bằng giây và $s$ tính bằng mét. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Vận tốc của vật tại thời điểm $t = 2$ là $-3$ m/s.",
+            "Vật dừng lại (vận tốc bằng $0$) lần đầu tiên tại thời điểm $t = 3$ giây.",
+            "Trong khoảng thời gian từ $t = 1$ đến $t = 3$ giây, vận tốc của vật luôn âm.",
+            "Quãng đường vật đi được trong $3$ giây đầu tiên bằng $0$ m."
+          ],
+          "answer": [true, false, true, false],
+          "points": 2,
+          "verify": "(()=>{const s=t=>t**3-6*t*t+9*t;const v=t=>3*t*t-12*t+9;let first=null;for(let i=1;i<=5000;i++){const t=i/1000;if(Math.abs(v(t))<1e-12){first=t;break;}}let d=0;for(let i=0;i<3000;i++){d+=Math.abs(s((i+1)/1000)-s(i/1000));}return [v(2)===-3, first===3, [1.01,1.5,2,2.5,2.99].every(t=>v(t)<0), Math.abs(d)<1e-6];})()",
+          "explanation": "$v(t) = s'(t) = 3t^2 - 12t + 9 = 3(t - 1)(t - 3)$. a) Đúng: $v(2) = 12 - 24 + 9 = -3$ m/s. b) Sai: $v(t) = 0 \\Leftrightarrow t = 1$ hoặc $t = 3$, nên vật dừng lại lần đầu tại $t = 1$ giây. c) Đúng: với $1 < t < 3$ thì $(t - 1) > 0$, $(t - 3) < 0$ nên $v(t) < 0$ (vật chuyển động ngược chiều dương). d) Sai: $s(0) = 0$, $s(1) = 4$, $s(3) = 0$. Vật đi được $4$ m (từ $t = 0$ đến $t = 1$) rồi quay lại $4$ m (từ $t = 1$ đến $t = 3$), nên quãng đường đi được là $8$ m. Giá trị $s(3) - s(0) = 0$ chỉ là độ dịch chuyển, không phải quãng đường."
+        },
+        {
+          "kind": "short",
+          "prompt": "Đồ thị hàm số $y = x^3 - 3x^2 + 4$ có hai điểm cực trị là $A$ và $B$. Tính độ dài đoạn thẳng $AB$ (làm tròn kết quả đến hàng phần mười).",
+          "answer": ["4,5", "4.5"],
+          "points": 0.5,
+          "verify": "(()=>{const f=x=>x**3-3*x*x+4;const d=x=>3*x*x-6*x;const r=[];for(let i=-50;i<=50;i++){const x=i/10;if(d(x-0.05)*d(x+0.05)<0)r.push(x);}return Math.round(Math.hypot(r[1]-r[0],f(r[1])-f(r[0]))*10)/10;})()",
+          "explanation": "$y' = 3x^2 - 6x = 3x(x - 2)$, đổi dấu tại $x = 0$ và $x = 2$. Hai điểm cực trị: $A(0;4)$, $B(2;0)$ (vì $y(2) = 8 - 12 + 4 = 0$). $AB = \\sqrt{(2 - 0)^2 + (0 - 4)^2} = \\sqrt{20} \\approx 4{,}47$. Làm tròn đến hàng phần mười: $4{,}5$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm giá trị lớn nhất của hàm số $f(x) = x\\sqrt{4 - x^2}$ trên đoạn $[0;2]$.",
+          "answer": ["2"],
+          "points": 0.5,
+          "verify": "Math.round(Math.max(...Array.from({length:20001},(_,i)=>{const x=i/10000;return x*Math.sqrt(Math.max(0,4-x*x));}))*1000)/1000",
+          "explanation": "Với $0 \\le x < 2$: $f'(x) = \\sqrt{4 - x^2} - \\dfrac{x^2}{\\sqrt{4 - x^2}} = \\dfrac{4 - 2x^2}{\\sqrt{4 - x^2}}$; $f'(x) = 0 \\Leftrightarrow x = \\sqrt{2}$ (vì $x \\ge 0$). Ta có $f(0) = 0$, $f(2) = 0$, $f(\\sqrt{2}) = \\sqrt{2} \\cdot \\sqrt{2} = 2$. Vậy giá trị lớn nhất là $2$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Đồ thị hàm số $y = \\dfrac{x^2 - 3x + 4}{x - 1}$ có tiệm cận xiên là đường thẳng $y = ax + b$. Tính $a - b$.",
+          "answer": ["3"],
+          "points": 0.5,
+          "verify": "(()=>{const f=x=>(x*x-3*x+4)/(x-1);const X=1e6;const a=Math.round(f(X)/X);const b=Math.round(f(X)-a*X);return a-b;})()",
+          "explanation": "Chia đa thức: $x^2 - 3x + 4 = (x - 1)(x - 2) + 2$, nên $y = x - 2 + \\dfrac{2}{x - 1}$. Vì $\\lim\\limits_{x \\to \\pm\\infty} \\dfrac{2}{x - 1} = 0$ nên tiệm cận xiên là $y = x - 2$, tức $a = 1$, $b = -2$. Vậy $a - b = 1 - (-2) = 3$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Bác An dùng $60$ m lưới để rào ba cạnh của một mảnh vườn hình chữ nhật, cạnh thứ tư là bức tường có sẵn (không cần rào). Diện tích lớn nhất của mảnh vườn là bao nhiêu mét vuông?",
+          "answer": ["450"],
+          "points": 0.5,
+          "verify": "Math.max(...Array.from({length:30001},(_,i)=>{const x=i/1000;return x*(60-2*x);}))",
+          "explanation": "Gọi $x$ (m) là độ dài mỗi cạnh vuông góc với bức tường, $0 < x < 30$; cạnh song song với tường dài $60 - 2x$ (m). Diện tích $S(x) = x(60 - 2x) = 60x - 2x^2$; $S'(x) = 60 - 4x = 0 \\Leftrightarrow x = 15$; $S' > 0$ trên $(0;15)$, $S' < 0$ trên $(15;30)$. Diện tích lớn nhất $S(15) = 15 \\cdot 30 = 450$ m$^2$."
+        }
+      ]
+    },
+    {
+      "slug": "toan12-ung-dung-dao-ham-tb-03",
+      "title": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số — Đề 3",
+      "level": "tb",
+      "sort_order": 3,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 1 (cơ bản): đơn điệu hàm bậc bốn, đọc bảng xét dấu đạo hàm, tìm tham số để có cực tiểu; giá trị lớn nhất, nhỏ nhất trên đoạn, trên khoảng, hàm lượng giác; nhận biết tiệm cận; khảo sát hàm bậc ba, hàm bậc hai trên bậc nhất; độ cao quả bóng, nồng độ thuốc, hộp ít tốn vật liệu nhất.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Hàm số $y = -x^4 + 2x^2 + 1$ đồng biến trên khoảng nào dưới đây?",
+          "options": ["$(-\\infty;-1)$", "$(-1;0)$", "$(1;+\\infty)$", "$(-1;1)$"],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "$y' = -4x^3 + 4x = -4x(x - 1)(x + 1)$; $y' = 0 \\Leftrightarrow x \\in \\{-1; 0; 1\\}$. Xét dấu (hệ số của $x^3$ trong $y'$ âm): $y' > 0$ trên $(-\\infty;-1)$, $y' < 0$ trên $(-1;0)$, $y' > 0$ trên $(0;1)$, $y' < 0$ trên $(1;+\\infty)$. Hàm số đồng biến trên $(-\\infty;-1)$ và $(0;1)$. Phương án B, C là khoảng nghịch biến (nhầm dấu khi hệ số $a < 0$); D sai vì trên $(-1;0)$ hàm số nghịch biến. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hàm số $y = f(x)$ liên tục trên $\\mathbb{R}$ và có bảng xét dấu đạo hàm như sau: $$\\begin{array}{c|ccccccccc} x & -\\infty & & -1 & & 2 & & 4 & & +\\infty \\\\ \\hline f'(x) & & + & 0 & - & 0 & - & 0 & + & \\end{array}$$ Số điểm cực trị của hàm số $y = f(x)$ là",
+          "options": ["$3$", "$1$", "$2$", "$0$"],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{const s=['+','-','-','+'];let n=0;for(let i=0;i<3;i++)if(s[i]!==s[i+1])n++;return n;})()",
+          "explanation": "Hàm số đạt cực trị tại điểm mà $f'(x)$ đổi dấu khi $x$ đi qua. Tại $x = -1$: $f'$ đổi dấu từ $+$ sang $-$ (cực đại). Tại $x = 2$: $f'$ không đổi dấu (vẫn $-$) nên không phải cực trị. Tại $x = 4$: đổi dấu từ $-$ sang $+$ (cực tiểu). Vậy có $2$ điểm cực trị. Phương án A sai do đếm mọi điểm $f'(x) = 0$. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị nhỏ nhất của hàm số $y = 2x^3 - 3x^2 - 12x + 1$ trên đoạn $[-2;3]$ bằng",
+          "options": ["$-8$", "$-19$", "$-3$", "$8$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "Math.min(...Array.from({length:5001},(_,i)=>{const x=-2+i/1000;return 2*x**3-3*x*x-12*x+1;}))",
+          "explanation": "$y' = 6x^2 - 6x - 12 = 6(x + 1)(x - 2)$; $y' = 0 \\Leftrightarrow x = -1$ hoặc $x = 2$ (đều thuộc $[-2;3]$). Tính $y(-2) = -16 - 12 + 24 + 1 = -3$, $y(-1) = -2 - 3 + 12 + 1 = 8$, $y(2) = 16 - 12 - 24 + 1 = -19$, $y(3) = 54 - 27 - 36 + 1 = -8$. Giá trị nhỏ nhất là $-19$. Phương án A, C chỉ xét hai đầu mút; phương án D là giá trị lớn nhất. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị nhỏ nhất của hàm số $y = x^2 + \\dfrac{2}{x}$ trên khoảng $(0;+\\infty)$ bằng",
+          "options": ["$1$", "$2$", "$4$", "$3$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "Math.min(...Array.from({length:10000},(_,i)=>{const x=(i+1)/1000;return x*x+2/x;}))",
+          "explanation": "$y' = 2x - \\dfrac{2}{x^2} = \\dfrac{2(x^3 - 1)}{x^2}$; trên $(0;+\\infty)$, $y' = 0 \\Leftrightarrow x = 1$. $y' < 0$ trên $(0;1)$, $y' > 0$ trên $(1;+\\infty)$, nên $\\min\\limits_{(0;+\\infty)} y = y(1) = 1 + 2 = 3$. Phương án A là điểm $x = 1$ mà hàm số đạt giá trị nhỏ nhất (nhầm điểm với giá trị). Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tiệm cận ngang của đồ thị hàm số $y = \\dfrac{1 - 2x}{x + 3}$ là đường thẳng",
+          "options": ["$y = -2$", "$y = 1$", "$x = -3$", "$y = \\frac{1}{3}$"],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "$\\lim\\limits_{x \\to \\pm\\infty} \\dfrac{1 - 2x}{x + 3} = \\lim\\limits_{x \\to \\pm\\infty} \\dfrac{\\frac{1}{x} - 2}{1 + \\frac{3}{x}} = -2$. Tiệm cận ngang là $y = -2$. Phương án B lấy nhầm hệ số tự do $1$ của tử; phương án C là tiệm cận đứng; phương án D là tỉ số hai hệ số tự do. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Đồ thị của hàm số nào dưới đây có tiệm cận xiên?",
+          "options": ["$y = \\dfrac{2x + 1}{x - 1}$", "$y = \\dfrac{x + 1}{x^2 + 1}$", "$y = \\dfrac{x^2 + 1}{x}$", "$y = x^3 - 1$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "$y = \\dfrac{x^2 + 1}{x} = x + \\dfrac{1}{x}$, và $\\lim\\limits_{x \\to \\pm\\infty} (y - x) = \\lim\\limits_{x \\to \\pm\\infty} \\dfrac{1}{x} = 0$, nên đồ thị có tiệm cận xiên $y = x$. Phương án A chỉ có tiệm cận ngang $y = 2$; phương án B có tiệm cận ngang $y = 0$ (bậc tử nhỏ hơn bậc mẫu); phương án D là hàm đa thức bậc ba, không có tiệm cận. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị cực tiểu của hàm số $y = \\dfrac{x^2 - 2x + 2}{x - 1}$ bằng",
+          "options": ["$-2$", "$0$", "$1$", "$2$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{const f=x=>(x*x-2*x+2)/(x-1);const d=x=>(f(x+1e-6)-f(x-1e-6))/2e-6;const r=[];for(let i=-50;i<=50;i++){const x=i/10;if(Math.abs(x-1)<0.2)continue;if(d(x-0.05)<0&&d(x+0.05)>0)r.push(f(x));}return r[0];})()",
+          "explanation": "Tập xác định $\\mathbb{R} \\setminus \\{1\\}$. $y' = \\dfrac{(2x - 2)(x - 1) - (x^2 - 2x + 2)}{(x - 1)^2} = \\dfrac{x^2 - 2x}{(x - 1)^2}$; $y' = 0 \\Leftrightarrow x = 0$ hoặc $x = 2$. $y' > 0$ trên $(-\\infty;0)$, $y' < 0$ trên $(0;1)$ và $(1;2)$, $y' > 0$ trên $(2;+\\infty)$. Hàm số đạt cực tiểu tại $x = 2$, $y_{\text{CT}} = \\dfrac{4 - 4 + 2}{1} = 2$; đạt cực đại tại $x = 0$, $y_{\text{CĐ}} = -2$. Phương án A sai vì nghĩ giá trị cực tiểu phải nhỏ hơn giá trị cực đại (với hàm phân thức, $y_{\text{CT}} = 2 > y_{\text{CĐ}} = -2$). Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một quả bóng được ném thẳng đứng lên trên, độ cao của nó (tính bằng mét) sau $t$ giây là $h(t) = 2 + 24t - 5t^2$. Độ cao lớn nhất mà quả bóng đạt được là bao nhiêu mét?",
+          "options": ["$28{,}8$", "$30{,}8$", "$57{,}6$", "$2{,}4$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "Math.round(Math.max(...Array.from({length:5001},(_,i)=>{const t=i/1000;return 2+24*t-5*t*t;}))*10)/10",
+          "explanation": "$h'(t) = 24 - 10t = 0 \\Leftrightarrow t = 2{,}4$; $h' > 0$ khi $t < 2{,}4$ và $h' < 0$ khi $t > 2{,}4$, nên $h$ lớn nhất tại $t = 2{,}4$ giây: $h(2{,}4) = 2 + 57{,}6 - 28{,}8 = 30{,}8$ m. Phương án A quên độ cao ban đầu $2$ m; phương án C chỉ tính $24t$; phương án D là thời điểm. Chọn B."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hàm số $y = -x^3 + 3x^2 - 4$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Hàm số đồng biến trên khoảng $(0;2)$.",
+            "Giá trị cực đại của hàm số bằng $-4$.",
+            "Đồ thị hàm số cắt trục hoành tại ba điểm phân biệt.",
+            "Phương trình $-x^3 + 3x^2 - 4 = m$ có ba nghiệm phân biệt khi và chỉ khi $-4 < m < 0$."
+          ],
+          "answer": [true, false, false, true],
+          "points": 2,
+          "verify": "(()=>{const f=x=>-(x**3)+3*x*x-4;const d=x=>-3*x*x+6*x;const cnt=m=>{let n=0;let p=f(-10.0003)-m;for(let i=1;i<=20000;i++){const q=f(-10.0003+i/1000)-m;if(p*q<0)n++;p=q;}return n;};const mx=[];for(let i=-50;i<=50;i++){const x=i/10;if(d(x-0.05)>0&&d(x+0.05)<0)mx.push(f(x));}const roots=Array.from({length:21},(_,i)=>i-10).filter(x=>f(x)===0);return [[0.5,1,1.5].every(x=>d(x)>0), mx[0]===-4, roots.length===3, [-3.5,-1.5,-0.5].every(m=>cnt(m)===3)&&[-4.5,0.5,2].every(m=>cnt(m)===1)];})()",
+          "explanation": "$y' = -3x^2 + 6x = -3x(x - 2)$; $y' > 0 \\Leftrightarrow 0 < x < 2$. a) Đúng: hàm số đồng biến trên $(0;2)$. b) Sai: $y'$ đổi dấu từ $+$ sang $-$ tại $x = 2$ nên $y_{\text{CĐ}} = y(2) = -8 + 12 - 4 = 0$; còn $-4 = y(0)$ là giá trị cực tiểu. c) Sai: $-x^3 + 3x^2 - 4 = -(x + 1)(x - 2)^2$, phương trình $y = 0$ chỉ có hai nghiệm phân biệt $x = -1$, $x = 2$ (đồ thị tiếp xúc trục hoành tại điểm cực đại $(2;0)$). d) Đúng: số nghiệm của phương trình bằng số giao điểm của đồ thị với đường thẳng nằm ngang $y = m$; đồ thị có $y_{\text{CT}} = -4$, $y_{\text{CĐ}} = 0$ nên có ba giao điểm khi và chỉ khi $-4 < m < 0$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Nồng độ một loại thuốc trong máu của bệnh nhân sau khi uống $t$ giờ là $C(t) = \\dfrac{30t}{t^2 + 9}$ (mg/L), $t \\ge 0$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Sau $1$ giờ, nồng độ thuốc trong máu là $3$ mg/L.",
+            "Nồng độ thuốc trong máu giảm dần trong $3$ giờ đầu.",
+            "Nồng độ thuốc trong máu lớn nhất bằng $5$ mg/L.",
+            "Tại thời điểm $t = 1$ giờ, tốc độ thay đổi nồng độ thuốc là $3$ mg/L mỗi giờ."
+          ],
+          "answer": [true, false, true, false],
+          "points": 2,
+          "verify": "(()=>{const C=t=>30*t/(t*t+9);const d=t=>(C(t+1e-6)-C(t-1e-6))/2e-6;const mx=Math.max(...Array.from({length:20001},(_,i)=>C(i/1000)));return [C(1)===3, [0.5,1,2,2.9].every(t=>d(t)<0), Math.abs(mx-5)<1e-9, Math.abs(d(1)-3)<1e-4];})()",
+          "explanation": "a) Đúng: $C(1) = \\dfrac{30}{10} = 3$ mg/L. b) Sai: $C'(t) = \\dfrac{30(t^2 + 9) - 30t \\cdot 2t}{(t^2 + 9)^2} = \\dfrac{30(9 - t^2)}{(t^2 + 9)^2}$, nên $C'(t) > 0$ với $0 \\le t < 3$: nồng độ tăng (không giảm) trong $3$ giờ đầu. c) Đúng: $C' > 0$ trên $[0;3)$, $C' < 0$ trên $(3;+\\infty)$, nên nồng độ lớn nhất là $C(3) = \\dfrac{90}{18} = 5$ mg/L. d) Sai: tốc độ thay đổi tại $t = 1$ là $C'(1) = \\dfrac{30 \\cdot 8}{100} = 2{,}4$ mg/L mỗi giờ; giá trị $3$ là nồng độ $C(1)$, không phải tốc độ thay đổi."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm giá trị của tham số $m$ để hàm số $y = x^3 - 3x^2 + mx$ đạt cực tiểu tại $x = 2$.",
+          "answer": ["0"],
+          "points": 0.5,
+          "verify": "Array.from({length:41},(_,i)=>i-20).find(m=>3*2*2-6*2+m===0&&6*2-6>0)",
+          "explanation": "$y' = 3x^2 - 6x + m$, $y'' = 6x - 6$. Điều kiện cần: $y'(2) = 12 - 12 + m = 0 \\Rightarrow m = 0$. Kiểm tra: với $m = 0$, $y'' (2) = 6 > 0$ nên hàm số đạt cực tiểu tại $x = 2$ (hoặc xét dấu $y' = 3x(x - 2)$ đổi từ âm sang dương tại $x = 2$). Đáp số: $m = 0$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm giá trị lớn nhất của hàm số $y = 2\\sin x + \\cos 2x$ trên đoạn $[0;\\pi]$ (viết kết quả dưới dạng số thập phân).",
+          "answer": ["1,5", "1.5"],
+          "points": 0.5,
+          "verify": "Math.round(Math.max(...Array.from({length:31416},(_,i)=>{const x=i/10000;return 2*Math.sin(x)+Math.cos(2*x);}))*1000)/1000",
+          "explanation": "Cách 1: $y' = 2\\cos x - 2\\sin 2x = 2\\cos x(1 - 2\\sin x)$; trên $[0;\\pi]$, $y' = 0 \\Leftrightarrow x = \\frac{\\pi}{2}$, $x = \\frac{\\pi}{6}$ hoặc $x = \\frac{5\\pi}{6}$. Tính $y(0) = 1$, $y\\left(\\frac{\\pi}{6}\\right) = 1 + \\frac{1}{2} = 1{,}5$, $y\\left(\\frac{\\pi}{2}\\right) = 2 - 1 = 1$, $y\\left(\\frac{5\\pi}{6}\\right) = 1{,}5$, $y(\\pi) = 1$. Cách 2: đặt $u = \\sin x \\in [0;1]$, $y = -2u^2 + 2u + 1$ lớn nhất tại $u = \\frac{1}{2}$. Giá trị lớn nhất là $1{,}5$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Gọi $I$ là giao điểm hai đường tiệm cận của đồ thị hàm số $y = \\dfrac{2x - 3}{x + 1}$ và $O$ là gốc tọa độ. Tính độ dài $OI$ (làm tròn kết quả đến hàng phần trăm).",
+          "answer": ["2,24", "2.24"],
+          "points": 0.5,
+          "verify": "(()=>{const f=x=>(2*x-3)/(x+1);const a=Array.from({length:21},(_,i)=>i-10).find(x=>x+1===0);const b=Math.round(f(1e9)*1e6)/1e6;return Math.round(Math.hypot(a,b)*100)/100;})()",
+          "explanation": "Tiệm cận đứng $x = -1$ (nghiệm của mẫu, tử tại đó bằng $-5 \\ne 0$), tiệm cận ngang $y = 2$. Giao điểm $I(-1;2)$. $OI = \\sqrt{(-1)^2 + 2^2} = \\sqrt{5} \\approx 2{,}236$. Làm tròn đến hàng phần trăm: $2{,}24$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Một xưởng cần làm một chiếc thùng hình hộp chữ nhật không nắp, đáy là hình vuông, có thể tích $32$ dm$^3$. Diện tích tôn ít nhất cần dùng (gồm đáy và bốn mặt bên) là bao nhiêu đề-xi-mét vuông?",
+          "answer": ["48"],
+          "points": 0.5,
+          "verify": "Math.min(...Array.from({length:20000},(_,i)=>{const x=(i+1)/1000;const h=32/(x*x);return x*x+4*x*h;}))",
+          "explanation": "Gọi cạnh đáy là $x$ (dm), chiều cao $h$ (dm), $x > 0$. Từ $x^2h = 32$ có $h = \\dfrac{32}{x^2}$. Diện tích tôn $S(x) = x^2 + 4xh = x^2 + \\dfrac{128}{x}$. $S'(x) = 2x - \\dfrac{128}{x^2} = 0 \\Leftrightarrow x^3 = 64 \\Leftrightarrow x = 4$; $S' < 0$ trên $(0;4)$, $S' > 0$ trên $(4;+\\infty)$. Vậy $S_{\\min} = S(4) = 16 + 32 = 48$ dm$^2$ (khi đó $h = 2$ dm)."
+        }
+      ]
+    }
+  ]
+}

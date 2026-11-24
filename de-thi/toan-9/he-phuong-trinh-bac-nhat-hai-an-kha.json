@@ -1,0 +1,583 @@
+{
+  "grade": 9,
+  "topic": "Phương trình và hệ hai phương trình bậc nhất hai ẩn",
+  "exams": [
+    {
+      "slug": "toan9-he-phuong-trinh-bac-nhat-hai-an-kha-01",
+      "title": "Phương trình và hệ hai phương trình bậc nhất hai ẩn — Đề 4",
+      "level": "kha",
+      "sort_order": 1,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 2 (vận dụng): nghiệm của phương trình bậc nhất hai ẩn, đường thẳng biểu diễn tập nghiệm, giải hệ bằng phương pháp thế và cộng đại số, hệ vô nghiệm, tìm hệ số, bài toán mua hàng, trồng cây và diện tích hình chữ nhật.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Cặp số $(m; 1)$ là một nghiệm của phương trình $2x - 5y = 1$. Giá trị của $m$ là",
+          "options": ["$-2$", "$3$", "$\\frac{1}{5}$", "$-3$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(1 + 5*1) / 2",
+          "explanation": "Cặp số $(m; 1)$ có $x = m$, $y = 1$. Thay vào phương trình: $2m - 5 \\cdot 1 = 1 \\Rightarrow 2m = 6 \\Rightarrow m = 3$. Chọn B. Phương án $-2$ là chuyển vế sai dấu ($2m = 1 - 5$); phương án $\\frac{1}{5}$ là thay nhầm $x = 1$, $y = m$ ($2 - 5m = 1$); phương án $-3$ là sai dấu cả hai lần khi chuyển vế."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Trong mặt phẳng tọa độ $Oxy$, tập nghiệm của phương trình $x - 2y = 4$ được biểu diễn bởi đường thẳng",
+          "options": ["$y = 2x - 4$", "$y = -\\frac{1}{2}x + 2$", "$y = \\frac{1}{2}x + 2$", "$y = \\frac{1}{2}x - 2$"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Biến đổi: $x - 2y = 4 \\Leftrightarrow 2y = x - 4 \\Leftrightarrow y = \\frac{1}{2}x - 2$. Chọn D. Kiểm tra lại: điểm $(4; 0)$ thỏa mãn $4 - 0 = 4$ và nằm trên $y = \\frac{1}{2}x - 2$. Phương án $y = \\frac{1}{2}x + 2$ sai dấu khi chia cho $2$; $y = -\\frac{1}{2}x + 2$ là chuyển vế sai dấu cả hai hạng tử; $y = 2x - 4$ là nhầm vai trò của $x$ và $y$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Hệ phương trình nào sau đây là hệ hai phương trình bậc nhất hai ẩn?",
+          "options": [
+            "$\\begin{cases} x + y^2 = 1 \\\\ x - y = 2 \\end{cases}$",
+            "$\\begin{cases} 0x + 0y = 1 \\\\ x + y = 2 \\end{cases}$",
+            "$\\begin{cases} 3x - y = 2 \\\\ 0x + 2y = 4 \\end{cases}$",
+            "$\\begin{cases} \\frac{1}{x} + y = 2 \\\\ x - y = 1 \\end{cases}$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Phương trình bậc nhất hai ẩn có dạng $ax + by = c$, trong đó $a$ và $b$ không đồng thời bằng $0$. Hệ ở phương án C gồm $3x - y = 2$ ($a = 3, b = -1$) và $0x + 2y = 4$ ($a = 0$ nhưng $b = 2 \\ne 0$) nên là hệ hai phương trình bậc nhất hai ẩn. Chọn C. Phương án A có $y^2$; phương án D có $\\frac{1}{x}$ (ẩn ở mẫu) nên không phải phương trình bậc nhất; phương án B có $0x + 0y = 1$ với $a = b = 0$ nên không phải phương trình bậc nhất hai ẩn."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} x + 2y = 5 \\\\ 3x - y = 1 \\end{cases}$. Giá trị của $x_0 - y_0$ là",
+          "options": ["$-1$", "$1$", "$3$", "$2$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{const D=1*(-1)-3*2; const x=(5*(-1)-1*2)/D, y=(1*1-3*5)/D; return x-y;})()",
+          "explanation": "Từ phương trình thứ nhất: $x = 5 - 2y$. Thế vào phương trình thứ hai: $3(5 - 2y) - y = 1 \\Rightarrow 15 - 7y = 1 \\Rightarrow y = 2$, suy ra $x = 5 - 4 = 1$. Nghiệm $(1; 2)$ nên $x_0 - y_0 = 1 - 2 = -1$. Chọn A. Phương án $1$ là tính $y_0 - x_0$ (nhầm thứ tự); phương án $3$ là tính $x_0 + y_0$; phương án $2$ là chỉ ghi giá trị $y_0$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Nghiệm của hệ phương trình $\\begin{cases} 3x + 2y = 4 \\\\ 5x - 2y = 12 \\end{cases}$ là",
+          "options": ["$(2; 1)$", "$(-2; 5)$", "$(2; -1)$", "$(-1; 2)$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Hệ số của $y$ đối nhau nên cộng từng vế hai phương trình: $8x = 16 \\Rightarrow x = 2$. Thay vào phương trình thứ nhất: $6 + 2y = 4 \\Rightarrow y = -1$. Nghiệm $(2; -1)$. Chọn C. Phương án $(2; 1)$ sai dấu khi tìm $y$; phương án $(-2; 5)$ chỉ thỏa mãn phương trình thứ nhất ($-6 + 10 = 4$) nhưng $5 \\cdot (-2) - 10 = -20 \\ne 12$, nên không là nghiệm của hệ; $(-1; 2)$ không thỏa mãn phương trình nào."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Khẳng định nào sau đây đúng về hệ phương trình $\\begin{cases} x - 2y = 3 \\\\ -2x + 4y = 1 \\end{cases}$?",
+          "options": ["Hệ vô nghiệm", "Hệ có nghiệm duy nhất", "Hệ có vô số nghiệm", "Hệ có đúng hai nghiệm"],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Nhân hai vế phương trình thứ nhất với $2$: $2x - 4y = 6$. Cộng từng vế với phương trình thứ hai: $0x + 0y = 7$, vô lí. Vậy hệ vô nghiệm. Chọn A. Học sinh chọn \"vô số nghiệm\" thường do thấy vế trái tỉ lệ ($-2x + 4y = -2(x - 2y)$) mà quên so sánh vế phải ($1 \\ne -2 \\cdot 3$). Một hệ hai phương trình bậc nhất hai ẩn không bao giờ có đúng hai nghiệm."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Biết hệ phương trình $\\begin{cases} ax + y = 5 \\\\ x + by = 4 \\end{cases}$ có nghiệm $(x; y) = (1; 2)$. Giá trị của $a + b$ là",
+          "options": ["$5$", "$4$", "$5{,}5$", "$4{,}5$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(5 - 2)/1 + (4 - 1)/2",
+          "explanation": "Thay $x = 1$, $y = 2$ vào hệ: $a + 2 = 5 \\Rightarrow a = 3$; $1 + 2b = 4 \\Rightarrow 2b = 3 \\Rightarrow b = 1{,}5$. Vậy $a + b = 4{,}5$. Chọn D. Phương án $5$ là quên chuyển số $1$ sang vế phải ($2b = 4$, $b = 2$); phương án $5{,}5$ là chuyển vế sai dấu ($2b = 4 + 1$); phương án $4$ là thay nhầm $x = 2$, $y = 1$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Bạn Lan mua 3 chiếc bút và 2 quyển vở hết 46 nghìn đồng. Bạn Minh mua 2 chiếc bút và 5 quyển vở cùng loại hết 71 nghìn đồng. Giá một quyển vở là bao nhiêu nghìn đồng?",
+          "options": ["$8$", "$11$", "$9$", "$12$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{const D=3*5-2*2; return (3*71-2*46)/D;})()",
+          "explanation": "Gọi giá một chiếc bút là $x$, một quyển vở là $y$ (nghìn đồng, $x, y > 0$). Ta có hệ $\\begin{cases} 3x + 2y = 46 \\\\ 2x + 5y = 71 \\end{cases}$. Nhân phương trình thứ nhất với $2$, phương trình thứ hai với $3$: $6x + 4y = 92$ và $6x + 15y = 213$. Trừ từng vế: $11y = 121 \\Rightarrow y = 11$, suy ra $x = 8$. Thử lại: $24 + 22 = 46$, $16 + 55 = 71$. Giá một quyển vở là 11 nghìn đồng. Chọn B. Phương án $8$ là giá một chiếc bút (trả lời nhầm ẩn)."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hệ phương trình $\\begin{cases} 2x + y = 4 \\\\ x - y = 5 \\end{cases}$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Cặp số $(1; 2)$ là một nghiệm của phương trình $2x + y = 4$.",
+            "Cặp số $(1; 2)$ là nghiệm của hệ phương trình đã cho.",
+            "Hệ phương trình có nghiệm duy nhất $(x; y) = (3; -2)$.",
+            "Đường thẳng $y = mx + 1$ đi qua điểm có tọa độ là nghiệm của hệ khi $m = 1$."
+          ],
+          "answer": [true, false, true, false],
+          "points": 2,
+          "verify": "(()=>{const D=2*(-1)-1*1; const x=(4*(-1)-5*1)/D, y=(2*5-1*4)/D; const m=(y-1)/x; return [2*1+2===4, 2*1+2===4 && 1-2===5, x===3 && y===-2, m===1];})()",
+          "explanation": "a) Đúng. $2 \\cdot 1 + 2 = 4$ nên $(1; 2)$ là nghiệm của phương trình thứ nhất.\n\nb) Sai. $(1; 2)$ không thỏa mãn phương trình thứ hai vì $1 - 2 = -1 \\ne 5$. Một cặp số là nghiệm của hệ khi nó là nghiệm của cả hai phương trình.\n\nc) Đúng. Cộng từng vế hai phương trình: $3x = 9 \\Rightarrow x = 3$; thay vào $x - y = 5$ được $y = -2$. Hệ có nghiệm duy nhất $(3; -2)$.\n\nd) Sai. Đường thẳng $y = mx + 1$ đi qua $(3; -2)$ khi $-2 = 3m + 1 \\Rightarrow m = -1$, không phải $m = 1$ (với $m = 1$: $3 \\cdot 1 + 1 = 4 \\ne -2$)."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Một lớp có 40 học sinh tham gia trồng cây. Mỗi bạn nam trồng được 3 cây, mỗi bạn nữ trồng được 2 cây, cả lớp trồng được 102 cây. Gọi $x$, $y$ lần lượt là số học sinh nam và số học sinh nữ của lớp ($x, y \\in \\mathbb{N}$). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$x + y = 40$.",
+            "Số cây cả lớp trồng được biểu thị bởi phương trình $2x + 3y = 102$.",
+            "Lớp có 22 học sinh nam.",
+            "Số cây các bạn nữ trồng được chiếm hơn 40% tổng số cây của cả lớp."
+          ],
+          "answer": [true, false, true, false],
+          "points": 2,
+          "verify": "(()=>{const D=1*2-3*1; const x=(40*2-102*1)/D, y=(1*102-3*40)/D; return [x+y===40, 2*x+3*y===102, x===22, 2*y/102>0.4];})()",
+          "explanation": "a) Đúng. Lớp có 40 học sinh nên $x + y = 40$.\n\nb) Sai. Các bạn nam trồng $3x$ cây, các bạn nữ trồng $2y$ cây nên phương trình đúng là $3x + 2y = 102$ (khẳng định đã đổi chỗ hai hệ số).\n\nc) Đúng. Giải hệ $\\begin{cases} x + y = 40 \\\\ 3x + 2y = 102 \\end{cases}$: nhân phương trình đầu với $2$ được $2x + 2y = 80$; trừ từng vế: $x = 22$, suy ra $y = 18$. Lớp có 22 bạn nam.\n\nd) Sai. Các bạn nữ trồng $2 \\cdot 18 = 36$ cây; $\\frac{36}{102} \\approx 0{,}353$, tức khoảng 35,3%, ít hơn 40%."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm $m$ để cặp số $(2; -3)$ là một nghiệm của phương trình $mx + 2y = 4$.",
+          "answer": ["5"],
+          "points": 0.5,
+          "verify": "(4 - 2*(-3)) / 2",
+          "explanation": "Thay $x = 2$, $y = -3$: $2m + 2 \\cdot (-3) = 4 \\Rightarrow 2m - 6 = 4 \\Rightarrow 2m = 10 \\Rightarrow m = 5$. Đáp số: $5$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} 4x - 3y = 6 \\\\ 2x + 5y = 16 \\end{cases}$. Tính $x_0 \\cdot y_0$.",
+          "answer": ["6"],
+          "points": 0.5,
+          "verify": "(()=>{const D=4*5-2*(-3); const x=(6*5-16*(-3))/D, y=(4*16-2*6)/D; return x*y;})()",
+          "explanation": "Nhân hai vế phương trình thứ hai với $2$: $4x + 10y = 32$. Trừ từng vế cho phương trình thứ nhất: $13y = 26 \\Rightarrow y = 2$. Thay vào $2x + 5y = 16$: $2x = 6 \\Rightarrow x = 3$. Thử lại: $12 - 6 = 6$, $6 + 10 = 16$. Vậy $x_0 \\cdot y_0 = 3 \\cdot 2 = 6$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Biết đường thẳng $y = ax + b$ đi qua hai điểm $A(1; 3)$ và $B(-2; -3)$. Tính $2a + 3b$.",
+          "answer": ["7"],
+          "points": 0.5,
+          "verify": "(()=>{const a=(3-(-3))/(1-(-2)); const b=3-a*1; return 2*a+3*b;})()",
+          "explanation": "Đường thẳng đi qua $A(1; 3)$ nên $a + b = 3$; đi qua $B(-2; -3)$ nên $-2a + b = -3$. Trừ từng vế: $3a = 6 \\Rightarrow a = 2$, suy ra $b = 1$. Vậy $2a + 3b = 4 + 3 = 7$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Một mảnh vườn hình chữ nhật có chu vi 56 m. Nếu tăng chiều dài thêm 3 m và giảm chiều rộng đi 2 m thì diện tích mảnh vườn giảm 7 m². Tính chiều dài ban đầu của mảnh vườn (đơn vị: mét).",
+          "answer": ["17"],
+          "points": 0.5,
+          "verify": "(()=>{const D=1*3-(-2)*1; return (28*3-(-1)*1)/D;})()",
+          "explanation": "Gọi chiều dài, chiều rộng ban đầu là $x$, $y$ (m), $x \\ge y > 2$. Nửa chu vi: $x + y = 28$. Diện tích mới: $(x + 3)(y - 2) = xy - 7 \\Leftrightarrow xy - 2x + 3y - 6 = xy - 7 \\Leftrightarrow -2x + 3y = -1$. Từ $y = 28 - x$: $-2x + 84 - 3x = -1 \\Rightarrow 5x = 85 \\Rightarrow x = 17$, $y = 11$. Thử lại: $17 \\cdot 11 = 187$, $20 \\cdot 9 = 180$, giảm đúng 7 m². Chiều dài ban đầu là $17$ m."
+        }
+      ]
+    },
+    {
+      "slug": "toan9-he-phuong-trinh-bac-nhat-hai-an-kha-02",
+      "title": "Phương trình và hệ hai phương trình bậc nhất hai ẩn — Đề 5",
+      "level": "kha",
+      "sort_order": 2,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 2 (vận dụng): nghiệm tổng quát, đường thẳng song song trục tọa độ, kiểm tra nghiệm của hệ, hệ có hệ số phân số, hệ vô số nghiệm, đặt ẩn theo biểu thức, bài toán gà chó, tăng năng suất theo phần trăm và chuyển động ngược chiều.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Trong mặt phẳng tọa độ $Oxy$, tập nghiệm của phương trình $3x + 0y = 6$ được biểu diễn bởi đường thẳng",
+          "options": ["$y = 2$", "$y = 3x - 6$", "$x = 2$", "$x = -2$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "$3x + 0y = 6 \\Leftrightarrow x = 2$, với $y$ tùy ý. Tập nghiệm là các cặp $(2; y)$, biểu diễn bởi đường thẳng $x = 2$ (song song với trục tung). Chọn C. Phương án $y = 2$ là nhầm sang đường song song với trục hoành; $y = 3x - 6$ là bỏ qua hệ số $0$ của $y$ và coi như $y = 3x - 6$; $x = -2$ là chuyển vế sai dấu."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Nghiệm tổng quát của phương trình $2x - y = 3$ là",
+          "options": [
+            "$(x;\\ 2x - 3)$ với $x \\in \\mathbb{R}$",
+            "$(x;\\ 3 - 2x)$ với $x \\in \\mathbb{R}$",
+            "$(x;\\ 2x + 3)$ với $x \\in \\mathbb{R}$",
+            "$\\left(x;\\ \\frac{x - 3}{2}\\right)$ với $x \\in \\mathbb{R}$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Rút $y$ theo $x$: $2x - y = 3 \\Leftrightarrow y = 2x - 3$. Vậy nghiệm tổng quát là $(x; 2x - 3)$ với $x \\in \\mathbb{R}$. Chọn A. Phương án $(x; 3 - 2x)$ và $(x; 2x + 3)$ là sai dấu khi chuyển vế; phương án $\\left(x; \\frac{x - 3}{2}\\right)$ là rút nhầm $x$ theo $y$ rồi đổi chỗ vai trò hai ẩn."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cặp số $(2; -1)$ là nghiệm của hệ phương trình nào sau đây?",
+          "options": [
+            "$\\begin{cases} x - y = 1 \\\\ x + y = 3 \\end{cases}$",
+            "$\\begin{cases} 2x + y = 3 \\\\ x - 2y = 0 \\end{cases}$",
+            "$\\begin{cases} x + 2y = 0 \\\\ 3x - y = 5 \\end{cases}$",
+            "$\\begin{cases} x + y = 1 \\\\ x - y = 3 \\end{cases}$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Thay $x = 2$, $y = -1$ vào từng hệ. D: $2 + (-1) = 1$ và $2 - (-1) = 3$, thỏa mãn cả hai nên chọn D. A: $2 - (-1) = 3 \\ne 1$. B: $4 - 1 = 3$ đúng nhưng $2 + 2 = 4 \\ne 0$. C: $2 - 2 = 0$ đúng nhưng $6 + 1 = 7 \\ne 5$. Các hệ B, C là bẫy: cặp số chỉ thỏa mãn một phương trình thì chưa phải nghiệm của hệ."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} y = 2x - 1 \\\\ 3x + 2y = 12 \\end{cases}$. Giá trị của $x_0 + y_0$ là",
+          "options": ["$-1$", "$5$", "$6$", "$3$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{for(let x=-20;x<=20;x++){const y=2*x-1; if(3*x+2*y===12) return x+y;}})()",
+          "explanation": "Thế $y = 2x - 1$ vào phương trình thứ hai: $3x + 2(2x - 1) = 12 \\Rightarrow 7x - 2 = 12 \\Rightarrow x = 2$, suy ra $y = 3$. Vậy $x_0 + y_0 = 5$. Chọn B. Phương án $-1$ là tính $x_0 - y_0$; $6$ là tính $x_0 \\cdot y_0$; $3$ là chỉ ghi $y_0$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} \\frac{x}{2} + \\frac{y}{3} = 3 \\\\ x - y = 1 \\end{cases}$. Giá trị của $y_0$ là",
+          "options": ["$3$", "$4$", "$0$", "$-3$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{const D=3*(-1)-1*2; return (3*1-1*18)/D;})()",
+          "explanation": "Nhân hai vế phương trình thứ nhất với $6$: $3x + 2y = 18$. Từ $x - y = 1$ có $x = y + 1$. Thế vào: $3(y + 1) + 2y = 18 \\Rightarrow 5y = 15 \\Rightarrow y = 3$, $x = 4$. Thử lại: $\\frac{4}{2} + \\frac{3}{3} = 3$. Chọn A. Phương án $4$ là giá trị $x_0$; phương án $0$ là quên nhân vế phải với $6$ ($3x + 2y = 3$ dẫn đến $5y + 3 = 3$); $-3$ là sai dấu."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Với giá trị nào của $m$ thì hệ phương trình $\\begin{cases} x + y = 2 \\\\ 2x + 2y = m \\end{cases}$ có vô số nghiệm?",
+          "options": ["$2$", "$1$", "$4$", "$0$"],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "2 * 2",
+          "explanation": "Nhân hai vế phương trình thứ nhất với $2$: $2x + 2y = 4$. Trừ từng vế cho phương trình thứ hai: $0x + 0y = 4 - m$. Nếu $m = 4$ thì được $0 = 0$, hai phương trình tương đương, hệ có vô số nghiệm; nếu $m \\ne 4$ thì vô lí, hệ vô nghiệm. Chọn C. Phương án $2$ là quên nhân vế phải với $2$; $1$ là chia thay vì nhân."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Biết hệ phương trình $\\begin{cases} ax - by = 3 \\\\ bx + ay = 11 \\end{cases}$ có nghiệm $(x; y) = (1; 2)$. Giá trị của $a + b$ là",
+          "options": ["$4$", "$6$", "$5$", "$7$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{for(let a=-20;a<=20;a++)for(let b=-20;b<=20;b++) if(a*1-b*2===3 && b*1+a*2===11) return a+b;})()",
+          "explanation": "Thay $x = 1$, $y = 2$: $\\begin{cases} a - 2b = 3 \\\\ 2a + b = 11 \\end{cases}$ (hệ với ẩn $a$, $b$). Từ phương trình đầu: $a = 3 + 2b$. Thế vào: $2(3 + 2b) + b = 11 \\Rightarrow 5b = 5 \\Rightarrow b = 1$, $a = 5$. Vậy $a + b = 6$. Chọn B. Phương án $4$ là tính $a - b$; $5$ là chỉ ghi $a$ hoặc tính $a \\cdot b$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Trong một trang trại có tất cả 36 con gà và chó. Biết tổng số chân của chúng là 100. Số con chó là",
+          "options": ["$22$", "$16$", "$18$", "$14$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{const D=1*4-2*1; return (1*100-2*36)/D;})()",
+          "explanation": "Gọi số gà là $x$, số chó là $y$ ($x, y \\in \\mathbb{N}$). Ta có $\\begin{cases} x + y = 36 \\\\ 2x + 4y = 100 \\end{cases}$. Nhân phương trình đầu với $2$: $2x + 2y = 72$; trừ từng vế: $2y = 28 \\Rightarrow y = 14$, $x = 22$. Có 14 con chó. Chọn D. Phương án $22$ là số con gà (trả lời nhầm ẩn); $18$ là chia đôi tổng số con."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hai phương trình $2x - y = 3$ (1) và $x + 2y = 4$ (2). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Cặp số $(2; 1)$ là một nghiệm của phương trình (1).",
+            "Tập nghiệm của phương trình (1) được biểu diễn bởi đường thẳng $y = 2x + 3$.",
+            "Hệ gồm hai phương trình (1) và (2) có nghiệm duy nhất $(2; 1)$.",
+            "Đường thẳng $3x + my = 4$ đi qua giao điểm của hai đường thẳng biểu diễn tập nghiệm của (1) và (2) khi $m = -2$."
+          ],
+          "answer": [true, false, true, true],
+          "points": 2,
+          "verify": "(()=>{const D=2*2-1*(-1); const x=(3*2-4*(-1))/D, y=(2*4-1*3)/D; return [2*2-1===3, 2*0-3===3, x===2 && y===1, 3*x+(-2)*y===4];})()",
+          "explanation": "a) Đúng. $2 \\cdot 2 - 1 = 3$.\n\nb) Sai. $2x - y = 3 \\Leftrightarrow y = 2x - 3$. Chẳng hạn điểm $(0; 3)$ nằm trên $y = 2x + 3$ nhưng $2 \\cdot 0 - 3 = -3 \\ne 3$.\n\nc) Đúng. Từ (1): $y = 2x - 3$. Thế vào (2): $x + 4x - 6 = 4 \\Rightarrow x = 2$, $y = 1$. Hệ có nghiệm duy nhất $(2; 1)$.\n\nd) Đúng. Giao điểm là $(2; 1)$. Đường thẳng $3x + my = 4$ đi qua $(2; 1)$ khi $6 + m = 4 \\Rightarrow m = -2$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Năm ngoái, hai đơn vị sản xuất thu hoạch được tổng cộng 720 tấn thóc. Năm nay, đơn vị thứ nhất thu hoạch vượt mức 15%, đơn vị thứ hai vượt mức 12% so với năm ngoái, nên cả hai đơn vị thu hoạch được 819 tấn thóc. Gọi $x$, $y$ (tấn) lần lượt là số thóc năm ngoái của đơn vị thứ nhất và đơn vị thứ hai ($0 < x, y < 720$). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$x + y = 720$.",
+            "Tổng số thóc năm nay được biểu thị bởi phương trình $0{,}15x + 0{,}12y = 819$.",
+            "Năm ngoái, đơn vị thứ nhất thu hoạch được 420 tấn thóc.",
+            "Năm nay, đơn vị thứ hai thu hoạch được 336 tấn thóc."
+          ],
+          "answer": [true, false, true, true],
+          "points": 2,
+          "verify": "(()=>{const x=(819-1.12*720)/(1.15-1.12); const y=720-x; return [Math.round(x+y)===720, Math.abs(0.15*x+0.12*y-819)<1e-6, Math.round(x)===420, Math.round(1.12*y)===336];})()",
+          "explanation": "a) Đúng. Tổng số thóc năm ngoái là 720 tấn.\n\nb) Sai. Năm nay đơn vị thứ nhất thu được $x + 0{,}15x = 1{,}15x$ tấn, đơn vị thứ hai thu được $1{,}12y$ tấn, nên phương trình đúng là $1{,}15x + 1{,}12y = 819$ (tương đương $0{,}15x + 0{,}12y = 99$). Khẳng định đã lấy phần vượt mức bằng tổng sản lượng.\n\nc) Đúng. Từ $y = 720 - x$: $1{,}15x + 1{,}12(720 - x) = 819 \\Rightarrow 0{,}03x + 806{,}4 = 819 \\Rightarrow 0{,}03x = 12{,}6 \\Rightarrow x = 420$.\n\nd) Đúng. Năm ngoái đơn vị thứ hai thu $720 - 420 = 300$ tấn, năm nay thu $1{,}12 \\cdot 300 = 336$ tấn."
+        },
+        {
+          "kind": "short",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} 3x - 2y = 11 \\\\ 4x + 5y = 7 \\end{cases}$. Tính $x_0^2 + y_0^2$.",
+          "answer": ["10"],
+          "points": 0.5,
+          "verify": "(()=>{const D=3*5-4*(-2); const x=(11*5-7*(-2))/D, y=(3*7-4*11)/D; return x*x+y*y;})()",
+          "explanation": "Nhân phương trình thứ nhất với $5$, phương trình thứ hai với $2$: $15x - 10y = 55$ và $8x + 10y = 14$. Cộng từng vế: $23x = 69 \\Rightarrow x = 3$. Thay vào $3x - 2y = 11$: $9 - 2y = 11 \\Rightarrow y = -1$. Vậy $x_0^2 + y_0^2 = 9 + 1 = 10$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm $a$, $b$ để phương trình $ax + by = 6$ nhận hai cặp số $(2; -1)$ và $(0; 3)$ làm nghiệm. Tính $a - b$.",
+          "answer": ["2"],
+          "points": 0.5,
+          "verify": "(()=>{const b=6/3; const a=(6+b*1)/2; return a-b;})()",
+          "explanation": "Thay $(0; 3)$: $3b = 6 \\Rightarrow b = 2$. Thay $(2; -1)$: $2a - b = 6 \\Rightarrow 2a = 8 \\Rightarrow a = 4$. Phương trình là $4x + 2y = 6$. Vậy $a - b = 4 - 2 = 2$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} 2(x + y) + 3(x - y) = 4 \\\\ (x + y) + 2(x - y) = 5 \\end{cases}$. Tính $x_0 + y_0$.",
+          "answer": ["-7"],
+          "points": 0.5,
+          "verify": "(()=>{const D=5*(-1)-3*(-1); const x=(4*(-1)-5*(-1))/D, y=(5*5-3*4)/D; return x+y;})()",
+          "explanation": "Cách 1: Thu gọn hệ: $\\begin{cases} 5x - y = 4 \\\\ 3x - y = 5 \\end{cases}$. Trừ từng vế: $2x = -1 \\Rightarrow x = -0{,}5$; $y = 5x - 4 = -6{,}5$. Vậy $x_0 + y_0 = -7$.\n\nCách 2: Đặt $u = x + y$, $v = x - y$, hệ thành $2u + 3v = 4$, $u + 2v = 5$. Từ $u = 5 - 2v$: $10 - 4v + 3v = 4 \\Rightarrow v = 6$, $u = -7$. Vậy $x_0 + y_0 = u = -7$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Quãng đường $AB$ dài 150 km. Cùng một lúc, một ô tô đi từ $A$ và một xe máy đi từ $B$, chuyển động ngược chiều nhau và gặp nhau sau 2 giờ. Biết mỗi giờ ô tô đi nhanh hơn xe máy 15 km. Tính vận tốc của ô tô (đơn vị: km/h).",
+          "answer": ["45"],
+          "points": 0.5,
+          "verify": "(()=>{const D=2*(-1)-1*2; return (150*(-1)-15*2)/D;})()",
+          "explanation": "Gọi vận tốc ô tô là $x$, xe máy là $y$ (km/h, $x > y > 0$). Sau 2 giờ hai xe đi tổng cộng hết quãng đường: $2x + 2y = 150$, tức $x + y = 75$. Ô tô nhanh hơn 15 km/h: $x - y = 15$. Cộng từng vế: $2x = 90 \\Rightarrow x = 45$, $y = 30$. Vận tốc ô tô là $45$ km/h."
+        }
+      ]
+    },
+    {
+      "slug": "toan9-he-phuong-trinh-bac-nhat-hai-an-kha-03",
+      "title": "Phương trình và hệ hai phương trình bậc nhất hai ẩn — Đề 6",
+      "level": "kha",
+      "sort_order": 3,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 2 (vận dụng): nghiệm nguyên dương, điểm thuộc đường thẳng, hệ vô số nghiệm, cộng đại số khi phải nhân cả hai phương trình, hệ có hệ số thập phân, ba đường thẳng đồng quy, bài toán tìm số, bán vé, giá khuyến mãi và tỉ lệ thi đỗ.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Phương trình $x + 3y = 7$ có bao nhiêu nghiệm $(x; y)$ với $x$, $y$ là các số nguyên dương?",
+          "options": ["$2$", "$3$", "$1$", "$7$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{let c=0; for(let x=1;x<=7;x++)for(let y=1;y<=7;y++) if(x+3*y===7) c++; return c;})()",
+          "explanation": "$x = 7 - 3y$. Cần $y \\ge 1$ và $x \\ge 1$, tức $7 - 3y \\ge 1 \\Rightarrow y \\le 2$. Với $y = 1$: $x = 4$; với $y = 2$: $x = 1$. Có 2 nghiệm nguyên dương $(4; 1)$ và $(1; 2)$. Chọn A. Phương án $3$ là tính cả nghiệm $(7; 0)$, nhưng $0$ không phải số nguyên dương; phương án $1$ là bỏ sót một nghiệm."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Trong mặt phẳng tọa độ $Oxy$, điểm nào sau đây thuộc đường thẳng biểu diễn tập nghiệm của phương trình $4x - 3y = 10$?",
+          "options": ["$N(1; 2)$", "$P(-1; -2)$", "$M(1; -2)$", "$Q(2; -1)$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Thay tọa độ từng điểm: $M(1; -2)$: $4 \\cdot 1 - 3 \\cdot (-2) = 4 + 6 = 10$, thỏa mãn. Chọn C. $N(1; 2)$: $4 - 6 = -2$ (sai dấu tung độ); $P(-1; -2)$: $-4 + 6 = 2$; $Q(2; -1)$: $8 + 3 = 11$ (đổi chỗ hoành độ và tung độ của $M$)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Khẳng định nào sau đây đúng về hệ phương trình $\\begin{cases} 2x - y = 1 \\\\ 6x - 3y = 3 \\end{cases}$?",
+          "options": ["Hệ có nghiệm duy nhất $(1; 1)$", "Hệ có vô số nghiệm", "Hệ vô nghiệm", "Hệ có nghiệm duy nhất $(0; -1)$"],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Nhân hai vế phương trình thứ nhất với $3$: $6x - 3y = 3$, trùng với phương trình thứ hai. Trừ từng vế ta được $0x + 0y = 0$, đúng với mọi $x, y$. Hệ có vô số nghiệm dạng $(x; 2x - 1)$, $x \\in \\mathbb{R}$. Chọn B. Các cặp $(1; 1)$ và $(0; -1)$ đều là nghiệm, nhưng hệ không chỉ có một nghiệm đó, nên A và D sai — đây là bẫy khi học sinh chỉ thử một cặp số."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} 5x + 3y = -1 \\\\ 2x + 7y = -12 \\end{cases}$. Giá trị của $x_0 - y_0$ là",
+          "options": ["$-1$", "$1$", "$-3$", "$3$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{const D=5*7-2*3; const x=((-1)*7-(-12)*3)/D, y=(5*(-12)-2*(-1))/D; return x-y;})()",
+          "explanation": "Nhân phương trình thứ nhất với $2$, phương trình thứ hai với $5$: $10x + 6y = -2$ và $10x + 35y = -60$. Trừ từng vế: $29y = -58 \\Rightarrow y = -2$. Thay vào: $5x - 6 = -1 \\Rightarrow x = 1$. Vậy $x_0 - y_0 = 1 - (-2) = 3$. Chọn D. Phương án $-1$ là tính $x_0 + y_0$; $-3$ là tính $y_0 - x_0$; $1$ là quên đổi dấu khi trừ số âm ($1 - 2$ thay vì $1 + 2$ cho kết quả $-1$, hoặc chỉ ghi $x_0$)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} \\frac{x}{3} - \\frac{y}{2} = 1 \\\\ 2x + y = 14 \\end{cases}$. Giá trị của $x_0 \\cdot y_0$ là",
+          "options": ["$6$", "$12$", "$8$", "$3$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{const D=2*1-2*(-3); const x=(6*1-14*(-3))/D, y=(2*14-2*6)/D; return x*y;})()",
+          "explanation": "Nhân hai vế phương trình thứ nhất với $6$: $2x - 3y = 6$. Trừ từng vế với $2x + y = 14$: $-4y = -8 \\Rightarrow y = 2$; khi đó $2x = 12 \\Rightarrow x = 6$. Thử lại: $\\frac{6}{3} - \\frac{2}{2} = 1$. Vậy $x_0 \\cdot y_0 = 12$. Chọn B. Phương án $6$ là chỉ ghi $x_0$; $8$ là tính $x_0 + y_0$; $3$ là tính $x_0 : y_0$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tìm $m$ để ba đường thẳng $2x - y = 3$, $x + y = 3$ và $mx + y = 5$ cùng đi qua một điểm.",
+          "options": ["$2$", "$3$", "$-2$", "$1$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{const x=(3+3)/3; const y=3-x; return (5-y)/x;})()",
+          "explanation": "Giao điểm của hai đường thẳng đầu là nghiệm của hệ $\\begin{cases} 2x - y = 3 \\\\ x + y = 3 \\end{cases}$. Cộng từng vế: $3x = 6 \\Rightarrow x = 2$, $y = 1$. Đường thẳng $mx + y = 5$ đi qua $(2; 1)$ khi $2m + 1 = 5 \\Rightarrow m = 2$. Chọn A. Phương án $3$ là thay nhầm $x = 1$, $y = 2$ ($m = 3$); $-2$ là chuyển vế sai dấu."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một số tự nhiên có hai chữ số, tổng các chữ số bằng 11. Nếu đổi chỗ hai chữ số thì được số mới lớn hơn số ban đầu 27 đơn vị. Số ban đầu là",
+          "options": ["$74$", "$38$", "$56$", "$47$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{for(let n=10;n<=99;n++){const a=Math.floor(n/10), b=n%10; if(a+b===11 && (10*b+a)-n===27) return n;}})()",
+          "explanation": "Gọi chữ số hàng chục là $a$, hàng đơn vị là $b$ ($a, b$ là chữ số, $a \\ne 0$). Ta có $a + b = 11$ và $(10b + a) - (10a + b) = 27 \\Leftrightarrow 9b - 9a = 27 \\Leftrightarrow b - a = 3$. Giải hệ: $b = 7$, $a = 4$. Số ban đầu là $47$ (đổi chỗ được $74 = 47 + 27$). Chọn D. Phương án $74$ là số mới (nhầm số cần tìm); $38$ và $56$ có tổng chữ số là 11 nhưng hiệu khi đổi chỗ lần lượt là $45$ và $9$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một rạp chiếu phim bán được 250 vé gồm vé người lớn giá 80 nghìn đồng và vé trẻ em giá 50 nghìn đồng, thu được tổng cộng 17 triệu đồng. Số vé trẻ em đã bán là",
+          "options": ["$150$", "$120$", "$100$", "$130$"],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{const D=1*50-80*1; return (1*17000-80*250)/D;})()",
+          "explanation": "Gọi số vé người lớn là $x$, vé trẻ em là $y$. Đổi 17 triệu đồng $= 17\\,000$ nghìn đồng. Ta có $\\begin{cases} x + y = 250 \\\\ 80x + 50y = 17\\,000 \\end{cases}$. Thế $x = 250 - y$: $80(250 - y) + 50y = 17\\,000 \\Rightarrow 20\\,000 - 30y = 17\\,000 \\Rightarrow y = 100$, $x = 150$. Số vé trẻ em là 100. Chọn C. Phương án $150$ là số vé người lớn (trả lời nhầm ẩn)."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho phương trình $2x + 3y = 12$ (1). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Cặp số $(3; 2)$ là một nghiệm của phương trình (1).",
+            "Đường thẳng biểu diễn tập nghiệm của (1) cắt trục tung tại điểm $(0; 6)$.",
+            "Phương trình (1) có đúng một nghiệm $(x; y)$ với $x$, $y$ là các số nguyên dương.",
+            "Hệ gồm phương trình (1) và phương trình $4x + 6y = 20$ có nghiệm duy nhất."
+          ],
+          "answer": [true, false, true, false],
+          "points": 2,
+          "verify": "(()=>{let c=0; for(let x=1;x<=12;x++)for(let y=1;y<=12;y++) if(2*x+3*y===12) c++; const D=2*6-4*3; return [2*3+3*2===12, 2*0+3*6===12, c===1, D!==0];})()",
+          "explanation": "a) Đúng. $2 \\cdot 3 + 3 \\cdot 2 = 12$.\n\nb) Sai. Giao với trục tung có $x = 0$: $3y = 12 \\Rightarrow y = 4$, giao điểm là $(0; 4)$. Điểm $(0; 6)$ là giao điểm với trục hoành bị đổi tọa độ (giao với trục hoành là $(6; 0)$).\n\nc) Đúng. $2x = 12 - 3y$ nên $3y$ phải chẵn, tức $y$ chẵn; với $y \\ge 1$ và $x \\ge 1$ thì $3y \\le 10$, nên $y = 2$, $x = 3$. Chỉ có nghiệm $(3; 2)$.\n\nd) Sai. Nhân (1) với $2$: $4x + 6y = 24$. Trừ từng vế với $4x + 6y = 20$ được $0x + 0y = 4$, vô lí. Hệ vô nghiệm."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Theo giá niêm yết, bạn An mua một chiếc áo và một chiếc quần hết 500 nghìn đồng. Trong đợt khuyến mãi, áo được giảm 20%, quần được giảm 10% so với giá niêm yết nên An chỉ phải trả 420 nghìn đồng. Gọi $x$, $y$ (nghìn đồng) lần lượt là giá niêm yết của chiếc áo và chiếc quần ($0 < x, y < 500$). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$x + y = 500$.",
+            "Số tiền An phải trả khi khuyến mãi được biểu thị bởi phương trình $0{,}8x + 0{,}9y = 420$.",
+            "Giá niêm yết của chiếc quần là 300 nghìn đồng.",
+            "Nhờ khuyến mãi, An được giảm 20 nghìn đồng khi mua chiếc quần."
+          ],
+          "answer": [true, true, false, true],
+          "points": 2,
+          "verify": "(()=>{const x=(420-0.9*500)/(0.8-0.9); const y=500-x; return [Math.round(x+y)===500, Math.abs(0.8*x+0.9*y-420)<1e-6, Math.round(y)===300, Math.round(0.1*y)===20];})()",
+          "explanation": "a) Đúng. Tổng giá niêm yết là 500 nghìn đồng.\n\nb) Đúng. Giảm 20% nên giá áo còn $80\\%$ tức $0{,}8x$; giảm 10% nên giá quần còn $0{,}9y$. Do đó $0{,}8x + 0{,}9y = 420$.\n\nc) Sai. Thế $y = 500 - x$: $0{,}8x + 0{,}9(500 - x) = 420 \\Rightarrow 450 - 0{,}1x = 420 \\Rightarrow x = 300$, $y = 200$. Áo giá 300 nghìn đồng, quần giá 200 nghìn đồng (khẳng định nhầm giá áo thành giá quần).\n\nd) Đúng. Quần được giảm $10\\% \\cdot 200 = 20$ nghìn đồng."
+        },
+        {
+          "kind": "short",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm chung của hai phương trình $2x - y = 5$ và $x + 3y = -1$. Tính $x_0 + y_0$.",
+          "answer": ["1"],
+          "points": 0.5,
+          "verify": "(()=>{const D=2*3-1*(-1); const x=(5*3-(-1)*(-1))/D, y=(2*(-1)-1*5)/D; return x+y;})()",
+          "explanation": "Nghiệm chung là nghiệm của hệ $\\begin{cases} 2x - y = 5 \\\\ x + 3y = -1 \\end{cases}$. Từ phương trình đầu: $y = 2x - 5$. Thế vào: $x + 3(2x - 5) = -1 \\Rightarrow 7x = 14 \\Rightarrow x = 2$, $y = -1$. Vậy $x_0 + y_0 = 1$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} 1{,}2x - 0{,}5y = 1{,}9 \\\\ 0{,}3x + 0{,}4y = 1 \\end{cases}$. Tính $x_0 + y_0$.",
+          "answer": ["3"],
+          "points": 0.5,
+          "verify": "(()=>{const D=1.2*0.4-0.3*(-0.5); const x=(1.9*0.4-1*(-0.5))/D, y=(1.2*1-0.3*1.9)/D; return Math.round((x+y)*1e6)/1e6;})()",
+          "explanation": "Nhân hai vế mỗi phương trình với $10$: $12x - 5y = 19$ và $3x + 4y = 10$. Nhân phương trình sau với $4$: $12x + 16y = 40$. Trừ từng vế: $21y = 21 \\Rightarrow y = 1$; khi đó $3x = 6 \\Rightarrow x = 2$. Vậy $x_0 + y_0 = 3$. (Có thể kiểm tra bằng máy tính cầm tay.)"
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm $a$ để hai đường thẳng $x + 2y = 4$ và $ax - y = 3$ cắt nhau tại một điểm có hoành độ bằng $2$.",
+          "answer": ["2"],
+          "points": 0.5,
+          "verify": "(()=>{const x=2, y=(4-x)/2; return (3+y)/x;})()",
+          "explanation": "Giao điểm có $x = 2$ nằm trên đường thẳng $x + 2y = 4$ nên $2 + 2y = 4 \\Rightarrow y = 1$. Điểm $(2; 1)$ thuộc đường thẳng $ax - y = 3$ nên $2a - 1 = 3 \\Rightarrow a = 2$. Khi $a = 2$, hai đường thẳng $x + 2y = 4$ và $2x - y = 3$ không song song, không trùng nhau nên cắt nhau đúng tại $(2; 1)$. Đáp số: $2$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Hai trường $A$ và $B$ có tổng cộng 400 học sinh dự thi vào lớp 10, kết quả có 335 học sinh thi đỗ. Tỉ lệ thi đỗ của trường $A$ là 80%, của trường $B$ là 90%. Hỏi trường $B$ có bao nhiêu học sinh dự thi?",
+          "answer": ["150"],
+          "points": 0.5,
+          "verify": "(()=>{const y=(335-0.8*400)/(0.9-0.8); return Math.round(y*1e6)/1e6;})()",
+          "explanation": "Gọi số học sinh dự thi của trường $A$, $B$ là $x$, $y$. Ta có $\\begin{cases} x + y = 400 \\\\ 0{,}8x + 0{,}9y = 335 \\end{cases}$. Nhân phương trình đầu với $0{,}8$: $0{,}8x + 0{,}8y = 320$. Trừ từng vế: $0{,}1y = 15 \\Rightarrow y = 150$, $x = 250$. Thử lại: $200 + 135 = 335$. Trường $B$ có $150$ học sinh dự thi."
+        }
+      ]
+    },
+    {
+      "slug": "toan9-he-phuong-trinh-bac-nhat-hai-an-kha-04",
+      "title": "Phương trình và hệ hai phương trình bậc nhất hai ẩn — Đề 7",
+      "level": "kha",
+      "sort_order": 4,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 2 (vận dụng): giao điểm với trục tọa độ, nhận biết hệ vô nghiệm, giải hệ bằng thế và cộng đại số, hệ cần khai triển, hệ chứa tham số, bài toán tìm số, ca nô xuôi ngược dòng, pha dung dịch và mua hàng.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Cho phương trình $3x - y = 2$. Nghiệm của phương trình có $x = -1$ thì $y$ bằng",
+          "options": ["$5$", "$-1$", "$1$", "$-5$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "3*(-1) - 2",
+          "explanation": "Thay $x = -1$: $3 \\cdot (-1) - y = 2 \\Rightarrow -3 - y = 2 \\Rightarrow y = -5$. Chọn D. Phương án $5$ là chuyển vế sai dấu ($y = 2 + 3$); $-1$ là tính $-3 + 2$; $1$ là quên dấu trừ của $y$ ($-3 + y = 2$ cho $y = 5$ hoặc tính $3 - 2$)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Trong mặt phẳng tọa độ $Oxy$, đường thẳng biểu diễn tập nghiệm của phương trình $2x + y = 4$ cắt trục hoành tại điểm có hoành độ là",
+          "options": ["$4$", "$2$", "$-2$", "$-4$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "4 / 2",
+          "explanation": "Điểm thuộc trục hoành có tung độ $y = 0$: $2x + 0 = 4 \\Rightarrow x = 2$. Giao điểm là $(2; 0)$. Chọn B. Phương án $4$ là nhầm với tung độ giao điểm với trục tung ($x = 0 \\Rightarrow y = 4$); $-2$ là chuyển vế sai dấu."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Hệ phương trình nào sau đây vô nghiệm?",
+          "options": [
+            "$\\begin{cases} 3x + y = 1 \\\\ 6x + 2y = 5 \\end{cases}$",
+            "$\\begin{cases} x - y = 1 \\\\ 2x - 2y = 2 \\end{cases}$",
+            "$\\begin{cases} x + y = 2 \\\\ x - y = 0 \\end{cases}$",
+            "$\\begin{cases} x + 2y = 3 \\\\ 2x + y = 3 \\end{cases}$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "A: nhân phương trình đầu với $2$ được $6x + 2y = 2$; trừ từng vế với $6x + 2y = 5$: $0x + 0y = -3$, vô lí, hệ vô nghiệm. Chọn A. B: nhân phương trình đầu với $2$ thì trùng phương trình sau, hệ có vô số nghiệm (bẫy vì vế trái tỉ lệ). C: cộng từng vế được $x = 1$, $y = 1$, nghiệm duy nhất. D: trừ từng vế được $y - x = 0$, từ đó $x = y = 1$, nghiệm duy nhất."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} x - 3y = 2 \\\\ 2x + 5y = 15 \\end{cases}$. Giá trị của $x_0 + y_0$ là",
+          "options": ["$4$", "$5$", "$6$", "$7$"],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{const D=1*5-2*(-3); const x=(2*5-15*(-3))/D, y=(1*15-2*2)/D; return x+y;})()",
+          "explanation": "Từ phương trình thứ nhất: $x = 2 + 3y$. Thế vào phương trình thứ hai: $2(2 + 3y) + 5y = 15 \\Rightarrow 11y = 11 \\Rightarrow y = 1$, $x = 5$. Vậy $x_0 + y_0 = 6$. Chọn C. Phương án $4$ là tính $x_0 - y_0$; $5$ là chỉ ghi $x_0$; $7$ là thế sai $x = 2 - 3y$ rồi tính tiếp nhầm."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Nghiệm của hệ phương trình $\\begin{cases} 7x + 4y = 18 \\\\ 3x - 4y = 2 \\end{cases}$ là",
+          "options": ["$(2; -1)$", "$(1; 2)$", "$(-2; 8)$", "$(2; 1)$"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Hệ số của $y$ đối nhau, cộng từng vế: $10x = 20 \\Rightarrow x = 2$. Thay vào $3x - 4y = 2$: $6 - 4y = 2 \\Rightarrow y = 1$. Nghiệm $(2; 1)$. Chọn D. Phương án $(2; -1)$ sai dấu khi tìm $y$; $(1; 2)$ đổi chỗ $x$, $y$; $(-2; 8)$ thỏa mãn phương trình thứ nhất ($-14 + 32 = 18$) nhưng $3 \\cdot (-2) - 32 = -38 \\ne 2$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} (x + 2)(y - 1) = xy + 4 \\\\ (x - 1)(y + 2) = xy + 1 \\end{cases}$. Giá trị của $x_0 + y_0$ là",
+          "options": ["$1$", "$9$", "$-9$", "$7$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{for(let x=-30;x<=30;x++)for(let y=-30;y<=30;y++) if((x+2)*(y-1)===x*y+4 && (x-1)*(y+2)===x*y+1) return x+y;})()",
+          "explanation": "Khai triển: $(x + 2)(y - 1) = xy - x + 2y - 2$, nên phương trình đầu thành $-x + 2y = 6$. $(x - 1)(y + 2) = xy + 2x - y - 2$, nên phương trình sau thành $2x - y = 3$. Từ đó $y = 2x - 3$; thế vào: $-x + 4x - 6 = 6 \\Rightarrow x = 4$, $y = 5$. Thử lại: $6 \\cdot 4 = 24 = 20 + 4$; $3 \\cdot 7 = 21 = 20 + 1$. Vậy $x_0 + y_0 = 9$. Chọn B. Phương án $1$ là tính $y_0 - x_0$; $-9$ là sai dấu khi khai triển (được $x - 2y = 6$, $-2x + y = 3$, nghiệm $(-4; -5)$)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tổng của hai số bằng 59. Hai lần số thứ nhất bé hơn ba lần số thứ hai là 7. Số lớn hơn trong hai số là",
+          "options": ["$25$", "$36$", "$34$", "$23$"],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{const D=1*(-3)-2*1; const x=(59*(-3)-(-7)*1)/D, y=(1*(-7)-2*59)/D; return Math.max(x,y);})()",
+          "explanation": "Gọi số thứ nhất là $x$, số thứ hai là $y$. Ta có $x + y = 59$ và $3y - 2x = 7$ (tức $2x - 3y = -7$). Thế $y = 59 - x$: $3(59 - x) - 2x = 7 \\Rightarrow 177 - 5x = 7 \\Rightarrow x = 34$, $y = 25$. Thử lại: $3 \\cdot 25 - 2 \\cdot 34 = 75 - 68 = 7$. Số lớn hơn là $34$. Chọn C. Phương án $25$ là số nhỏ hơn; $36$ và $23$ có tổng 59 nhưng $3 \\cdot 23 - 2 \\cdot 36 = -3 \\ne 7$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một ca nô xuôi dòng 80 km hết 4 giờ và ngược dòng 64 km cũng hết 4 giờ. Vận tốc riêng của ca nô (khi nước yên lặng) là bao nhiêu km/h? (Vận tốc riêng của ca nô và vận tốc dòng nước không đổi.)",
+          "options": ["$18$", "$20$", "$16$", "$2$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(80/4 + 64/4) / 2",
+          "explanation": "Gọi vận tốc riêng của ca nô là $x$, vận tốc dòng nước là $y$ (km/h, $x > y > 0$). Vận tốc xuôi dòng: $x + y = 80 : 4 = 20$; vận tốc ngược dòng: $x - y = 64 : 4 = 16$. Cộng từng vế: $2x = 36 \\Rightarrow x = 18$, $y = 2$. Chọn A. Phương án $20$ là vận tốc xuôi dòng, $16$ là vận tốc ngược dòng, $2$ là vận tốc dòng nước."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hệ phương trình $\\begin{cases} x + my = 3 \\\\ mx + 4y = 6 \\end{cases}$ ($m$ là tham số). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Khi $m = 1$, hệ có nghiệm $(x; y) = (2; 1)$.",
+            "Khi $m = 2$, hệ vô nghiệm.",
+            "Khi $m = -2$, hệ vô nghiệm.",
+            "Khi $m = 0$, nghiệm $(x; y)$ của hệ thỏa mãn $x + y = 4$."
+          ],
+          "answer": [true, false, true, false],
+          "points": 2,
+          "verify": "(()=>{const s=m=>{const D=4-m*m; return D?{x:(12-6*m)/D, y:(6-3*m)/D}:null;}; const vn=m=>(4-m*m===0) && (12-6*m!==0); const r1=s(1), r0=s(0); return [r1.x===2 && r1.y===1, vn(2), vn(-2), r0.x+r0.y===4];})()",
+          "explanation": "a) Đúng. Với $m = 1$: $\\begin{cases} x + y = 3 \\\\ x + 4y = 6 \\end{cases}$. Trừ từng vế: $3y = 3 \\Rightarrow y = 1$, $x = 2$.\n\nb) Sai. Với $m = 2$: $\\begin{cases} x + 2y = 3 \\\\ 2x + 4y = 6 \\end{cases}$. Nhân phương trình đầu với $2$ thì trùng phương trình sau, được $0x + 0y = 0$: hệ có vô số nghiệm chứ không vô nghiệm.\n\nc) Đúng. Với $m = -2$: $\\begin{cases} x - 2y = 3 \\\\ -2x + 4y = 6 \\end{cases}$. Nhân phương trình đầu với $2$ rồi cộng từng vế: $0x + 0y = 12$, vô lí. Hệ vô nghiệm.\n\nd) Sai. Với $m = 0$: $x = 3$ và $4y = 6 \\Rightarrow y = 1{,}5$. Khi đó $x + y = 4{,}5 \\ne 4$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Có hai loại dung dịch muối với nồng độ 10% và 25%. Người ta trộn $x$ gam dung dịch loại 10% với $y$ gam dung dịch loại 25% để được 600 g dung dịch muối nồng độ 15%. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$x + y = 600$.",
+            "Khối lượng muối có trong 600 g dung dịch nồng độ 15% là 90 g.",
+            "Cần dùng 200 g dung dịch muối loại 10%.",
+            "Khối lượng muối có trong lượng dung dịch loại 25% đã dùng là 50 g."
+          ],
+          "answer": [true, true, false, true],
+          "points": 2,
+          "verify": "(()=>{const salt=0.15*600; const x=(salt-0.25*600)/(0.1-0.25); const y=600-x; return [Math.round(x+y)===600, Math.round(salt)===90, Math.round(x)===200, Math.round(0.25*y)===50];})()",
+          "explanation": "a) Đúng. Khối lượng dung dịch sau khi trộn là $x + y = 600$.\n\nb) Đúng. Khối lượng muối: $15\\% \\cdot 600 = 0{,}15 \\cdot 600 = 90$ (g).\n\nc) Sai. Lượng muối không đổi khi trộn: $0{,}1x + 0{,}25y = 90$. Thế $y = 600 - x$: $0{,}1x + 150 - 0{,}25x = 90 \\Rightarrow 0{,}15x = 60 \\Rightarrow x = 400$, $y = 200$. Cần 400 g dung dịch loại 10% (200 g là lượng dung dịch loại 25%).\n\nd) Đúng. Muối trong 200 g dung dịch 25%: $0{,}25 \\cdot 200 = 50$ (g). Kiểm tra: $40 + 50 = 90$ g."
+        },
+        {
+          "kind": "short",
+          "prompt": "Trong mặt phẳng tọa độ $Oxy$, đường thẳng biểu diễn tập nghiệm của phương trình $5x + 2y = 20$ cắt trục hoành tại $A$ và cắt trục tung tại $B$. Tính diện tích tam giác $OAB$ (đơn vị đo trên các trục là xentimét, diện tích tính bằng cm²).",
+          "answer": ["20"],
+          "points": 0.5,
+          "verify": "(20/5) * (20/2) / 2",
+          "explanation": "Cho $y = 0$: $5x = 20 \\Rightarrow x = 4$, nên $A(4; 0)$, $OA = 4$ cm. Cho $x = 0$: $2y = 20 \\Rightarrow y = 10$, nên $B(0; 10)$, $OB = 10$ cm. Tam giác $OAB$ vuông tại $O$: $S = \\frac{1}{2} \\cdot OA \\cdot OB = \\frac{1}{2} \\cdot 4 \\cdot 10 = 20$ (cm²)."
+        },
+        {
+          "kind": "short",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} 3(x - 1) + 2y = 7 \\\\ 2x - (y + 1) = 1 \\end{cases}$. Tính $x_0 + y_0$.",
+          "answer": ["4"],
+          "points": 0.5,
+          "verify": "(()=>{for(let x=-20;x<=20;x++)for(let y=-20;y<=20;y++) if(3*(x-1)+2*y===7 && 2*x-(y+1)===1) return x+y;})()",
+          "explanation": "Thu gọn: phương trình đầu $3x - 3 + 2y = 7 \\Leftrightarrow 3x + 2y = 10$; phương trình sau $2x - y - 1 = 1 \\Leftrightarrow 2x - y = 2$ (chú ý đổi dấu khi bỏ ngoặc có dấu trừ). Từ $y = 2x - 2$: $3x + 4x - 4 = 10 \\Rightarrow x = 2$, $y = 2$. Vậy $x_0 + y_0 = 4$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Biết hệ phương trình $\\begin{cases} 2ax - by = 4 \\\\ ax + 3by = 9 \\end{cases}$ có nghiệm $(x; y) = (1; 1)$. Tính $a + b$.",
+          "answer": ["5"],
+          "points": 0.5,
+          "verify": "(()=>{const D=2*3-1*(-1); const a=(4*3-9*(-1))/D, b=(2*9-1*4)/D; return a+b;})()",
+          "explanation": "Thay $x = 1$, $y = 1$: $\\begin{cases} 2a - b = 4 \\\\ a + 3b = 9 \\end{cases}$. Từ phương trình đầu: $b = 2a - 4$. Thế vào: $a + 6a - 12 = 9 \\Rightarrow a = 3$, $b = 2$. Vậy $a + b = 5$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Một cửa hàng bán nước trái cây đóng thùng. Ngày thứ nhất bán 5 thùng nước cam và 3 thùng nước táo, thu được 1 290 nghìn đồng. Ngày thứ hai bán 2 thùng nước cam và 4 thùng nước táo, thu được 1 020 nghìn đồng. Giá bán mỗi loại không đổi. Tính giá một thùng nước táo (đơn vị: nghìn đồng).",
+          "answer": ["180"],
+          "points": 0.5,
+          "verify": "(()=>{const D=5*4-2*3; return (5*1020-2*1290)/D;})()",
+          "explanation": "Gọi giá một thùng nước cam là $x$, nước táo là $y$ (nghìn đồng). Ta có $\\begin{cases} 5x + 3y = 1290 \\\\ 2x + 4y = 1020 \\end{cases}$. Phương trình sau chia $2$: $x = 510 - 2y$. Thế vào: $5(510 - 2y) + 3y = 1290 \\Rightarrow 2550 - 7y = 1290 \\Rightarrow y = 180$, $x = 150$. Thử lại: $750 + 540 = 1290$; $300 + 720 = 1020$. Giá một thùng nước táo là $180$ nghìn đồng."
+        }
+      ]
+    }
+  ]
+}

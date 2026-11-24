@@ -1,0 +1,414 @@
+{
+  "grade": 8,
+  "topic": "Đa thức",
+  "exams": [
+    {
+      "slug": "toan8-da-thuc-tb-01",
+      "title": "Đa thức — Đề 1",
+      "level": "tb",
+      "sort_order": 1,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 1 (cơ bản): nhận biết đơn thức, hệ số, bậc, đơn thức đồng dạng; bậc và giá trị của đa thức; cộng, trừ đa thức; nhân đơn thức với đa thức; chia đơn thức, chia đa thức cho đơn thức.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Biểu thức nào sau đây là đơn thức?",
+          "options": ["$x + y$", "$3x^2y$", "$\\frac{2}{x}$", "$x - 1$"],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Đơn thức là biểu thức đại số chỉ gồm một số, hoặc một biến, hoặc một tích giữa các số và các biến.\n- $3x^2y = 3 \\cdot x \\cdot x \\cdot y$ là tích của số và các biến nên là đơn thức. Chọn B.\n- $x + y$ và $x - 1$ có phép cộng, phép trừ nên không phải đơn thức (đó là đa thức).\n- $\\frac{2}{x}$ có phép chia cho biến nên không phải đơn thức."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Hệ số của đơn thức $-5x^3y^2$ là",
+          "options": ["$-5$", "$5$", "$3$", "$2$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "-5",
+          "explanation": "Đơn thức thu gọn $-5x^3y^2$ có hệ số là phần số $-5$ (kể cả dấu), phần biến là $x^3y^2$. Chọn A.\nLỗi thường gặp: bỏ quên dấu \"$-$\" nên chọn $5$; hoặc nhầm số mũ $3$, $2$ của biến là hệ số."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Bậc của đơn thức $4x^3y^2z$ là",
+          "options": ["$3$", "$4$", "$5$", "$6$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "3 + 2 + 1",
+          "explanation": "Bậc của đơn thức (có hệ số khác 0) là tổng số mũ của tất cả các biến: $x^3$ có số mũ $3$, $y^2$ có số mũ $2$, $z = z^1$ có số mũ $1$.\nBậc là $3 + 2 + 1 = 6$. Chọn D.\nLỗi thường gặp: quên số mũ $1$ của $z$ nên ra $5$, hoặc chỉ lấy số mũ lớn nhất là $3$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Đơn thức nào sau đây đồng dạng với đơn thức $2x^2y$?",
+          "options": ["$2xy^2$", "$2x^2y^2$", "$-7x^2y$", "$2xy$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Hai đơn thức đồng dạng là hai đơn thức có hệ số khác 0 và có cùng phần biến.\nPhần biến của $2x^2y$ là $x^2y$. Trong các phương án, chỉ $-7x^2y$ có phần biến $x^2y$. Chọn C.\nCác phương án A, B, D có cùng hệ số $2$ nhưng phần biến khác ($xy^2$, $x^2y^2$, $xy$) nên không đồng dạng — đồng dạng xét phần biến, không xét hệ số."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Thu gọn biểu thức $3xy^2 - 7xy^2 + xy^2$ ta được",
+          "options": ["$-4xy^2$", "$11xy^2$", "$-3xy^2$", "$-5xy^2$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Ba đơn thức đồng dạng (cùng phần biến $xy^2$), ta cộng các hệ số và giữ nguyên phần biến:\n$$3xy^2 - 7xy^2 + xy^2 = (3 - 7 + 1)xy^2 = -3xy^2.$$\nChọn C.\nLỗi thường gặp: quên hạng tử $xy^2$ có hệ số $1$ nên ra $-4xy^2$; coi $xy^2$ có hệ số $-1$ nên ra $-5xy^2$; cộng tất cả hệ số không để ý dấu nên ra $11xy^2$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Bậc của đa thức $x^4 - 3x^2y^3 + 2xy - 7$ là",
+          "options": ["$4$", "$5$", "$6$", "$7$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "Math.max(4, 2 + 3, 1 + 1, 0)",
+          "explanation": "Đa thức đã thu gọn. Bậc của từng hạng tử:\n- $x^4$ có bậc $4$;\n- $-3x^2y^3$ có bậc $2 + 3 = 5$;\n- $2xy$ có bậc $2$;\n- $-7$ có bậc $0$.\nBậc của đa thức là bậc cao nhất của các hạng tử, bằng $5$. Chọn B.\nLỗi thường gặp: chỉ nhìn số mũ lớn nhất của một biến ($x^4$) nên chọn $4$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Kết quả của phép nhân $2x(x^2 - 3x + 1)$ là",
+          "options": ["$2x^3 - 6x^2 + 2x$", "$2x^3 - 3x + 1$", "$2x^3 - 6x^2 + 1$", "$2x^2 - 6x + 2$"],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Nhân đơn thức $2x$ với từng hạng tử của đa thức rồi cộng các tích:\n$$2x(x^2 - 3x + 1) = 2x \\cdot x^2 + 2x \\cdot (-3x) + 2x \\cdot 1 = 2x^3 - 6x^2 + 2x.$$\nChọn A.\nLỗi thường gặp: chỉ nhân $2x$ với hạng tử đầu (phương án B); quên nhân với hạng tử $1$ (phương án C); nhân $2x \\cdot x^2$ thành $2x^2$ (phương án D)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Kết quả của phép chia $12x^4y^3 : (-4x^2y)$ là",
+          "options": ["$3x^2y^2$", "$-3x^2y^3$", "$-8x^2y^2$", "$-3x^2y^2$"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Chia hệ số cho hệ số, chia lũy thừa của từng biến cho nhau:\n$$12x^4y^3 : (-4x^2y) = [12 : (-4)] \\cdot (x^4 : x^2) \\cdot (y^3 : y) = -3x^2y^2.$$\nChọn D.\nLỗi thường gặp: quên dấu \"$-$\" (phương án A); quên chia $y^3$ cho $y$ (phương án B); lấy $12 - 4$ thay vì $12 : (-4)$ (phương án C)."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hai đa thức $A = 3x^2 - 2x + 5$ và $B = x^2 + 4x - 1$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Đa thức $A$ có bậc là $2$.",
+            "$A + B = 4x^2 + 2x + 4$.",
+            "$A - B = 2x^2 + 2x + 6$.",
+            "Giá trị của đa thức $A - B$ tại $x = 1$ bằng $2$."
+          ],
+          "answer": [true, true, false, true],
+          "points": 2,
+          "verify": "(() => { const A = x => 3*x*x - 2*x + 5, B = x => x*x + 4*x - 1; const xs = [-2, -1, 0, 1, 2, 3]; return [Math.max(2, 1, 0) === 2, xs.every(x => A(x) + B(x) === 4*x*x + 2*x + 4), xs.every(x => A(x) - B(x) === 2*x*x + 2*x + 6), A(1) - B(1) === 2]; })()",
+          "explanation": "a) Đúng. Các hạng tử $3x^2$, $-2x$, $5$ có bậc lần lượt $2$, $1$, $0$; bậc cao nhất là $2$.\nb) Đúng. $A + B = (3x^2 + x^2) + (-2x + 4x) + (5 - 1) = 4x^2 + 2x + 4$.\nc) Sai. Bỏ ngoặc có dấu \"$-$\" phải đổi dấu mọi hạng tử của $B$:\n$A - B = 3x^2 - 2x + 5 - x^2 - 4x + 1 = 2x^2 - 6x + 6$.\nKết quả $2x^2 + 2x + 6$ là do quên đổi dấu hạng tử $4x$.\nd) Đúng. Thay $x = 1$ vào $A - B = 2x^2 - 6x + 6$: $2 \\cdot 1 - 6 \\cdot 1 + 6 = 2$. (Kiểm tra lại: $A(1) = 6$, $B(1) = 4$, $6 - 4 = 2$.)"
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho đơn thức $M = -2x^2y \\cdot 3xy^3$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Thu gọn $M$ ta được $M = -6x^3y^4$.",
+            "Hệ số của đơn thức $M$ là $6$.",
+            "Bậc của đơn thức $M$ là $7$.",
+            "Giá trị của $M$ tại $x = 1$, $y = -1$ bằng $6$."
+          ],
+          "answer": [true, false, true, false],
+          "points": 2,
+          "verify": "(() => { const M = (x, y) => -2*x*x*y * 3*x*y**3; const pts = [[1, 1], [2, -1], [-1, 2], [3, 2]]; return [pts.every(([x, y]) => M(x, y) === -6*x**3*y**4), (-2)*3 === 6, (2 + 1) + (1 + 3) === 7, M(1, -1) === 6]; })()",
+          "explanation": "a) Đúng. Nhân các hệ số với nhau và các lũy thừa cùng biến với nhau: $M = (-2 \\cdot 3) \\cdot (x^2 \\cdot x) \\cdot (y \\cdot y^3) = -6x^3y^4$.\nb) Sai. Hệ số của $M$ là $-6$, không phải $6$ (không được bỏ dấu).\nc) Đúng. Bậc của $M = -6x^3y^4$ là $3 + 4 = 7$.\nd) Sai. Tại $x = 1$, $y = -1$: $M = -6 \\cdot 1^3 \\cdot (-1)^4 = -6 \\cdot 1 \\cdot 1 = -6$. Chú ý $(-1)^4 = 1$ (số mũ chẵn)."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính giá trị của đa thức $P = x^2 - 3xy + y^2$ tại $x = 2$, $y = -1$.",
+          "answer": ["11"],
+          "points": 0.5,
+          "verify": "(() => { const x = 2, y = -1; return x*x - 3*x*y + y*y; })()",
+          "explanation": "Thay $x = 2$, $y = -1$ vào $P$:\n$$P = 2^2 - 3 \\cdot 2 \\cdot (-1) + (-1)^2 = 4 + 6 + 1 = 11.$$\nChú ý: $-3 \\cdot 2 \\cdot (-1) = 6$ và $(-1)^2 = 1$.\nĐáp số: $11$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Thu gọn đa thức $Q = 5x^2y - 3xy + 2x^2y + xy - 7x^2y$ ta được $Q = a \\cdot xy$. Tìm $a$.",
+          "answer": ["-2"],
+          "points": 0.5,
+          "verify": "(() => { const Q = (x, y) => 5*x*x*y - 3*x*y + 2*x*x*y + x*y - 7*x*x*y; return Q(1, 1); })()",
+          "explanation": "Nhóm các hạng tử đồng dạng:\n$$Q = (5x^2y + 2x^2y - 7x^2y) + (-3xy + xy) = 0 \\cdot x^2y + (-2)xy = -2xy.$$\nVậy $a = -2$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Thực hiện phép nhân $(x + 2)(x - 5)$ ta được đa thức $x^2 + bx + c$. Tính $b + c$.",
+          "answer": ["-13"],
+          "points": 0.5,
+          "verify": "(() => { const f = x => (x + 2)*(x - 5); const c = f(0); const b = (f(1) - f(-1)) / 2; return b + c; })()",
+          "explanation": "Nhân từng hạng tử của đa thức này với từng hạng tử của đa thức kia:\n$$(x + 2)(x - 5) = x^2 - 5x + 2x - 10 = x^2 - 3x - 10.$$\nSuy ra $b = -3$, $c = -10$, nên $b + c = -3 + (-10) = -13$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Thực hiện phép chia $(6x^3 - 9x^2 + 3x) : 3x$ rồi tính giá trị của thương tại $x = 2$.",
+          "answer": ["3"],
+          "points": 0.5,
+          "verify": "(() => { const x = 2; return (6*x**3 - 9*x**2 + 3*x) / (3*x); })()",
+          "explanation": "Chia từng hạng tử của đa thức cho $3x$ rồi cộng các kết quả:\n$$(6x^3 - 9x^2 + 3x) : 3x = 2x^2 - 3x + 1.$$\nTại $x = 2$: $2 \\cdot 2^2 - 3 \\cdot 2 + 1 = 8 - 6 + 1 = 3$.\nĐáp số: $3$. (Chú ý $3x : 3x = 1$, không phải $0$.)"
+        }
+      ]
+    },
+    {
+      "slug": "toan8-da-thuc-tb-02",
+      "title": "Đa thức — Đề 2",
+      "level": "tb",
+      "sort_order": 2,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 1 (cơ bản): đơn thức thu gọn, phần biến, nhân hai đơn thức; bậc của đa thức sau khi thu gọn; trừ đa thức; nhân đa thức với đa thức; chia đa thức cho đơn thức; bài toán diện tích hình chữ nhật.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Trong các biểu thức sau, biểu thức nào là đơn thức thu gọn?",
+          "options": ["$2x \\cdot 3y$", "$x^2y \\cdot x$", "$-\\frac{1}{2}x^3y$", "$5xy + 1$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Đơn thức thu gọn là đơn thức chỉ gồm một số, hoặc có dạng tích của một số với các biến, mỗi biến chỉ xuất hiện một lần và đã được nâng lên lũy thừa với số mũ nguyên dương.\n- $-\\frac{1}{2}x^3y$: một số nhân với $x^3$ và $y$, mỗi biến xuất hiện một lần. Là đơn thức thu gọn. Chọn C.\n- $2x \\cdot 3y$ là đơn thức nhưng chưa thu gọn (còn hai số $2$ và $3$); thu gọn là $6xy$.\n- $x^2y \\cdot x$ chưa thu gọn vì biến $x$ xuất hiện hai lần; thu gọn là $x^3y$.\n- $5xy + 1$ có phép cộng nên không phải đơn thức."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Phần biến của đơn thức $-\\frac{3}{4}x^2yz^3$ là",
+          "options": ["$-\\frac{3}{4}$", "$x^2z^3$", "$x^2yz$", "$x^2yz^3$"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Đơn thức thu gọn gồm hai phần: hệ số (phần số) là $-\\frac{3}{4}$ và phần biến là $x^2yz^3$. Chọn D.\nPhương án A là hệ số chứ không phải phần biến; phương án B bỏ sót biến $y$; phương án C viết sai số mũ của $z$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tích của hai đơn thức $3x^2y$ và $-4xy^3$ là",
+          "options": ["$-12x^3y^4$", "$-12x^2y^3$", "$12x^3y^4$", "$-x^3y^4$"],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Nhân hệ số với hệ số, nhân các lũy thừa cùng biến (cộng số mũ):\n$$3x^2y \\cdot (-4xy^3) = [3 \\cdot (-4)] \\cdot (x^2 \\cdot x) \\cdot (y \\cdot y^3) = -12x^3y^4.$$\nChọn A.\nLỗi thường gặp: nhân số mũ hoặc giữ nguyên số mũ (phương án B); quên dấu \"$-$\" (phương án C); cộng hệ số $3 + (-4) = -1$ thay vì nhân (phương án D)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Bậc của đa thức $5x^2y^3 - x^6 + x^6 + 2xy$ là",
+          "options": ["$6$", "$5$", "$3$", "$2$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "Math.max(2 + 3, 1 + 1)",
+          "explanation": "Trước hết phải thu gọn đa thức: $-x^6 + x^6 = 0$, nên đa thức thu gọn là $5x^2y^3 + 2xy$.\nHạng tử $5x^2y^3$ có bậc $2 + 3 = 5$; hạng tử $2xy$ có bậc $2$.\nBậc của đa thức là $5$. Chọn B.\nLỗi thường gặp: chưa thu gọn đã kết luận bậc $6$ (do hạng tử $x^6$)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Kết quả của phép tính $(2x^2 - 3x + 1) - (x^2 - 5x + 4)$ là",
+          "options": ["$x^2 - 8x - 3$", "$x^2 - 8x + 5$", "$3x^2 - 8x + 5$", "$x^2 + 2x - 3$"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Bỏ ngoặc có dấu \"$-$\" đằng trước thì đổi dấu tất cả các hạng tử trong ngoặc:\n$$(2x^2 - 3x + 1) - (x^2 - 5x + 4) = 2x^2 - 3x + 1 - x^2 + 5x - 4 = x^2 + 2x - 3.$$\nChọn D.\nLỗi thường gặp: không đổi dấu $-5x$ (phương án A); không đổi dấu cả $-5x$ và $4$ (phương án B); cộng hai đa thức thay vì trừ ở hạng tử $x^2$ (phương án C)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Kết quả của phép nhân $(x - 2)(x + 3)$ là",
+          "options": ["$x^2 + x - 6$", "$x^2 - x - 6$", "$x^2 + 5x - 6$", "$x^2 - 6$"],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Nhân mỗi hạng tử của đa thức thứ nhất với từng hạng tử của đa thức thứ hai:\n$$(x - 2)(x + 3) = x \\cdot x + x \\cdot 3 - 2 \\cdot x - 2 \\cdot 3 = x^2 + 3x - 2x - 6 = x^2 + x - 6.$$\nChọn A.\nLỗi thường gặp: nhầm dấu khi cộng $3x - 2x$ (phương án B, C); chỉ nhân hạng tử đầu với đầu, cuối với cuối (phương án D)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Kết quả của phép chia $(15x^3y^2 - 10x^2y) : 5x^2y$ là",
+          "options": ["$3xy - 2y$", "$3xy^2 - 2$", "$3xy - 2$", "$3xy$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Chia từng hạng tử của đa thức cho đơn thức $5x^2y$:\n- $15x^3y^2 : 5x^2y = 3xy$;\n- $-10x^2y : 5x^2y = -2$.\nVậy thương là $3xy - 2$. Chọn C.\nLỗi thường gặp: quên chia phần biến ở hạng tử thứ hai (phương án A); quên chia $y^2$ cho $y$ (phương án B); cho rằng $10x^2y : 5x^2y = 0$ nên bỏ hạng tử đó (phương án D)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị của đơn thức $-2x^2y$ tại $x = -3$, $y = 2$ là",
+          "options": ["$36$", "$-36$", "$24$", "$-24$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "-2 * (-3) ** 2 * 2",
+          "explanation": "Thay $x = -3$, $y = 2$:\n$$-2 \\cdot (-3)^2 \\cdot 2 = -2 \\cdot 9 \\cdot 2 = -36.$$\nChọn B.\nLỗi thường gặp: tính $(-3)^2 = -9$ nên được $36$; hoặc nhầm $x^2$ thành $2x$: $-2 \\cdot (-6) \\cdot 2 = 24$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Một mảnh vườn hình chữ nhật có chiều dài $(2x + 3)$ mét và chiều rộng $x$ mét ($x > 0$). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Chu vi mảnh vườn là $(6x + 6)$ mét.",
+            "Diện tích mảnh vườn là $(2x^2 + 3)$ mét vuông.",
+            "Khi $x = 5$, diện tích mảnh vườn là $65$ mét vuông.",
+            "Nếu tăng chiều rộng thêm $1$ mét và giữ nguyên chiều dài thì diện tích tăng thêm $(2x + 3)$ mét vuông."
+          ],
+          "answer": [true, false, true, true],
+          "points": 2,
+          "verify": "(() => { const xs = [1, 2, 3, 4]; return [xs.every(x => 2*((2*x + 3) + x) === 6*x + 6), xs.every(x => (2*x + 3)*x === 2*x*x + 3), (2*5 + 3)*5 === 65, xs.every(x => (2*x + 3)*(x + 1) - (2*x + 3)*x === 2*x + 3)]; })()",
+          "explanation": "a) Đúng. Chu vi $= 2 \\cdot [(2x + 3) + x] = 2(3x + 3) = 6x + 6$ (mét).\nb) Sai. Diện tích $= (2x + 3) \\cdot x = 2x^2 + 3x$ (mét vuông). Viết $2x^2 + 3$ là quên nhân $3$ với $x$.\nc) Đúng. Khi $x = 5$: $2 \\cdot 5^2 + 3 \\cdot 5 = 50 + 15 = 65$ (mét vuông). (Hoặc: chiều dài $13$ m, chiều rộng $5$ m, diện tích $13 \\cdot 5 = 65$.)\nd) Đúng. Diện tích mới là $(2x + 3)(x + 1) = 2x^2 + 2x + 3x + 3 = 2x^2 + 5x + 3$. Phần tăng thêm: $(2x^2 + 5x + 3) - (2x^2 + 3x) = 2x + 3$ (mét vuông)."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho đa thức $P = 4x^3y - 2x^2y^2 + 6xy$ và đơn thức $D = 2xy$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Đa thức $P$ chia hết cho đơn thức $D$.",
+            "$P : D = 2x^2 - xy + 3$.",
+            "Bậc của đa thức $P$ là $3$.",
+            "Giá trị của thương $P : D$ tại $x = 1$, $y = 2$ bằng $7$."
+          ],
+          "answer": [true, true, false, false],
+          "points": 2,
+          "verify": "(() => { const P = (x, y) => 4*x**3*y - 2*x*x*y*y + 6*x*y; const terms = [[3, 1], [2, 2], [1, 1]]; const pts = [[1, 1], [2, 3], [-1, 2], [3, -2]]; return [terms.every(([a, b]) => a >= 1 && b >= 1), pts.every(([x, y]) => P(x, y) / (2*x*y) === 2*x*x - x*y + 3), Math.max(...terms.map(([a, b]) => a + b)) === 3, P(1, 2) / (2*1*2) === 7]; })()",
+          "explanation": "a) Đúng. Mỗi hạng tử $4x^3y$, $-2x^2y^2$, $6xy$ đều chứa $x$ với số mũ $\\ge 1$ và $y$ với số mũ $\\ge 1$, nên mỗi hạng tử chia hết cho $2xy$; do đó $P$ chia hết cho $D$.\nb) Đúng. $4x^3y : 2xy = 2x^2$; $-2x^2y^2 : 2xy = -xy$; $6xy : 2xy = 3$. Vậy $P : D = 2x^2 - xy + 3$.\nc) Sai. Hạng tử $4x^3y$ có bậc $3 + 1 = 4$, hạng tử $-2x^2y^2$ có bậc $2 + 2 = 4$, hạng tử $6xy$ có bậc $2$. Bậc của $P$ là $4$ (không phải chỉ nhìn số mũ $3$ của $x$).\nd) Sai. Tại $x = 1$, $y = 2$: $2 \\cdot 1^2 - 1 \\cdot 2 + 3 = 2 - 2 + 3 = 3$, không phải $7$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính giá trị của đa thức $A = 2x^2 - 5x + 3$ tại $x = -2$.",
+          "answer": ["21"],
+          "points": 0.5,
+          "verify": "(() => { const x = -2; return 2*x*x - 5*x + 3; })()",
+          "explanation": "Thay $x = -2$:\n$$A = 2 \\cdot (-2)^2 - 5 \\cdot (-2) + 3 = 2 \\cdot 4 + 10 + 3 = 21.$$\nChú ý $(-2)^2 = 4$ và $-5 \\cdot (-2) = 10$.\nĐáp số: $21$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Thu gọn đơn thức $\\frac{1}{2}x^3y \\cdot (-4xy^2)$ rồi cho biết hệ số của đơn thức thu được.",
+          "answer": ["-2"],
+          "points": 0.5,
+          "verify": "(1/2) * (-4)",
+          "explanation": "$$\\frac{1}{2}x^3y \\cdot (-4xy^2) = \\left[\\frac{1}{2} \\cdot (-4)\\right] \\cdot (x^3 \\cdot x) \\cdot (y \\cdot y^2) = -2x^4y^3.$$\nHệ số của đơn thức là $-2$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm $x$, biết $x(x + 4) - x^2 = 12$.",
+          "answer": ["3"],
+          "points": 0.5,
+          "verify": "(() => { for (let x = -50; x <= 50; x++) if (x*(x + 4) - x*x === 12) return x; })()",
+          "explanation": "Nhân đơn thức với đa thức rồi thu gọn vế trái:\n$$x(x + 4) - x^2 = x^2 + 4x - x^2 = 4x.$$\nTa có $4x = 12$, suy ra $x = 12 : 4 = 3$.\nĐáp số: $3$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai đa thức $A = 3x^2 - xy + 2$ và $B = -x^2 + 4xy - 5$. Tính giá trị của đa thức $A + B$ tại $x = 1$, $y = -1$.",
+          "answer": ["-4"],
+          "points": 0.5,
+          "verify": "(() => { const x = 1, y = -1; return (3*x*x - x*y + 2) + (-x*x + 4*x*y - 5); })()",
+          "explanation": "Cộng hai đa thức, nhóm các hạng tử đồng dạng:\n$$A + B = (3x^2 - x^2) + (-xy + 4xy) + (2 - 5) = 2x^2 + 3xy - 3.$$\nTại $x = 1$, $y = -1$: $2 \\cdot 1 + 3 \\cdot 1 \\cdot (-1) - 3 = 2 - 3 - 3 = -4$.\n(Kiểm tra: $A = 3 + 1 + 2 = 6$, $B = -1 - 4 - 5 = -10$, $A + B = -4$.)\nĐáp số: $-4$."
+        }
+      ]
+    },
+    {
+      "slug": "toan8-da-thuc-tb-03",
+      "title": "Đa thức — Đề 3",
+      "level": "tb",
+      "sort_order": 3,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 1 (cơ bản): nhận biết đơn thức, cộng đơn thức đồng dạng; lập đa thức từ bài toán thực tế; tìm đa thức chưa biết; nhân đơn thức, đa thức; chia đa thức cho đơn thức; bài toán bể cá hình hộp chữ nhật.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Trong các biểu thức $5$; $x - y$; $-3xy^2$; $\\frac{1}{x}$; $\\frac{2}{3}x^2$, có bao nhiêu biểu thức là đơn thức?",
+          "options": ["$2$", "$4$", "$5$", "$3$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "[1, 0, 1, 0, 1].reduce((s, v) => s + v, 0)",
+          "explanation": "- $5$ là một số nên là đơn thức.\n- $x - y$ có phép trừ nên không phải đơn thức.\n- $-3xy^2$ là tích của số và các biến nên là đơn thức.\n- $\\frac{1}{x}$ có phép chia cho biến nên không phải đơn thức.\n- $\\frac{2}{3}x^2$ là tích của số $\\frac{2}{3}$ với $x^2$ nên là đơn thức.\nCó $3$ đơn thức. Chọn D.\nLỗi thường gặp: cho rằng một số (như $5$) không phải đơn thức nên đếm được $2$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Hệ số và bậc của đơn thức $-x^2y^3$ lần lượt là",
+          "options": ["$1$ và $5$", "$-1$ và $5$", "$-1$ và $6$", "$0$ và $5$"],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "$-x^2y^3 = (-1) \\cdot x^2y^3$ nên hệ số là $-1$.\nBậc là tổng số mũ của các biến: $2 + 3 = 5$. Chọn B.\nLỗi thường gặp: bỏ dấu \"$-$\" (phương án A); nhân các số mũ $2 \\cdot 3 = 6$ (phương án C); nghĩ rằng không viết hệ số thì hệ số bằng $0$ (phương án D)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Kết quả của phép tính $5x^2y^3 + (-8x^2y^3)$ là",
+          "options": ["$13x^2y^3$", "$-3x^4y^6$", "$-3x^2y^3$", "$3x^2y^3$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Hai đơn thức đồng dạng (cùng phần biến $x^2y^3$). Cộng hệ số, giữ nguyên phần biến:\n$$5x^2y^3 + (-8x^2y^3) = [5 + (-8)]x^2y^3 = -3x^2y^3.$$\nChọn C.\nLỗi thường gặp: cộng luôn cả số mũ (phương án B) — khi cộng đơn thức đồng dạng thì phần biến giữ nguyên; sai dấu (phương án A, D)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một cửa hàng bán áo với giá $x$ nghìn đồng một chiếc và quần với giá $y$ nghìn đồng một chiếc. Bạn An mua $3$ chiếc áo và $2$ chiếc quần. Đa thức biểu thị số tiền (nghìn đồng) An phải trả là",
+          "options": ["$3x + 2y$", "$5xy$", "$6xy$", "$2x + 3y$"],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Tiền mua $3$ áo là $3x$ (nghìn đồng), tiền mua $2$ quần là $2y$ (nghìn đồng).\nTổng số tiền là $3x + 2y$ (nghìn đồng). Chọn A.\nLỗi thường gặp: cộng hai đơn thức không đồng dạng thành $5xy$ (phương án B); nhân thay vì cộng (phương án C); đổi chỗ số lượng (phương án D)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Kết quả của phép nhân $-3x(2x^2 - x + 4)$ là",
+          "options": ["$-6x^3 + 3x^2 - 12x$", "$-6x^3 - 3x^2 - 12x$", "$-6x^3 + 3x^2 + 4$", "$6x^3 - 3x^2 + 12x$"],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Nhân $-3x$ với từng hạng tử:\n$$-3x \\cdot 2x^2 + (-3x) \\cdot (-x) + (-3x) \\cdot 4 = -6x^3 + 3x^2 - 12x.$$\nChọn A.\nLỗi thường gặp: $(-3x) \\cdot (-x)$ tính thành $-3x^2$ (phương án B); quên nhân với hạng tử $4$ (phương án C); quên dấu \"$-$\" của $-3x$ (phương án D)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Đa thức $M$ thỏa mãn $M + (x^2 - 2xy) = 3x^2 + xy$ là",
+          "options": ["$4x^2 - xy$", "$2x^2 - xy$", "$2x^2 + 3xy$", "$-2x^2 - 3xy$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Ta có $M = (3x^2 + xy) - (x^2 - 2xy) = 3x^2 + xy - x^2 + 2xy = 2x^2 + 3xy$. Chọn C.\nThử lại: $(2x^2 + 3xy) + (x^2 - 2xy) = 3x^2 + xy$, đúng.\nLỗi thường gặp: quên đổi dấu $-2xy$ khi bỏ ngoặc (phương án B); cộng thay vì trừ (phương án A); lấy đa thức đã cho trừ vế phải (phương án D)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Kết quả của phép nhân $(2x - 1)(3x + 2)$ là",
+          "options": ["$6x^2 - 2$", "$6x^2 + x - 2$", "$6x^2 - x - 2$", "$6x^2 + 7x - 2$"],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "$$(2x - 1)(3x + 2) = 2x \\cdot 3x + 2x \\cdot 2 - 1 \\cdot 3x - 1 \\cdot 2 = 6x^2 + 4x - 3x - 2 = 6x^2 + x - 2.$$\nChọn B.\nLỗi thường gặp: chỉ nhân \"đầu với đầu, cuối với cuối\" (phương án A); sai dấu khi gộp $4x - 3x$ (phương án C, D)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Kết quả của phép chia $(8x^3 - 4x^2 + 2x) : (-2x)$ là",
+          "options": ["$-4x^2 - 2x + 1$", "$4x^2 - 2x + 1$", "$-4x^2 + 2x$", "$-4x^2 + 2x - 1$"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Chia từng hạng tử cho $-2x$:\n- $8x^3 : (-2x) = -4x^2$;\n- $-4x^2 : (-2x) = 2x$;\n- $2x : (-2x) = -1$.\nThương là $-4x^2 + 2x - 1$. Chọn D.\nLỗi thường gặp: chỉ đổi dấu hạng tử đầu (phương án A); quên dấu \"$-$\" của số chia (phương án B); cho rằng $2x : (-2x) = 0$ (phương án C)."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Một bể cá dạng hình hộp chữ nhật có chiều dài $2x$ dm, chiều rộng $x$ dm và chiều cao $(x + 1)$ dm ($x > 0$). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Diện tích đáy bể là $2x^2$ dm².",
+            "Thể tích bể là $(2x^3 + 1)$ dm³.",
+            "Khi $x = 3$, thể tích bể là $72$ dm³.",
+            "Diện tích xung quanh của bể là $(3x^2 + 3x)$ dm²."
+          ],
+          "answer": [true, false, true, false],
+          "points": 2,
+          "verify": "(() => { const xs = [1, 2, 3, 4]; const V = x => 2*x * x * (x + 1); const Sxq = x => 2*(2*x + x)*(x + 1); return [xs.every(x => 2*x*x === 2*x**2), xs.every(x => V(x) === 2*x**3 + 1), V(3) === 72, xs.every(x => Sxq(x) === 3*x*x + 3*x)]; })()",
+          "explanation": "a) Đúng. Diện tích đáy $= 2x \\cdot x = 2x^2$ (dm²).\nb) Sai. Thể tích $= 2x^2 \\cdot (x + 1) = 2x^3 + 2x^2$ (dm³). Viết $2x^3 + 1$ là quên nhân $2x^2$ với $1$.\nc) Đúng. Khi $x = 3$: $2 \\cdot 3^3 + 2 \\cdot 3^2 = 54 + 18 = 72$ (dm³). (Hoặc: $6 \\cdot 3 \\cdot 4 = 72$.)\nd) Sai. Diện tích xung quanh $=$ chu vi đáy $\\times$ chiều cao $= 2(2x + x) \\cdot (x + 1) = 6x(x + 1) = 6x^2 + 6x$ (dm²). Kết quả $3x^2 + 3x$ là do lấy nửa chu vi $3x$ thay cho chu vi $6x$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho đa thức $A = (x - 1)(x^2 - 3x + 2)$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Sau khi thực hiện phép nhân, $A$ là đa thức bậc $3$.",
+            "Hệ số của $x^2$ trong đa thức $A$ (sau khi thu gọn) là $-3$.",
+            "$A = x^3 - 4x^2 + 5x - 2$.",
+            "Giá trị của $A$ tại $x = 2$ bằng $0$."
+          ],
+          "answer": [true, false, true, true],
+          "points": 2,
+          "verify": "(() => { const A = x => (x - 1)*(x*x - 3*x + 2); const xs = [-2, -1, 0, 1, 2, 3, 4]; const c2 = (A(1) + A(-1)) / 2 - A(0); return [1 + 2 === 3, c2 === -3, xs.every(x => A(x) === x**3 - 4*x*x + 5*x - 2), A(2) === 0]; })()",
+          "explanation": "Thực hiện phép nhân:\n$$A = x \\cdot x^2 - x \\cdot 3x + x \\cdot 2 - x^2 + 3x - 2 = x^3 - 3x^2 + 2x - x^2 + 3x - 2 = x^3 - 4x^2 + 5x - 2.$$\na) Đúng. Hạng tử bậc cao nhất là $x^3$ (do $x \\cdot x^2$), nên $A$ có bậc $3$.\nb) Sai. Hệ số của $x^2$ là $-3 - 1 = -4$. Số $-3$ là do quên hạng tử $-x^2$ sinh ra từ $(-1) \\cdot x^2$.\nc) Đúng (xem phép nhân ở trên).\nd) Đúng. Tại $x = 2$: $A = (2 - 1)(4 - 6 + 2) = 1 \\cdot 0 = 0$. (Hoặc $8 - 16 + 10 - 2 = 0$.)"
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính giá trị của đa thức $B = 3x^2y - 2xy^2 + 1$ tại $x = -1$, $y = 2$.",
+          "answer": ["15"],
+          "points": 0.5,
+          "verify": "(() => { const x = -1, y = 2; return 3*x*x*y - 2*x*y*y + 1; })()",
+          "explanation": "Thay $x = -1$, $y = 2$:\n- $3x^2y = 3 \\cdot (-1)^2 \\cdot 2 = 3 \\cdot 1 \\cdot 2 = 6$;\n- $-2xy^2 = -2 \\cdot (-1) \\cdot 2^2 = 2 \\cdot 4 = 8$.\nVậy $B = 6 + 8 + 1 = 15$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Thu gọn đa thức $N = 2x^3y^2 - x^2 + 4xy - 2x^3y^2 + 3x^2$ rồi tìm bậc của $N$.",
+          "answer": ["2"],
+          "points": 0.5,
+          "verify": "Math.max(2, 1 + 1)",
+          "explanation": "Nhóm các hạng tử đồng dạng:\n$$N = (2x^3y^2 - 2x^3y^2) + (-x^2 + 3x^2) + 4xy = 2x^2 + 4xy.$$\nHạng tử $2x^2$ có bậc $2$, hạng tử $4xy$ có bậc $1 + 1 = 2$. Bậc của $N$ là $2$.\nChú ý: nếu chưa thu gọn mà kết luận bậc $5$ (từ $2x^3y^2$) là sai, vì hai hạng tử đó triệt tiêu nhau."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm hệ số của $x$ trong đa thức thu được khi thực hiện phép nhân $(3x - 2)(x + 4)$.",
+          "answer": ["10"],
+          "points": 0.5,
+          "verify": "(() => { const f = x => (3*x - 2)*(x + 4); return (f(1) - f(-1)) / 2; })()",
+          "explanation": "$$(3x - 2)(x + 4) = 3x^2 + 12x - 2x - 8 = 3x^2 + 10x - 8.$$\nHệ số của $x$ là $10$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Một xe tải chở $(6x^2 + 9x)$ thùng hàng, chia đều cho $3x$ cửa hàng ($x$ là số nguyên dương). Thực hiện phép chia để tìm số thùng hàng mỗi cửa hàng nhận được, rồi tính số thùng đó khi $x = 4$.",
+          "answer": ["11"],
+          "points": 0.5,
+          "verify": "(() => { const x = 4; return (6*x*x + 9*x) / (3*x); })()",
+          "explanation": "Số thùng hàng mỗi cửa hàng nhận được:\n$$(6x^2 + 9x) : 3x = 2x + 3 \\text{ (thùng)}.$$\nKhi $x = 4$: $2 \\cdot 4 + 3 = 11$ (thùng).\n(Kiểm tra: xe chở $6 \\cdot 16 + 9 \\cdot 4 = 132$ thùng, chia cho $12$ cửa hàng được $11$ thùng.)\nĐáp số: $11$."
+        }
+      ]
+    }
+  ]
+}

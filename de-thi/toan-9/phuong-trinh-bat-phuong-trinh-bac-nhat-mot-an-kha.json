@@ -1,0 +1,554 @@
+{
+  "grade": 9,
+  "topic": "Phương trình và bất phương trình bậc nhất một ẩn",
+  "exams": [
+    {
+      "slug": "toan9-phuong-trinh-bat-phuong-trinh-bac-nhat-mot-an-kha-01",
+      "title": "Phương trình và bất phương trình bậc nhất một ẩn — Đề 4",
+      "level": "kha",
+      "sort_order": 1,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 2 (vận dụng): phương trình tích, điều kiện xác định và giải phương trình chứa ẩn ở mẫu, tính chất của bất đẳng thức, giải bất phương trình bậc nhất một ẩn; bài toán cước taxi, mua đồ dùng học tập và điểm trung bình môn.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Tổng các nghiệm của phương trình $(3x - 6)(2x + 8) = 0$ là",
+          "options": ["$-2$", "$2$", "$6$", "$-6$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "6/3 + (-8/2)",
+          "explanation": "$(3x - 6)(2x + 8) = 0$ khi $3x - 6 = 0$ hoặc $2x + 8 = 0$, tức là $x = 2$ hoặc $x = -4$. Tổng các nghiệm là $2 + (-4) = -2$. Chọn A. Phương án $2$ là do giải sai dấu cả hai nghiệm ($x = -2$ và $x = 4$); phương án $6$ là do giải sai dấu nghiệm thứ hai ($x = 4$); phương án $-6$ là do giải sai dấu nghiệm thứ nhất ($x = -2$)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tập nghiệm của phương trình $x(x - 5) = 3(x - 5)$ là",
+          "options": ["$S = \\{3\\}$", "$S = \\{5\\}$", "$S = \\{3;\\ 5\\}$", "$S = \\{-3;\\ -5\\}$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Chuyển vế: $x(x - 5) - 3(x - 5) = 0 \\Leftrightarrow (x - 5)(x - 3) = 0$, suy ra $x = 5$ hoặc $x = 3$. Vậy $S = \\{3;\\ 5\\}$. Chọn C. Phương án $S = \\{3\\}$ là lỗi rất hay gặp: chia hai vế cho $x - 5$ khi chưa biết $x - 5 \\ne 0$ nên làm mất nghiệm $x = 5$. Phương án $\\{-3;\\ -5\\}$ là giải sai dấu."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Điều kiện xác định của phương trình $\\dfrac{x + 1}{x - 2} + \\dfrac{3}{x + 3} = 1$ là",
+          "options": ["$x \\ne 2$ và $x \\ne -3$", "$x \\ne -2$ và $x \\ne 3$", "$x \\ne 2$", "$x \\ne -1$, $x \\ne 2$ và $x \\ne -3$"],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Điều kiện xác định là tất cả các mẫu khác $0$: $x - 2 \\ne 0$ và $x + 3 \\ne 0$, tức là $x \\ne 2$ và $x \\ne -3$. Chọn A. Phương án B sai dấu; phương án C bỏ sót mẫu $x + 3$; phương án D đặt thêm điều kiện cho tử $x + 1$ — tử thức bằng $0$ không làm phân thức mất nghĩa."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giải phương trình $\\dfrac{x + 3}{x - 1} = \\dfrac{4}{x - 1} + 2$, ta được kết luận",
+          "options": ["Phương trình có nghiệm $x = 1$", "Phương trình có nghiệm $x = -1$", "Phương trình có nghiệm $x = 3$", "Phương trình vô nghiệm"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "ĐKXĐ: $x \\ne 1$. Quy đồng mẫu $x - 1$ rồi khử mẫu: $x + 3 = 4 + 2(x - 1) \\Leftrightarrow x + 3 = 2x + 2 \\Leftrightarrow x = 1$. Giá trị $x = 1$ không thỏa mãn ĐKXĐ nên bị loại. Vậy phương trình vô nghiệm. Chọn D. Phương án A là quên đối chiếu điều kiện xác định; phương án B là quên nhân $2$ với $(x - 1)$ khi quy đồng ($x + 3 = 4 + 2 \\Rightarrow x = 3$ cũng sai, còn lỗi chuyển vế sai dấu cho $x = -1$)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho $a > b$. Khẳng định nào sau đây **sai**?",
+          "options": ["$a + 3 > b + 3$", "$-2a < -2b$", "$3a - 1 > 3b - 1$", "$5 - a > 5 - b$"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Từ $a > b$: cộng $3$ vào hai vế được $a + 3 > b + 3$ (A đúng); nhân hai vế với $-2 < 0$ phải đổi chiều: $-2a < -2b$ (B đúng); nhân với $3 > 0$ rồi cộng $-1$: $3a - 1 > 3b - 1$ (C đúng). Nhân với $-1$ được $-a < -b$, cộng $5$: $5 - a < 5 - b$. Vậy D sai. Chọn D. Học sinh hay quên đổi chiều bất đẳng thức khi nhân với số âm nên nghĩ D đúng."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số nguyên lớn nhất thỏa mãn bất phương trình $3(x - 2) - 5 \\le x + 1$ là",
+          "options": ["$4$", "$5$", "$6$", "$12$"],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{let m=null;for(let x=-100;x<=100;x++) if(3*(x-2)-5<=x+1) m=x; return m;})()",
+          "explanation": "$3(x - 2) - 5 \\le x + 1 \\Leftrightarrow 3x - 6 - 5 \\le x + 1 \\Leftrightarrow 2x \\le 12 \\Leftrightarrow x \\le 6$. Số nguyên lớn nhất là $6$. Chọn C. Phương án $4$ do bỏ ngoặc sai ($3x - 2$ thay vì $3x - 6$); phương án $5$ do nhầm dấu $\\le$ thành $<$; phương án $12$ do quên chia hai vế cho $2$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Nghiệm của bất phương trình $5 - 2x > 11$ là",
+          "options": ["$x > -3$", "$x < -3$", "$x > 3$", "$x < -8$"],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "$5 - 2x > 11 \\Leftrightarrow -2x > 6$. Chia hai vế cho $-2 < 0$ và đổi chiều: $x < -3$. Chọn B. Phương án A là quên đổi chiều khi chia cho số âm; phương án C sai cả dấu lẫn chiều; phương án D là chuyển vế số $5$ mà không đổi dấu ($-2x > 16$)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một hãng taxi tính cước $15\\,000$ đồng cho km đầu tiên và $12\\,000$ đồng cho mỗi km tiếp theo. Bạn An có $200\\,000$ đồng. Quãng đường dài nhất (là một số nguyên km) mà An có thể đi bằng taxi của hãng này là",
+          "options": ["$15$ km", "$16$ km", "$17$ km", "$12$ km"],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Gọi quãng đường là $x$ km ($x \\ge 1$). Số tiền phải trả: $15\\,000 + 12\\,000(x - 1)$. Ta cần $15\\,000 + 12\\,000(x - 1) \\le 200\\,000 \\Leftrightarrow 12\\,000(x - 1) \\le 185\\,000 \\Leftrightarrow x - 1 \\le 15{,}41... \\Leftrightarrow x \\le 16{,}41...$. Vậy An đi được nhiều nhất $16$ km. Chọn B. Phương án $15$ km là tìm được $x - 1 \\le 15$ rồi quên cộng lại km đầu tiên; phương án $17$ km là lấy $200\\,000 : 12\\,000 \\approx 16{,}7$ rồi làm tròn lên; phương án $12$ km là tính mọi km theo giá $15\\,000$ đồng."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho phương trình $\\dfrac{x + 1}{x - 2} - \\dfrac{x - 1}{x + 2} = \\dfrac{18}{x^2 - 4}$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Điều kiện xác định của phương trình là $x \\ne 2$.",
+            "Sau khi quy đồng mẫu và khử mẫu, ta được phương trình $6x = 18$.",
+            "Phương trình đã cho có nghiệm $x = 3$.",
+            "Nếu thay số $18$ ở vế phải bằng số $12$ thì phương trình mới vẫn có đúng một nghiệm."
+          ],
+          "answer": [false, true, true, false],
+          "points": 2,
+          "verify": "(()=>{const f=(x,r)=>(x+1)/(x-2)-(x-1)/(x+2)-r/(x*x-4); const L=x=>(x+1)*(x+2)-(x-1)*(x-2); const r2=12/6; return [!((-2)+2===0), L(1)===6 && L(0)===0 && L(5)===30, Math.abs(f(3,18))<1e-9, (r2*r2-4)!==0];})()",
+          "explanation": "a) Sai. Mẫu $x + 2$ cũng phải khác $0$ (và $x^2 - 4 = (x - 2)(x + 2)$), nên ĐKXĐ là $x \\ne 2$ và $x \\ne -2$.\n\nb) Đúng. Mẫu thức chung $(x - 2)(x + 2)$. Khử mẫu: $(x + 1)(x + 2) - (x - 1)(x - 2) = 18 \\Leftrightarrow (x^2 + 3x + 2) - (x^2 - 3x + 2) = 18 \\Leftrightarrow 6x = 18$.\n\nc) Đúng. $6x = 18 \\Leftrightarrow x = 3$, thỏa mãn ĐKXĐ. Thử lại: $\\frac{4}{1} - \\frac{2}{5} = \\frac{18}{5}$ và $\\frac{18}{9 - 4} = \\frac{18}{5}$.\n\nd) Sai. Với vế phải $\\frac{12}{x^2 - 4}$, khử mẫu được $6x = 12 \\Leftrightarrow x = 2$, không thỏa mãn ĐKXĐ nên bị loại. Phương trình mới vô nghiệm."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Bạn Minh có $120\\,000$ đồng, muốn mua một quyển sổ giá $25\\,000$ đồng và một số chiếc bút bi giá $8\\,000$ đồng/chiếc. Gọi $x$ là số bút bi Minh mua ($x$ là số tự nhiên). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Nếu mua $2$ chiếc bút thì Minh phải trả tất cả $41\\,000$ đồng.",
+            "Minh mua được $12$ chiếc bút bi.",
+            "Số bút bi nhiều nhất Minh mua được là $11$ chiếc.",
+            "Nếu giá mỗi chiếc bút tăng thêm $2\\,000$ đồng thì Minh mua được nhiều nhất $9$ chiếc bút."
+          ],
+          "answer": [true, false, true, true],
+          "points": 2,
+          "verify": "(()=>{const c=x=>25000+8000*x; let m=0; for(let x=0;x<100;x++) if(c(x)<=120000) m=x; let m2=0; for(let x=0;x<100;x++) if(25000+(8000+2000)*x<=120000) m2=x; return [c(2)===41000, c(12)<=120000, m===11, m2===9];})()",
+          "explanation": "Số tiền phải trả là $25\\,000 + 8\\,000x$ (đồng); điều kiện: $25\\,000 + 8\\,000x \\le 120\\,000$.\n\na) Đúng. $25\\,000 + 8\\,000 \\cdot 2 = 41\\,000$ (đồng).\n\nb) Sai. $25\\,000 + 8\\,000 \\cdot 12 = 121\\,000 > 120\\,000$, không đủ tiền.\n\nc) Đúng. $8\\,000x \\le 95\\,000 \\Leftrightarrow x \\le 11{,}875$. Vì $x$ là số tự nhiên nên $x$ lớn nhất là $11$.\n\nd) Đúng. Giá mới $10\\,000$ đồng/chiếc: $25\\,000 + 10\\,000x \\le 120\\,000 \\Leftrightarrow x \\le 9{,}5$, nên nhiều nhất $9$ chiếc."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính tích các nghiệm của phương trình $(2x + 1)(x - 3) = (x - 3)(x + 5)$.",
+          "answer": ["12"],
+          "points": 0.5,
+          "verify": "(()=>{let p=1;for(let x=-50;x<=50;x++) if((2*x+1)*(x-3)===(x-3)*(x+5)) p*=x; return p;})()",
+          "explanation": "Chuyển vế: $(2x + 1)(x - 3) - (x - 3)(x + 5) = 0 \\Leftrightarrow (x - 3)\\big[(2x + 1) - (x + 5)\\big] = 0 \\Leftrightarrow (x - 3)(x - 4) = 0$. Suy ra $x = 3$ hoặc $x = 4$. Tích các nghiệm: $3 \\cdot 4 = 12$. Lưu ý: không được chia hai vế cho $x - 3$ (sẽ mất nghiệm $x = 3$). Đáp số: $12$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm nghiệm của phương trình $\\dfrac{x}{x + 1} + \\dfrac{2}{x - 1} = 1$.",
+          "answer": ["-3"],
+          "points": 0.5,
+          "verify": "(()=>{for(let x=-50;x<=50;x++){if(x===1||x===-1) continue; if(Math.abs(x/(x+1)+2/(x-1)-1)<1e-9) return x;}})()",
+          "explanation": "ĐKXĐ: $x \\ne -1$ và $x \\ne 1$. Mẫu thức chung $(x + 1)(x - 1)$. Khử mẫu: $x(x - 1) + 2(x + 1) = (x + 1)(x - 1) \\Leftrightarrow x^2 + x + 2 = x^2 - 1 \\Leftrightarrow x = -3$ (thỏa mãn ĐKXĐ). Đáp số: $-3$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số nguyên nhỏ nhất thỏa mãn bất phương trình $\\dfrac{x - 1}{3} - \\dfrac{x + 2}{4} > 1$.",
+          "answer": ["23"],
+          "points": 0.5,
+          "verify": "(()=>{for(let x=-100;x<=100;x++) if((x-1)/3-(x+2)/4>1) return x;})()",
+          "explanation": "Nhân hai vế với $12 > 0$: $4(x - 1) - 3(x + 2) > 12 \\Leftrightarrow 4x - 4 - 3x - 6 > 12 \\Leftrightarrow x > 22$. Số nguyên nhỏ nhất lớn hơn $22$ là $23$. Chú ý dấu \"$-$\" trước $3(x + 2)$ làm đổi dấu cả hai số hạng. Đáp số: $23$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Điểm trung bình môn học kì được tính theo công thức $\\dfrac{T + 2G + 3C}{n + 5}$, trong đó $T$ là tổng điểm các bài kiểm tra thường xuyên, $n$ là số bài kiểm tra thường xuyên, $G$ là điểm giữa kì, $C$ là điểm cuối kì. Bạn Lan có $3$ bài kiểm tra thường xuyên được $7$; $8$; $9$ điểm và điểm giữa kì là $8$. Lan cần đạt điểm cuối kì ít nhất là bao nhiêu để điểm trung bình môn không dưới $8{,}0$?",
+          "answer": ["8"],
+          "points": 0.5,
+          "verify": "(8*(3+5)-(7+8+9)-2*8)/3",
+          "explanation": "Ta có $T = 7 + 8 + 9 = 24$, $n = 3$. Điều kiện: $\\dfrac{24 + 2 \\cdot 8 + 3C}{8} \\ge 8 \\Leftrightarrow 40 + 3C \\ge 64 \\Leftrightarrow 3C \\ge 24 \\Leftrightarrow C \\ge 8$. Vậy Lan cần ít nhất $8$ điểm cuối kì. Đáp số: $8$."
+        }
+      ]
+    },
+    {
+      "slug": "toan9-phuong-trinh-bat-phuong-trinh-bac-nhat-mot-an-kha-02",
+      "title": "Phương trình và bất phương trình bậc nhất một ẩn — Đề 5",
+      "level": "kha",
+      "sort_order": 2,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 2 (vận dụng): lập và giải phương trình tích (đặt nhân tử chung, hằng đẳng thức), phương trình chứa ẩn ở mẫu có nghiệm bị loại, bất đẳng thức $a^2 + b^2 \\ge 2ab$, bất phương trình có mẫu số; bài toán vòi nước, vận tốc và thang máy.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Phương trình nào sau đây có tập nghiệm là $\\left\\{-3;\\ \\frac{1}{2}\\right\\}$?",
+          "options": ["$(x - 3)(2x + 1) = 0$", "$(x + 3)(2x - 1) = 0$", "$(x + 3)(x - 2) = 0$", "$(x - 3)(1 - 2x) = 0$"],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "$(x + 3)(2x - 1) = 0 \\Leftrightarrow x = -3$ hoặc $x = \\frac{1}{2}$. Chọn B. Phương án A có nghiệm $3$ và $-\\frac{1}{2}$ (ngược dấu); phương án C có nghiệm $-3$ và $2$ (nhầm $\\frac{1}{2}$ với $2$); phương án D có nghiệm $3$ và $\\frac{1}{2}$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số nghiệm của phương trình $x^3 - 4x = 0$ là",
+          "options": ["$1$", "$2$", "$3$", "$4$"],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let x=-50;x<=50;x++) if(x**3-4*x===0) c++; return c;})()",
+          "explanation": "$x^3 - 4x = x(x^2 - 4) = x(x - 2)(x + 2) = 0$, suy ra $x = 0$, $x = 2$ hoặc $x = -2$. Phương trình có $3$ nghiệm. Chọn C. Phương án $2$ là do chia hai vế cho $x$ (mất nghiệm $x = 0$); phương án $1$ là chỉ lấy $x = 2$ mà quên $x = -2$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tập nghiệm của phương trình $(x + 2)^2 = (2x - 1)^2$ là",
+          "options": ["$S = \\{3\\}$", "$S = \\left\\{-3;\\ \\frac{1}{3}\\right\\}$", "$S = \\{3;\\ -1\\}$", "$S = \\left\\{3;\\ -\\frac{1}{3}\\right\\}$"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Chuyển vế và dùng hằng đẳng thức hiệu hai bình phương: $(x + 2)^2 - (2x - 1)^2 = 0 \\Leftrightarrow (x + 2 - 2x + 1)(x + 2 + 2x - 1) = 0 \\Leftrightarrow (3 - x)(3x + 1) = 0$. Suy ra $x = 3$ hoặc $x = -\\frac{1}{3}$. Chọn D. Phương án A là chỉ xét $x + 2 = 2x - 1$ mà bỏ trường hợp $x + 2 = -(2x - 1)$; phương án C là bỏ ngoặc sai: $x + 2 = -2x - 1$; phương án B sai dấu cả hai nghiệm."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Nghiệm của phương trình $\\dfrac{2x + 1}{x - 3} = \\dfrac{2x - 5}{x - 1}$ là",
+          "options": ["$-1{,}6$", "$1{,}4$", "$-1{,}4$", "$1{,}6$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{for (const x of [-1.6,1.4,-1.4,1.6]) if(Math.abs((2*x+1)/(x-3)-(2*x-5)/(x-1))<1e-9) return x;})()",
+          "explanation": "ĐKXĐ: $x \\ne 3$ và $x \\ne 1$. Khử mẫu: $(2x + 1)(x - 1) = (2x - 5)(x - 3) \\Leftrightarrow 2x^2 - x - 1 = 2x^2 - 11x + 15 \\Leftrightarrow 10x = 16 \\Leftrightarrow x = 1{,}6$ (thỏa mãn ĐKXĐ). Chọn D. Phương án $1{,}4$ là khai triển sai $(2x + 1)(x - 1) = 2x^2 - x + 1$; phương án $-1{,}4$ là khai triển sai $(2x - 5)(x - 3) = 2x^2 - 11x - 15$; phương án $-1{,}6$ là chuyển vế sai dấu."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho $a < b$. So sánh $-3a + 5$ và $-3b + 5$, ta được",
+          "options": ["$-3a + 5 < -3b + 5$", "$-3a + 5 > -3b + 5$", "$-3a + 5 = -3b + 5$", "Không so sánh được"],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Nhân hai vế của $a < b$ với $-3 < 0$ thì đổi chiều: $-3a > -3b$. Cộng $5$ vào hai vế: $-3a + 5 > -3b + 5$. Chọn B. Phương án A là quên đổi chiều khi nhân với số âm."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Với mọi số thực $a$, $b$, bất đẳng thức nào sau đây luôn đúng?",
+          "options": ["$a^2 > 0$", "$a^2 + b^2 > 2ab$", "$a^2 + b^2 \\ge 2ab$", "$(a + b)^2 \\ge a^2 + b^2$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Ta có $a^2 + b^2 - 2ab = (a - b)^2 \\ge 0$ với mọi $a, b$, nên $a^2 + b^2 \\ge 2ab$. Chọn C. Phương án A sai khi $a = 0$; phương án B sai khi $a = b$ (xảy ra dấu bằng); phương án D tương đương $2ab \\ge 0$, sai khi $a = 1$, $b = -1$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Nghiệm của bất phương trình $\\dfrac{2x - 1}{3} \\ge \\dfrac{x + 2}{2}$ là",
+          "options": ["$x \\ge 8$", "$x \\le 8$", "$x \\ge 4$", "$x \\ge -8$"],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Nhân hai vế với $6 > 0$: $2(2x - 1) \\ge 3(x + 2) \\Leftrightarrow 4x - 2 \\ge 3x + 6 \\Leftrightarrow x \\ge 8$. Chọn A. Phương án C là chỉ nhân $3$ với $x$ mà quên nhân với $2$ ($4x - 2 \\ge 3x + 2$); phương án B đổi chiều sai (nhân với số dương không đổi chiều); phương án D sai dấu khi chuyển vế."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một bể đang chứa $500$ lít nước. Mở một vòi chảy vào bể, mỗi phút chảy thêm $40$ lít. Sau ít nhất bao nhiêu phút (số nguyên) thì lượng nước trong bể nhiều hơn $1\\,500$ lít?",
+          "options": ["$26$ phút", "$25$ phút", "$38$ phút", "$50$ phút"],
+          "answer": 0,
+          "explanation": "Gọi $t$ là số phút mở vòi. Lượng nước trong bể: $500 + 40t$ (lít). Điều kiện: $500 + 40t > 1\\,500 \\Leftrightarrow 40t > 1\\,000 \\Leftrightarrow t > 25$. Số nguyên nhỏ nhất là $26$. Chọn A. Phương án $25$ phút là nhầm \"nhiều hơn\" thành \"không ít hơn\" (sau $25$ phút bể có đúng $1\\,500$ lít); phương án $38$ phút là quên $500$ lít có sẵn ($1\\,500 : 40 = 37{,}5$); phương án $50$ phút là cộng nhầm $1\\,500 + 500$.",
+          "points": 0.5,
+          "verify": "(()=>{for(let t=0;t<=1000;t++) if(500+40*t>1500) return t;})()"
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho phương trình $\\dfrac{x}{x - 2} + \\dfrac{x}{x + 2} = \\dfrac{8}{x^2 - 4}$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Điều kiện xác định của phương trình là $x \\ne 2$ và $x \\ne -2$.",
+            "Sau khi quy đồng mẫu và khử mẫu, ta được phương trình $2x^2 = 8$.",
+            "Phương trình đã cho có hai nghiệm là $x = 2$ và $x = -2$.",
+            "Nếu thay số $8$ ở vế phải bằng số $18$ thì phương trình mới có hai nghiệm và tổng hai nghiệm đó bằng $0$."
+          ],
+          "answer": [true, true, false, true],
+          "points": 2,
+          "verify": "(()=>{const L=x=>x*(x+2)+x*(x-2); const ok=x=>x*x-4!==0; const r=Math.sqrt(18/2); return [(2-2===0)&&(-2+2===0), L(1)===2&&L(3)===18&&L(0)===0, ok(2)&&ok(-2), ok(r)&&ok(-r)&&(r+(-r)===0)];})()",
+          "explanation": "a) Đúng. Các mẫu $x - 2$, $x + 2$, $x^2 - 4 = (x - 2)(x + 2)$ khác $0$ khi $x \\ne 2$ và $x \\ne -2$.\n\nb) Đúng. Mẫu thức chung $(x - 2)(x + 2)$. Khử mẫu: $x(x + 2) + x(x - 2) = 8 \\Leftrightarrow x^2 + 2x + x^2 - 2x = 8 \\Leftrightarrow 2x^2 = 8$.\n\nc) Sai. $2x^2 = 8 \\Leftrightarrow x^2 = 4 \\Leftrightarrow x = 2$ hoặc $x = -2$, nhưng cả hai giá trị đều không thỏa mãn ĐKXĐ nên bị loại. Phương trình đã cho vô nghiệm.\n\nd) Đúng. Với vế phải $\\frac{18}{x^2 - 4}$: $2x^2 = 18 \\Leftrightarrow x^2 = 9 \\Leftrightarrow (x - 3)(x + 3) = 0$, được $x = 3$ hoặc $x = -3$, đều thỏa mãn ĐKXĐ. Tổng hai nghiệm $3 + (-3) = 0$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho bất phương trình $2(x + 3) - 5 < 4x - 7$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$x = 5$ là một nghiệm của bất phương trình.",
+            "Bất phương trình đã cho tương đương với bất phương trình $-2x < -8$.",
+            "Nghiệm của bất phương trình là $x < 4$.",
+            "Có đúng $5$ số nguyên $x$ vừa là nghiệm của bất phương trình vừa thỏa mãn $x \\le 10$."
+          ],
+          "answer": [true, true, false, false],
+          "points": 2,
+          "verify": "(()=>{const P=x=>2*(x+3)-5<4*x-7; const xs=[]; for(let i=-200;i<=200;i++) xs.push(i/4); let c=0; for(let x=-100;x<=10;x++) if(P(x)) c++; return [P(5), xs.every(x=>P(x)===(-2*x<-8)), xs.every(x=>P(x)===(x<4)), c===5];})()",
+          "explanation": "a) Đúng. Thay $x = 5$: vế trái $2 \\cdot 8 - 5 = 11$, vế phải $4 \\cdot 5 - 7 = 13$; $11 < 13$ đúng.\n\nb) Đúng. $2x + 6 - 5 < 4x - 7 \\Leftrightarrow 2x + 1 < 4x - 7 \\Leftrightarrow 2x - 4x < -7 - 1 \\Leftrightarrow -2x < -8$.\n\nc) Sai. Chia hai vế của $-2x < -8$ cho $-2 < 0$ phải đổi chiều: $x > 4$. Kết luận $x < 4$ là lỗi quên đổi chiều.\n\nd) Sai. Các số nguyên thỏa mãn $4 < x \\le 10$ là $5; 6; 7; 8; 9; 10$ — có $6$ số, không phải $5$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính tổng các nghiệm của phương trình $(x^2 - 9)(2x + 7) = 0$ (viết kết quả dưới dạng số thập phân).",
+          "answer": ["-3.5", "-3,5"],
+          "points": 0.5,
+          "verify": "Math.sqrt(9) + (-Math.sqrt(9)) + (-7/2)",
+          "explanation": "$(x^2 - 9)(2x + 7) = 0 \\Leftrightarrow (x - 3)(x + 3)(2x + 7) = 0$, suy ra $x = 3$, $x = -3$ hoặc $x = -\\frac{7}{2} = -3{,}5$. Tổng các nghiệm: $3 + (-3) + (-3{,}5) = -3{,}5$. Lưu ý: $x^2 = 9$ có hai nghiệm $\\pm 3$, không chỉ $x = 3$. Đáp số: $-3{,}5$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Vận tốc của một xe máy lớn hơn vận tốc của một xe đạp là $20$ km/h. Trong cùng một khoảng thời gian, xe máy đi được $45$ km còn xe đạp đi được $15$ km. Tính vận tốc của xe đạp (đơn vị km/h).",
+          "answer": ["10"],
+          "points": 0.5,
+          "verify": "15*20/(45-15)",
+          "explanation": "Gọi vận tốc xe đạp là $x$ (km/h, $x > 0$), vận tốc xe máy là $x + 20$. Thời gian bằng nhau: $\\dfrac{15}{x} = \\dfrac{45}{x + 20}$. Khử mẫu: $15(x + 20) = 45x \\Leftrightarrow 15x + 300 = 45x \\Leftrightarrow 30x = 300 \\Leftrightarrow x = 10$ (thỏa mãn). Kiểm tra: xe đạp đi $15$ km hết $1{,}5$ giờ; xe máy $30$ km/h đi $45$ km cũng hết $1{,}5$ giờ. Đáp số: $10$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Có bao nhiêu số nguyên dương $x$ thỏa mãn bất phương trình $\\dfrac{x + 1}{2} - \\dfrac{x - 1}{3} \\le 2$?",
+          "answer": ["7"],
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let x=1;x<=1000;x++) if(3*(x+1)-2*(x-1)<=12) c++; return c;})()",
+          "explanation": "Nhân hai vế với $6 > 0$: $3(x + 1) - 2(x - 1) \\le 12 \\Leftrightarrow 3x + 3 - 2x + 2 \\le 12 \\Leftrightarrow x \\le 7$. Các số nguyên dương thỏa mãn: $1; 2; \\ldots; 7$, có $7$ số. Chú ý: $-2(x - 1) = -2x + 2$ (đổi dấu số $-1$). Đáp số: $7$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Một thang máy chở được tối đa $600$ kg. Một người nặng $70$ kg dùng thang máy để chuyển các thùng hàng, mỗi thùng nặng $45$ kg. Mỗi chuyến (có người đó đi cùng) chở được nhiều nhất bao nhiêu thùng hàng?",
+          "answer": ["11"],
+          "points": 0.5,
+          "verify": "(()=>{let m=0;for(let x=0;x<=100;x++) if(70+45*x<=600) m=x; return m;})()",
+          "explanation": "Gọi $x$ là số thùng hàng ($x$ là số tự nhiên). Điều kiện: $70 + 45x \\le 600 \\Leftrightarrow 45x \\le 530 \\Leftrightarrow x \\le 11{,}77...$. Vậy mỗi chuyến chở được nhiều nhất $11$ thùng. Nếu quên khối lượng người thì sẽ tính ra $13$ thùng — sai. Đáp số: $11$."
+        }
+      ]
+    },
+    {
+      "slug": "toan9-phuong-trinh-bat-phuong-trinh-bac-nhat-mot-an-kha-03",
+      "title": "Phương trình và bất phương trình bậc nhất một ẩn — Đề 6",
+      "level": "kha",
+      "sort_order": 3,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 2 (vận dụng): phương trình tích bằng cách đặt nhân tử chung, phương trình chứa ẩn ở mẫu có mẫu đối nhau, tính chất bất đẳng thức, nhận biết và giải bất phương trình bậc nhất một ẩn; so sánh giá hai hãng taxi, bài toán tiết kiệm tiền.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Tập nghiệm của phương trình $x(x + 3) - 2(x + 3) = 0$ là",
+          "options": ["$S = \\{3;\\ -2\\}$", "$S = \\{2\\}$", "$S = \\{-3\\}$", "$S = \\{-3;\\ 2\\}$"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Đặt nhân tử chung $x + 3$: $(x + 3)(x - 2) = 0$, suy ra $x = -3$ hoặc $x = 2$. Chọn D. Phương án A sai dấu cả hai nghiệm; phương án B, C chỉ lấy một nghiệm (thường do chia hai vế cho một nhân tử)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Nghiệm dương của phương trình $4x^2 - 1 = (2x + 1)(x + 3)$ là",
+          "options": ["$\\frac{1}{2}$", "$3$", "$4$", "$2$"],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{for(let x=1;x<=50;x++) if(4*x*x-1===(2*x+1)*(x+3)) return x;})()",
+          "explanation": "$4x^2 - 1 = (2x - 1)(2x + 1)$. Chuyển vế: $(2x + 1)(2x - 1) - (2x + 1)(x + 3) = 0 \\Leftrightarrow (2x + 1)(2x - 1 - x - 3) = 0 \\Leftrightarrow (2x + 1)(x - 4) = 0$. Suy ra $x = -\\frac{1}{2}$ hoặc $x = 4$. Nghiệm dương là $4$. Chọn C. Phương án $\\frac{1}{2}$ là giải sai dấu nghiệm $2x + 1 = 0$; phương án $2$ là chuyển vế sai ($2x - x = 3 - 1$); phương án $3$ là giải sai $x + 3 = 0$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Điều kiện xác định của phương trình $\\dfrac{3}{x^2 - 1} + \\dfrac{x}{2x + 4} = 1$ là",
+          "options": ["$x \\ne 1$ và $x \\ne -2$", "$x \\ne \\pm 1$ và $x \\ne -2$", "$x \\ne \\pm 1$ và $x \\ne 2$", "$x \\ne \\pm 1$"],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "$x^2 - 1 = (x - 1)(x + 1) \\ne 0 \\Leftrightarrow x \\ne 1$ và $x \\ne -1$; $2x + 4 \\ne 0 \\Leftrightarrow x \\ne -2$. Vậy ĐKXĐ: $x \\ne \\pm 1$ và $x \\ne -2$. Chọn B. Phương án A quên $x \\ne -1$ (vì $x^2 - 1 = 0$ có hai nghiệm); phương án C sai dấu; phương án D bỏ sót mẫu $2x + 4$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Nghiệm của phương trình $\\dfrac{x - 1}{x + 2} - \\dfrac{x}{x - 2} = \\dfrac{3x - 2}{4 - x^2}$ là",
+          "options": ["$x = 0$", "$x = 0{,}5$", "$x = -0{,}5$", "$x = 2$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{for(const x of [0,0.5,-0.5,2]){ if(Math.abs(x*x-4)<1e-9) continue; if(Math.abs((x-1)/(x+2)-x/(x-2)-(3*x-2)/(4-x*x))<1e-9) return x;}})()",
+          "explanation": "ĐKXĐ: $x \\ne \\pm 2$. Vì $4 - x^2 = -(x^2 - 4)$ nên vế phải bằng $\\dfrac{-(3x - 2)}{x^2 - 4}$. Mẫu thức chung $(x + 2)(x - 2)$. Khử mẫu: $(x - 1)(x - 2) - x(x + 2) = -(3x - 2) \\Leftrightarrow x^2 - 3x + 2 - x^2 - 2x = -3x + 2 \\Leftrightarrow -5x + 2 = -3x + 2 \\Leftrightarrow x = 0$ (thỏa mãn). Chọn A. Phương án $0{,}5$ là quên đổi dấu khi viết $4 - x^2 = -(x^2 - 4)$: $-5x + 2 = 3x - 2$; phương án $-0{,}5$ là mắc thêm lỗi chuyển vế; $x = 2$ làm mẫu bằng $0$ nên không thể là nghiệm."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho $a - 3 > b - 3$. Khẳng định nào sau đây đúng?",
+          "options": ["$a < b$", "$-5a > -5b$", "$\\dfrac{a}{-2} < \\dfrac{b}{-2}$", "$a + 1 < b + 1$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Cộng $3$ vào hai vế của $a - 3 > b - 3$ được $a > b$. Nhân hai vế với $-\\frac{1}{2} < 0$ phải đổi chiều: $\\dfrac{a}{-2} < \\dfrac{b}{-2}$. Chọn C. A và D sai vì $a > b$ thì $a + 1 > b + 1$; B sai vì nhân với $-5$ phải đổi chiều: $-5a < -5b$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho số thực $a > 5$. Khẳng định nào sau đây đúng?",
+          "options": ["$3a - 7 > 8$", "$3a - 7 < 8$", "$3a - 7 = 8$", "Không so sánh được $3a - 7$ với $8$"],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Nhân hai vế của $a > 5$ với $3 > 0$: $3a > 15$. Cộng $-7$ vào hai vế: $3a - 7 > 15 - 7 = 8$. Chọn A. Học sinh chọn D thường vì nghĩ phải biết giá trị cụ thể của $a$; thực ra tính chất của bất đẳng thức cho phép so sánh."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Bất phương trình nào sau đây là bất phương trình bậc nhất một ẩn?",
+          "options": ["$0x + 3 > 0$", "$x^2 - 1 \\le 0$", "$\\dfrac{1}{x} + 2 > 0$", "$-\\dfrac{2}{3}x + 5 \\ge 0$"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Bất phương trình bậc nhất một ẩn có dạng $ax + b > 0$ (hoặc $<, \\ge, \\le$) với $a \\ne 0$. Phương án D có $a = -\\frac{2}{3} \\ne 0$, $b = 5$. Chọn D. Phương án A có hệ số $a = 0$; phương án B chứa $x^2$; phương án C có ẩn ở mẫu."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Số nguyên $x$ nhỏ nhất để giá trị của biểu thức $A = \\dfrac{3x - 5}{2}$ lớn hơn giá trị của biểu thức $B = \\dfrac{x + 4}{3}$ là",
+          "options": ["$3$", "$4$", "$23$", "$24$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{for(let x=-100;x<=100;x++) if((3*x-5)/2>(x+4)/3) return x;})()",
+          "explanation": "Giải $\\dfrac{3x - 5}{2} > \\dfrac{x + 4}{3}$. Nhân hai vế với $6$: $3(3x - 5) > 2(x + 4) \\Leftrightarrow 9x - 15 > 2x + 8 \\Leftrightarrow 7x > 23 \\Leftrightarrow x > \\frac{23}{7} \\approx 3{,}29$. Số nguyên nhỏ nhất là $4$. Chọn B. Phương án $3$ là làm tròn xuống $3{,}29$; phương án $23$, $24$ là quên chia hai vế cho $7$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho phương trình $(x - 2)(x + 3) = (x - 2)(2x - 1)$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$x = 2$ là một nghiệm của phương trình.",
+            "Chia hai vế cho $x - 2$, ta được phương trình $x + 3 = 2x - 1$ tương đương với phương trình đã cho.",
+            "Tập nghiệm của phương trình là $S = \\{2;\\ 4\\}$.",
+            "Tổng các bình phương của các nghiệm bằng $20$."
+          ],
+          "answer": [true, false, true, true],
+          "points": 2,
+          "verify": "(()=>{const P=x=>(x-2)*(x+3)===(x-2)*(2*x-1); const Q=x=>x+3===2*x-1; const r=[]; for(let x=-50;x<=50;x++) if(P(x)) r.push(x); return [P(2), P(2)===Q(2), r.length===2&&r[0]===2&&r[1]===4, r.reduce((s,x)=>s+x*x,0)===20];})()",
+          "explanation": "a) Đúng. Với $x = 2$ hai vế đều bằng $0$.\n\nb) Sai. Phương trình $x + 3 = 2x - 1$ chỉ có nghiệm $x = 4$, còn phương trình đã cho có thêm nghiệm $x = 2$. Chia cho $x - 2$ khi chưa biết $x - 2 \\ne 0$ làm mất nghiệm, nên hai phương trình không tương đương.\n\nc) Đúng. Chuyển vế: $(x - 2)\\big[(x + 3) - (2x - 1)\\big] = 0 \\Leftrightarrow (x - 2)(4 - x) = 0$, suy ra $x = 2$ hoặc $x = 4$.\n\nd) Đúng. $2^2 + 4^2 = 4 + 16 = 20$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Hãng taxi A tính giá $10\\,000$ đồng tiền mở cửa và $14\\,000$ đồng cho mỗi km; hãng taxi B tính $20\\,000$ đồng tiền mở cửa và $12\\,000$ đồng cho mỗi km. Gọi $x$ (km, $x > 0$) là quãng đường đi. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Đi $3$ km thì đi hãng A rẻ hơn đi hãng B.",
+            "Đi hãng B rẻ hơn đi hãng A khi và chỉ khi $20\\,000 + 12\\,000x < 10\\,000 + 14\\,000x$.",
+            "Đi hãng B rẻ hơn đi hãng A khi và chỉ khi $x > 5$.",
+            "Đi $5$ km thì đi hãng B rẻ hơn đi hãng A."
+          ],
+          "answer": [true, true, true, false],
+          "points": 2,
+          "verify": "(()=>{const A=x=>10000+14000*x, B=x=>20000+12000*x; const xs=[]; for(let i=1;i<=200;i++) xs.push(i/4); return [A(3)<B(3), xs.every(x=>(B(x)<A(x))===(20000+12000*x<10000+14000*x)), xs.every(x=>(B(x)<A(x))===(x>5)), B(5)<A(5)];})()",
+          "explanation": "Số tiền đi hãng A: $10\\,000 + 14\\,000x$; hãng B: $20\\,000 + 12\\,000x$ (đồng).\n\na) Đúng. Đi $3$ km: hãng A hết $52\\,000$ đồng, hãng B hết $56\\,000$ đồng.\n\nb) Đúng. \"B rẻ hơn A\" nghĩa là tiền đi B nhỏ hơn tiền đi A: $20\\,000 + 12\\,000x < 10\\,000 + 14\\,000x$.\n\nc) Đúng. $20\\,000 - 10\\,000 < 14\\,000x - 12\\,000x \\Leftrightarrow 10\\,000 < 2\\,000x \\Leftrightarrow x > 5$.\n\nd) Sai. Đi $5$ km thì hai hãng cùng giá $80\\,000$ đồng, B không rẻ hơn A."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính tích các nghiệm của phương trình $(2x - 1)^2 - 9 = 0$.",
+          "answer": ["-2"],
+          "points": 0.5,
+          "verify": "(()=>{let p=1;for(let x=-50;x<=50;x++) if((2*x-1)**2-9===0) p*=x; return p;})()",
+          "explanation": "$(2x - 1)^2 - 3^2 = 0 \\Leftrightarrow (2x - 1 - 3)(2x - 1 + 3) = 0 \\Leftrightarrow (2x - 4)(2x + 2) = 0$, suy ra $x = 2$ hoặc $x = -1$. Tích các nghiệm: $2 \\cdot (-1) = -2$. Đáp số: $-2$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm nghiệm của phương trình $\\dfrac{x + 3}{x - 3} - \\dfrac{x - 3}{x + 3} = \\dfrac{24}{x^2 - 9}$.",
+          "answer": ["2"],
+          "points": 0.5,
+          "verify": "(()=>{for(let x=-50;x<=50;x++){ if(x*x===9) continue; if(Math.abs((x+3)/(x-3)-(x-3)/(x+3)-24/(x*x-9))<1e-9) return x;}})()",
+          "explanation": "ĐKXĐ: $x \\ne \\pm 3$. Mẫu thức chung $(x - 3)(x + 3) = x^2 - 9$. Khử mẫu: $(x + 3)^2 - (x - 3)^2 = 24 \\Leftrightarrow (x^2 + 6x + 9) - (x^2 - 6x + 9) = 24 \\Leftrightarrow 12x = 24 \\Leftrightarrow x = 2$ (thỏa mãn ĐKXĐ). Đáp số: $2$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số nguyên lớn nhất thỏa mãn bất phương trình $(x - 2)^2 - x(x + 3) > 5$.",
+          "answer": ["-1"],
+          "points": 0.5,
+          "verify": "(()=>{let m=null;for(let x=-100;x<=100;x++) if((x-2)**2-x*(x+3)>5) m=x; return m;})()",
+          "explanation": "$x^2 - 4x + 4 - x^2 - 3x > 5 \\Leftrightarrow -7x + 4 > 5 \\Leftrightarrow -7x > 1 \\Leftrightarrow x < -\\frac{1}{7}$ (chia cho $-7$ phải đổi chiều). Số nguyên lớn nhất nhỏ hơn $-\\frac{1}{7}$ là $-1$ (không phải $0$, vì $0 > -\\frac{1}{7}$). Đáp số: $-1$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Bạn Nam đang có $300\\,000$ đồng tiền tiết kiệm. Mỗi tuần Nam để dành thêm $45\\,000$ đồng. Sau ít nhất bao nhiêu tuần thì Nam có không ít hơn $1\\,000\\,000$ đồng?",
+          "answer": ["16"],
+          "points": 0.5,
+          "verify": "(()=>{for(let t=0;t<=1000;t++) if(300000+45000*t>=1000000) return t;})()",
+          "explanation": "Gọi $t$ là số tuần ($t$ là số tự nhiên). Điều kiện: $300\\,000 + 45\\,000t \\ge 1\\,000\\,000 \\Leftrightarrow 45\\,000t \\ge 700\\,000 \\Leftrightarrow t \\ge 15{,}55...$. Vậy cần ít nhất $16$ tuần (sau $15$ tuần Nam mới có $975\\,000$ đồng). Đáp số: $16$."
+        }
+      ]
+    },
+    {
+      "slug": "toan9-phuong-trinh-bat-phuong-trinh-bac-nhat-mot-an-kha-04",
+      "title": "Phương trình và bất phương trình bậc nhất một ẩn — Đề 7",
+      "level": "kha",
+      "sort_order": 4,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 2 (vận dụng): phương trình tích ba nhân tử, kiểm tra nghiệm của phương trình chứa ẩn ở mẫu, cộng hai bất đẳng thức cùng chiều, giải bất phương trình; bài toán phân số, nồng độ dung dịch, bài thi trắc nghiệm, hình chữ nhật và đổi độ F sang độ C.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Phương trình $(x + 1)(x - 2)(2x + 5) = 0$ có bao nhiêu nghiệm âm?",
+          "options": ["$1$", "$2$", "$3$", "$0$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let i=-100;i<=100;i++){const x=i/2; if((x+1)*(x-2)*(2*x+5)===0 && x<0) c++;} return c;})()",
+          "explanation": "Phương trình tương đương $x + 1 = 0$ hoặc $x - 2 = 0$ hoặc $2x + 5 = 0$, tức là $x = -1$, $x = 2$, $x = -\\frac{5}{2}$. Có $2$ nghiệm âm là $-1$ và $-\\frac{5}{2}$. Chọn B. Phương án $1$ là giải sai dấu $2x + 5 = 0$ thành $x = \\frac{5}{2}$; phương án $3$ là đếm tất cả các nghiệm."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tổng các nghiệm của phương trình $x^2 - 2x = 3x - 6$ là",
+          "options": ["$3$", "$-5$", "$5$", "$6$"],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{let s=0;for(let x=-50;x<=50;x++) if(x*x-2*x===3*x-6) s+=x; return s;})()",
+          "explanation": "Biến đổi: $x(x - 2) = 3(x - 2) \\Leftrightarrow x(x - 2) - 3(x - 2) = 0 \\Leftrightarrow (x - 2)(x - 3) = 0$, suy ra $x = 2$ hoặc $x = 3$. Tổng các nghiệm: $5$. Chọn C. Phương án $3$ là chia hai vế cho $x - 2$ nên mất nghiệm $x = 2$; phương án $6$ là tích các nghiệm; phương án $-5$ là sai dấu."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị $x = 2$ là nghiệm của phương trình nào sau đây?",
+          "options": ["$\\dfrac{x}{x - 2} = \\dfrac{2}{x - 2}$", "$\\dfrac{x + 2}{x} = 2$", "$\\dfrac{x}{x + 2} = 1$", "$\\dfrac{1}{x - 1} = 2$"],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Thay $x = 2$ vào phương án B: $\\frac{2 + 2}{2} = 2$, đúng (và $x = 2$ thỏa mãn ĐKXĐ $x \\ne 0$). Chọn B. Phương án A: khử mẫu được $x = 2$ nhưng $x = 2$ làm mẫu $x - 2$ bằng $0$, nên không là nghiệm (phương trình A vô nghiệm) — đây là bẫy quên điều kiện xác định. Phương án C: $\\frac{2}{4} \\ne 1$. Phương án D: $\\frac{1}{1} = 1 \\ne 2$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một phân số có tử số nhỏ hơn mẫu số $3$ đơn vị. Nếu cộng thêm $2$ vào cả tử và mẫu thì được phân số bằng $\\frac{3}{4}$. Tử số của phân số ban đầu là",
+          "options": ["$7$", "$10$", "$9$", "$4$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{for(let x=1;x<=100;x++) if(4*(x+2)===3*(x+3+2)) return x;})()",
+          "explanation": "Gọi tử số là $x$ ($x$ nguyên, $x \\ne -3$), mẫu số là $x + 3$. Ta có $\\dfrac{x + 2}{x + 5} = \\dfrac{3}{4}$ (ĐKXĐ $x \\ne -5$). Khử mẫu: $4(x + 2) = 3(x + 5) \\Leftrightarrow 4x + 8 = 3x + 15 \\Leftrightarrow x = 7$. Phân số ban đầu là $\\frac{7}{10}$; kiểm tra: $\\frac{9}{12} = \\frac{3}{4}$. Chọn A. Phương án $10$ là mẫu số; phương án $9$ là tử số sau khi cộng thêm $2$; phương án $4$ là quên cộng $2$ vào mẫu ($\\frac{x+2}{x+3} = \\frac34 \\Rightarrow x = 1$ rồi tính nhầm)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho $-2a + 1 \\le -2b + 1$. Khẳng định nào sau đây đúng?",
+          "options": ["$a \\le b$", "$a < b$", "$a = b$", "$a \\ge b$"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Cộng $-1$ vào hai vế: $-2a \\le -2b$. Nhân hai vế với $-\\frac{1}{2} < 0$ phải đổi chiều: $a \\ge b$. Chọn D. Phương án A là quên đổi chiều khi nhân với số âm."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho các số thực $a$, $b$ thỏa mãn $1 < a < 2$ và $3 < b < 5$. Khẳng định nào sau đây đúng?",
+          "options": ["$4 < a + b < 7$", "$2 < b - a < 3$", "$a \\cdot b > 6$", "$a + b > 7$"],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Từ $a > 1$ suy ra $a + b > 1 + b$; từ $b > 3$ suy ra $1 + b > 4$; theo tính chất bắc cầu $a + b > 4$. Tương tự $a + b < 2 + b < 2 + 5 = 7$. Vậy $4 < a + b < 7$. Chọn A. Phương án B là trừ các cận một cách máy móc ($3 - 1$ và $5 - 2$); thực tế $b - a$ có thể bằng $3{,}5$ (ví dụ $a = 1{,}2$; $b = 4{,}7$). Phương án C sai với $a = 1{,}1$; $b = 3{,}1$. Phương án D mâu thuẫn với $a + b < 7$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Nghiệm của bất phương trình $\\dfrac{3 - 2x}{5} < \\dfrac{x}{2}$ là",
+          "options": ["$x < \\dfrac{2}{3}$", "$x > \\dfrac{3}{2}$", "$x > \\dfrac{2}{3}$", "$x > 6$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Nhân hai vế với $10 > 0$: $2(3 - 2x) < 5x \\Leftrightarrow 6 - 4x < 5x \\Leftrightarrow 6 < 9x \\Leftrightarrow x > \\frac{6}{9} = \\frac{2}{3}$. Chọn C. Phương án A là đổi chiều sai; phương án B là lấy nghịch đảo nhầm ($\\frac{9}{6}$); phương án D là quên nhân $2$ vào $(3 - 2x)$ rồi tính sai."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một bài thi trắc nghiệm có $25$ câu. Mỗi câu trả lời đúng được $4$ điểm, mỗi câu trả lời sai hoặc bỏ trống bị trừ $1$ điểm. Để đạt ít nhất $60$ điểm, thí sinh phải trả lời đúng ít nhất bao nhiêu câu?",
+          "options": ["$15$", "$16$", "$18$", "$17$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{for(let x=0;x<=25;x++) if(4*x-(25-x)>=60) return x;})()",
+          "explanation": "Gọi $x$ là số câu đúng ($x$ nguyên, $0 \\le x \\le 25$), số câu sai hoặc bỏ trống là $25 - x$. Điểm đạt được: $4x - (25 - x) = 5x - 25$. Điều kiện: $5x - 25 \\ge 60 \\Leftrightarrow 5x \\ge 85 \\Leftrightarrow x \\ge 17$. Chọn D. Phương án $15$ là bỏ qua điểm bị trừ ($4x \\ge 60$); phương án $18$ là nhầm \"ít nhất $60$\" thành \"hơn $60$\"; phương án $16$ là bỏ ngoặc sai $-(25 - x) = -25 - x$ rồi tính nhầm."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho phương trình $\\dfrac{2}{x + 1} - \\dfrac{1}{x - 1} = \\dfrac{3x - 11}{x^2 - 1}$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Điều kiện xác định của phương trình là $x \\ne 1$.",
+            "Sau khi quy đồng mẫu và khử mẫu, ta được phương trình $2(x - 1) - (x + 1) = 3x - 11$.",
+            "Phương trình có nghiệm $x = -4$.",
+            "Nếu thay $3x - 11$ ở vế phải bằng $3x - 5$ thì phương trình mới vô nghiệm."
+          ],
+          "answer": [false, true, false, true],
+          "points": 2,
+          "verify": "(()=>{const f=(x,k)=>2/(x+1)-1/(x-1)-(3*x-k)/(x*x-1); const xs=[3,5,7,-3]; let none=true; for(let i=-200;i<=200;i++){const x=i/4; if(x===1||x===-1) continue; if(Math.abs(f(x,5))<1e-9) none=false;} return [!((-1)+1===0), xs.every(x=>Math.abs((2/(x+1)-1/(x-1))*(x*x-1)-(2*(x-1)-(x+1)))<1e-9), Math.abs(f(-4,11))<1e-9, none];})()",
+          "explanation": "a) Sai. Mẫu $x + 1$ cũng phải khác $0$, nên ĐKXĐ là $x \\ne 1$ và $x \\ne -1$.\n\nb) Đúng. Mẫu thức chung $(x + 1)(x - 1) = x^2 - 1$. Nhân tử phụ của $\\frac{2}{x + 1}$ là $x - 1$, của $\\frac{1}{x - 1}$ là $x + 1$, nên khử mẫu được $2(x - 1) - (x + 1) = 3x - 11$.\n\nc) Sai. $2x - 2 - x - 1 = 3x - 11 \\Leftrightarrow x - 3 = 3x - 11 \\Leftrightarrow -2x = -8 \\Leftrightarrow x = 4$ (thỏa mãn). Nghiệm là $x = 4$, không phải $-4$ (lỗi chia cho $-2$ sai dấu).\n\nd) Đúng. Khi đó $x - 3 = 3x - 5 \\Leftrightarrow -2x = -2 \\Leftrightarrow x = 1$, không thỏa mãn ĐKXĐ nên bị loại. Phương trình mới vô nghiệm."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Một mảnh vườn hình chữ nhật có chiều dài $12$ m và chiều rộng $x$ m ($0 < x < 12$). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Chu vi mảnh vườn là $2(12 + x)$ (m).",
+            "Chu vi mảnh vườn không vượt quá $40$ m khi và chỉ khi $x \\le 8$.",
+            "Diện tích mảnh vườn ít nhất là $60\\ \\mathrm{m}^2$ khi và chỉ khi $x \\ge 6$.",
+            "Có đúng $4$ giá trị nguyên của $x$ để chu vi không vượt quá $40$ m và diện tích ít nhất là $60\\ \\mathrm{m}^2$."
+          ],
+          "answer": [true, true, false, true],
+          "points": 2,
+          "verify": "(()=>{const P=x=>2*(12+x), S=x=>12*x; const xs=[]; for(let i=1;i<48;i++) xs.push(i/4); let c=0; for(let x=1;x<12;x++) if(P(x)<=40&&S(x)>=60) c++; return [P(3)===3+12+3+12, xs.every(x=>(P(x)<=40)===(x<=8)), xs.every(x=>(S(x)>=60)===(x>=6)), c===4];})()",
+          "explanation": "a) Đúng. Chu vi hình chữ nhật bằng $2 \\cdot$ (dài $+$ rộng) $= 2(12 + x)$.\n\nb) Đúng. $2(12 + x) \\le 40 \\Leftrightarrow 12 + x \\le 20 \\Leftrightarrow x \\le 8$.\n\nc) Sai. Diện tích $12x \\ge 60 \\Leftrightarrow x \\ge 5$. Chẳng hạn $x = 5{,}5$ thì diện tích $66\\ \\mathrm{m}^2 \\ge 60$ nhưng $x < 6$.\n\nd) Đúng. Cần $5 \\le x \\le 8$, các giá trị nguyên là $5; 6; 7; 8$ — đúng $4$ giá trị."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính tổng các nghiệm của phương trình $x(2x - 5) = 4x - 10$ (viết kết quả dưới dạng số thập phân).",
+          "answer": ["4.5", "4,5"],
+          "points": 0.5,
+          "verify": "(()=>{let s=0;for(let i=-200;i<=200;i++){const x=i/2; if(x*(2*x-5)===4*x-10) s+=x;} return s;})()",
+          "explanation": "$4x - 10 = 2(2x - 5)$. Chuyển vế: $x(2x - 5) - 2(2x - 5) = 0 \\Leftrightarrow (2x - 5)(x - 2) = 0$, suy ra $x = 2{,}5$ hoặc $x = 2$. Tổng các nghiệm: $2{,}5 + 2 = 4{,}5$. Đáp số: $4{,}5$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Có $200$ g nước muối chứa $10$ g muối. Cần thêm vào bao nhiêu gam muối để được nước muối có nồng độ muối là $20\\%$ (tức là khối lượng muối bằng $20\\%$ khối lượng nước muối)?",
+          "answer": ["37.5", "37,5"],
+          "points": 0.5,
+          "verify": "(0.2*200-10)/(1-0.2)",
+          "explanation": "Gọi khối lượng muối cần thêm là $x$ (g, $x > 0$). Khi đó có $10 + x$ (g) muối trong $200 + x$ (g) nước muối. Ta có $\\dfrac{10 + x}{200 + x} = \\dfrac{20}{100} = \\dfrac{1}{5}$. Khử mẫu: $5(10 + x) = 200 + x \\Leftrightarrow 50 + 5x = 200 + x \\Leftrightarrow 4x = 150 \\Leftrightarrow x = 37{,}5$ (thỏa mãn). Lưu ý: thêm muối thì khối lượng nước muối cũng tăng, không giữ nguyên $200$ g. Đáp số: $37{,}5$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số nguyên nhỏ nhất thỏa mãn bất phương trình $\\dfrac{x}{3} - \\dfrac{2x + 1}{6} < x + 2$.",
+          "answer": ["-2"],
+          "points": 0.5,
+          "verify": "(()=>{for(let x=-100;x<=100;x++) if(x/3-(2*x+1)/6<x+2) return x;})()",
+          "explanation": "Nhân hai vế với $6 > 0$: $2x - (2x + 1) < 6x + 12 \\Leftrightarrow -1 < 6x + 12 \\Leftrightarrow 6x > -13 \\Leftrightarrow x > -\\frac{13}{6} \\approx -2{,}17$. Số nguyên nhỏ nhất lớn hơn $-2{,}17$ là $-2$ (không phải $-3$, vì $-3 < -2{,}17$). Đáp số: $-2$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Nhiệt độ $F$ (độ F) và nhiệt độ $C$ (độ C) liên hệ bởi công thức $F = 1{,}8C + 32$. Một loại thuốc phải bảo quản ở nhiệt độ không vượt quá $77$ độ F. Hỏi nhiệt độ bảo quản thuốc cao nhất là bao nhiêu độ C?",
+          "answer": ["25"],
+          "points": 0.5,
+          "verify": "(77-32)*5/9",
+          "explanation": "Điều kiện: $1{,}8C + 32 \\le 77 \\Leftrightarrow 1{,}8C \\le 45 \\Leftrightarrow C \\le 25$. Vậy nhiệt độ bảo quản cao nhất là $25^\\circ\\mathrm{C}$. Đáp số: $25$."
+        }
+      ]
+    }
+  ]
+}
