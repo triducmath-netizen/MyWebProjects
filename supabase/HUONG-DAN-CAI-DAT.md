@@ -25,7 +25,7 @@ Làm **một lần duy nhất**, khoảng 20 phút. Các bước có đánh dấ
    - `20261123050000_quiz_question_count.sql`: hiện số câu của đề cho học sinh
    - `20261123060000_practice_bank.sql`: ngân hàng đề luyện tập theo chuyên đề
    - `20261124000000_bank_editing.sql`: giáo viên xem/sửa ngân hàng đề trên trang giáo viên
-   - `20261125000000_parent_links.sql`: tài khoản phụ huynh liên kết nhiều con, mã học sinh tự sinh TDM000001…
+   - `20261125000000_parent_links.sql`: tài khoản phụ huynh theo dõi các con, mã học sinh tự sinh TDM000001…
 3. Mỗi file phải báo *Success. No rows returned*.
 
 ## Bước 3. Tắt tự đăng ký tài khoản

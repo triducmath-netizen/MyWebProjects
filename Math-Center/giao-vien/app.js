@@ -377,7 +377,7 @@ async function renderStudents(view) {
   const parentsOf = (sid) => (links || []).filter((l) => l.student_id === sid);
 
   listBox.replaceChildren(
-    el('p', { class: 'muted small', text: 'Mỗi học sinh có 1 tài khoản đăng nhập bằng mã học sinh để làm bài. Phụ huynh tự đăng ký tài khoản riêng (số điện thoại hoặc email) rồi liên kết với con bằng mã liên kết — bấm "Mời phụ huynh" để lấy mã gửi qua Zalo. Một phụ huynh theo dõi được nhiều con.' }),
+    el('p', { class: 'muted small', text: 'Mỗi học sinh có 1 tài khoản đăng nhập bằng mã học sinh để làm bài. Phụ huynh tự đăng ký tài khoản riêng (số điện thoại hoặc email) rồi liên kết với con bằng mã liên kết — bấm "Mời phụ huynh" để lấy mã gửi qua Zalo. Một phụ huynh theo dõi được các con của mình.' }),
     ...students.map((s) => el('div', { class: 'item' },
       el('div', { class: 'meta' },
         el('b', { text: s.full_name }),
