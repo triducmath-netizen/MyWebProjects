@@ -335,9 +335,14 @@ function questionInput(q, i, answers, urls, onChange) {
           el('td', {}, el('input', { type: 'radio', name: `${name}-${k}`, checked: cur[k] === false, 'aria-label': `Ý ${TF_LETTERS[k]} sai`, onchange: () => set(false) })));
       })));
   } else {
-    const inp = el('input', { class: 'short-input', inputmode: 'decimal', autocomplete: 'off', placeholder: 'Nhập đáp số', 'aria-label': `Đáp số câu ${i + 1}` });
+    const inp = el('input', { class: 'short-input', inputmode: 'text', enterkeyhint: 'done', autocomplete: 'off', placeholder: 'Nhập đáp số', 'aria-label': `Đáp số câu ${i + 1}` });
     inp.value = typeof answers[q.id] === 'string' ? answers[q.id] : '';
-    inp.addEventListener('input', () => { answers[q.id] = inp.value; onChange(); });
+    inp.addEventListener('input', () => {
+      // Một số bàn phím gõ dấu trừ dạng "−" / "–" / "—": đổi về "-" để máy chấm nhận đúng.
+      const v = inp.value.replace(/[−‒–—﹣－]/g, '-');
+      if (v !== inp.value) { const p = inp.selectionStart; inp.value = v; inp.setSelectionRange(p, p); }
+      answers[q.id] = v; onChange();
+    });
     input = el('div', {}, inp, el('p', { class: 'muted small', text: 'Ghi đáp số dạng số, ví dụ 1,5 hoặc -2.' }));
   }
   return el('article', { class: 'q-card', id: `q-${q.id}` },
