@@ -356,14 +356,15 @@ async function renderStudents(view) {
   const listBox = el('div', { class: 'list section-gap' }, el('p', { class: 'muted', text: 'Đang tải…' }));
   const addForm = el('form', { class: 'row' },
     el('label', { class: 'field' }, 'Họ tên học sinh', el('input', { name: 'name', required: true })),
-    el('label', { class: 'field' }, 'Ngày sinh', el('input', { name: 'birth', type: 'date', required: true, min: '1990-01-01', max: toISODate(new Date()) })),
+    el('label', { class: 'field' }, 'Ngày sinh (DD/MM/YYYY)', birthInput('birth')),
     el('button', { class: 'btn btn-gold', type: 'submit', text: 'Thêm học sinh' }));
   addForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const full_name = addForm.name.value.trim();
-    const birth_date = addForm.birth.value;
+    const birth_date = parseBirth(addForm.birth.value);
     if (!full_name) { toast('Vui lòng nhập họ tên học sinh.', 'error'); return; }
-    if (!birth_date) { toast('Vui lòng nhập ngày sinh của học sinh.', 'error'); return; }
+    if (!addForm.birth.value.trim()) { toast('Vui lòng nhập ngày sinh của học sinh.', 'error'); return; }
+    if (!birth_date) { toast('Ngày sinh chưa đúng. Nhập theo dạng DD/MM/YYYY, ví dụ 09/12/2013.', 'error'); return; }
     const btn = addForm.querySelector('button');
     btn.disabled = true;
     // Mã học sinh (TDM + 6 chữ số) và mã liên kết do máy chủ tự sinh.
@@ -395,6 +396,11 @@ async function renderStudents(view) {
   if (error) { listBox.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
   if (!students.length) { listBox.replaceChildren(el('p', { class: 'muted', text: 'Lớp này chưa có học sinh.' })); return; }
   const parentsOf = (sid) => (links || []).filter((l) => l.student_id === sid);
+  // Mã liên kết của từng em (để cấp lại cho phụ huynh khi cần).
+  const linkCodes = new Map(await Promise.all(students.map(async (s) => {
+    const { data } = await sb.rpc('student_link_code', { p_student: s.id });
+    return [s.id, data?.code || null];
+  })));
 
   listBox.replaceChildren(
     el('p', { class: 'muted small', text: 'Mỗi học sinh có 1 tài khoản đăng nhập bằng mã học sinh để làm bài. Phụ huynh tự đăng ký tài khoản riêng (số điện thoại hoặc email) rồi nhập mã liên kết của con — bấm "Mã liên kết" để xem mã và gửi qua Zalo. Bố và mẹ dùng chung một mã; một phụ huynh theo dõi được các con của mình.' }),
@@ -405,6 +411,9 @@ async function renderStudents(view) {
           !s.parent_id ? el('span', { class: 'badge warn', text: 'Chưa có TK học sinh' })
             : s.password_changed ? el('span', { class: 'badge', text: 'Đã có TK học sinh' })
               : el('span', { class: 'badge warn', text: 'Chưa đổi mật khẩu ban đầu' })),
+        linkCodes.get(s.id)
+          ? el('span', { class: 'small' }, 'Mã liên kết phụ huynh: ', el('code', { text: formatLinkCode(linkCodes.get(s.id)) }))
+          : null,
         el('div', { class: 'small parent-list' },
           parentsOf(s.id).length
             ? parentsOf(s.id).map((p) => el('div', { class: 'parent-row' },
@@ -424,6 +433,28 @@ async function renderStudents(view) {
 }
 
 const fmtBirth = (iso) => String(iso).slice(0, 10).split('-').reverse().join('/');
+
+// Ô ngày sinh dạng DD/MM/YYYY (gõ số, máy tự chèn dấu "/").
+function birthInput(name, iso = '') {
+  const inp = el('input', { name, inputmode: 'numeric', autocomplete: 'off', placeholder: 'DD/MM/YYYY', maxlength: '10',
+    value: iso ? fmtBirth(iso) : '' });
+  inp.addEventListener('input', (e) => {
+    if (e.inputType && e.inputType.startsWith('delete')) return;
+    const d = inp.value.replace(/\D/g, '').slice(0, 8);
+    inp.value = [d.slice(0, 2), d.slice(2, 4), d.slice(4)].filter(Boolean).join('/') + (d.length === 2 || d.length === 4 ? '/' : '');
+  });
+  return inp;
+}
+// "09/12/2013" → "2013-12-09"; sai định dạng hoặc ngày không có thật → null.
+function parseBirth(text) {
+  const m = String(text).trim().match(/^(\d{1,2})[/.-](\d{1,2})[/.-](\d{4})$/);
+  if (!m) return null;
+  const [d, mo, y] = [Number(m[1]), Number(m[2]), Number(m[3])];
+  const dt = new Date(Date.UTC(y, mo - 1, d));
+  if (dt.getUTCFullYear() !== y || dt.getUTCMonth() !== mo - 1 || dt.getUTCDate() !== d) return null;
+  if (y < 1990 || dt > new Date()) return null;
+  return `${y}-${String(mo).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+}
 
 // Tin nhắn gửi học sinh và phụ huynh (qua Zalo).
 function studentInfoText(name, code, password, link) {
@@ -543,7 +574,7 @@ function showCredentials(title, login, password, loginLabel) {
 function editStudent(s) {
   const form = el('form', { class: 'form-grid' },
     el('label', {}, 'Họ tên', el('input', { name: 'name', required: true, value: s.full_name })),
-    el('label', {}, 'Ngày sinh', el('input', { name: 'birth', type: 'date', value: s.birth_date ? String(s.birth_date).slice(0, 10) : '', min: '1990-01-01', max: toISODate(new Date()) })),
+    el('label', {}, 'Ngày sinh (DD/MM/YYYY)', birthInput('birth', s.birth_date)),
     el('label', {}, 'Lớp', el('select', { name: 'cls' }, state.classes.map((c) =>
       el('option', { value: String(c.id), selected: c.id === s.class_id, text: c.name })))),
     el('p', { class: 'muted small', text: `Mã học sinh ${s.code} là tên đăng nhập của học sinh nên không đổi được.` }),
@@ -551,8 +582,11 @@ function editStudent(s) {
   const dlg = openDialog(`Sửa học sinh ${s.code}`, form);
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const birthText = form.birth.value.trim();
+    const birth_date = birthText ? parseBirth(birthText) : null;
+    if (birthText && !birth_date) { toast('Ngày sinh chưa đúng. Nhập theo dạng DD/MM/YYYY, ví dụ 09/12/2013.', 'error'); return; }
     const { error } = await sb.from('students')
-      .update({ full_name: form.name.value.trim(), birth_date: form.birth.value || null, class_id: Number(form.cls.value) }).eq('id', s.id);
+      .update({ full_name: form.name.value.trim(), birth_date, class_id: Number(form.cls.value) }).eq('id', s.id);
     if (error) { toast(errMsg(error), 'error'); return; }
     dlg.close(); toast('Đã lưu.'); renderShell();
   });
