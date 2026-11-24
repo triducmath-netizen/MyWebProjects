@@ -1,5 +1,5 @@
 // Trang học sinh — làm bài trực tuyến, xem điểm và lời giải.
-import { sb, el, fmtNum, toast, errMsg, openDialog, fmtDateTime } from '../portal/common.js';
+import { sb, el, fmtNum, toast, errMsg, openDialog, fmtDateTime, askConfirm } from '../portal/common.js';
 import {
   rich, imageUrls, qImage, KIND_LABEL, LETTERS, TF_LETTERS, reviewQuestion, isAnswered, fmtDeadline,
 } from '../portal/quiz-common.js';
@@ -259,7 +259,7 @@ async function begin(box, student, z) {
     if (!auto) {
       const left = questions.filter((q) => !isAnswered(q, answers[q.id])).length;
       const msg = left ? `Em còn ${left} câu chưa làm. Vẫn nộp bài?` : 'Nộp bài? Sau khi nộp em không sửa được nữa.';
-      if (!confirm(msg)) return;
+      if (!await askConfirm(msg)) return;
     }
     submitting = true;
     submitBtn.disabled = true; submitBtn.textContent = 'Đang nộp…';

@@ -125,6 +125,13 @@ for (let i = 0; i < 10; i++) await as('ph2', `select public.link_child_by_code('
 await expect('Tài khoản dò sai 10 lần → khóa', () => as('ph2', 'select public.link_child_by_code($1) as r', [codeB]),
   (r, e) => !e && /1 giờ/.test(r.rows[0].r.error));
 
+// --- Chỉ quản trị viên gỡ liên kết (migration 20261127) ---
+await expect('Giáo viên lớp 6A KHÔNG gỡ được phụ huynh', () => as('t1', 'select public.unlink_parent(1, $1)', [U.ph2]), errRes);
+await expect('Phụ huynh KHÔNG tự gỡ', () => as('ph2', 'select public.unlink_parent(1, $1)', [U.ph2]), errRes);
+await expect('Quản trị gỡ PH2 khỏi em A', async () => { await as('admin', 'select public.unlink_parent(1, $1)', [U.ph2]);
+  return as('ph2', 'select code from public.students'); }, rows(0));
+await expect('Giáo viên KHÔNG xóa học sinh', () => as('t1', 'delete from public.students where id=3'), blocked);
+
 // --- Xóa học sinh xóa luôn mã ---
 await expect('Xóa học sinh D → mã của D cũng mất', async () => {
   await as('admin', 'delete from public.students where id=4');

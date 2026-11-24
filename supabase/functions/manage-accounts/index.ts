@@ -196,13 +196,27 @@ Deno.serve(async (req) => {
     return reply(200, { ok: true, login: p.email });
   }
 
+  // Xóa hẳn tài khoản phụ huynh (mọi liên kết với các con cũng mất). Chỉ quản trị viên.
+  if (action === "delete_linked_parent") {
+    if (role !== "admin") return reply(403, { error: "Chỉ quản trị viên được xóa tài khoản phụ huynh" });
+    if (typeof body.parent_id !== "string") return reply(400, { error: "Thiếu phụ huynh" });
+    const { data: p } = await admin.from("profiles").select("role").eq("id", body.parent_id).maybeSingle();
+    if (p?.role !== "parent") return reply(404, { error: "Không tìm thấy tài khoản phụ huynh" });
+    const { data: own } = await admin
+      .from("students").select("id").eq("parent_id", body.parent_id).maybeSingle();
+    if (own) return reply(400, { error: "Đây là tài khoản học sinh; hãy xóa học sinh thay vì xóa phụ huynh" });
+    const { error } = await admin.auth.admin.deleteUser(body.parent_id);
+    if (error) return reply(400, { error: error.message });
+    return reply(200, { ok: true });
+  }
+
   if (action === "delete_teacher") {
     if (role !== "admin") return reply(403, { error: "Chỉ quản trị viên được làm việc này" });
     if (typeof body.teacher_id !== "string") return reply(400, { error: "Thiếu giáo viên" });
     if (body.teacher_id === who.user.id) return reply(400, { error: "Không thể tự xóa tài khoản quản trị" });
     const { data: t } = await admin
       .from("profiles").select("role").eq("id", body.teacher_id).maybeSingle();
-    if (!t || t.role === "admin") return reply(404, { error: "Không tìm thấy giáo viên" });
+    if (t?.role !== "teacher") return reply(404, { error: "Không tìm thấy giáo viên" });
     const { data: kid } = await admin
       .from("students").select("id").eq("parent_id", body.teacher_id).maybeSingle();
     if (kid) return reply(400, { error: "Đây là tài khoản phụ huynh, không phải giáo viên" });

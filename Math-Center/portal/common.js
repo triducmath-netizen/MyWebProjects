@@ -235,6 +235,22 @@ export function openDialog(title, body, { wide = false } = {}) {
 }
 
 // Xem ảnh / PDF trong hộp thoại.
+// Hộp xác nhận ngay trong trang (thay cho confirm() của trình duyệt — một số trình duyệt
+// hoặc ứng dụng chặn hộp thoại gốc, khiến bấm Xóa không có tác dụng). Trả về true/false.
+export function askConfirm(message, { ok } = {}) {
+  const danger = /^(Xóa|Gỡ)/.test(message);
+  return new Promise((resolve) => {
+    let answer = false;
+    const dlg = openDialog('Xác nhận', el('div', { class: 'form-grid' },
+      el('p', { text: message }),
+      el('div', { class: 'row' },
+        el('button', { class: `btn ${danger ? 'btn-danger' : 'btn-gold'}`, type: 'button', text: ok || (danger ? message.split(' ')[0] : 'Đồng ý'),
+          onclick: () => { answer = true; dlg.close(); } }),
+        el('button', { class: 'btn btn-outline', type: 'button', text: 'Hủy', onclick: () => dlg.close() }))));
+    dlg.addEventListener('close', () => resolve(answer));
+  });
+}
+
 export async function showFiles(title, paths) {
   const body = el('div', { class: 'gallery' }, el('p', { class: 'muted', text: 'Đang tải…' }));
   openDialog(title, body, { wide: true });

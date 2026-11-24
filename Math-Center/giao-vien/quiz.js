@@ -1,5 +1,5 @@
 // Trang giáo viên — Bài tập trực tuyến: soạn đề, giao bài, xem kết quả.
-import { sb, el, fmtNum, toast, errMsg, openDialog, uploadTo, BUCKET, fmtDateTime } from '../portal/common.js';
+import { sb, el, fmtNum, toast, errMsg, openDialog, uploadTo, BUCKET, fmtDateTime, askConfirm } from '../portal/common.js';
 import {
   rich, imageUrls, qImage, KIND_LABEL, DEFAULT_POINTS, LETTERS, TF_LETTERS, reviewQuestion, fmtDeadline,
 } from '../portal/quiz-common.js';
@@ -91,8 +91,8 @@ async function createQuiz() {
 async function togglePublish(z, nq) {
   if (!z.published) {
     if (!nq) { toast('Đề chưa có câu hỏi nào.', 'error'); return; }
-    if (!confirm(`Giao bài "${z.title}" cho học sinh? Học sinh sẽ thấy và làm được ngay.`)) return;
-  } else if (!confirm(`Thu hồi bài "${z.title}"? Học sinh chưa bắt đầu sẽ không thấy bài nữa. Bài đã làm vẫn được giữ.`)) return;
+    if (!await askConfirm(`Giao bài "${z.title}" cho học sinh? Học sinh sẽ thấy và làm được ngay.`)) return;
+  } else if (!await askConfirm(`Thu hồi bài "${z.title}"? Học sinh chưa bắt đầu sẽ không thấy bài nữa. Bài đã làm vẫn được giữ.`)) return;
   const { error } = await sb.from('quizzes').update({ published: !z.published }).eq('id', z.id);
   if (error) { toast(errMsg(error), 'error'); return; }
   toast(z.published ? 'Đã thu hồi.' : 'Đã giao bài cho học sinh.');
@@ -233,7 +233,7 @@ function editorCard(q, i, key, urls, all, quizId, { canDelete = true, afterSave 
         el('button', { class: 'icon-btn', title: 'Xuống', 'aria-label': 'Chuyển câu xuống', disabled: i === all.length - 1, text: '↓', onclick: () => move(1) }),
         el('button', { class: 'btn btn-outline btn-sm', text: 'Sửa', onclick: () => questionDialog(quizId, q, key, afterSave) }),
         canDelete ? el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: async () => {
-          if (!confirm(`Xóa câu ${i + 1}? Không thể khôi phục.`)) return;
+          if (!await askConfirm(`Xóa câu ${i + 1}? Không thể khôi phục.`)) return;
           const paths = [q.image_path, key?.explanation_image_path].filter(Boolean);
           if (paths.length) await sb.storage.from(BUCKET).remove(paths);
           const { data: gone, error } = await sb.from('quiz_questions').delete().eq('id', q.id).select('id');
@@ -393,8 +393,8 @@ export async function deleteQuiz(z, done = () => go({})) {
   if (z.class_id == null) {
     const { count } = await sb.from('quiz_attempts').select('id', { count: 'exact', head: true }).eq('quiz_id', z.id);
     if (count) { toast('Đề đã có học sinh làm bài nên không xóa được. Có thể bấm "Ẩn đề".', 'error'); return; }
-    if (!confirm(`Xóa đề "${z.title}" cùng toàn bộ câu hỏi, đáp án, lời giải? Không thể khôi phục.`)) return;
-  } else if (!confirm(`Xóa đề "${z.title}" cùng toàn bộ câu hỏi và bài làm của học sinh? Không thể khôi phục.`)) return;
+    if (!await askConfirm(`Xóa đề "${z.title}" cùng toàn bộ câu hỏi, đáp án, lời giải? Không thể khôi phục.`)) return;
+  } else if (!await askConfirm(`Xóa đề "${z.title}" cùng toàn bộ câu hỏi và bài làm của học sinh? Không thể khôi phục.`)) return;
   const { data: files } = await sb.storage.from(BUCKET).list(`quizzes/${z.id}`, { limit: 1000 });
   const { data: sol } = await sb.storage.from(BUCKET).list(`quizzes/${z.id}/sol`, { limit: 1000 });
   const paths = [
@@ -440,7 +440,7 @@ async function renderResults(view, quizId) {
       el('td', {}, a ? el('div', { class: 'acts' },
         a.submitted_at ? el('button', { class: 'btn btn-outline btn-sm', text: 'Xem bài', onclick: () => showAttempt(s, a, questions) }) : null,
         el('button', { class: 'btn btn-danger btn-sm', text: 'Cho làm lại', onclick: async () => {
-          if (!confirm(`Xóa bài làm của ${s.full_name} để em làm lại từ đầu?`)) return;
+          if (!await askConfirm(`Xóa bài làm của ${s.full_name} để em làm lại từ đầu?`)) return;
           const { error: e2 } = await sb.from('quiz_attempts').delete().eq('id', a.id);
           if (e2) { toast(errMsg(e2), 'error'); return; }
           toast('Đã cho làm lại.'); ctx.rerender();

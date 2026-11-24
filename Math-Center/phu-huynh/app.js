@@ -1,7 +1,7 @@
 import {
   sb, configured, $, el, loginToEmail, phoneToEmail, weekLabel, fmtNum, fmtDateTime,
   toast, errMsg, openDialog, showFiles, notConfiguredNotice,
-  passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin,
+  passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm,
 } from '../portal/common.js';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../portal/config.js';
 import { renderQuizList, setReadOnly } from './quiz.js';
@@ -305,7 +305,7 @@ function weekCard(r) {
 
 // Phụ huynh đặt lại mật khẩu cho con (khi con quên).
 async function resetChildPassword(s) {
-  if (!confirm(`Đặt lại mật khẩu cho em ${s.full_name}? Mật khẩu trở về mật khẩu ban đầu, em đăng nhập rồi đặt mật khẩu mới.`)) return;
+  if (!await askConfirm(`Đặt lại mật khẩu cho em ${s.full_name}? Mật khẩu trở về mật khẩu ban đầu, em đăng nhập rồi đặt mật khẩu mới.`)) return;
   try {
     const { data: { session } } = await sb.auth.getSession();
     const res = await fetch(`${SUPABASE_URL}/functions/v1/manage-accounts`, {

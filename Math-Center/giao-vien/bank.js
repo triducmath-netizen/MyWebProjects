@@ -1,7 +1,7 @@
 // Trang giáo viên — Ngân hàng đề luyện tập theo chuyên đề.
 // Giáo viên: xem, sửa đề. Chỉ quản trị viên: ẩn/hiện, xóa câu, xóa đề.
 // Quyền được kiểm tra trên máy chủ (RLS); giao diện chỉ ẩn nút cho gọn.
-import { sb, el, toast, errMsg } from '../portal/common.js';
+import { sb, el, toast, errMsg, askConfirm } from '../portal/common.js';
 import { renderQuizEditor, deleteQuiz } from './quiz.js';
 
 export const LEVELS = [['tb', 'Mức độ 1'], ['kha', 'Mức độ 2'], ['gioi', 'Mức độ 3']];
@@ -102,7 +102,7 @@ async function togglePublish(z) {
   const msg = z.published
     ? `Ẩn đề "${z.title}"? Học sinh sẽ không thấy đề này nữa. Bài đã làm vẫn được giữ.`
     : `Hiện lại đề "${z.title}" cho học sinh luyện tập?`;
-  if (!confirm(msg)) return;
+  if (!await askConfirm(msg)) return;
   const { error } = await sb.from('quizzes').update({ published: !z.published }).eq('id', z.id);
   if (error) { toast(errMsg(error), 'error'); return; }
   toast(z.published ? 'Đã ẩn đề.' : 'Đã hiện đề.');

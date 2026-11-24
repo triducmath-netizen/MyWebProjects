@@ -1,7 +1,7 @@
 import {
   sb, configured, $, el, normalizeCode, mondayOf, toISODate, weekLabel, fmtNum,
   randomPassword, uploadTo, toast, errMsg, openDialog, showFiles, notConfiguredNotice, formatLinkCode, displayLogin,
-  passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin,
+  passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm,
 } from '../portal/common.js';
 import { SUPABASE_URL } from '../portal/config.js';
 import { renderQuizTab } from './quiz.js';
@@ -220,7 +220,7 @@ async function manageFiles(kind, id, title, onDone) {
     el('div', { class: 'acts' },
       el('button', { class: 'btn btn-outline btn-sm', text: 'Xem', onclick: () => showFiles(title, [r.path]) }),
       el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: async () => {
-        if (!confirm('Xóa file này? Không thể khôi phục.')) return;
+        if (!await askConfirm('Xóa file này? Không thể khôi phục.')) return;
         const { error: e1 } = await sb.storage.from('tdm').remove([r.path]);
         const { error: e2 } = await sb.from(table).delete().eq('id', r.id);
         if (e1 || e2) { toast(errMsg(e1 || e2), 'error'); return; }
@@ -318,7 +318,7 @@ function gradeCard(a, s, r) {
 }
 
 async function deleteAssessment(a) {
-  if (!confirm(`Xóa bài "${a.title}" cùng toàn bộ điểm, nhận xét và file của bài này? Không thể khôi phục.`)) return;
+  if (!await askConfirm(`Xóa bài "${a.title}" cùng toàn bộ điểm, nhận xét và file của bài này? Không thể khôi phục.`)) return;
   try {
     const { data: rf } = await sb.from('result_files').select('path, results!inner(assessment_id)').eq('results.assessment_id', a.id);
     const { data: af } = await sb.from('assessment_files').select('path').eq('assessment_id', a.id);
@@ -393,7 +393,9 @@ async function renderStudents(view) {
             ? parentsOf(s.id).map((p) => el('div', { class: 'parent-row' },
                 el('span', { text: `Phụ huynh: ${p.full_name || '(chưa có tên)'} · ${displayLogin(p.login)} ` }),
                 el('button', { class: 'btn btn-outline btn-sm', text: 'Cấp lại MK', onclick: () => resetLinkedParent(s, p) }),
-                el('button', { class: 'btn btn-danger btn-sm', text: 'Gỡ', onclick: () => unlinkParent(s, p) })))
+                ...(isAdmin() ? [
+                  el('button', { class: 'btn btn-outline btn-sm', text: 'Gỡ liên kết', onclick: () => unlinkParent(s, p) }),
+                  el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa TK', onclick: () => deleteParentAccount(p) })] : [])))
             : el('span', { class: 'muted', text: 'Chưa có phụ huynh liên kết' }))),
       el('div', { class: 'acts' },
         s.parent_id
@@ -452,8 +454,8 @@ async function showLinkCode(s, renew = false) {
       el('div', {}, 'Mã học sinh: ', el('code', { text: s.code })),
       el('div', {}, 'Mã liên kết: ', el('code', { text: formatLinkCode(data.code) }))),
     copyButton(studentInfoText(s.full_name, s.code, null, data.code)),
-    el('button', { class: 'btn btn-outline btn-sm', type: 'button', text: 'Đổi mã mới', onclick: () => {
-      if (!confirm('Đổi mã liên kết mới? Mã cũ sẽ không dùng được nữa. Phụ huynh đã liên kết vẫn giữ nguyên.')) return;
+    el('button', { class: 'btn btn-outline btn-sm', type: 'button', text: 'Đổi mã mới', onclick: async () => {
+      if (!await askConfirm('Đổi mã liên kết mới? Mã cũ sẽ không dùng được nữa. Phụ huynh đã liên kết vẫn giữ nguyên.')) return;
       dlg.close();
       showLinkCode(s, true);
     } })));
@@ -461,15 +463,25 @@ async function showLinkCode(s, renew = false) {
 }
 
 async function unlinkParent(s, p) {
-  if (!confirm(`Gỡ liên kết phụ huynh ${p.full_name || displayLogin(p.login)} khỏi em ${s.full_name}? Phụ huynh sẽ không xem được kết quả của em nữa.`)) return;
+  if (!await askConfirm(`Gỡ liên kết phụ huynh ${p.full_name || displayLogin(p.login)} khỏi em ${s.full_name}? Phụ huynh sẽ không xem được kết quả của em nữa.`)) return;
   const { error } = await sb.rpc('unlink_parent', { p_student: s.id, p_parent: p.parent_id });
   if (error) { toast(errMsg(error), 'error'); return; }
   toast('Đã gỡ liên kết.');
   renderShell();
 }
 
+async function deleteParentAccount(p) {
+  const who = `${p.full_name || '(chưa có tên)'} · ${displayLogin(p.login)}`;
+  if (!await askConfirm(`Xóa tài khoản phụ huynh ${who}? Phụ huynh sẽ không đăng nhập được nữa và mất liên kết với tất cả các con. Không thể khôi phục.`)) return;
+  try {
+    await callAccounts({ action: 'delete_linked_parent', parent_id: p.parent_id });
+    toast('Đã xóa tài khoản phụ huynh.');
+    renderShell();
+  } catch (err) { toast(errMsg(err), 'error'); }
+}
+
 async function resetLinkedParent(s, p) {
-  if (!confirm(`Cấp lại mật khẩu cho phụ huynh ${p.full_name || displayLogin(p.login)}?`)) return;
+  if (!await askConfirm(`Cấp lại mật khẩu cho phụ huynh ${p.full_name || displayLogin(p.login)}?`)) return;
   const password = randomPassword();
   try {
     const out = await callAccounts({ action: 'reset_linked_parent', student_id: s.id, parent_id: p.parent_id, password });
@@ -493,7 +505,7 @@ async function parentAccount(s, action) {
   const msg = action === 'create_parent'
     ? `Tạo tài khoản học sinh cho em ${s.full_name}?`
     : `Cấp lại mật khẩu cho em ${s.full_name}? Mật khẩu trở về mật khẩu ban đầu và em phải đổi lại khi đăng nhập.`;
-  if (!confirm(msg)) return;
+  if (!await askConfirm(msg)) return;
   try {
     const out = await callAccounts({ action, student_id: s.id });
     await showStudentInfo(s, out.password);
@@ -538,7 +550,7 @@ function editStudent(s) {
 }
 
 async function deleteStudent(s) {
-  if (!confirm(`Xóa học sinh ${s.full_name} (${s.code}) cùng toàn bộ kết quả và tài khoản học sinh? Phụ huynh liên kết sẽ không xem được em này nữa. Không thể khôi phục.`)) return;
+  if (!await askConfirm(`Xóa học sinh ${s.full_name} (${s.code}) cùng toàn bộ kết quả và tài khoản học sinh? Phụ huynh liên kết sẽ không xem được em này nữa. Không thể khôi phục.`)) return;
   if (s.parent_id) {
     try { await callAccounts({ action: 'delete_parent', student_id: s.id }); }
     catch (err) { toast(`Không xóa được tài khoản học sinh: ${errMsg(err)}`, 'error'); return; }
@@ -621,7 +633,7 @@ async function renderAdmin(view) {
         el('span', { class: 'muted small', text: 'Lớp phụ trách:' }), checks),
       el('div', { class: 'acts' },
         el('button', { class: 'btn btn-outline btn-sm', text: 'Cấp lại mật khẩu', onclick: async () => {
-          if (!confirm(`Cấp lại mật khẩu cho ${t.full_name}?`)) return;
+          if (!await askConfirm(`Cấp lại mật khẩu cho ${t.full_name}?`)) return;
           const password = randomPassword();
           try {
             await callAccounts({ action: 'reset_teacher', teacher_id: t.id, password });
@@ -629,7 +641,7 @@ async function renderAdmin(view) {
           } catch (err) { toast(errMsg(err), 'error'); }
         } }),
         el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa giáo viên', onclick: async () => {
-          if (!confirm(`Xóa tài khoản giáo viên ${t.full_name}? Giáo viên này sẽ không đăng nhập được nữa. Điểm và nhận xét đã nhập vẫn được giữ nguyên.`)) return;
+          if (!await askConfirm(`Xóa tài khoản giáo viên ${t.full_name}? Giáo viên này sẽ không đăng nhập được nữa. Điểm và nhận xét đã nhập vẫn được giữ nguyên.`)) return;
           try {
             await callAccounts({ action: 'delete_teacher', teacher_id: t.id });
             toast(`Đã xóa tài khoản ${t.full_name}.`);
