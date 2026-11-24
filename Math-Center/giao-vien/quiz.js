@@ -1,8 +1,8 @@
 // Trang giáo viên — Bài tập trực tuyến: soạn đề, giao bài, xem kết quả.
-import { sb, el, fmtNum, toast, errMsg, openDialog, uploadTo, BUCKET, fmtDateTime, askConfirm } from '../portal/common.js?v=20261124c';
+import { sb, el, fmtNum, toast, errMsg, openDialog, uploadTo, BUCKET, fmtDateTime, askConfirm } from '../portal/common.js?v=20261124g';
 import {
   rich, imageUrls, qImage, KIND_LABEL, DEFAULT_POINTS, LETTERS, TF_LETTERS, reviewQuestion, fmtDeadline,
-} from '../portal/quiz-common.js?v=20261124c';
+} from '../portal/quiz-common.js?v=20261124g';
 
 let ctx; // { state, classSelect, rerender }
 let opts = {}; // { bank: true, back } khi mở từ Ngân hàng đề

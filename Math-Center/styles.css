@@ -225,6 +225,7 @@ details p { padding: 0 24px 20px; margin: 0; color: var(--tdm-slate); }
 .form .invalid { border-color: #B3261E; }
 .form-msg { margin: 0; font-size: .95rem; color: var(--tdm-slate); min-height: 1.5em; }
 .form-msg.error { color: #B3261E; }
+.form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 /* Footer */
 .site-footer { background: var(--tdm-navy-2); color: rgba(255,255,255,.7); padding: 32px 0; }
