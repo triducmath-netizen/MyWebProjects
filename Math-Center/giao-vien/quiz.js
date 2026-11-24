@@ -5,15 +5,26 @@ import {
 } from '../portal/quiz-common.js';
 
 let ctx; // { state, classSelect, rerender }
+let opts = {}; // { bank: true, back } khi mở từ Ngân hàng đề
 
 export function renderQuizTab(view, context) {
   ctx = context;
+  opts = {};
   if (ctx.state.quizId) return renderEditor(view, ctx.state.quizId);
   if (ctx.state.quizResultsId) return renderResults(view, ctx.state.quizResultsId);
   return renderList(view);
 }
 
 const go = (patch) => { Object.assign(ctx.state, { quizId: null, quizResultsId: null }, patch); ctx.rerender(); };
+const back = () => (opts.back ? opts.back() : go({}));
+const isAdmin = () => ctx.state.profile?.role === 'admin';
+
+// Mở trình soạn đề từ thẻ khác (Ngân hàng đề).
+export function renderQuizEditor(view, quizId, context, options = {}) {
+  ctx = context;
+  opts = options;
+  return renderEditor(view, quizId);
+}
 
 // ---------- Ngày giờ ----------
 const toLocalInput = (ts) => {
@@ -105,6 +116,14 @@ async function renderEditor(view, quizId) {
     ...(keys || []).map((k) => k.explanation_image_path),
   ]);
   const submitted = (attempts || []).filter((a) => a.submitted_at).length;
+  const bank = z.class_id == null;
+  // Đề luyện tập đã có bài làm: không thêm/xóa câu (máy chủ cũng chặn), chỉ sửa nội dung, đáp án.
+  const locked = bank && (attempts || []).length > 0;
+  const canDelete = !bank || isAdmin();
+  const afterSave = bank && submitted ? async () => {
+    const { data: n, error: e3 } = await sb.rpc('regrade_quiz', { p_quiz: quizId });
+    if (e3) toast(errMsg(e3), 'error'); else toast(`Đã lưu và chấm lại ${n} bài đã nộp.`);
+  } : null;
   const totalPts = questions.reduce((s, q) => s + Number(q.points), 0);
 
   // --- Cài đặt đề ---
@@ -114,11 +133,11 @@ async function renderEditor(view, quizId) {
     el('div', { class: 'row' },
       el('label', { class: 'field' }, 'Thời gian làm bài (phút, để trống = không giới hạn)',
         el('input', { name: 'limit', type: 'number', min: '1', max: '600', value: z.time_limit_min ?? '' })),
-      el('label', { class: 'field' }, 'Mở từ (không bắt buộc)',
+      bank ? null : el('label', { class: 'field' }, 'Mở từ (không bắt buộc)',
         el('input', { name: 'opens', type: 'datetime-local', value: toLocalInput(z.opens_at) })),
-      el('label', { class: 'field' }, 'Hạn chót nộp (không bắt buộc)',
+      bank ? null : el('label', { class: 'field' }, 'Hạn chót nộp (không bắt buộc)',
         el('input', { name: 'due', type: 'datetime-local', value: toLocalInput(z.due_at) }))),
-    el('label', {}, 'Hiện đáp án & lời giải cho học sinh',
+    bank ? null : el('label', {}, 'Hiện đáp án & lời giải cho học sinh',
       el('select', { name: 'showkey' },
         el('option', { value: 'submit', selected: z.show_key_after === 'submit', text: 'Ngay sau khi học sinh nộp bài' }),
         el('option', { value: 'due', selected: z.show_key_after === 'due', text: 'Sau hạn chót (tránh học sinh chia sẻ đáp án cho bạn chưa làm)' }))),
@@ -127,20 +146,26 @@ async function renderEditor(view, quizId) {
   f.addEventListener('submit', async (e) => {
     e.preventDefault();
     const lim = f.limit.value.trim() === '' ? null : Number(f.limit.value);
-    const row = {
-      title: f.title.value.trim() || 'Đề chưa đặt tên', description: f.desc.value.trim() || null,
-      time_limit_min: lim, opens_at: fromLocalInput(f.opens.value), due_at: fromLocalInput(f.due.value),
-      show_key_after: f.showkey.value,
-    };
+    if (lim != null && !(Number.isInteger(lim) && lim >= 1 && lim <= 600)) { toast('Thời gian làm bài phải từ 1 đến 600 phút.', 'error'); return; }
+    const row = bank
+      ? { title: f.title.value.trim() || 'Đề chưa đặt tên', description: f.desc.value.trim() || null, time_limit_min: lim }
+      : {
+        title: f.title.value.trim() || 'Đề chưa đặt tên', description: f.desc.value.trim() || null,
+        time_limit_min: lim, opens_at: fromLocalInput(f.opens.value), due_at: fromLocalInput(f.due.value),
+        show_key_after: f.showkey.value,
+      };
     if (row.opens_at && row.due_at && row.opens_at >= row.due_at) { toast('Giờ mở phải trước hạn chót.', 'error'); return; }
-    const { error: e2 } = await sb.from('quizzes').update(row).eq('id', quizId);
+    const { data: saved, error: e2 } = await sb.from('quizzes').update(row).eq('id', quizId).select('id');
     if (e2) { toast(errMsg(e2), 'error'); return; }
+    if (!saved?.length) { toast('Bạn không có quyền sửa đề này.', 'error'); return; }
     toast('Đã lưu cài đặt.');
     ctx.rerender();
   });
 
   const warn = submitted ? el('div', { class: 'notice' },
-    el('span', { text: `Đã có ${submitted} học sinh nộp bài. Nếu sửa đáp án hoặc điểm, hãy bấm "Chấm lại" để cập nhật điểm.` }),
+    el('span', { text: bank
+      ? `Đã có ${submitted} bài nộp. Khi lưu câu hỏi, điểm các bài đã nộp được chấm lại tự động. Không thêm hoặc xóa câu được để giữ đúng điểm các bài cũ.`
+      : `Đã có ${submitted} học sinh nộp bài. Nếu sửa đáp án hoặc điểm, hãy bấm "Chấm lại" để cập nhật điểm.` }),
     el('button', { class: 'btn btn-navy btn-sm', text: 'Chấm lại', onclick: async () => {
       const { data: n, error: e3 } = await sb.rpc('regrade_quiz', { p_quiz: quizId });
       if (e3) { toast(errMsg(e3), 'error'); return; }
@@ -148,32 +173,37 @@ async function renderEditor(view, quizId) {
     } })) : null;
 
   const qList = el('div', { class: 'list' }, questions.length
-    ? questions.map((q, i) => editorCard(q, i, keyMap.get(q.id), urls, questions, quizId))
+    ? questions.map((q, i) => editorCard(q, i, keyMap.get(q.id), urls, questions, quizId, { canDelete: canDelete && !locked, afterSave }))
     : [el('p', { class: 'muted', text: 'Chưa có câu hỏi. Thêm câu bằng các nút bên dưới.' })]);
 
-  const adders = el('div', { class: 'row adders' },
+  const adders = locked ? null : el('div', { class: 'row adders' },
     ['mcq', 'tf', 'short'].map((k) => el('button', { class: 'btn btn-outline', text: `+ ${KIND_LABEL[k]}`,
       onclick: () => questionDialog(quizId, { kind: k, position: (questions.at(-1)?.position ?? 0) + 1 }, null) })));
 
   view.append(
     el('div', { class: 'row', style: 'margin-bottom:16px' },
-      el('button', { class: 'btn btn-outline btn-sm', text: '← Danh sách đề', onclick: () => go({}) }),
+      el('button', { class: 'btn btn-outline btn-sm', text: bank ? '← Ngân hàng đề' : '← Danh sách đề', onclick: back }),
       el('button', { class: 'btn btn-outline btn-sm', text: 'Xem như học sinh', onclick: () => previewAsStudent(z, questions, urls) }),
-      el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa đề', onclick: () => deleteQuiz(z) })),
+      canDelete ? el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa đề', disabled: locked,
+        title: locked ? 'Đề đã có học sinh làm nên không xóa được' : 'Xóa đề',
+        onclick: () => deleteQuiz(z, back) }) : null),
     el('div', { class: 'panel' },
       el('div', { class: 'assess-head' },
         el('h2', { text: z.title }),
-        z.published ? el('span', { class: 'badge', text: 'Đã giao' }) : el('span', { class: 'badge warn', text: 'Nháp — học sinh chưa thấy' })),
+        bank
+          ? (z.published ? el('span', { class: 'badge', text: 'Học sinh đang luyện' }) : el('span', { class: 'badge warn', text: 'Đang ẩn' }))
+          : (z.published ? el('span', { class: 'badge', text: 'Đã giao' }) : el('span', { class: 'badge warn', text: 'Nháp — học sinh chưa thấy' }))),
+      bank ? el('p', { class: 'muted small', text: `Toán ${z.grade} · ${z.topic} · ${({ tb: 'Mức độ 1', kha: 'Mức độ 2', gioi: 'Mức độ 3' })[z.level] ?? z.level}` }) : null,
       f),
-    warn,
+    ...(warn ? [warn] : []),
     el('div', { class: 'assess-head section-gap' },
       el('h3', { text: `Câu hỏi (${questions.length} câu · tổng ${fmtNum(totalPts)} điểm)` })),
     qList,
-    adders,
+    ...(adders ? [adders] : [el('p', { class: 'muted small', text: 'Đề đã có học sinh làm nên không thêm câu được.' })]),
     el('p', { class: 'muted small', text: 'Mẹo: gõ công thức giữa hai dấu $, ví dụ $x^2 - 5x + 6 = 0$ hoặc $\\frac{1}{2}$, $\\sqrt{3}$. Công thức đứng riêng một dòng: $$...$$.' }));
 }
 
-function editorCard(q, i, key, urls, all, quizId) {
+function editorCard(q, i, key, urls, all, quizId, { canDelete = true, afterSave = null } = {}) {
   const move = async (dir) => {
     const j = i + dir;
     if (j < 0 || j >= all.length) return;
@@ -201,15 +231,16 @@ function editorCard(q, i, key, urls, all, quizId) {
       el('span', { class: 'q-tools' },
         el('button', { class: 'icon-btn', title: 'Lên', 'aria-label': 'Chuyển câu lên', disabled: i === 0, text: '↑', onclick: () => move(-1) }),
         el('button', { class: 'icon-btn', title: 'Xuống', 'aria-label': 'Chuyển câu xuống', disabled: i === all.length - 1, text: '↓', onclick: () => move(1) }),
-        el('button', { class: 'btn btn-outline btn-sm', text: 'Sửa', onclick: () => questionDialog(quizId, q, key) }),
-        el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: async () => {
-          if (!confirm(`Xóa câu ${i + 1}?`)) return;
+        el('button', { class: 'btn btn-outline btn-sm', text: 'Sửa', onclick: () => questionDialog(quizId, q, key, afterSave) }),
+        canDelete ? el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: async () => {
+          if (!confirm(`Xóa câu ${i + 1}? Không thể khôi phục.`)) return;
           const paths = [q.image_path, key?.explanation_image_path].filter(Boolean);
           if (paths.length) await sb.storage.from(BUCKET).remove(paths);
-          const { error } = await sb.from('quiz_questions').delete().eq('id', q.id);
+          const { data: gone, error } = await sb.from('quiz_questions').delete().eq('id', q.id).select('id');
           if (error) { toast(errMsg(error), 'error'); return; }
+          if (!gone?.length) { toast('Bạn không có quyền xóa câu này.', 'error'); return; }
           ctx.rerender();
-        } }))),
+        } }) : null)),
     rich(q.prompt),
     qImage(q.image_path, urls, `Hình câu ${i + 1}`),
     q.kind === 'mcq' ? el('div', { class: 'opts' }, q.options.map((o, k) =>
@@ -244,7 +275,7 @@ function imagePicker(label, currentPath) {
   return { node: wrap, input, state };
 }
 
-function questionDialog(quizId, q, key) {
+function questionDialog(quizId, q, key, afterSave = null) {
   const kind = q.kind;
   const isNew = !q.id;
   const form = el('form', { class: 'form-grid' });
@@ -325,8 +356,9 @@ function questionDialog(quizId, q, key) {
         if (error) throw error;
         qid = data.id;
       } else {
-        const { error } = await sb.from('quiz_questions').update(row).eq('id', qid);
+        const { data: upd, error } = await sb.from('quiz_questions').update(row).eq('id', qid).select('id');
         if (error) throw error;
+        if (!upd?.length) throw new Error('Bạn không có quyền sửa câu này.');
       }
       const { error: ke } = await sb.from('quiz_keys').upsert({
         question_id: qid, answer, explanation: form.explanation.value.trim() || null, explanation_image_path,
@@ -335,6 +367,7 @@ function questionDialog(quizId, q, key) {
       if (oldPaths.length) await sb.storage.from(BUCKET).remove(oldPaths);
       dlg.close();
       toast(isNew ? 'Đã thêm câu hỏi.' : 'Đã lưu câu hỏi.');
+      if (afterSave) await afterSave();
       ctx.rerender();
     } catch (err) {
       toast(errMsg(err), 'error');
@@ -356,19 +389,25 @@ function previewAsStudent(z, questions, urls) {
   openDialog(`Xem trước: ${z.title}`, body, { wide: true });
 }
 
-async function deleteQuiz(z) {
-  if (!confirm(`Xóa đề "${z.title}" cùng toàn bộ câu hỏi và bài làm của học sinh? Không thể khôi phục.`)) return;
+export async function deleteQuiz(z, done = () => go({})) {
+  if (z.class_id == null) {
+    const { count } = await sb.from('quiz_attempts').select('id', { count: 'exact', head: true }).eq('quiz_id', z.id);
+    if (count) { toast('Đề đã có học sinh làm bài nên không xóa được. Có thể bấm "Ẩn đề".', 'error'); return; }
+    if (!confirm(`Xóa đề "${z.title}" cùng toàn bộ câu hỏi, đáp án, lời giải? Không thể khôi phục.`)) return;
+  } else if (!confirm(`Xóa đề "${z.title}" cùng toàn bộ câu hỏi và bài làm của học sinh? Không thể khôi phục.`)) return;
   const { data: files } = await sb.storage.from(BUCKET).list(`quizzes/${z.id}`, { limit: 1000 });
   const { data: sol } = await sb.storage.from(BUCKET).list(`quizzes/${z.id}/sol`, { limit: 1000 });
   const paths = [
     ...(files || []).filter((f) => f.id).map((f) => `quizzes/${z.id}/${f.name}`),
     ...(sol || []).filter((f) => f.id).map((f) => `quizzes/${z.id}/sol/${f.name}`),
   ];
+  // Xóa hình trước (sau khi xóa đề thì không còn quyền với thư mục hình của đề).
   if (paths.length) await sb.storage.from(BUCKET).remove(paths);
-  const { error } = await sb.from('quizzes').delete().eq('id', z.id);
+  const { data: gone, error } = await sb.from('quizzes').delete().eq('id', z.id).select('id');
   if (error) { toast(errMsg(error), 'error'); return; }
+  if (!gone?.length) { toast('Bạn không có quyền xóa đề này.', 'error'); return; }
   toast('Đã xóa đề.');
-  go({});
+  done();
 }
 
 // =====================================================================

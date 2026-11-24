@@ -23,6 +23,8 @@ Làm **một lần duy nhất**, khoảng 20 phút. Các bước có đánh dấ
    - `20261123030000_admin_only_edit_students.sql`: chỉ quản trị được sửa tên/chuyển lớp học sinh
    - `20261123040000_online_quizzes.sql`: bài kiểm tra trực tuyến
    - `20261123050000_quiz_question_count.sql`: hiện số câu của đề cho học sinh
+   - `20261123060000_practice_bank.sql`: ngân hàng đề luyện tập theo chuyên đề
+   - `20261124000000_bank_editing.sql`: giáo viên xem/sửa ngân hàng đề trên trang giáo viên
 3. Mỗi file phải báo *Success. No rows returned*.
 
 ## Bước 3. Tắt tự đăng ký tài khoản
@@ -64,6 +66,8 @@ Hai giá trị này được phép công khai. **Không gửi khóa `service_rol
 | Thêm học sinh, tạo tài khoản phụ huynh | Giáo viên | Trang giáo viên → *Học sinh & tài khoản* |
 | Tạo bài kiểm tra tuần, tải đề, nhập điểm, nhận xét, tải bài làm | Giáo viên | Trang giáo viên → *Nhập kết quả* |
 | Xem kết quả, đề bài, bài làm, nhận xét | Phụ huynh | Cổng phụ huynh |
+| Xem, sửa đề luyện tập (câu hỏi, đáp án, lời giải, thời gian) | Giáo viên | Trang giáo viên → *Ngân hàng đề* |
+| Ẩn/hiện đề luyện tập, xóa câu, xóa đề (chỉ đề chưa ai làm) | Quản trị | Trang giáo viên → *Ngân hàng đề* |
 
 - Phụ huynh đăng nhập bằng **mã học sinh** và mật khẩu do giáo viên cấp, sau đó tự đổi mật khẩu.
 - Quên mật khẩu: giáo viên bấm **Cấp lại mật khẩu** rồi gửi mật khẩu mới qua Zalo.
