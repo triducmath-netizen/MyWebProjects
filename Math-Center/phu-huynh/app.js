@@ -1,5 +1,5 @@
 import {
-  sb, logout, configured, $, el, loginToEmail, phoneToEmail, weekLabel, fmtNum, fmtDateTime,
+  sb, logout, configured, $, el, loginToEmail, phoneToEmail, weekLabel, fmtNum, fmtDateTime, mondayOf, toISODate,
   toast, errMsg, openDialog, showFiles, notConfiguredNotice, uploadTo,
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm,
 } from '../portal/common.js?v=20261202a';
@@ -235,7 +235,7 @@ async function showStudent(students, s, tab = currentTab) {
     : null;
 
   const tabs = el('div', { class: 'tabs', role: 'tablist' },
-    [['weekly', 'Bài giáo viên giao'], ['quiz', parentMode ? 'Bài trực tuyến đã làm' : 'Luyện đề & bài trực tuyến']].map(([id, label]) =>
+    [['weekly', 'Bài giáo viên giao'], ['summary', 'Kết quả hằng tuần'], ['quiz', parentMode ? 'Bài trực tuyến đã làm' : 'Luyện đề & bài trực tuyến']].map(([id, label]) =>
       el('button', { class: 'tab', role: 'tab', 'aria-selected': String(tab === id), text: label,
         onclick: () => showStudent(students, s, id) })));
 
@@ -246,6 +246,7 @@ async function showStudent(students, s, tab = currentTab) {
   const listBox = el('div', {}, el('p', { class: 'muted', text: 'Đang tải…' }));
   app.replaceChildren(...[switcher, head, tabs, listBox].filter(Boolean));
   if (tab === 'quiz') { renderQuizList(listBox, s); return; }
+  if (tab === 'summary') { renderWeeklySummary(listBox, s); return; }
 
   // Bài kiểm tra của lớp (hiện ngay khi giáo viên giao, kể cả chưa chấm) + bài cũ đã có kết quả.
   const [res, cls] = await Promise.all([
@@ -285,6 +286,78 @@ async function showStudent(students, s, tab = currentTab) {
     stat('Bài gần nhất', latest ? `${fmtNum(latest.score)} / ${fmtNum(latest.assessments.max_score)}` : '—'));
 
   listBox.replaceChildren(stats, el('h2', { text: 'Bài kiểm tra của lớp' }), el('p', { class: 'muted small', text: 'Bấm vào tên bài để xem đề. Làm xong, chụp bài làm và bấm "Gửi bài làm" để gửi cho giáo viên.' }), ...rows.map((r) => weekCard(r, s, () => showStudent(students, s, 'weekly'))));
+}
+
+// ---------- Kết quả hằng tuần ----------
+// Mỗi tuần (thứ Hai → Chủ nhật), tuần gần nhất ở trên:
+//   Bài tập tự luyện: đề luyện tập đã nộp trong tuần + điểm.
+//   Bài tập giáo viên giao: bài kiểm tra của lớp (điểm, nhận xét giáo viên) và bài trắc nghiệm của lớp đã nộp.
+const dmy = (d) => `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+function weekRange(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  return `Tuần từ ngày ${dmy(new Date(y, m - 1, d))} đến ngày ${dmy(new Date(y, m - 1, d + 6))}`;
+}
+const scoreText = (score, max) => score == null ? 'Chưa chấm' : `${fmtNum(score)} / ${fmtNum(max)}`;
+
+async function renderWeeklySummary(box, s) {
+  const [res, cls, att] = await Promise.all([
+    sb.from('results').select('id, score, comment, assessments(id, title, week_start, max_score)').eq('student_id', s.id),
+    s.class_id
+      ? sb.from('assessments').select('id, title, week_start, max_score').eq('class_id', s.class_id)
+      : Promise.resolve({ data: [] }),
+    sb.from('quiz_attempts').select('id, submitted_at, score, max_score, quizzes(title, class_id, topic)')
+      .eq('student_id', s.id).not('submitted_at', 'is', null),
+  ]);
+  const error = res.error || cls.error || att.error;
+  if (error) { box.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
+
+  const weeks = new Map(); // 'YYYY-MM-DD' (thứ Hai) → { practice: [], teacher: [] }
+  const week = (iso) => { if (!weeks.has(iso)) weeks.set(iso, { practice: [], teacher: [] }); return weeks.get(iso); };
+
+  // Bài kiểm tra giáo viên giao: kết quả của em + bài của lớp chưa có kết quả.
+  const seen = new Set();
+  for (const r of res.data) {
+    if (!r.assessments) continue;
+    seen.add(r.assessments.id);
+    week(r.assessments.week_start).teacher.push({ title: r.assessments.title, score: r.score, max: r.assessments.max_score, comment: r.comment, order: r.assessments.id });
+  }
+  for (const a of cls.data || []) {
+    if (!seen.has(a.id)) week(a.week_start).teacher.push({ title: a.title, score: null, max: a.max_score, comment: null, order: a.id });
+  }
+  // Bài trắc nghiệm đã nộp: đề luyện tập (không thuộc lớp) → tự luyện; đề của lớp → giáo viên giao.
+  for (const a of att.data) {
+    if (!a.quizzes) continue;
+    const w = week(toISODate(mondayOf(new Date(a.submitted_at))));
+    const item = { title: a.quizzes.title, score: a.score, max: a.max_score, when: a.submitted_at, order: new Date(a.submitted_at).getTime() };
+    if (a.quizzes.class_id == null) w.practice.push({ ...item, topic: a.quizzes.topic });
+    else w.teacher.push({ ...item, online: true });
+  }
+
+  if (!weeks.size) {
+    box.replaceChildren(el('div', { class: 'panel empty' },
+      el('h2', { text: 'Chưa có kết quả' }),
+      el('p', { class: 'muted', text: 'Khi em nộp bài tự luyện hoặc giáo viên chấm bài, kết quả sẽ được ghi lại ở đây theo từng tuần.' })));
+    return;
+  }
+
+  const rowsOf = (list, render) => list.length
+    ? el('ul', { class: 'week-list' }, list.sort((x, y) => x.order - y.order).map(render))
+    : el('p', { class: 'muted small', text: 'Không có bài nào.' });
+
+  box.replaceChildren(...[...weeks.keys()].sort().reverse().map((iso) => {
+    const w = weeks.get(iso);
+    return el('section', { class: 'week-summary' },
+      el('h3', { text: weekRange(iso) }),
+      el('h4', { text: `Bài tập tự luyện (${w.practice.length})` }),
+      rowsOf(w.practice, (x) => el('li', {},
+        el('span', { class: 'ws-title' }, el('b', { text: x.title }), x.topic ? el('span', { class: 'muted small', text: ` · ${x.topic}` }) : null),
+        el('span', { class: 'ws-score', text: `Điểm: ${scoreText(x.score, x.max)}` }))),
+      el('h4', { text: `Bài tập giáo viên giao (${w.teacher.length})` }),
+      rowsOf(w.teacher, (x) => el('li', {},
+        el('span', { class: 'ws-title' }, el('b', { text: x.title }), x.online ? el('span', { class: 'muted small', text: ' · trắc nghiệm trực tuyến' }) : null),
+        el('span', { class: `ws-score${x.score == null ? ' pending' : ''}`, text: `Điểm: ${scoreText(x.score, x.max)}` }),
+        x.comment ? el('div', { class: 'ws-comment' }, el('span', { class: 'lbl', text: 'Nhận xét: ' }), x.comment) : null)));
+  }));
 }
 
 function stat(k, v) {

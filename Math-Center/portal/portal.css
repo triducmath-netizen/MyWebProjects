@@ -101,6 +101,16 @@ body.portal { background: var(--tdm-paper); min-height: 100vh; display: flex; fl
 .gallery { display: grid; gap: 16px; }
 .gallery img { width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--tdm-line); }
 .file-card { display: grid; gap: 10px; }
+.week-summary { background: var(--tdm-white); border: 1px solid var(--tdm-line); border-radius: 16px; padding: 20px 24px; margin-bottom: 16px; }
+.week-summary h3 { margin: 0 0 8px; color: var(--tdm-teal); font-size: 1.05rem; }
+.week-summary h4 { margin: 14px 0 6px; font-size: .95rem; }
+.week-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.week-list li { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 10px 12px; border-radius: 10px; background: var(--tdm-paper); }
+.ws-score { font-weight: 600; white-space: nowrap; }
+.ws-score.pending { color: var(--tdm-slate); font-weight: 400; }
+.ws-comment { grid-column: 1 / -1; white-space: pre-wrap; border-left: 3px solid var(--tdm-gold); padding-left: 10px; }
+.ws-comment .lbl { font-weight: 600; color: var(--tdm-slate); }
+@media (max-width: 560px) { .week-list li { grid-template-columns: 1fr; } }
 .file-card p { margin: 0; }
 .file-card-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
 .pdf-pages { display: grid; gap: 12px; }
