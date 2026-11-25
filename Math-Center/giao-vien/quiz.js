@@ -3,7 +3,7 @@ import { sb, el, fmtNum, toast, errMsg, openDialog, uploadTo, BUCKET, fmtDateTim
 import {
   rich, imageUrls, qImage, KIND_LABEL, DEFAULT_POINTS, LETTERS, TF_LETTERS, reviewQuestion, fmtDeadline,
 } from '../portal/quiz-common.js?v=20261201a';
-import { downloadQuizPdf } from '../portal/pdf-export.js?v=20261201a';
+import { downloadQuizPdf } from '../portal/pdf-export.js?v=20261201b';
 
 let ctx; // { state, classSelect, rerender }
 let opts = {}; // { bank: true, back } khi mở từ Ngân hàng đề

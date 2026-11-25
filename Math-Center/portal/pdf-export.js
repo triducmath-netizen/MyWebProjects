@@ -22,7 +22,7 @@ function loadLib() {
 }
 
 const CSS = `
-.pdf-paper { width: 186mm; background: #fff; color: #111; font-family: 'Be Vietnam Pro', system-ui, sans-serif; font-size: 12.5px; line-height: 1.55; }
+.pdf-paper { width: 180mm; margin: 0 auto; background: #fff; color: #111; font-family: 'Be Vietnam Pro', system-ui, sans-serif; font-size: 12.5px; line-height: 1.55; }
 .pdf-paper * { box-sizing: border-box; }
 .pdf-paper .pdf-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; border-bottom: 2px solid #12284a; padding-bottom: 8px; }
 .pdf-paper .pdf-brand { font-weight: 700; color: #12284a; font-size: 14px; letter-spacing: .02em; }
@@ -186,6 +186,10 @@ export async function downloadQuizPdf(z, questions, urls, { keyMap = null, withK
   if (button) { button.disabled = true; button.textContent = 'Đang tạo PDF…'; }
   // Khung tạm nằm ngoài màn hình để hình và công thức tải xong trước khi chụp.
   const holder = el('div', { style: 'position:fixed;left:-10000px;top:0;z-index:-1;background:#fff', 'aria-hidden': 'true' });
+  // Thanh cuộn và vị trí cuộn của trang làm ảnh chụp bị lệch sang phải (mất mép phải tờ đề):
+  // tạm ẩn thanh cuộn, đưa trang về đầu trong lúc chụp, xong thì trả lại như cũ.
+  const root = document.documentElement;
+  const saved = { x: window.scrollX, y: window.scrollY, overflow: root.style.overflow };
   try {
     const html2pdf = await loadLib();
     const paper = buildPaper(z, questions, urls || new Map(), keyMap || new Map(), withKey);
@@ -194,11 +198,16 @@ export async function downloadQuizPdf(z, questions, urls, { keyMap = null, withK
     if (document.fonts?.ready) await document.fonts.ready;
     await waitImages(paper);
     const filename = `${slug(z.title)}${withKey ? '-dap-an' : ''}.pdf`;
+    root.style.overflow = 'hidden';
+    window.scrollTo(0, 0);
     await html2pdf().set({
       margin: [12, 12, 14, 12],
       filename,
       image: { type: 'jpeg', quality: 0.95 },
-      html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0 },
+      html2canvas: {
+        scale: 2, useCORS: true, backgroundColor: '#ffffff',
+        scrollX: 0, scrollY: 0,
+      },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       pagebreak: { mode: ['css', 'legacy'], avoid: ['.pdf-q', 'tr', 'h2'] },
     }).from(paper).toPdf().get('pdf').then((pdf) => {
@@ -218,6 +227,8 @@ export async function downloadQuizPdf(z, questions, urls, { keyMap = null, withK
     toast(`Chưa tạo được PDF: ${err?.message || err}`, 'error');
   } finally {
     holder.remove();
+    root.style.overflow = saved.overflow;
+    window.scrollTo(saved.x, saved.y);
     busy = false;
     if (button) { button.disabled = false; button.textContent = oldText; }
   }

@@ -3,7 +3,7 @@ import { sb, el, fmtNum, toast, errMsg, openDialog, fmtDateTime, askConfirm } fr
 import {
   rich, imageUrls, qImage, KIND_LABEL, LETTERS, TF_LETTERS, reviewQuestion, isAnswered, fmtDeadline,
 } from '../portal/quiz-common.js?v=20261201a';
-import { downloadQuizPdf } from '../portal/pdf-export.js?v=20261201a';
+import { downloadQuizPdf } from '../portal/pdf-export.js?v=20261201b';
 
 let timer = null;
 let leaveGuard = null;
