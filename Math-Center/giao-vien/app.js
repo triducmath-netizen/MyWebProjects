@@ -269,7 +269,7 @@ async function renderAssessment(body, a) {
 
   const [{ data: students, error: e1 }, { data: results, error: e2 }, { count }] = await Promise.all([
     sb.from('students').select('id, code, full_name').eq('class_id', state.classId).order('full_name'),
-    sb.from('results').select('id, student_id, score, comment, result_files(id)').eq('assessment_id', a.id),
+    sb.from('results').select('id, student_id, score, comment, result_files(id, path)').eq('assessment_id', a.id),
     sb.from('assessment_files').select('id', { count: 'exact', head: true }).eq('assessment_id', a.id),
   ]);
   testCount.textContent = `(${count ?? 0})`;
@@ -283,34 +283,46 @@ async function renderAssessment(body, a) {
   }
   const byStudent = new Map(results.map((r) => [r.student_id, r]));
   const done = results.filter((r) => r.score != null).length;
+  const waiting = (r) => !!r && r.score == null && r.result_files.length > 0; // HS đã gửi bài, chưa chấm
+  const nWait = results.filter(waiting).length;
+  // Bài học sinh gửi đang chờ chấm lên đầu danh sách.
+  const order = [...students].sort((x, y) => waiting(byStudent.get(y.id)) - waiting(byStudent.get(x.id)));
   body.append(
-    el('h3', { class: 'section-gap', text: `Kết quả học sinh (${done}/${students.length} đã chấm)` }),
-    el('div', { class: 'list' }, students.map((s) => gradeCard(a, s, byStudent.get(s.id)))));
+    el('h3', { class: 'section-gap', text: `Kết quả học sinh (${done}/${students.length} đã chấm${nWait ? ` · ${nWait} bài học sinh gửi đang chờ chấm` : ''})` }),
+    el('p', { class: 'muted small', text: 'Xem bài làm, nhập điểm và nhận xét rồi bấm "Gửi điểm & nhận xét": học sinh và phụ huynh sẽ thấy ngay trên trang của em.' }),
+    el('div', { class: 'list' }, order.map((s) => gradeCard(a, s, byStudent.get(s.id)))));
 }
 
 function gradeCard(a, s, r) {
   let current = r;
   const score = el('input', { type: 'number', min: '0', max: String(a.max_score), step: '0.25', inputmode: 'decimal',
     value: r?.score != null ? String(r.score) : '', 'aria-label': `Điểm của ${s.full_name}` });
-  const comment = el('textarea', { rows: 2, placeholder: 'Nhận xét cho phụ huynh…', 'aria-label': `Nhận xét cho ${s.full_name}` });
+  const comment = el('textarea', { rows: 2, placeholder: 'Nhận xét bài làm (học sinh và phụ huynh xem được)…', 'aria-label': `Nhận xét cho ${s.full_name}` });
   comment.value = r?.comment || '';
   const files = el('input', { type: 'file', accept: FILE_ACCEPT, multiple: true, 'aria-label': `Bài làm của ${s.full_name}` });
   const fileInfo = el('button', { class: 'btn btn-outline btn-sm', type: 'button' });
+  const viewWork = el('button', { type: 'button', onclick: async () => {
+    const { data, error } = await sb.from('result_files').select('path').eq('result_id', current.id).order('id');
+    if (error) { toast(errMsg(error), 'error'); return; }
+    showFiles(`Bài làm — ${s.full_name} — ${a.title}`, data.map((f) => f.path));
+  } });
   const setInfo = (n) => {
     const waiting = n > 0 && current?.score == null; // học sinh đã gửi, chưa chấm
-    fileInfo.textContent = waiting ? `Bài làm HS gửi (${n}) — chưa chấm` : `Bài làm (${n})`;
-    fileInfo.className = `btn btn-sm ${waiting ? 'btn-navy' : 'btn-outline'}`;
+    fileInfo.textContent = `Quản lý file (${n})`;
     fileInfo.disabled = !current;
+    viewWork.textContent = waiting ? `Xem bài làm HS gửi (${n}) — chưa chấm` : `Xem bài làm (${n})`;
+    viewWork.className = `btn btn-sm ${waiting ? 'btn-navy' : 'btn-outline'}`;
+    viewWork.disabled = !n;
   };
   setInfo(r?.result_files?.length ?? 0);
   fileInfo.addEventListener('click', () => manageFiles('result', current.id, `Bài làm — ${s.full_name}`, renderShell));
-  const save = el('button', { class: 'btn btn-gold btn-sm', type: 'button', text: 'Lưu' });
+  const save = el('button', { class: 'btn btn-gold btn-sm', type: 'button', text: 'Gửi điểm & nhận xét' });
 
   const card = el('div', { class: `grade-card${r?.score != null ? ' saved' : ''}` },
     el('div', { class: 'who' }, el('b', { text: s.full_name }), el('span', { class: 'muted small', text: s.code })),
     el('label', { class: 'field' }, `Điểm /${fmtNum(a.max_score)}`, score),
     el('label', { class: 'field cmt' }, 'Nhận xét', comment),
-    el('div', { class: 'files' }, files, fileInfo, save));
+    el('div', { class: 'files' }, viewWork, files, fileInfo, save));
 
   save.addEventListener('click', async () => {
     const val = score.value.trim() === '' ? null : Number(score.value);
@@ -329,11 +341,11 @@ function gradeCard(a, s, r) {
       const { count } = await sb.from('result_files').select('id', { count: 'exact', head: true }).eq('result_id', data.id);
       setInfo(count ?? 0);
       card.classList.toggle('saved', val != null);
-      toast(`Đã lưu kết quả của ${s.full_name}.`);
+      toast(val != null ? `Đã gửi điểm và nhận xét cho em ${s.full_name}.` : `Đã lưu nhận xét cho em ${s.full_name} (chưa có điểm).`);
     } catch (err) {
       toast(errMsg(err), 'error');
     } finally {
-      save.disabled = false; save.textContent = 'Lưu';
+      save.disabled = false; save.textContent = 'Gửi điểm & nhận xét';
     }
   });
   return card;

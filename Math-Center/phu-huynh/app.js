@@ -320,7 +320,15 @@ function weekCard(r, s, refresh) {
         onclick: () => submitWork(a, s, refresh) }),
       el('button', { class: 'btn btn-outline btn-sm', disabled: !workFiles.length,
         text: workFiles.length ? `Bài làm đã gửi (${workFiles.length})` : 'Chưa gửi bài làm',
-        onclick: () => graded ? showFiles(`Bài làm — ${a.title}`, workFiles) : myWork(r, a, refresh) })));
+        onclick: () => graded ? showFiles(`Bài làm — ${a.title}`, workFiles, gradeBox(r, a)) : myWork(r, a, refresh) })));
+}
+
+// Điểm + nhận xét của giáo viên, hiện ở đầu phần xem bài làm đã chấm.
+function gradeBox(r, a) {
+  return el('div', { class: 'comment', style: 'margin-bottom:16px' },
+    el('span', { class: 'lbl', text: 'Kết quả giáo viên chấm' }),
+    el('p', {}, el('b', { text: `Điểm: ${fmtNum(r.score)} / ${fmtNum(a.max_score)}` })),
+    r.comment ? el('p', { text: r.comment }) : null);
 }
 
 // Học sinh chụp bài làm và gửi cho giáo viên (chỉ khi bài chưa chấm).
