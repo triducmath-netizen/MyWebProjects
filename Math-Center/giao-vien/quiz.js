@@ -2,7 +2,8 @@
 import { sb, el, fmtNum, toast, errMsg, openDialog, uploadTo, BUCKET, fmtDateTime, askConfirm } from '../portal/common.js?v=20261124g';
 import {
   rich, imageUrls, qImage, KIND_LABEL, DEFAULT_POINTS, LETTERS, TF_LETTERS, reviewQuestion, fmtDeadline,
-} from '../portal/quiz-common.js?v=20261124g';
+} from '../portal/quiz-common.js?v=20261201a';
+import { downloadQuizPdf } from '../portal/pdf-export.js?v=20261201a';
 
 let ctx; // { state, classSelect, rerender }
 let opts = {}; // { bank: true, back } khi mở từ Ngân hàng đề
@@ -184,6 +185,10 @@ async function renderEditor(view, quizId) {
     el('div', { class: 'row', style: 'margin-bottom:16px' },
       el('button', { class: 'btn btn-outline btn-sm', text: bank ? '← Ngân hàng đề' : '← Danh sách đề', onclick: back }),
       el('button', { class: 'btn btn-outline btn-sm', text: 'Xem như học sinh', onclick: () => previewAsStudent(z, questions, urls) }),
+      el('button', { class: 'btn btn-navy btn-sm', text: 'Tải đề (PDF)',
+        onclick: (e) => downloadQuizPdf(z, questions, urls, { button: e.currentTarget }) }),
+      el('button', { class: 'btn btn-gold btn-sm', text: 'Tải đáp án (PDF)',
+        onclick: (e) => downloadQuizPdf(z, questions, urls, { keyMap, withKey: true, button: e.currentTarget }) }),
       canDelete ? el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa đề', disabled: locked,
         title: locked ? 'Đề đã có học sinh làm nên không xóa được' : 'Xóa đề',
         onclick: () => deleteQuiz(z, back) }) : null),
@@ -426,25 +431,35 @@ async function renderResults(view, quizId) {
   const done = (attempts || []).filter((a) => a.submitted_at);
   const on10 = done.map((a) => (Number(a.score) / Number(a.max_score || 1)) * 10);
   const avg = on10.length ? on10.reduce((s, x) => s + x, 0) / on10.length : null;
+  const maxPts = (questions || []).reduce((s, q) => s + Number(q.points), 0);
 
   const rows = (students || []).map((s) => {
     const a = byStudent.get(s.id);
     let status;
     if (!a) status = el('span', { class: 'badge warn', text: 'Chưa làm' });
     else if (!a.submitted_at) status = el('span', { class: 'badge', text: 'Đang làm' });
-    else status = el('b', { text: `${fmtNum(a.score)} / ${fmtNum(a.max_score)}` });
+    else {
+      status = el('div', {}, el('b', { text: `${fmtNum(a.score)} / ${fmtNum(a.max_score)}` }),
+        a.mode === 'manual' ? el('div', {}, el('span', { class: 'badge', text: 'Bài giấy · GV chấm' })) : null,
+        a.mode === 'paper' ? el('div', {}, el('span', { class: 'badge', text: 'Bài giấy · HS nhập phiếu' })) : null);
+    }
+    const manual = a?.mode === 'manual';
     return el('tr', {},
       el('td', {}, el('b', { text: s.full_name }), el('div', { class: 'muted small', text: s.code })),
       el('td', {}, status),
       el('td', { class: 'small', text: a?.submitted_at ? fmtDateTime(a.submitted_at) : '' }),
-      el('td', {}, a ? el('div', { class: 'acts' },
-        a.submitted_at ? el('button', { class: 'btn btn-outline btn-sm', text: 'Xem bài', onclick: () => showAttempt(s, a, questions) }) : null,
-        el('button', { class: 'btn btn-danger btn-sm', text: 'Cho làm lại', onclick: async () => {
-          if (!await askConfirm(`Xóa bài làm của ${s.full_name} để em làm lại từ đầu?`)) return;
+      el('td', {}, el('div', { class: 'acts' },
+        !a || manual ? el('button', { class: 'btn btn-outline btn-sm', text: manual ? 'Sửa điểm' : 'Nhập điểm bài giấy',
+          onclick: () => paperScoreDialog(z, s, a, maxPts) }) : null,
+        a?.submitted_at && !manual ? el('button', { class: 'btn btn-outline btn-sm', text: 'Xem bài', onclick: () => showAttempt(s, a, questions) }) : null,
+        a ? el('button', { class: 'btn btn-danger btn-sm', text: manual ? 'Xóa điểm' : 'Cho làm lại', onclick: async () => {
+          if (!await askConfirm(manual
+            ? `Xóa điểm bài giấy của ${s.full_name}? Em sẽ có thể làm lại bài này.`
+            : `Xóa bài làm của ${s.full_name} để em làm lại từ đầu?`)) return;
           const { error: e2 } = await sb.from('quiz_attempts').delete().eq('id', a.id);
           if (e2) { toast(errMsg(e2), 'error'); return; }
-          toast('Đã cho làm lại.'); ctx.rerender();
-        } })) : null));
+          toast(manual ? 'Đã xóa điểm.' : 'Đã cho làm lại.'); ctx.rerender();
+        } }) : null)));
   });
 
   view.append(
@@ -453,6 +468,7 @@ async function renderResults(view, quizId) {
       el('button', { class: 'btn btn-outline btn-sm', text: 'Soạn đề', onclick: () => go({ quizId }) })),
     el('div', { class: 'panel' },
       el('h2', { text: `Kết quả: ${z.title}` }),
+      el('p', { class: 'muted small', text: 'Học sinh làm trên giấy: chấm bài rồi bấm "Nhập điểm bài giấy" ở dòng của em đó. Điểm hiện ngay cho học sinh và phụ huynh.' }),
       el('div', { class: 'stats' },
         el('div', { class: 'stat' }, el('div', { class: 'k', text: 'Đã nộp' }), el('div', { class: 'v', text: `${done.length}/${students?.length ?? 0}` })),
         el('div', { class: 'stat' }, el('div', { class: 'k', text: 'Điểm TB (thang 10)' }), el('div', { class: 'v', text: avg == null ? '—' : fmtNum(Math.round(avg * 100) / 100) })),
@@ -460,6 +476,31 @@ async function renderResults(view, quizId) {
     el('div', { class: 'table-wrap section-gap' }, el('table', { class: 'results-table' },
       el('thead', {}, el('tr', {}, el('th', { text: 'Học sinh' }), el('th', { text: 'Điểm' }), el('th', { text: 'Nộp lúc' }), el('th', { text: '' }))),
       el('tbody', {}, rows))));
+}
+
+// Nhập / sửa điểm bài làm trên giấy (thang điểm của đề, tối đa = tổng điểm các câu).
+function paperScoreDialog(z, s, a, maxPts) {
+  if (!(maxPts > 0)) { toast('Đề chưa có câu hỏi nào.', 'error'); return; }
+  const inp = el('input', { type: 'number', min: '0', max: String(maxPts), step: 'any', required: true,
+    value: a?.mode === 'manual' ? String(Number(a.score)) : '' });
+  const btn = el('button', { class: 'btn btn-gold', type: 'submit', text: 'Lưu điểm' });
+  const form = el('form', { class: 'form-grid' },
+    el('p', { class: 'muted small', text: `Điểm bài làm trên giấy của ${s.full_name}. Thang điểm của đề: 0 – ${fmtNum(maxPts)}.` }),
+    el('label', {}, `Điểm (tối đa ${fmtNum(maxPts)})`, inp,
+      el('small', { class: 'muted', text: 'Viết dấu chấm cho số thập phân, ví dụ 7.5' })),
+    btn);
+  const dlg = openDialog(`${a ? 'Sửa' : 'Nhập'} điểm bài giấy — ${z.title}`, form);
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const v = Number(String(inp.value).replace(',', '.'));
+    if (!(Number.isFinite(v) && v >= 0 && v <= maxPts)) { toast(`Điểm phải từ 0 đến ${fmtNum(maxPts)}.`, 'error'); return; }
+    btn.disabled = true; btn.textContent = 'Đang lưu…';
+    const { error } = await sb.rpc('record_paper_score', { p_quiz: z.id, p_student: s.id, p_score: v });
+    if (error) { toast(errMsg(error), 'error'); btn.disabled = false; btn.textContent = 'Lưu điểm'; return; }
+    dlg.close();
+    toast(`Đã lưu điểm ${fmtNum(v)} / ${fmtNum(maxPts)} cho ${s.full_name}.`);
+    ctx.rerender();
+  });
 }
 
 async function showAttempt(s, a, questions) {

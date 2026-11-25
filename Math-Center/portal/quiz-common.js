@@ -70,18 +70,33 @@ export function fmtDeadline(ts) {
 }
 
 // Xem lại một câu sau khi nộp: câu trả lời của học sinh, đáp án đúng, điểm, lời giải.
-export function reviewQuestion(q, index, answer, key, earned, urls) {
+// keyOnly: bài giấy giáo viên chấm tay — không có câu trả lời từng câu, chỉ hiện đáp án và lời giải.
+export function reviewQuestion(q, index, answer, key, earned, urls, { keyOnly = false } = {}) {
   const full = earned != null && Number(earned) >= Number(q.points);
   const zero = earned == null || Number(earned) === 0;
-  const status = full ? 'ok' : zero ? 'bad' : 'part';
+  const status = keyOnly ? '' : full ? 'ok' : zero ? 'bad' : 'part';
   const head = el('div', { class: 'q-head' },
     el('span', { class: 'q-num', text: `Câu ${index + 1}` }),
     el('span', { class: 'q-kind', text: KIND_LABEL[q.kind] }),
-    el('span', { class: `q-pts ${status}`, text: `${fmtNum(earned ?? 0)} / ${fmtNum(q.points)} điểm` }));
+    el('span', { class: `q-pts ${status}`, text: keyOnly ? `${fmtNum(q.points)} điểm` : `${fmtNum(earned ?? 0)} / ${fmtNum(q.points)} điểm` }));
 
   const body = [rich(q.prompt), qImage(q.image_path, urls, `Hình câu ${index + 1}`)];
 
-  if (q.kind === 'mcq') {
+  if (keyOnly) {
+    if (q.kind === 'mcq') {
+      body.push(el('div', { class: 'opts review' }, q.options.map((o, i) => el('div', { class: `opt${key && key.answer === i ? ' correct' : ''}` },
+        el('b', { text: `${LETTERS[i]}.` }), rich(o, 'rich inline'),
+        key && key.answer === i ? el('span', { class: 'tag-mini ok', text: 'Đáp án' }) : null))));
+    } else if (q.kind === 'tf') {
+      body.push(el('table', { class: 'tf-table review' },
+        el('thead', {}, el('tr', {}, el('th', { text: 'Ý' }), el('th', { text: 'Nội dung' }), el('th', { text: 'Đáp án' }))),
+        el('tbody', {}, q.options.map((o, i) => el('tr', {},
+          el('td', { text: `${TF_LETTERS[i]})` }), el('td', {}, rich(o, 'rich inline')),
+          el('td', { text: key ? (key.answer[i] ? 'Đúng' : 'Sai') : '?' }))))));
+    } else if (key) {
+      body.push(el('div', { class: 'short-review' }, el('div', {}, 'Đáp án: ', el('b', { text: key.answer.join('  hoặc  ') }))));
+    }
+  } else if (q.kind === 'mcq') {
     body.push(el('div', { class: 'opts review' }, q.options.map((o, i) => {
       const chosen = answer === i;
       const correct = key && key.answer === i;
@@ -114,5 +129,5 @@ export function reviewQuestion(q, index, answer, key, earned, urls) {
       key.explanation ? rich(key.explanation) : null,
       qImage(key.explanation_image_path, urls, `Lời giải câu ${index + 1}`)));
   }
-  return el('article', { class: `q-card review ${status}` }, head, ...body);
+  return el('article', { class: `q-card review${status ? ` ${status}` : ''}` }, head, ...body);
 }

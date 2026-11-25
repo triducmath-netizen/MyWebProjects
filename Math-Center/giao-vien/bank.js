@@ -2,7 +2,7 @@
 // Giáo viên: xem, sửa đề. Chỉ quản trị viên: ẩn/hiện, xóa câu, xóa đề.
 // Quyền được kiểm tra trên máy chủ (RLS); giao diện chỉ ẩn nút cho gọn.
 import { sb, el, toast, errMsg, askConfirm } from '../portal/common.js?v=20261124g';
-import { renderQuizEditor, deleteQuiz } from './quiz.js?v=20261124g';
+import { renderQuizEditor, deleteQuiz } from './quiz.js?v=20261201a';
 
 export const LEVELS = [['tb', 'Mức độ 1'], ['kha', 'Mức độ 2'], ['gioi', 'Mức độ 3']];
 export const levelName = (lv) => LEVELS.find((l) => l[0] === lv)?.[1] ?? lv;
