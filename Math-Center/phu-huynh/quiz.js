@@ -1,9 +1,9 @@
 // Trang học sinh — làm bài trực tuyến, xem điểm và lời giải.
-import { sb, el, fmtNum, toast, errMsg, openDialog, fmtDateTime, askConfirm } from '../portal/common.js?v=20261124g';
+import { sb, el, fmtNum, toast, errMsg, openDialog, fmtDateTime, askConfirm } from '../portal/common.js?v=20261202a';
 import {
   rich, imageUrls, qImage, KIND_LABEL, LETTERS, TF_LETTERS, reviewQuestion, isAnswered, fmtDeadline,
-} from '../portal/quiz-common.js?v=20261201a';
-import { downloadQuizPdf } from '../portal/pdf-export.js?v=20261201b';
+} from '../portal/quiz-common.js?v=20261202a';
+import { downloadQuizPdf } from '../portal/pdf-export.js?v=20261202a';
 
 let timer = null;
 let leaveGuard = null;

@@ -1,11 +1,11 @@
 import {
   sb, logout, configured, $, el, normalizeCode, mondayOf, toISODate, weekLabel, fmtNum,
-  randomPassword, uploadTo, toast, errMsg, openDialog, showFiles, notConfiguredNotice, formatLinkCode, displayLogin,
+  randomPassword, uploadTo, toast, errMsg, openDialog, showFiles, FILE_ACCEPT, fileKind, notConfiguredNotice, formatLinkCode, displayLogin,
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm, copyBox, fmtDateTime,
-} from '../portal/common.js?v=20261124g';
+} from '../portal/common.js?v=20261202a';
 import { SUPABASE_URL } from '../portal/config.js';
-import { renderQuizTab } from './quiz.js?v=20261201b';
-import { renderBankTab } from './bank.js?v=20261201b';
+import { renderQuizTab } from './quiz.js?v=20261202a';
+import { renderBankTab } from './bank.js?v=20261202a';
 
 const app = $('#app');
 const top = $('#top-actions');
@@ -162,10 +162,14 @@ function newAssessment(existing) {
         el('input', { name: 'week', type: 'date', required: true, value: existing?.week_start || toISODate(mondayOf()) })),
       el('label', { class: 'field' }, 'Điểm tối đa',
         el('input', { name: 'max', type: 'number', min: '1', step: '0.25', required: true, value: String(existing?.max_score ?? 10) }))),
-    existing ? null : el('label', {}, 'File đề bài (ảnh hoặc PDF, có thể chọn nhiều)',
-      el('input', { name: 'files', type: 'file', accept: 'image/*,application/pdf', multiple: true })),
+    existing ? null : el('label', {}, 'File đề bài (ảnh, PDF hoặc Word, tối đa 10 MB/file, có thể chọn nhiều)',
+      el('input', { name: 'files', type: 'file', accept: FILE_ACCEPT, multiple: true }),
+      el('span', { class: 'muted small', text: 'Nên lưu đề thành PDF (Word → Lưu thành → PDF): học sinh xem được ngay trên trang. File Word học sinh phải tải về mới xem được.' })),
     el('button', { class: 'btn btn-gold', type: 'submit', text: existing ? 'Lưu thay đổi' : 'Tạo bài kiểm tra' }));
   const dlg = openDialog(existing ? 'Sửa bài kiểm tra' : 'Bài kiểm tra mới', form);
+  let createdId = null; // bài đã tạo nhưng tải file lỗi → "Thử lại" chỉ tải lại file, không tạo bài trùng
+  const uploaded = new Set(); // file đã tải xong ở lần trước, không tải lại
+  dlg.addEventListener('close', () => { if (createdId) renderShell(); });
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = form.querySelector('button[type=submit]');
@@ -182,32 +186,44 @@ function newAssessment(existing) {
         const { error } = await sb.from('assessments').update(row).eq('id', id);
         if (error) throw error;
       } else {
-        const { data, error } = await sb.from('assessments').insert({ ...row, class_id: state.classId }).select('id').single();
-        if (error) throw error;
-        id = data.id;
-        await attachFiles('assessment', id, form.files.files);
+        if (createdId) {
+          id = createdId;
+          const { error } = await sb.from('assessments').update(row).eq('id', id);
+          if (error) throw error;
+        } else {
+          const { data, error } = await sb.from('assessments').insert({ ...row, class_id: state.classId }).select('id').single();
+          if (error) throw error;
+          id = createdId = data.id;
+          state.assessmentId = id;
+        }
+        await attachFiles('assessment', id, form.files.files, uploaded);
       }
       state.assessmentId = id;
+      createdId = null;
       dlg.close();
       toast('Đã lưu bài kiểm tra.');
       renderShell();
     } catch (err) {
-      toast(errMsg(err), 'error');
+      toast(createdId
+        ? `Đã tạo bài kiểm tra nhưng chưa tải được file: ${errMsg(err)} Chọn lại file rồi bấm "Thử lại", hoặc đóng hộp thoại và thêm file sau.`
+        : errMsg(err), 'error');
       btn.disabled = false; btn.textContent = 'Thử lại';
     }
   });
 }
 
 // Tải file lên và ghi vào bảng tương ứng.
-async function attachFiles(kind, id, files) {
+async function attachFiles(kind, id, files, done = new Set()) {
   const folder = kind === 'assessment' ? `assessments/${id}` : `results/${id}`;
   const table = kind === 'assessment' ? 'assessment_files' : 'result_files';
   const key = kind === 'assessment' ? 'assessment_id' : 'result_id';
-  for (const f of files) {
-    if (f.size > 25 * 1024 * 1024) throw new Error(`File "${f.name}" quá lớn.`);
+  for (const f of [...files]) {
+    const sig = `${f.name}|${f.size}|${f.lastModified}`;
+    if (done.has(sig)) continue;
     const path = await uploadTo(folder, f);
     const { error } = await sb.from(table).insert({ [key]: id, path });
     if (error) { await sb.storage.from('tdm').remove([path]); throw error; }
+    done.add(sig);
   }
 }
 
@@ -217,7 +233,7 @@ async function manageFiles(kind, id, title, onDone) {
   const { data: rows, error } = await sb.from(table).select('id, path').eq(key, id).order('id');
   if (error) { toast(errMsg(error), 'error'); return; }
   const list = el('div', { class: 'list' }, rows.length ? rows.map((r, i) => el('div', { class: 'item' },
-    el('span', { text: `File ${i + 1} (${r.path.endsWith('.pdf') ? 'PDF' : 'ảnh'})` }),
+    el('span', { text: `File ${i + 1} (${fileKind(r.path)})` }),
     el('div', { class: 'acts' },
       el('button', { class: 'btn btn-outline btn-sm', text: 'Xem', onclick: () => showFiles(title, [r.path]) }),
       el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: async () => {
@@ -243,7 +259,7 @@ async function renderAssessment(body, a) {
         el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa bài', onclick: () => deleteAssessment(a) }))),
     el('div', { class: 'row section-gap' },
       el('label', { class: 'field' }, 'Thêm file đề bài',
-        el('input', { type: 'file', accept: 'image/*,application/pdf', multiple: true, onchange: async (e) => {
+        el('input', { type: 'file', accept: FILE_ACCEPT, multiple: true, onchange: async (e) => {
           const input = e.target;
           try { await attachFiles('assessment', a.id, input.files); toast('Đã tải đề bài lên.'); renderShell(); }
           catch (err) { toast(errMsg(err), 'error'); input.value = ''; }
@@ -253,7 +269,7 @@ async function renderAssessment(body, a) {
 
   const [{ data: students, error: e1 }, { data: results, error: e2 }, { count }] = await Promise.all([
     sb.from('students').select('id, code, full_name').eq('class_id', state.classId).order('full_name'),
-    sb.from('results').select('id, student_id, score, comment, result_files(id)').eq('assessment_id', a.id),
+    sb.from('results').select('id, student_id, score, comment, result_files(id, path)').eq('assessment_id', a.id),
     sb.from('assessment_files').select('id', { count: 'exact', head: true }).eq('assessment_id', a.id),
   ]);
   testCount.textContent = `(${count ?? 0})`;
@@ -267,29 +283,46 @@ async function renderAssessment(body, a) {
   }
   const byStudent = new Map(results.map((r) => [r.student_id, r]));
   const done = results.filter((r) => r.score != null).length;
+  const waiting = (r) => !!r && r.score == null && r.result_files.length > 0; // HS đã gửi bài, chưa chấm
+  const nWait = results.filter(waiting).length;
+  // Bài học sinh gửi đang chờ chấm lên đầu danh sách.
+  const order = [...students].sort((x, y) => waiting(byStudent.get(y.id)) - waiting(byStudent.get(x.id)));
   body.append(
-    el('h3', { class: 'section-gap', text: `Kết quả học sinh (${done}/${students.length} đã chấm)` }),
-    el('div', { class: 'list' }, students.map((s) => gradeCard(a, s, byStudent.get(s.id)))));
+    el('h3', { class: 'section-gap', text: `Kết quả học sinh (${done}/${students.length} đã chấm${nWait ? ` · ${nWait} bài học sinh gửi đang chờ chấm` : ''})` }),
+    el('p', { class: 'muted small', text: 'Xem bài làm, nhập điểm và nhận xét rồi bấm "Gửi điểm & nhận xét": học sinh và phụ huynh sẽ thấy ngay trên trang của em.' }),
+    el('div', { class: 'list' }, order.map((s) => gradeCard(a, s, byStudent.get(s.id)))));
 }
 
 function gradeCard(a, s, r) {
   let current = r;
   const score = el('input', { type: 'number', min: '0', max: String(a.max_score), step: '0.25', inputmode: 'decimal',
     value: r?.score != null ? String(r.score) : '', 'aria-label': `Điểm của ${s.full_name}` });
-  const comment = el('textarea', { rows: 2, placeholder: 'Nhận xét cho phụ huynh…', 'aria-label': `Nhận xét cho ${s.full_name}` });
+  const comment = el('textarea', { rows: 2, placeholder: 'Nhận xét bài làm (học sinh và phụ huynh xem được)…', 'aria-label': `Nhận xét cho ${s.full_name}` });
   comment.value = r?.comment || '';
-  const files = el('input', { type: 'file', accept: 'image/*,application/pdf', multiple: true, 'aria-label': `Bài làm của ${s.full_name}` });
+  const files = el('input', { type: 'file', accept: FILE_ACCEPT, multiple: true, 'aria-label': `Bài làm của ${s.full_name}` });
   const fileInfo = el('button', { class: 'btn btn-outline btn-sm', type: 'button' });
-  const setInfo = (n) => { fileInfo.textContent = `Bài làm (${n})`; fileInfo.disabled = !current; };
+  const viewWork = el('button', { type: 'button', onclick: async () => {
+    const { data, error } = await sb.from('result_files').select('path').eq('result_id', current.id).order('id');
+    if (error) { toast(errMsg(error), 'error'); return; }
+    showFiles(`Bài làm — ${s.full_name} — ${a.title}`, data.map((f) => f.path));
+  } });
+  const setInfo = (n) => {
+    const waiting = n > 0 && current?.score == null; // học sinh đã gửi, chưa chấm
+    fileInfo.textContent = `Quản lý file (${n})`;
+    fileInfo.disabled = !current;
+    viewWork.textContent = waiting ? `Xem bài làm HS gửi (${n}) — chưa chấm` : `Xem bài làm (${n})`;
+    viewWork.className = `btn btn-sm ${waiting ? 'btn-navy' : 'btn-outline'}`;
+    viewWork.disabled = !n;
+  };
   setInfo(r?.result_files?.length ?? 0);
   fileInfo.addEventListener('click', () => manageFiles('result', current.id, `Bài làm — ${s.full_name}`, renderShell));
-  const save = el('button', { class: 'btn btn-gold btn-sm', type: 'button', text: 'Lưu' });
+  const save = el('button', { class: 'btn btn-gold btn-sm', type: 'button', text: 'Gửi điểm & nhận xét' });
 
   const card = el('div', { class: `grade-card${r?.score != null ? ' saved' : ''}` },
     el('div', { class: 'who' }, el('b', { text: s.full_name }), el('span', { class: 'muted small', text: s.code })),
     el('label', { class: 'field' }, `Điểm /${fmtNum(a.max_score)}`, score),
     el('label', { class: 'field cmt' }, 'Nhận xét', comment),
-    el('div', { class: 'files' }, files, fileInfo, save));
+    el('div', { class: 'files' }, viewWork, files, fileInfo, save));
 
   save.addEventListener('click', async () => {
     const val = score.value.trim() === '' ? null : Number(score.value);
@@ -303,16 +336,16 @@ function gradeCard(a, s, r) {
           { onConflict: 'assessment_id,student_id' })
         .select('id, result_files(id)').single();
       if (error) throw error;
-      current = data;
+      current = { ...data, score: val };
       if (files.files.length) { await attachFiles('result', data.id, files.files); files.value = ''; }
       const { count } = await sb.from('result_files').select('id', { count: 'exact', head: true }).eq('result_id', data.id);
       setInfo(count ?? 0);
       card.classList.toggle('saved', val != null);
-      toast(`Đã lưu kết quả của ${s.full_name}.`);
+      toast(val != null ? `Đã gửi điểm và nhận xét cho em ${s.full_name}.` : `Đã lưu nhận xét cho em ${s.full_name} (chưa có điểm).`);
     } catch (err) {
       toast(errMsg(err), 'error');
     } finally {
-      save.disabled = false; save.textContent = 'Lưu';
+      save.disabled = false; save.textContent = 'Gửi điểm & nhận xét';
     }
   });
   return card;

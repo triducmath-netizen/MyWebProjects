@@ -192,18 +192,52 @@ export async function prepareFile(file) {
   }
 }
 
+// Kho file chỉ nhận các loại này, tối đa 10 MB mỗi file
+// (khớp storage.buckets 'tdm' trong supabase/migrations/20261122000000_parent_portal.sql).
+export const MAX_UPLOAD_MB = 10;
+const DOC = 'application/msword';
+const DOCX = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf', DOC, DOCX];
+const TYPE_BY_EXT = { pdf: 'application/pdf', jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', doc: DOC, docx: DOCX };
+// Ô chọn file đề bài / bài làm: ảnh, PDF, Word.
+export const FILE_ACCEPT = 'image/*,application/pdf,.pdf,.doc,.docx,' + DOC + ',' + DOCX;
+// Tên loại file theo đuôi đường dẫn trong kho.
+export function fileKind(path) {
+  if (/\.pdf$/i.test(path)) return 'PDF';
+  if (/\.docx?$/i.test(path)) return 'Word';
+  return 'ảnh';
+}
+
+// Loại file thật: một số máy (Android, Zalo, ổ mạng) gửi file PDF/ảnh với type rỗng hoặc lạ.
+function fileType(file) {
+  if (ALLOWED_TYPES.includes(file.type)) return file.type;
+  if (file.type === 'image/jpg' || file.type === 'image/pjpeg') return 'image/jpeg';
+  const ext = (file.name.match(/\.(\w+)$/)?.[1] || '').toLowerCase();
+  return TYPE_BY_EXT[ext] || file.type || '';
+}
+
 export function extOf(file) {
-  if (file.type === 'application/pdf') return 'pdf';
-  if (file.type === 'image/png') return 'png';
-  if (file.type === 'image/webp') return 'webp';
+  const t = fileType(file);
+  if (t === 'application/pdf') return 'pdf';
+  if (t === DOC) return 'doc';
+  if (t === DOCX) return 'docx';
+  if (t === 'image/png') return 'png';
+  if (t === 'image/webp') return 'webp';
   return 'jpg';
 }
 
 // Tải file lên kho riêng tư, trả về đường dẫn.
 export async function uploadTo(folder, file) {
   const f = await prepareFile(file);
+  const type = fileType(f);
+  if (!ALLOWED_TYPES.includes(type)) {
+    throw new Error(`File "${file.name}" không đúng định dạng. Chỉ nhận ảnh (JPG, PNG, WEBP), PDF hoặc Word (.doc, .docx). Ảnh HEIC của iPhone hãy đổi sang JPG.`);
+  }
+  if (f.size > MAX_UPLOAD_MB * 1024 * 1024) {
+    throw new Error(`File "${file.name}" nặng ${(f.size / 1024 / 1024).toFixed(1)} MB, vượt quá ${MAX_UPLOAD_MB} MB. Hãy nén PDF hoặc chia thành nhiều file nhỏ hơn.`);
+  }
   const path = `${folder}/${crypto.randomUUID()}.${extOf(f)}`;
-  const { error } = await sb.storage.from(BUCKET).upload(path, f, { contentType: f.type, upsert: false });
+  const { error } = await sb.storage.from(BUCKET).upload(path, f, { contentType: type, upsert: false });
   if (error) throw error;
   return path;
 }
@@ -212,7 +246,7 @@ export async function signedUrls(paths) {
   if (!paths.length) return [];
   const { data, error } = await sb.storage.from(BUCKET).createSignedUrls(paths, 3600);
   if (error) throw error;
-  return data.map((d) => ({ path: d.path, url: d.signedUrl, pdf: d.path.endsWith('.pdf') }));
+  return data.map((d) => ({ path: d.path, url: d.signedUrl, pdf: d.path.endsWith('.pdf'), kind: fileKind(d.path) }));
 }
 
 // ---------- Thông báo nhỏ ----------
@@ -231,6 +265,8 @@ export function errMsg(e) {
   if (/duplicate key/i.test(m)) return 'Dữ liệu bị trùng.';
   if (/row-level security|permission denied/i.test(m)) return 'Bạn không có quyền thực hiện việc này.';
   if (/Failed to fetch|NetworkError/i.test(m)) return 'Mất kết nối mạng. Vui lòng thử lại.';
+  if (/exceeded the maximum allowed size|Payload too large/i.test(m)) return 'File quá lớn (tối đa 10 MB mỗi file).';
+  if (/mime type .* is not supported|invalid_mime_type/i.test(m)) return 'File không đúng định dạng. Chỉ nhận ảnh (JPG, PNG, WEBP), PDF hoặc Word.';
   return m;
 }
 
@@ -290,17 +326,65 @@ export function copyBox(text) {
   return el('div', { class: 'form-grid' }, box, btn);
 }
 
-export async function showFiles(title, paths) {
-  const body = el('div', { class: 'gallery' }, el('p', { class: 'muted', text: 'Đang tải…' }));
-  openDialog(title, body, { wide: true });
+// Xem file đề / bài làm ngay trong trang: ảnh hiện trực tiếp, PDF vẽ từng trang
+// (trình duyệt điện thoại không hiện được PDF nhúng), file Word chỉ tải về
+// (trình duyệt không vẽ được công thức MathType trong Word).
+// intro: phần đầu hộp thoại (ví dụ tuần, điểm tối đa) — không bắt buộc.
+export async function showFiles(title, paths, intro = null) {
+  const body = el('div', { class: 'gallery' }, el('p', { class: 'muted', text: 'Đang tải đề…' }));
+  openDialog(title, el('div', {}, intro, body), { wide: true });
   try {
     const files = await signedUrls(paths);
-    body.replaceChildren(...files.map((f, i) => f.pdf
-      ? el('a', { class: 'btn btn-outline', href: f.url, target: '_blank', rel: 'noopener', text: `Mở file PDF ${i + 1}` })
-      : el('a', { href: f.url, target: '_blank', rel: 'noopener', title: 'Mở ảnh cỡ lớn' },
-          el('img', { src: f.url, alt: `${title} — trang ${i + 1}`, loading: 'lazy' }))));
+    const many = files.length > 1;
+    body.replaceChildren(...files.map((f, i) => {
+      const label = many ? `File ${i + 1} — ` : '';
+      if (f.kind === 'Word') {
+        return el('div', { class: 'file-card' },
+          el('p', { text: `${label}File Word: bấm để tải về và mở bằng Word (hoặc ứng dụng Word trên điện thoại).` }),
+          el('a', { class: 'btn btn-navy btn-sm', href: f.url, target: '_blank', rel: 'noopener', text: 'Tải file Word' }));
+      }
+      if (f.kind === 'PDF') {
+        const pages = el('div', { class: 'pdf-pages' }, el('p', { class: 'muted', text: 'Đang mở PDF…' }));
+        renderPdf(pages, f.url, `${title} — ${label}trang`);
+        return el('div', { class: 'file-card' },
+          el('div', { class: 'file-card-head' },
+            el('span', { class: 'muted small', text: `${label}PDF` }),
+            el('a', { class: 'btn btn-outline btn-sm', href: f.url, target: '_blank', rel: 'noopener', text: 'Mở / tải PDF' })),
+          pages);
+      }
+      return el('a', { href: f.url, target: '_blank', rel: 'noopener', title: 'Mở ảnh cỡ lớn' },
+        el('img', { src: f.url, alt: `${title} — ${label}ảnh`, loading: 'lazy' }));
+    }));
   } catch (e) {
     body.replaceChildren(el('p', { class: 'error-text', text: errMsg(e) }));
+  }
+}
+
+const PDFJS = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/build/';
+let pdfjsLib = null;
+async function renderPdf(box, url, alt) {
+  try {
+    if (!pdfjsLib) {
+      pdfjsLib = await import(PDFJS + 'pdf.min.mjs');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS + 'pdf.worker.min.mjs';
+    }
+    const pdf = await pdfjsLib.getDocument({ url }).promise;
+    box.replaceChildren();
+    const width = Math.min(box.clientWidth || 900, 900);
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    for (let n = 1; n <= pdf.numPages; n++) {
+      const page = await pdf.getPage(n);
+      const base = page.getViewport({ scale: 1 });
+      const vp = page.getViewport({ scale: (width / base.width) * ratio });
+      const canvas = el('canvas', { class: 'pdf-page', role: 'img', 'aria-label': `${alt} ${n}` });
+      canvas.width = Math.floor(vp.width);
+      canvas.height = Math.floor(vp.height);
+      box.append(canvas);
+      await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+    }
+  } catch (e) {
+    console.warn('Không vẽ được PDF', e);
+    box.replaceChildren(el('p', { class: 'muted', text: 'Không hiện được PDF trong trang. Bấm "Mở / tải PDF" để xem.' }));
   }
 }
 
