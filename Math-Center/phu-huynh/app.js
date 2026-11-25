@@ -1,6 +1,6 @@
 import {
   sb, logout, configured, $, el, loginToEmail, phoneToEmail, weekLabel, fmtNum, fmtDateTime,
-  toast, errMsg, openDialog, showFiles, notConfiguredNotice,
+  toast, errMsg, openDialog, showFiles, notConfiguredNotice, uploadTo,
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm,
 } from '../portal/common.js?v=20261202a';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../portal/config.js';
@@ -284,34 +284,109 @@ async function showStudent(students, s, tab = currentTab) {
     stat('Điểm trung bình (thang 10)', avg == null ? '—' : fmtNum(Math.round(avg * 10) / 10)),
     stat('Bài gần nhất', latest ? `${fmtNum(latest.score)} / ${fmtNum(latest.assessments.max_score)}` : '—'));
 
-  listBox.replaceChildren(stats, el('h2', { text: 'Theo từng tuần' }), ...rows.map(weekCard));
+  listBox.replaceChildren(stats, el('h2', { text: 'Theo từng tuần' }), ...rows.map((r) => weekCard(r, s, () => showStudent(students, s, 'weekly'))));
 }
 
 function stat(k, v) {
   return el('div', { class: 'stat' }, el('div', { class: 'k', text: k }), el('div', { class: 'v', text: v }));
 }
 
-function weekCard(r) {
+function weekCard(r, s, refresh) {
   const a = r.assessments;
   const testFiles = a.assessment_files.map((f) => f.path);
   const workFiles = r.result_files.map((f) => f.path);
-  return el('article', { class: 'week' },
+  const graded = r.score != null;
+  const openTest = () => {
+    if (!testFiles.length) { toast('Giáo viên chưa tải đề cho bài này.', 'error'); return; }
+    showFiles(a.title, testFiles, el('div', { class: 'test-intro muted small' },
+      el('span', { text: weekLabel(a.week_start) }),
+      el('span', { text: `Điểm tối đa: ${fmtNum(a.max_score)}` }),
+      graded ? null : el('span', { text: 'Làm xong: chụp bài làm rồi bấm "Gửi bài làm".' })));
+  };
+  return el('article', { class: 'week clickable' },
     el('div', {},
       el('div', { class: 'when', text: weekLabel(a.week_start) }),
-      el('h3', { text: a.title })),
-    r.score == null
-      ? el('div', { class: 'score pending' }, el('b', { text: 'Chưa chấm' }))
-      : el('div', { class: 'score', 'aria-label': `Điểm ${fmtNum(r.score)} trên ${fmtNum(a.max_score)}` },
-          el('b', { text: fmtNum(r.score) }), el('span', { text: ` / ${fmtNum(a.max_score)}` })),
+      el('h3', {}, el('button', { type: 'button', text: a.title, title: 'Xem đề bài', onclick: openTest }))),
+    graded
+      ? el('div', { class: 'score', 'aria-label': `Điểm ${fmtNum(r.score)} trên ${fmtNum(a.max_score)}` },
+          el('b', { text: fmtNum(r.score) }), el('span', { text: ` / ${fmtNum(a.max_score)}` }))
+      : el('div', { class: 'score pending' }, el('b', { text: 'Chưa chấm' })),
     r.updated_at ? el('p', { class: 'muted small', text: `Cập nhật: ${fmtDateTime(r.updated_at)}` }) : null,
     r.comment ? el('div', { class: 'comment' }, el('span', { class: 'lbl', text: 'Nhận xét của giáo viên' }), r.comment) : null,
     el('div', { class: 'week-actions' },
-      el('button', { class: 'btn btn-outline btn-sm', disabled: !testFiles.length,
-        text: testFiles.length ? `Xem đề bài (${testFiles.length})` : 'Chưa có đề bài',
-        onclick: () => showFiles(`Đề bài — ${a.title}`, testFiles) }),
+      el('button', { class: 'btn btn-navy btn-sm', disabled: !testFiles.length,
+        text: testFiles.length ? 'Xem đề bài' : 'Chưa có đề bài', onclick: openTest }),
+      graded ? null : el('button', { class: 'btn btn-gold btn-sm', text: workFiles.length ? 'Gửi thêm bài làm' : 'Gửi bài làm',
+        onclick: () => submitWork(a, s, refresh) }),
       el('button', { class: 'btn btn-outline btn-sm', disabled: !workFiles.length,
-        text: workFiles.length ? `Xem bài làm (${workFiles.length})` : 'Chưa có bài làm',
-        onclick: () => showFiles(`Bài làm — ${a.title}`, workFiles) })));
+        text: workFiles.length ? `Bài làm đã gửi (${workFiles.length})` : 'Chưa gửi bài làm',
+        onclick: () => graded ? showFiles(`Bài làm — ${a.title}`, workFiles) : myWork(r, a, refresh) })));
+}
+
+// Học sinh chụp bài làm và gửi cho giáo viên (chỉ khi bài chưa chấm).
+function submitWork(a, s, refresh) {
+  const input = el('input', { type: 'file', accept: 'image/*,application/pdf', multiple: true, required: true });
+  const btn = el('button', { class: 'btn btn-gold', type: 'submit', text: 'Gửi cho giáo viên' });
+  const form = el('form', { class: 'form-grid' },
+    el('div', { class: 'comment' },
+      el('span', { class: 'lbl', text: 'Cách gửi bài làm' }),
+      el('ol', { class: 'small' },
+        el('li', { text: 'Làm bài ra giấy, ghi rõ họ tên ở đầu bài.' }),
+        el('li', { text: 'Chụp từng trang bài làm: đặt giấy phẳng, đủ sáng, chụp thẳng, rõ chữ, không bị cắt mép.' }),
+        el('li', { text: 'Bấm "Chọn ảnh" bên dưới, chọn tất cả ảnh các trang (theo thứ tự trang 1, 2, 3…).' }),
+        el('li', { text: 'Bấm "Gửi cho giáo viên". Gửi thiếu thì có thể gửi thêm cho đến khi giáo viên chấm.' }))),
+    el('label', {}, 'Chọn ảnh bài làm (ảnh hoặc PDF, tối đa 10 MB mỗi file)', input),
+    btn);
+  const dlg = openDialog(`Gửi bài làm — ${a.title}`, form);
+  const done = new Set();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const files = [...input.files];
+    if (!files.length) { toast('Hãy chọn ảnh bài làm.', 'error'); return; }
+    btn.disabled = true;
+    try {
+      const { data: rid, error } = await sb.rpc('start_submission', { p_assessment: a.id, p_student: s.id });
+      if (error) throw error;
+      let n = 0;
+      for (const f of files) {
+        const sig = `${f.name}|${f.size}|${f.lastModified}`;
+        n++;
+        if (done.has(sig)) continue;
+        btn.textContent = `Đang gửi ${n}/${files.length}…`;
+        const path = await uploadTo(`results/${rid}`, f);
+        const { error: e2 } = await sb.from('result_files').insert({ result_id: rid, path });
+        if (e2) { await sb.storage.from('tdm').remove([path]); throw e2; }
+        done.add(sig);
+      }
+      dlg.close();
+      toast(`Đã gửi ${files.length} file bài làm cho giáo viên.`);
+      refresh();
+    } catch (err) {
+      toast(errMsg(err), 'error');
+      btn.disabled = false; btn.textContent = 'Gửi lại';
+    }
+  });
+}
+
+// Bài làm đã gửi (chưa chấm): xem và xóa ảnh gửi nhầm.
+async function myWork(r, a, refresh) {
+  const { data: rows, error } = await sb.from('result_files').select('id, path').eq('result_id', r.id).order('id');
+  if (error) { toast(errMsg(error), 'error'); return; }
+  const list = el('div', { class: 'list' }, rows.map((f, i) => el('div', { class: 'item' },
+    el('span', { text: `Trang ${i + 1}` }),
+    el('div', { class: 'acts' },
+      el('button', { class: 'btn btn-outline btn-sm', text: 'Xem', onclick: () => showFiles(`Bài làm — ${a.title}`, [f.path]) }),
+      el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: async () => {
+        if (!await askConfirm('Xóa ảnh bài làm này?')) return;
+        const { error: e1 } = await sb.from('result_files').delete().eq('id', f.id);
+        if (e1) { toast(errMsg(e1), 'error'); return; }
+        await sb.storage.from('tdm').remove([f.path]);
+        dlg.close(); toast('Đã xóa.'); refresh();
+      } })))));
+  const dlg = openDialog(`Bài làm đã gửi — ${a.title}`, el('div', {},
+    el('p', { class: 'muted small', text: 'Giáo viên sẽ xem và chấm. Gửi nhầm ảnh thì xóa rồi gửi lại.' }),
+    el('button', { class: 'btn btn-navy btn-sm', text: 'Xem tất cả', onclick: () => showFiles(`Bài làm — ${a.title}`, rows.map((f) => f.path)) }),
+    list));
 }
 
 // Phụ huynh đặt lại mật khẩu cho con (khi con quên).

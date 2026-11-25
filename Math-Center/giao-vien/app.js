@@ -163,7 +163,8 @@ function newAssessment(existing) {
       el('label', { class: 'field' }, 'Điểm tối đa',
         el('input', { name: 'max', type: 'number', min: '1', step: '0.25', required: true, value: String(existing?.max_score ?? 10) }))),
     existing ? null : el('label', {}, 'File đề bài (ảnh, PDF hoặc Word, tối đa 10 MB/file, có thể chọn nhiều)',
-      el('input', { name: 'files', type: 'file', accept: FILE_ACCEPT, multiple: true })),
+      el('input', { name: 'files', type: 'file', accept: FILE_ACCEPT, multiple: true }),
+      el('span', { class: 'muted small', text: 'Nên lưu đề thành PDF (Word → Lưu thành → PDF): học sinh xem được ngay trên trang. File Word học sinh phải tải về mới xem được.' })),
     el('button', { class: 'btn btn-gold', type: 'submit', text: existing ? 'Lưu thay đổi' : 'Tạo bài kiểm tra' }));
   const dlg = openDialog(existing ? 'Sửa bài kiểm tra' : 'Bài kiểm tra mới', form);
   let createdId = null; // bài đã tạo nhưng tải file lỗi → "Thử lại" chỉ tải lại file, không tạo bài trùng
@@ -295,7 +296,12 @@ function gradeCard(a, s, r) {
   comment.value = r?.comment || '';
   const files = el('input', { type: 'file', accept: FILE_ACCEPT, multiple: true, 'aria-label': `Bài làm của ${s.full_name}` });
   const fileInfo = el('button', { class: 'btn btn-outline btn-sm', type: 'button' });
-  const setInfo = (n) => { fileInfo.textContent = `Bài làm (${n})`; fileInfo.disabled = !current; };
+  const setInfo = (n) => {
+    const waiting = n > 0 && current?.score == null; // học sinh đã gửi, chưa chấm
+    fileInfo.textContent = waiting ? `Bài làm HS gửi (${n}) — chưa chấm` : `Bài làm (${n})`;
+    fileInfo.className = `btn btn-sm ${waiting ? 'btn-navy' : 'btn-outline'}`;
+    fileInfo.disabled = !current;
+  };
   setInfo(r?.result_files?.length ?? 0);
   fileInfo.addEventListener('click', () => manageFiles('result', current.id, `Bài làm — ${s.full_name}`, renderShell));
   const save = el('button', { class: 'btn btn-gold btn-sm', type: 'button', text: 'Lưu' });
@@ -318,7 +324,7 @@ function gradeCard(a, s, r) {
           { onConflict: 'assessment_id,student_id' })
         .select('id, result_files(id)').single();
       if (error) throw error;
-      current = data;
+      current = { ...data, score: val };
       if (files.files.length) { await attachFiles('result', data.id, files.files); files.value = ''; }
       const { count } = await sb.from('result_files').select('id', { count: 'exact', head: true }).eq('result_id', data.id);
       setInfo(count ?? 0);

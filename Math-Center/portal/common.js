@@ -326,18 +326,65 @@ export function copyBox(text) {
   return el('div', { class: 'form-grid' }, box, btn);
 }
 
-export async function showFiles(title, paths) {
-  const body = el('div', { class: 'gallery' }, el('p', { class: 'muted', text: 'Đang tải…' }));
-  openDialog(title, body, { wide: true });
+// Xem file đề / bài làm ngay trong trang: ảnh hiện trực tiếp, PDF vẽ từng trang
+// (trình duyệt điện thoại không hiện được PDF nhúng), file Word chỉ tải về
+// (trình duyệt không vẽ được công thức MathType trong Word).
+// intro: phần đầu hộp thoại (ví dụ tuần, điểm tối đa) — không bắt buộc.
+export async function showFiles(title, paths, intro = null) {
+  const body = el('div', { class: 'gallery' }, el('p', { class: 'muted', text: 'Đang tải đề…' }));
+  openDialog(title, el('div', {}, intro, body), { wide: true });
   try {
     const files = await signedUrls(paths);
-    body.replaceChildren(...files.map((f, i) => f.kind !== 'ảnh'
-      ? el('a', { class: 'btn btn-outline', href: f.url, target: '_blank', rel: 'noopener',
-          text: f.kind === 'Word' ? `Tải file Word ${i + 1}` : `Mở file PDF ${i + 1}` })
-      : el('a', { href: f.url, target: '_blank', rel: 'noopener', title: 'Mở ảnh cỡ lớn' },
-          el('img', { src: f.url, alt: `${title} — trang ${i + 1}`, loading: 'lazy' }))));
+    const many = files.length > 1;
+    body.replaceChildren(...files.map((f, i) => {
+      const label = many ? `File ${i + 1} — ` : '';
+      if (f.kind === 'Word') {
+        return el('div', { class: 'file-card' },
+          el('p', { text: `${label}File Word: bấm để tải về và mở bằng Word (hoặc ứng dụng Word trên điện thoại).` }),
+          el('a', { class: 'btn btn-navy btn-sm', href: f.url, target: '_blank', rel: 'noopener', text: 'Tải file Word' }));
+      }
+      if (f.kind === 'PDF') {
+        const pages = el('div', { class: 'pdf-pages' }, el('p', { class: 'muted', text: 'Đang mở PDF…' }));
+        renderPdf(pages, f.url, `${title} — ${label}trang`);
+        return el('div', { class: 'file-card' },
+          el('div', { class: 'file-card-head' },
+            el('span', { class: 'muted small', text: `${label}PDF` }),
+            el('a', { class: 'btn btn-outline btn-sm', href: f.url, target: '_blank', rel: 'noopener', text: 'Mở / tải PDF' })),
+          pages);
+      }
+      return el('a', { href: f.url, target: '_blank', rel: 'noopener', title: 'Mở ảnh cỡ lớn' },
+        el('img', { src: f.url, alt: `${title} — ${label}ảnh`, loading: 'lazy' }));
+    }));
   } catch (e) {
     body.replaceChildren(el('p', { class: 'error-text', text: errMsg(e) }));
+  }
+}
+
+const PDFJS = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/build/';
+let pdfjsLib = null;
+async function renderPdf(box, url, alt) {
+  try {
+    if (!pdfjsLib) {
+      pdfjsLib = await import(PDFJS + 'pdf.min.mjs');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS + 'pdf.worker.min.mjs';
+    }
+    const pdf = await pdfjsLib.getDocument({ url }).promise;
+    box.replaceChildren();
+    const width = Math.min(box.clientWidth || 900, 900);
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    for (let n = 1; n <= pdf.numPages; n++) {
+      const page = await pdf.getPage(n);
+      const base = page.getViewport({ scale: 1 });
+      const vp = page.getViewport({ scale: (width / base.width) * ratio });
+      const canvas = el('canvas', { class: 'pdf-page', role: 'img', 'aria-label': `${alt} ${n}` });
+      canvas.width = Math.floor(vp.width);
+      canvas.height = Math.floor(vp.height);
+      box.append(canvas);
+      await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+    }
+  } catch (e) {
+    console.warn('Không vẽ được PDF', e);
+    box.replaceChildren(el('p', { class: 'muted', text: 'Không hiện được PDF trong trang. Bấm "Mở / tải PDF" để xem.' }));
   }
 }
 
