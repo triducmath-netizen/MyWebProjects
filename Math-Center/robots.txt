@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /giao-vien/
+Disallow: /phu-huynh/
+Disallow: /portal/
+
+Sitemap: https://triducmath.vn/sitemap.xml
