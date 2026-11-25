@@ -19,3 +19,9 @@ Mỗi chương = một chuyên đề trên ngân hàng đề (10 đề: 3 mức 
 | X | Một số hình khối trong thực tiễn | 31. Hình trụ và hình nón · 32. Hình cầu | `hinh-khoi-thuc-tien` |
 
 File đề: `de-thi/toan-9/<slug>-tb.json` (mức độ 1, đề 1–3), `<slug>-kha.json` (mức độ 2, đề 4–7), `<slug>-gioi.json` (mức độ 3, đề 8–10).
+
+## Tiến độ
+| Chương | Số đề | Trạng thái |
+|---|---|---|
+| I. Phương trình và hệ hai phương trình bậc nhất hai ẩn (`he-phuong-trinh-bac-nhat-hai-an`) | 10 (3 · 4 · 3) | đã tải lên ngân hàng đề 25/11/2026 (mức độ 1 và 3 soạn ngày 24/11/2026) |
+| II. Phương trình và bất phương trình bậc nhất một ẩn (`phuong-trinh-bat-phuong-trinh-bac-nhat-mot-an`) | 10 (3 · 4 · 3) | đã tải lên ngân hàng đề 25/11/2026 (mức độ 3 mới; sửa phương án câu 8 đề kha-02 và câu 4 đề kha-03 thành số) |

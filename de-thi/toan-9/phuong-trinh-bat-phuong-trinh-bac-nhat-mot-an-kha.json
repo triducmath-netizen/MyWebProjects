@@ -207,7 +207,7 @@
         {
           "kind": "mcq",
           "prompt": "Một bể đang chứa $500$ lít nước. Mở một vòi chảy vào bể, mỗi phút chảy thêm $40$ lít. Sau ít nhất bao nhiêu phút (số nguyên) thì lượng nước trong bể nhiều hơn $1\\,500$ lít?",
-          "options": ["$26$ phút", "$25$ phút", "$38$ phút", "$50$ phút"],
+          "options": ["$26$", "$25$", "$38$", "$50$"],
           "answer": 0,
           "explanation": "Gọi $t$ là số phút mở vòi. Lượng nước trong bể: $500 + 40t$ (lít). Điều kiện: $500 + 40t > 1\\,500 \\Leftrightarrow 40t > 1\\,000 \\Leftrightarrow t > 25$. Số nguyên nhỏ nhất là $26$. Chọn A. Phương án $25$ phút là nhầm \"nhiều hơn\" thành \"không ít hơn\" (sau $25$ phút bể có đúng $1\\,500$ lít); phương án $38$ phút là quên $500$ lít có sẵn ($1\\,500 : 40 = 37{,}5$); phương án $50$ phút là cộng nhầm $1\\,500 + 500$.",
           "points": 0.5,
@@ -311,7 +311,7 @@
         {
           "kind": "mcq",
           "prompt": "Nghiệm của phương trình $\\dfrac{x - 1}{x + 2} - \\dfrac{x}{x - 2} = \\dfrac{3x - 2}{4 - x^2}$ là",
-          "options": ["$x = 0$", "$x = 0{,}5$", "$x = -0{,}5$", "$x = 2$"],
+          "options": ["$0$", "$0{,}5$", "$-0{,}5$", "$2$"],
           "answer": 0,
           "points": 0.5,
           "verify": "(()=>{for(const x of [0,0.5,-0.5,2]){ if(Math.abs(x*x-4)<1e-9) continue; if(Math.abs((x-1)/(x+2)-x/(x-2)-(3*x-2)/(4-x*x))<1e-9) return x;}})()",

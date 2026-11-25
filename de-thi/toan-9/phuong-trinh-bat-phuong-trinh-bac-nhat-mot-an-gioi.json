@@ -1,0 +1,591 @@
+{
+  "grade": 9,
+  "topic": "Phương trình và bất phương trình bậc nhất một ẩn",
+  "exams": [
+    {
+      "slug": "toan9-phuong-trinh-bat-phuong-trinh-bac-nhat-mot-an-gioi-01",
+      "title": "Phương trình và bất phương trình bậc nhất một ẩn — Đề 1",
+      "level": "gioi",
+      "sort_order": 1,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): phương trình tích cần nhóm hạng tử, phương trình chứa ẩn ở mẫu có nghiệm ngoại lai, chứng minh và vận dụng tính chất bất đẳng thức, bất phương trình có tham số và nghiệm nguyên; bài toán gói cước điện thoại, chi phí tham quan và cước taxi bậc thang.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Tổng các nghiệm của phương trình $x^3 - 2x^2 - 9x + 18 = 0$ là",
+          "options": [
+            "$-2$",
+            "$0$",
+            "$2$",
+            "$8$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{let s=0;for(let x=-20;x<=20;x+=0.5){if(Math.abs(x**3-2*x*x-9*x+18)<1e-9)s+=x;}return s;})()",
+          "explanation": "Nhóm hạng tử để phân tích vế trái thành nhân tử: $x^3 - 2x^2 - 9x + 18 = x^2(x - 2) - 9(x - 2) = (x - 2)(x^2 - 9) = (x - 2)(x - 3)(x + 3)$. Phương trình tích $(x - 2)(x - 3)(x + 3) = 0$ có ba nghiệm $x = 2$, $x = 3$, $x = -3$. Tổng các nghiệm: $2 + 3 + (-3) = 2$. Chọn C. Phương án B là chỉ tìm được hai nghiệm $x = \\pm 3$ mà quên nhân tử $x - 2$; phương án A là nhầm nghiệm của $x - 2 = 0$ thành $x = -2$; phương án D là quên nghiệm âm $x = -3$ (tính $2 + 3 + 3$)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tập nghiệm của phương trình $\\dfrac{x + 1}{x - 1} - \\dfrac{1}{x + 1} = \\dfrac{2}{x^2 - 1}$ là",
+          "options": [
+            "$S = \\{0\\}$",
+            "$S = \\{0;\\ -1\\}$",
+            "$S = \\{-1\\}$",
+            "$S = \\varnothing$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "ĐKXĐ: $x \\ne 1$ và $x \\ne -1$. Mẫu thức chung $(x - 1)(x + 1) = x^2 - 1$. Quy đồng rồi khử mẫu:\n$(x + 1)^2 - (x - 1) = 2 \\Leftrightarrow x^2 + 2x + 1 - x + 1 = 2 \\Leftrightarrow x^2 + x = 0 \\Leftrightarrow x(x + 1) = 0$.\nSuy ra $x = 0$ (thỏa mãn ĐKXĐ) hoặc $x = -1$ (không thỏa mãn ĐKXĐ, loại). Vậy $S = \\{0\\}$. Chọn A. Phương án B là quên đối chiếu điều kiện xác định nên giữ lại nghiệm ngoại lai $x = -1$; phương án D là loại nhầm cả nghiệm $x = 0$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai số thực $a$, $b$ thỏa mãn $a < b$. Khẳng định nào sau đây đúng?",
+          "options": [
+            "$2a - 3 > 2b - 1$",
+            "$2a - 3 < 2b - 1$",
+            "$2a - 3 = 2b - 1$",
+            "Không so sánh được $2a - 3$ với $2b - 1$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Từ $a < b$, nhân hai vế với $2 > 0$ được $2a < 2b$; cộng hai vế với $-3$ được $2a - 3 < 2b - 3$. Mặt khác $-3 < -1$ nên $2b - 3 < 2b - 1$. Theo tính chất bắc cầu: $2a - 3 < 2b - 3 < 2b - 1$, tức là $2a - 3 < 2b - 1$. Chọn B. Phương án D là lỗi cho rằng hai vế \"bị cộng hai số khác nhau\" nên không so sánh được; thực ra số cộng vào vế lớn hơn ($-1$) cũng lớn hơn số cộng vào vế nhỏ ($-3$), nên vẫn so sánh được."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một nhà mạng có hai gói cước gọi điện. Gói A: phí thuê bao $60\\,000$ đồng/tháng và $500$ đồng cho mỗi phút gọi. Gói B: không mất phí thuê bao, $1\\,200$ đồng cho mỗi phút gọi. Trong một tháng, phải gọi ít nhất bao nhiêu phút (số nguyên) thì dùng gói A rẻ hơn dùng gói B?",
+          "options": [
+            "$50$",
+            "$85$",
+            "$120$",
+            "$86$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{let x=0;while(!(60000+500*x<1200*x))x++;return x;})()",
+          "explanation": "Gọi $x$ là số phút gọi trong tháng ($x$ là số tự nhiên). Tiền gói A: $60\\,000 + 500x$ (đồng); tiền gói B: $1\\,200x$ (đồng). Gói A rẻ hơn khi\n$60\\,000 + 500x < 1\\,200x \\Leftrightarrow 700x > 60\\,000 \\Leftrightarrow x > \\frac{600}{7} \\approx 85{,}7$.\nSố nguyên nhỏ nhất thỏa mãn là $x = 86$. Chọn D. Phương án B là làm tròn xuống $85{,}7 \\approx 85$ (nhưng với $85$ phút gói A tốn $102\\,500$ đồng, gói B tốn $102\\,000$ đồng, gói A vẫn đắt hơn); phương án A, C là chia $60\\,000$ cho $1\\,200$ hoặc cho $500$ (chỉ xét một gói)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho các số thực $a$, $b$ thỏa mãn $a \\ge 1$ và $b \\ge 2$. Khẳng định nào sau đây **chắc chắn** đúng?",
+          "options": [
+            "$ab \\ge 2$",
+            "$a - b \\ge -1$",
+            "$a + b \\le 3$",
+            "$\\dfrac{a}{b} \\ge \\dfrac{1}{2}$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Vì $b \\ge 2 > 0$ nên nhân hai vế của $a \\ge 1$ với $b$ được $ab \\ge b$. Kết hợp $b \\ge 2$, theo tính chất bắc cầu: $ab \\ge b \\ge 2$. Vậy $ab \\ge 2$. Chọn A.\nCác phương án khác sai: B là lỗi \"trừ vế với vế hai bất đẳng thức cùng chiều\" ($1 - 2 = -1$) — không có tính chất này; phản ví dụ $a = 1$, $b = 5$ thì $a - b = -4 < -1$. C ngược chiều: cộng vế với vế được $a + b \\ge 3$. D cũng do \"chia vế với vế\"; phản ví dụ $a = 1$, $b = 4$ thì $\\frac{a}{b} = \\frac{1}{4} < \\frac{1}{2}$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tập nghiệm của phương trình $(x^2 + 1)(x - 3) = (x^2 + 1)(2x + 1)$ là",
+          "options": [
+            "$S = \\{-4;\\ 1;\\ -1\\}$",
+            "$S = \\{-4\\}$",
+            "$S = \\{4\\}$",
+            "$S = \\{-4;\\ -1\\}$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Chuyển vế và đặt nhân tử chung: $(x^2 + 1)\\big[(x - 3) - (2x + 1)\\big] = 0 \\Leftrightarrow (x^2 + 1)(-x - 4) = 0$.\nVì $x^2 \\ge 0$ nên $x^2 + 1 \\ge 1 > 0$ với mọi $x$, do đó $x^2 + 1 = 0$ vô nghiệm. Suy ra $-x - 4 = 0 \\Leftrightarrow x = -4$. Vậy $S = \\{-4\\}$. Chọn B. Phương án A là lỗi cho rằng $x^2 + 1 = 0$ có nghiệm $x = \\pm 1$ (nhầm với $x^2 - 1 = 0$); phương án C là giải đúng đến $-x - 4 = 0$ nhưng suy ra nhầm $x = 4$ (quên dấu \"$-$\")."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu số nguyên $x$ thỏa mãn đồng thời hai bất phương trình $2x - 5 < 3x + 1$ và $\\dfrac{x + 1}{2} \\le 3$?",
+          "options": [
+            "$10$",
+            "$12$",
+            "$11$",
+            "$9$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let x=-100;x<=100;x++){if(2*x-5<3*x+1&&(x+1)/2<=3)c++;}return c;})()",
+          "explanation": "Giải từng bất phương trình:\n• $2x - 5 < 3x + 1 \\Leftrightarrow 2x - 3x < 1 + 5 \\Leftrightarrow -x < 6 \\Leftrightarrow x > -6$ (nhân với $-1$ phải đổi chiều).\n• $\\frac{x + 1}{2} \\le 3 \\Leftrightarrow x + 1 \\le 6 \\Leftrightarrow x \\le 5$.\nVậy $-6 < x \\le 5$. Các số nguyên thỏa mãn là $-5; -4; \\ldots; 4; 5$, gồm $5 - (-5) + 1 = 11$ số. Chọn C. Phương án B là tính cả $x = -6$ (bất phương trình thứ nhất là dấu \"$<$\" chặt); phương án A là bỏ sót $x = 5$ hoặc đếm $5 - (-5) = 10$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Bất phương trình $(m - 3)x > m - 3$ (với $m$ là tham số) có nghiệm là $x < 1$ khi và chỉ khi",
+          "options": [
+            "$m > 3$",
+            "$m \\ne 3$",
+            "$m = 3$",
+            "$m < 3$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "• Nếu $m - 3 > 0$ ($m > 3$): chia hai vế cho số dương, giữ nguyên chiều, được $x > 1$.\n• Nếu $m - 3 < 0$ ($m < 3$): chia hai vế cho số âm, phải đổi chiều, được $x < 1$.\n• Nếu $m = 3$: bất phương trình thành $0x > 0$, vô nghiệm.\nVậy nghiệm là $x < 1$ khi và chỉ khi $m < 3$. Chọn D. Phương án A là quên đổi chiều khi chia cho số âm; phương án B là chỉ để ý điều kiện hệ số khác $0$ mà không xét dấu của hệ số."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho phương trình $\\dfrac{x + 3}{x - 3} - \\dfrac{3}{x^2 - 3x} = \\dfrac{1}{x}$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Điều kiện xác định của phương trình là $x \\ne 3$.",
+            "Sau khi quy đồng mẫu và khử mẫu, ta được phương trình $x^2 + 2x = 0$.",
+            "Phương trình có hai nghiệm là $x = 0$ và $x = -2$.",
+            "Nghiệm của phương trình là nghiệm nguyên lớn nhất của bất phương trình $5 - 2x > 8$."
+          ],
+          "answer": [
+            false,
+            true,
+            false,
+            true
+          ],
+          "points": 2,
+          "verify": "(()=>{const ok=x=>x!==0&&x!==3;const f=x=>(x+3)/(x-3)-3/(x*x-3*x)-1/x;const roots=[];for(let x=-20;x<=20;x+=0.5){if(ok(x)&&Math.abs(f(x))<1e-9)roots.push(x);}const L=x=>x*(x+3)-3-(x-3);let mx=-1e9;for(let x=-50;x<=50;x++){if(5-2*x>8)mx=Math.max(mx,x);}const bad=[-5,-3,0,3,5].filter(x=>x-3===0||x*x-3*x===0||x===0);return [bad.length===1&&bad[0]===3, [1,2,5].every(x=>L(x)===x*x+2*x), roots.length===2&&roots.includes(0), roots.length===1&&roots[0]===mx];})()",
+          "explanation": "Ta có $x^2 - 3x = x(x - 3)$.\na) Sai. Các mẫu $x - 3$, $x(x - 3)$, $x$ phải khác $0$ nên ĐKXĐ là $x \\ne 0$ và $x \\ne 3$ (thiếu điều kiện $x \\ne 0$).\nb) Đúng. Mẫu thức chung $x(x - 3)$. Khử mẫu: $x(x + 3) - 3 = x - 3 \\Leftrightarrow x^2 + 3x - 3 - x + 3 = 0 \\Leftrightarrow x^2 + 2x = 0$.\nc) Sai. $x^2 + 2x = 0 \\Leftrightarrow x(x + 2) = 0 \\Leftrightarrow x = 0$ hoặc $x = -2$. Giá trị $x = 0$ không thỏa mãn ĐKXĐ nên bị loại. Phương trình chỉ có một nghiệm $x = -2$. Thử lại: $\\frac{1}{-5} - \\frac{3}{10} = -\\frac{1}{2}$ và $\\frac{1}{-2} = -\\frac{1}{2}$.\nd) Đúng. $5 - 2x > 8 \\Leftrightarrow -2x > 3 \\Leftrightarrow x < -\\frac{3}{2} = -1{,}5$. Số nguyên lớn nhất nhỏ hơn $-1{,}5$ là $-2$, đúng bằng nghiệm của phương trình."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Lớp 9A tổ chức đi tham quan. Tiền thuê xe là $1\\,500\\,000$ đồng, chia đều cho các bạn đi; ngoài ra mỗi bạn phải mua một vé vào cửa giá $40\\,000$ đồng. Gọi $x$ là số bạn đi tham quan ($x$ là số nguyên dương). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Nếu có $25$ bạn đi thì mỗi bạn phải đóng $100\\,000$ đồng.",
+            "Nếu có $40$ bạn đi thì tổng số tiền cả lớp phải trả là $3\\,100\\,000$ đồng.",
+            "Để mỗi bạn đóng không quá $90\\,000$ đồng thì cần có ít nhất $31$ bạn đi.",
+            "Nếu nhà xe giảm $20\\%$ tiền thuê xe thì chỉ cần có ít nhất $24$ bạn đi là mỗi bạn đóng không quá $90\\,000$ đồng."
+          ],
+          "answer": [
+            true,
+            true,
+            false,
+            true
+          ],
+          "points": 2,
+          "verify": "(()=>{const per=(T,x)=>T/x+40000;let n1=1;while(per(1500000,n1)>90000)n1++;let n2=1;while(per(1500000*0.8,n2)>90000)n2++;return [per(1500000,25)===100000, 1500000+40*40000===3100000, n1===31, n2===24];})()",
+          "explanation": "Số tiền mỗi bạn phải đóng là $\\frac{1\\,500\\,000}{x} + 40\\,000$ (đồng).\na) Đúng. Với $x = 25$: $\\frac{1\\,500\\,000}{25} + 40\\,000 = 60\\,000 + 40\\,000 = 100\\,000$ (đồng).\nb) Đúng. Tổng tiền $= 1\\,500\\,000 + 40 \\cdot 40\\,000 = 1\\,500\\,000 + 1\\,600\\,000 = 3\\,100\\,000$ (đồng).\nc) Sai. Điều kiện $\\frac{1\\,500\\,000}{x} + 40\\,000 \\le 90\\,000 \\Leftrightarrow \\frac{1\\,500\\,000}{x} \\le 50\\,000 \\Leftrightarrow 1\\,500\\,000 \\le 50\\,000x$ (nhân hai vế với $x > 0$) $\\Leftrightarrow x \\ge 30$. Chỉ cần ít nhất $30$ bạn (khi đó mỗi bạn đóng đúng $90\\,000$ đồng, vẫn \"không quá\"), không phải $31$.\nd) Đúng. Tiền thuê xe còn $1\\,500\\,000 \\cdot 80\\% = 1\\,200\\,000$ (đồng). Điều kiện $\\frac{1\\,200\\,000}{x} \\le 50\\,000 \\Leftrightarrow x \\ge 24$. Vậy cần ít nhất $24$ bạn."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính tổng các nghiệm của phương trình $(x^2 - 4x)^2 = 9(x - 4)^2$.",
+          "answer": [
+            "4"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let s=0;for(let x=-30;x<=30;x+=0.5){if(Math.abs((x*x-4*x)**2-9*(x-4)**2)<1e-9)s+=x;}return s;})()",
+          "explanation": "Ta có $x^2 - 4x = x(x - 4)$ nên phương trình tương đương\n$x^2(x - 4)^2 - 9(x - 4)^2 = 0 \\Leftrightarrow (x - 4)^2(x^2 - 9) = 0 \\Leftrightarrow (x - 4)^2(x - 3)(x + 3) = 0$.\nSuy ra $x = 4$ hoặc $x = 3$ hoặc $x = -3$. Tổng các nghiệm: $4 + 3 + (-3) = 4$. Đáp số: $4$.\nLưu ý: không được chia hai vế cho $(x - 4)^2$ vì sẽ làm mất nghiệm $x = 4$; nghiệm $x = 4$ chỉ tính một lần."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính tổng tất cả các giá trị nguyên của tham số $m$ để bất phương trình $3x - m \\le x + 1$ có nghiệm nguyên lớn nhất bằng $5$.",
+          "answer": [
+            "19"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let s=0;for(let m=-100;m<=100;m++){let mx=-1e9;for(let x=-200;x<=200;x++){if(3*x-m<=x+1)mx=x;}if(mx===5)s+=m;}return s;})()",
+          "explanation": "$3x - m \\le x + 1 \\Leftrightarrow 2x \\le m + 1 \\Leftrightarrow x \\le \\frac{m + 1}{2}$.\nNghiệm nguyên lớn nhất bằng $5$ khi và chỉ khi $5$ là nghiệm nhưng $6$ không là nghiệm:\n$5 \\le \\frac{m + 1}{2} < 6 \\Leftrightarrow 10 \\le m + 1 < 12 \\Leftrightarrow 9 \\le m < 11$.\nCác giá trị nguyên: $m = 9$, $m = 10$. Tổng: $9 + 10 = 19$. Đáp số: $19$.\n(Lỗi thường gặp: chỉ giải $\\frac{m + 1}{2} = 5$ được $m = 9$, bỏ sót $m = 10$; khi $m = 10$ thì $x \\le 5{,}5$, nghiệm nguyên lớn nhất vẫn là $5$.)"
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai số thực $a$, $b$ thỏa mãn $a + b = 10$. Tìm giá trị lớn nhất của tích $ab$.",
+          "answer": [
+            "25"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let mx=-1e9;for(let a=-20;a<=30;a+=0.25){mx=Math.max(mx,a*(10-a));}return mx;})()",
+          "explanation": "Với mọi $a$, $b$: $(a + b)^2 - 4ab = a^2 + 2ab + b^2 - 4ab = (a - b)^2 \\ge 0$, suy ra $4ab \\le (a + b)^2 = 100$, tức là $ab \\le 25$.\nDấu \"$=$\" xảy ra khi $a - b = 0$, kết hợp $a + b = 10$ được $a = b = 5$, khi đó $ab = 25$.\nVậy giá trị lớn nhất của $ab$ là $25$. Đáp số: $25$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Một hãng taxi tính giá cước như sau: km thứ nhất giá $14\\,000$ đồng; từ km thứ $2$ đến km thứ $30$ giá $11\\,000$ đồng/km; từ km thứ $31$ trở đi giá $9\\,000$ đồng/km. Bạn Hưng có $400\\,000$ đồng. Hỏi Hưng có thể đi taxi của hãng này được quãng đường dài nhất là bao nhiêu kilômét (số nguyên)?",
+          "answer": [
+            "37"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{const cost=n=>{let c=0;for(let k=1;k<=n;k++){c+=k===1?14000:(k<=30?11000:9000);}return c;};let n=0;while(cost(n+1)<=400000)n++;return n;})()",
+          "explanation": "Đi $30$ km đầu hết $14\\,000 + 29 \\cdot 11\\,000 = 14\\,000 + 319\\,000 = 333\\,000$ (đồng) $< 400\\,000$ đồng, nên Hưng đi được hơn $30$ km.\nGọi $x$ (km) là quãng đường đi, $x > 30$. Số tiền phải trả: $333\\,000 + 9\\,000(x - 30)$ (đồng). Điều kiện:\n$333\\,000 + 9\\,000(x - 30) \\le 400\\,000 \\Leftrightarrow 9\\,000(x - 30) \\le 67\\,000 \\Leftrightarrow x - 30 \\le \\frac{67}{9} \\approx 7{,}4 \\Leftrightarrow x \\le 37{,}4$.\nSố nguyên lớn nhất là $x = 37$ (đi $37$ km hết $396\\,000$ đồng; đi $38$ km hết $405\\,000$ đồng, không đủ tiền). Đáp số: $37$.\n(Lỗi thường gặp: tính $29$ km giá $11\\,000$ thành $30$ km, hoặc quên tách km thứ nhất.)"
+        }
+      ]
+    },
+    {
+      "slug": "toan9-phuong-trinh-bat-phuong-trinh-bac-nhat-mot-an-gioi-02",
+      "title": "Phương trình và bất phương trình bậc nhất một ẩn — Đề 2",
+      "level": "gioi",
+      "sort_order": 2,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): phương trình tích dùng hằng đẳng thức, phương trình chứa ẩn ở mẫu vô nghiệm, chứng minh bất đẳng thức bằng bình phương, nhân bất đẳng thức với số âm, bất đẳng thức tam giác, bất phương trình có tham số; bài toán điểm trung bình và ngân sách mua sách.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Số nghiệm của phương trình $x^3 - 8 = (x - 2)(3x + 4)$ là",
+          "options": [
+            "$1$",
+            "$2$",
+            "$3$",
+            "$4$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let x=-20;x<=20;x+=0.5){if(Math.abs(x**3-8-(x-2)*(3*x+4))<1e-9)c++;}return c;})()",
+          "explanation": "Dùng hằng đẳng thức $x^3 - 8 = (x - 2)(x^2 + 2x + 4)$. Chuyển vế và đặt nhân tử chung $x - 2$:\n$(x - 2)(x^2 + 2x + 4) - (x - 2)(3x + 4) = 0 \\Leftrightarrow (x - 2)(x^2 - x) = 0 \\Leftrightarrow x(x - 1)(x - 2) = 0$.\nPhương trình có ba nghiệm $x = 0$, $x = 1$, $x = 2$. Chọn C. Phương án B là lỗi chia hai vế cho $x - 2$ (làm mất nghiệm $x = 2$) hoặc chia tiếp cho $x$ (mất nghiệm $x = 0$); phương án A là chỉ thấy nghiệm $x = 2$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giải phương trình $\\dfrac{1}{x - 3} + 2 = \\dfrac{x - 4}{3 - x}$, ta được kết luận",
+          "options": [
+            "Phương trình có nghiệm $x = 3$",
+            "Phương trình có nghiệm $x = 1$",
+            "Phương trình có nghiệm $x = -3$",
+            "Phương trình vô nghiệm"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "ĐKXĐ: $x \\ne 3$. Vì $3 - x = -(x - 3)$ nên $\\frac{x - 4}{3 - x} = \\frac{4 - x}{x - 3}$. Quy đồng mẫu $x - 3$ rồi khử mẫu:\n$1 + 2(x - 3) = 4 - x \\Leftrightarrow 2x - 5 = 4 - x \\Leftrightarrow 3x = 9 \\Leftrightarrow x = 3$.\nGiá trị $x = 3$ không thỏa mãn ĐKXĐ nên bị loại. Vậy phương trình vô nghiệm. Chọn D. Phương án A là quên đối chiếu ĐKXĐ; phương án B là coi $3 - x$ như $x - 3$ (không đổi dấu tử), được $1 + 2x - 6 = x - 4 \\Leftrightarrow x = 1$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho biểu thức $P = a^2 + b^2 - 2a + 4b + 5$ với $a$, $b$ là các số thực. Khẳng định nào sau đây đúng?",
+          "options": [
+            "$P \\ge 0$ với mọi $a$, $b$",
+            "$P > 0$ với mọi $a$, $b$",
+            "$P \\ge 5$ với mọi $a$, $b$",
+            "Có $a$, $b$ để $P < 0$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Tách $5 = 1 + 4$ rồi dùng hằng đẳng thức: $P = (a^2 - 2a + 1) + (b^2 + 4b + 4) = (a - 1)^2 + (b + 2)^2$.\nVì $(a - 1)^2 \\ge 0$ và $(b + 2)^2 \\ge 0$ nên $P \\ge 0$ với mọi $a$, $b$; dấu \"$=$\" xảy ra khi $a = 1$, $b = -2$. Chọn A.\nPhương án B sai vì $P = 0$ khi $a = 1$, $b = -2$. Phương án C là lỗi chỉ nhìn hằng số tự do $5$; với $a = 1$, $b = -2$ thì $P = 0 < 5$. Phương án D sai vì $P$ luôn không âm."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai số thực $a$, $b$ thỏa mãn $a < b < 0$. Khẳng định nào sau đây đúng?",
+          "options": [
+            "$a^2 < ab$",
+            "$a^2 > b^2$",
+            "$ab < b^2$",
+            "$\\dfrac{a}{b} < 1$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "• Nhân hai vế của $a < b$ với $a < 0$ (đổi chiều): $a^2 > ab$.\n• Nhân hai vế của $a < b$ với $b < 0$ (đổi chiều): $ab > b^2$.\nTheo tính chất bắc cầu: $a^2 > ab > b^2$, nên $a^2 > b^2$. Chọn B.\nPhương án A, C sai vì quên đổi chiều khi nhân với số âm. Phương án D: chia hai vế của $a < b$ cho $b < 0$ phải đổi chiều, được $\\frac{a}{b} > 1$ (ví dụ $a = -4$, $b = -2$ thì $\\frac{a}{b} = 2$)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu số nguyên dương $m$ để $x = 3$ là một nghiệm của bất phương trình $2x - m > mx - 7$?",
+          "options": [
+            "$2$",
+            "$4$",
+            "$13$",
+            "$3$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let m=1;m<=100;m++){if(2*3-m>m*3-7)c++;}return c;})()",
+          "explanation": "$x = 3$ là nghiệm khi và chỉ khi $2 \\cdot 3 - m > 3m - 7 \\Leftrightarrow 6 - m > 3m - 7 \\Leftrightarrow 13 > 4m \\Leftrightarrow m < \\frac{13}{4} = 3{,}25$.\nCác số nguyên dương thỏa mãn: $m = 1; 2; 3$, gồm $3$ số. Chọn D. Phương án B là tính cả $m = 0$ (không phải số nguyên dương); phương án A là bỏ sót $m = 3$ do làm tròn $3{,}25$ thành $3$ rồi lấy $m < 3$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Bạn Hùng đã làm $4$ bài kiểm tra môn Toán với điểm trung bình là $7{,}5$. Bài kiểm tra thứ năm Hùng cần đạt ít nhất bao nhiêu điểm để điểm trung bình của cả $5$ bài không dưới $7{,}8$?",
+          "options": [
+            "$8{,}1$",
+            "$9$",
+            "$7{,}8$",
+            "$8$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "5*7.8-4*7.5",
+          "explanation": "Tổng điểm $4$ bài đầu: $4 \\cdot 7{,}5 = 30$. Gọi $x$ là điểm bài thứ năm ($0 \\le x \\le 10$). Điều kiện:\n$\\frac{30 + x}{5} \\ge 7{,}8 \\Leftrightarrow 30 + x \\ge 39 \\Leftrightarrow x \\ge 9$.\nVậy Hùng cần ít nhất $9$ điểm. Chọn B. Phương án A là lỗi chỉ bù phần chênh lệch một lần ($7{,}8 + 0{,}3 = 8{,}1$), trong khi cần bù cho cả $4$ bài trước ($7{,}8 + 4 \\cdot 0{,}3 = 9$); phương án C là nghĩ chỉ cần bài thứ năm đạt bằng điểm trung bình mong muốn."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Nghiệm của bất phương trình $(2x + 1)^2 - 4(x - 1)(x + 1) \\ge 3$ là",
+          "options": [
+            "$x \\ge -\\dfrac{1}{2}$",
+            "$x \\le -\\dfrac{1}{2}$",
+            "$x \\ge \\dfrac{3}{2}$",
+            "$x \\ge \\dfrac{1}{2}$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Khai triển: $(2x + 1)^2 = 4x^2 + 4x + 1$ và $4(x - 1)(x + 1) = 4(x^2 - 1) = 4x^2 - 4$. Bất phương trình trở thành\n$4x^2 + 4x + 1 - 4x^2 + 4 \\ge 3 \\Leftrightarrow 4x + 5 \\ge 3 \\Leftrightarrow 4x \\ge -2 \\Leftrightarrow x \\ge -\\frac{1}{2}$. Chọn A.\nPhương án C là lỗi quên đổi dấu khi bỏ ngoặc có dấu \"$-$\" đằng trước: viết $-(4x^2 - 4) = -4x^2 - 4$, dẫn đến $4x - 3 \\ge 3 \\Leftrightarrow x \\ge \\frac{3}{2}$; phương án B là đổi chiều bất đẳng thức khi chia cho số dương $4$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một tam giác có độ dài hai cạnh là $5$ cm và $8$ cm, độ dài cạnh thứ ba là $x$ cm ($x$ là số nguyên). Có bao nhiêu giá trị của $x$?",
+          "options": [
+            "$10$",
+            "$11$",
+            "$9$",
+            "$8$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let x=1;x<=50;x++){if(x<5+8&&5<x+8&&8<x+5)c++;}return c;})()",
+          "explanation": "Theo bất đẳng thức tam giác, độ dài mỗi cạnh nhỏ hơn tổng và lớn hơn hiệu độ dài hai cạnh còn lại:\n$8 - 5 < x < 8 + 5 \\Leftrightarrow 3 < x < 13$.\nCác số nguyên thỏa mãn: $4; 5; \\ldots; 12$, gồm $12 - 4 + 1 = 9$ giá trị. Chọn C. Phương án B là lấy cả $x = 3$ và $x = 13$ (dùng dấu \"$\\le$\"); khi đó ba đoạn thẳng không tạo thành tam giác. Phương án A là chỉ lấy một trong hai đầu mút."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho phương trình $x^3 + 2x^2 - x - 2 = 0$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$x = 1$ là một nghiệm của phương trình.",
+            "Phân tích vế trái thành nhân tử, ta được $(x + 2)(x^2 + 1)$.",
+            "Phương trình có ba nghiệm và tổng các nghiệm bằng $-2$.",
+            "Mọi nghiệm của phương trình đều là nghiệm của bất phương trình $3x + 4 > x$."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(()=>{const f=x=>x**3+2*x*x-x-2;const r=[];for(let x=-20;x<=20;x+=0.5){if(Math.abs(f(x))<1e-9)r.push(x);}const g=x=>(x+2)*(x*x+1);return [f(1)===0, [0,1,3].every(x=>g(x)===f(x)), r.length===3&&r.reduce((a,b)=>a+b,0)===-2, r.every(x=>3*x+4>x)];})()",
+          "explanation": "a) Đúng. Thay $x = 1$: $1 + 2 - 1 - 2 = 0$.\nb) Sai. $x^3 + 2x^2 - x - 2 = x^2(x + 2) - (x + 2) = (x + 2)(x^2 - 1)$; nhóm sai dấu của hạng tử $-x - 2 = -(x + 2)$ mới ra $(x + 2)(x^2 + 1)$.\nc) Đúng. $(x + 2)(x^2 - 1) = 0 \\Leftrightarrow (x + 2)(x - 1)(x + 1) = 0 \\Leftrightarrow x \\in \\{-2;\\ 1;\\ -1\\}$. Tổng các nghiệm: $-2 + 1 + (-1) = -2$.\nd) Sai. $3x + 4 > x \\Leftrightarrow 2x > -4 \\Leftrightarrow x > -2$. Nghiệm $x = -2$ của phương trình không thỏa mãn (vì $-2 > -2$ sai), nên không phải mọi nghiệm đều thỏa mãn."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho các số thực $x$, $y$ thỏa mãn $2 \\le x \\le 5$ và $-3 \\le y \\le -1$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$x + y \\ge -1$",
+            "$x - y \\le 6$",
+            "$x - 2y \\ge 4$",
+            "$xy \\le -2$"
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            true
+          ],
+          "points": 2,
+          "verify": "(()=>{let a=true,b=true,c=true,d=true;for(let x=2;x<=5;x+=0.25)for(let y=-3;y<=-1;y+=0.25){if(!(x+y>=-1))a=false;if(!(x-y<=6))b=false;if(!(x-2*y>=4))c=false;if(!(x*y<=-2))d=false;}return [a,b,c,d];})()",
+          "explanation": "a) Đúng. Cộng vế với vế hai bất đẳng thức cùng chiều $x \\ge 2$ và $y \\ge -3$: $x + y \\ge 2 + (-3) = -1$.\nb) Sai. Từ $y \\ge -3$ suy ra $-y \\le 3$; cộng với $x \\le 5$ được $x - y \\le 8$. Giá trị $8$ đạt được khi $x = 5$, $y = -3$, khi đó $x - y = 8 > 6$. (Lỗi thường gặp: \"trừ vế với vế\" $5 - (-1) = 6$.)\nc) Đúng. Từ $y \\le -1$, nhân với $-2 < 0$ (đổi chiều): $-2y \\ge 2$. Cộng với $x \\ge 2$: $x - 2y \\ge 4$.\nd) Đúng. Vì $x \\ge 2 > 0$, nhân hai vế của $y \\le -1$ với $x$ được $xy \\le -x$. Mà $x \\ge 2$ nên $-x \\le -2$. Theo tính chất bắc cầu: $xy \\le -x \\le -2$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm nghiệm của phương trình $\\dfrac{2x}{x + 1} + \\dfrac{x + 3}{x - 1} = \\dfrac{3x^2 + 11}{x^2 - 1}$.",
+          "answer": [
+            "4"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{for(let x=-30;x<=30;x+=0.5){if(x===1||x===-1)continue;if(Math.abs(2*x/(x+1)+(x+3)/(x-1)-(3*x*x+11)/(x*x-1))<1e-9)return x;}return NaN;})()",
+          "explanation": "ĐKXĐ: $x \\ne 1$ và $x \\ne -1$. Mẫu thức chung $(x + 1)(x - 1) = x^2 - 1$. Quy đồng rồi khử mẫu:\n$2x(x - 1) + (x + 3)(x + 1) = 3x^2 + 11 \\Leftrightarrow 2x^2 - 2x + x^2 + 4x + 3 = 3x^2 + 11 \\Leftrightarrow 2x = 8 \\Leftrightarrow x = 4$ (thỏa mãn ĐKXĐ).\nThử lại: $\\frac{8}{5} + \\frac{7}{3} = \\frac{59}{15}$ và $\\frac{48 + 11}{15} = \\frac{59}{15}$. Đáp số: $4$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số nguyên $m$ nhỏ nhất để mọi số $x \\ge 1$ đều là nghiệm của bất phương trình $2x + m - 1 > 0$.",
+          "answer": [
+            "0"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{for(let m=-50;m<=50;m++){let ok=true;for(let x=1;x<=100;x+=0.25){if(!(2*x+m-1>0)){ok=false;break;}}if(ok)return m;}return NaN;})()",
+          "explanation": "$2x + m - 1 > 0 \\Leftrightarrow x > \\frac{1 - m}{2}$. Mọi $x \\ge 1$ đều là nghiệm khi và chỉ khi số $1$ (số nhỏ nhất trong các số $x \\ge 1$) là nghiệm, tức là\n$1 > \\frac{1 - m}{2} \\Leftrightarrow 2 > 1 - m \\Leftrightarrow m > -1$.\nSố nguyên nhỏ nhất thỏa mãn là $m = 0$. Kiểm tra: với $m = -1$, bất phương trình là $2x - 2 > 0 \\Leftrightarrow x > 1$, số $x = 1$ không là nghiệm. Đáp số: $0$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Thư viện trường mua $120$ cuốn sách gồm hai loại: loại I giá $45\\,000$ đồng/cuốn và loại II giá $60\\,000$ đồng/cuốn. Số tiền mua sách không vượt quá $6\\,300\\,000$ đồng. Hỏi thư viện mua được nhiều nhất bao nhiêu cuốn sách loại II?",
+          "answer": [
+            "60"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let b=-1;for(let x=0;x<=120;x++){if(45000*(120-x)+60000*x<=6300000)b=x;}return b;})()",
+          "explanation": "Gọi $x$ là số cuốn loại II ($x$ là số tự nhiên, $x \\le 120$), số cuốn loại I là $120 - x$. Điều kiện:\n$45\\,000(120 - x) + 60\\,000x \\le 6\\,300\\,000 \\Leftrightarrow 5\\,400\\,000 + 15\\,000x \\le 6\\,300\\,000 \\Leftrightarrow 15\\,000x \\le 900\\,000 \\Leftrightarrow x \\le 60$.\nVậy mua được nhiều nhất $60$ cuốn loại II (khi đó vừa đủ $6\\,300\\,000$ đồng). Đáp số: $60$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm giá trị nhỏ nhất của biểu thức $A = x^2 - 6x + 14$.",
+          "answer": [
+            "5"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let mn=1e9;for(let x=-20;x<=20;x+=0.25)mn=Math.min(mn,x*x-6*x+14);return mn;})()",
+          "explanation": "Ta có $A = x^2 - 6x + 9 + 5 = (x - 3)^2 + 5$. Vì $(x - 3)^2 \\ge 0$ với mọi $x$ nên $A \\ge 5$; dấu \"$=$\" xảy ra khi $x = 3$.\nVậy giá trị nhỏ nhất của $A$ là $5$ (khi $x = 3$). Đáp số: $5$. (Lỗi thường gặp: trả lời $14$ do nghĩ $x^2 - 6x \\ge 0$.)"
+        }
+      ]
+    },
+    {
+      "slug": "toan9-phuong-trinh-bat-phuong-trinh-bac-nhat-mot-an-gioi-03",
+      "title": "Phương trình và bất phương trình bậc nhất một ẩn — Đề 3",
+      "level": "gioi",
+      "sort_order": 3,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): phương trình tích bậc ba, phương trình chứa ẩn ở mẫu có tham số và nghiệm bị loại, chứng minh bất đẳng thức bằng xét hiệu, bất phương trình có tham số, đếm nghiệm nguyên; bài toán tiền điện bậc thang, in áo gây quỹ và thẻ thành viên rạp phim.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Nghiệm lớn nhất của phương trình $2x^3 - x^2 - 8x + 4 = 0$ là",
+          "options": [
+            "$\\dfrac{1}{2}$",
+            "$4$",
+            "$-2$",
+            "$2$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{let mx=-1e9;for(let x=-20;x<=20;x+=0.5){if(Math.abs(2*x**3-x*x-8*x+4)<1e-9)mx=Math.max(mx,x);}return mx;})()",
+          "explanation": "Nhóm hạng tử: $2x^3 - x^2 - 8x + 4 = x^2(2x - 1) - 4(2x - 1) = (2x - 1)(x^2 - 4) = (2x - 1)(x - 2)(x + 2)$.\nPhương trình có ba nghiệm $x = \\frac{1}{2}$, $x = 2$, $x = -2$; nghiệm lớn nhất là $2$. Chọn D. Phương án B là lỗi giải $x^2 = 4$ thành $x = 4$; phương án A là chỉ tìm được nghiệm của nhân tử $2x - 1$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giải phương trình $\\dfrac{x + 1}{x - 2} - \\dfrac{5}{x + 2} = \\dfrac{12}{x^2 - 4} + 1$, ta được kết luận",
+          "options": [
+            "Phương trình có nghiệm $x = 2$",
+            "Phương trình có nghiệm $x = -8$",
+            "Phương trình vô nghiệm",
+            "Phương trình có hai nghiệm $x = 2$ và $x = -2$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "ĐKXĐ: $x \\ne 2$ và $x \\ne -2$. Mẫu thức chung $(x - 2)(x + 2) = x^2 - 4$. Quy đồng rồi khử mẫu:\n$(x + 1)(x + 2) - 5(x - 2) = 12 + (x^2 - 4) \\Leftrightarrow x^2 + 3x + 2 - 5x + 10 = x^2 + 8 \\Leftrightarrow -2x = -4 \\Leftrightarrow x = 2$.\nGiá trị $x = 2$ không thỏa mãn ĐKXĐ nên bị loại. Vậy phương trình vô nghiệm. Chọn C. Phương án A là quên đối chiếu ĐKXĐ; phương án B là bỏ ngoặc sai dấu: $-5(x - 2) = -5x - 10$, dẫn tới $x^2 - 2x - 8 = x^2 + 8 \\Leftrightarrow x = -8$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Với hai số thực dương $a$, $b$ bất kì, khẳng định nào sau đây luôn đúng?",
+          "options": [
+            "$\\dfrac{a}{b} + \\dfrac{b}{a} \\ge 2$",
+            "$\\dfrac{a}{b} + \\dfrac{b}{a} > 2$",
+            "$\\dfrac{a}{b} + \\dfrac{b}{a} \\le 2$",
+            "$a + b \\ge 2$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Ta có $(a - b)^2 \\ge 0 \\Leftrightarrow a^2 + b^2 \\ge 2ab$. Vì $ab > 0$, chia hai vế cho $ab$ (giữ nguyên chiều): $\\frac{a^2 + b^2}{ab} \\ge 2$, tức là $\\frac{a}{b} + \\frac{b}{a} \\ge 2$; dấu \"$=$\" xảy ra khi $a = b$. Chọn A.\nPhương án B sai khi $a = b$ (tổng bằng đúng $2$). Phương án C ngược chiều. Phương án D sai, ví dụ $a = b = \\frac{1}{2}$ thì $a + b = 1 < 2$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai số thực $x$, $y$ thỏa mãn $x < y$. Khẳng định nào sau đây đúng?",
+          "options": [
+            "$\\dfrac{2x + y}{3} > y$",
+            "$x < \\dfrac{2x + y}{3} < y$",
+            "$\\dfrac{2x + y}{3} < x$",
+            "$\\dfrac{2x + y}{3} = \\dfrac{x + y}{2}$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "• Cộng $2x$ vào hai vế của $x < y$: $3x < 2x + y$, chia cho $3 > 0$ được $x < \\frac{2x + y}{3}$.\n• Nhân hai vế của $x < y$ với $2$ rồi cộng $y$: $2x + y < 2y + y = 3y$, chia cho $3$ được $\\frac{2x + y}{3} < y$.\nVậy $x < \\frac{2x + y}{3} < y$. Chọn B. Phương án D sai vì $\\frac{2x + y}{3} = \\frac{x + y}{2} \\Leftrightarrow 4x + 2y = 3x + 3y \\Leftrightarrow x = y$, trái giả thiết. Phương án A, C là đặt sai chiều khi so sánh."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Bất phương trình $(2m - 1)x + 3 < 0$ (với $m$ là tham số) là bất phương trình bậc nhất một ẩn và nhận $x = 2$ là một nghiệm khi và chỉ khi",
+          "options": [
+            "$m > -\\dfrac{1}{4}$",
+            "$m < \\dfrac{1}{4}$",
+            "$m \\ne \\dfrac{1}{2}$",
+            "$m < -\\dfrac{1}{4}$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Điều kiện là bất phương trình bậc nhất: $2m - 1 \\ne 0 \\Leftrightarrow m \\ne \\frac{1}{2}$.\n$x = 2$ là nghiệm: $(2m - 1) \\cdot 2 + 3 < 0 \\Leftrightarrow 4m - 2 + 3 < 0 \\Leftrightarrow 4m < -1 \\Leftrightarrow m < -\\frac{1}{4}$.\nMọi $m < -\\frac{1}{4}$ đều thỏa mãn $m \\ne \\frac{1}{2}$. Vậy $m < -\\frac{1}{4}$. Chọn D. Phương án A là đổi chiều sai khi chia cho số dương $4$; phương án B là cộng nhầm $-2 + 3 = -1$, dẫn tới $4m - 1 < 0 \\Leftrightarrow m < \\frac{1}{4}$; phương án C chỉ là điều kiện để bất phương trình là bậc nhất."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá điện sinh hoạt (giả định) được tính như sau: $50$ kWh đầu tiên giá $1\\,800$ đồng/kWh; từ kWh thứ $51$ trở đi giá $2\\,000$ đồng/kWh. Một gia đình muốn tiền điện trong tháng không vượt quá $400\\,000$ đồng. Gia đình đó được dùng nhiều nhất bao nhiêu kWh điện?",
+          "options": [
+            "$205$",
+            "$200$",
+            "$155$",
+            "$222$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{const c=n=>n<=50?1800*n:90000+2000*(n-50);let n=0;while(c(n+1)<=400000)n++;return n;})()",
+          "explanation": "Tiền $50$ kWh đầu: $50 \\cdot 1\\,800 = 90\\,000$ (đồng) $< 400\\,000$ đồng, nên gia đình dùng hơn $50$ kWh. Gọi $x$ là số kWh ($x > 50$). Điều kiện:\n$90\\,000 + 2\\,000(x - 50) \\le 400\\,000 \\Leftrightarrow 2\\,000(x - 50) \\le 310\\,000 \\Leftrightarrow x - 50 \\le 155 \\Leftrightarrow x \\le 205$.\nVậy dùng nhiều nhất $205$ kWh. Chọn A. Phương án C là quên cộng $50$ kWh đầu ($x - 50 \\le 155$ nhưng trả lời $155$); phương án B là tính tất cả theo giá $2\\,000$ đồng; phương án D là tính tất cả theo giá $1\\,800$ đồng."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tập nghiệm của bất phương trình $\\dfrac{2x - 3}{4} - \\dfrac{x - 1}{3} < \\dfrac{x + 2}{6}$ là",
+          "options": [
+            "$x < 7$",
+            "Bất phương trình vô nghiệm",
+            "Mọi số thực $x$",
+            "$x < \\dfrac{9}{4}$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Nhân hai vế với $12 > 0$:\n$3(2x - 3) - 4(x - 1) < 2(x + 2) \\Leftrightarrow 6x - 9 - 4x + 4 < 2x + 4 \\Leftrightarrow 2x - 5 < 2x + 4 \\Leftrightarrow 0x < 9$.\nBất đẳng thức $0 < 9$ đúng với mọi $x$, nên mọi số thực $x$ đều là nghiệm. Chọn C. Phương án B là nhầm \"hệ số của $x$ bằng $0$ thì vô nghiệm\"; phương án A là nhân vế phải sai: $12 \\cdot \\frac{x + 2}{6} = 2(x + 2)$ nhưng viết nhầm thành $x + 2$, dẫn tới $2x - 5 < x + 2 \\Leftrightarrow x < 7$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai số thực $a$, $b$ thỏa mãn $a > 1$ và $b > 1$. Khẳng định nào sau đây đúng?",
+          "options": [
+            "$ab + 1 < a + b$",
+            "$ab + 1 > a + b$",
+            "$ab + 1 = a + b$",
+            "Không so sánh được $ab + 1$ với $a + b$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Xét hiệu: $(ab + 1) - (a + b) = ab - a - b + 1 = a(b - 1) - (b - 1) = (a - 1)(b - 1)$.\nVì $a > 1$, $b > 1$ nên $a - 1 > 0$, $b - 1 > 0$, do đó $(a - 1)(b - 1) > 0$, tức là $ab + 1 > a + b$. Chọn B. Phương án C chỉ xảy ra khi $a = 1$ hoặc $b = 1$; phương án A là phân tích sai thành $-(a - 1)(b - 1)$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho phương trình $\\dfrac{x + m}{x - 3} = 2$ (với $m$ là tham số). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Với $m = 0$, phương trình có nghiệm $x = 6$.",
+            "Với $m = -3$, phương trình có nghiệm $x = 3$.",
+            "Phương trình có nghiệm khi và chỉ khi $m \\ne -3$.",
+            "Có đúng $4$ giá trị nguyên của $m$ để phương trình có nghiệm dương nhỏ hơn $5$."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(()=>{const sols=m=>{const r=[];for(let x=-60;x<=60;x+=0.5){if(x!==3&&Math.abs((x+m)/(x-3)-2)<1e-9)r.push(x);}return r;};let c=0;for(let m=-40;m<=40;m++){const r=sols(m);if(r.length===1&&r[0]>0&&r[0]<5)c++;}let cOK=true;for(let m=-20;m<=20;m++){if((sols(m).length>0)!==(m!==-3))cOK=false;}return [sols(0).length===1&&sols(0)[0]===6, sols(-3).includes(3), cOK, c===4];})()",
+          "explanation": "ĐKXĐ: $x \\ne 3$. Khử mẫu: $x + m = 2(x - 3) \\Leftrightarrow x = m + 6$.\na) Đúng. Với $m = 0$: $x = 6 \\ne 3$, thỏa mãn ĐKXĐ. Thử lại $\\frac{6}{3} = 2$.\nb) Sai. Với $m = -3$: khử mẫu được $x = 3$, không thỏa mãn ĐKXĐ nên bị loại; phương trình vô nghiệm.\nc) Đúng. Phương trình có nghiệm $\\Leftrightarrow m + 6 \\ne 3 \\Leftrightarrow m \\ne -3$.\nd) Sai. Cần $0 < m + 6 < 5$ và $m \\ne -3$, tức là $-6 < m < -1$ và $m \\ne -3$. Các giá trị nguyên: $m \\in \\{-5;\\ -4;\\ -2\\}$, chỉ có $3$ giá trị. (Nếu quên điều kiện $m \\ne -3$ sẽ đếm nhầm thành $4$ giá trị.)"
+        },
+        {
+          "kind": "tf",
+          "prompt": "Câu lạc bộ của trường in áo đồng phục để bán gây quỹ. Chi phí thiết kế cố định là $600\\,000$ đồng, chi phí in mỗi áo là $85\\,000$ đồng, giá bán mỗi áo là $120\\,000$ đồng. Gọi $x$ là số áo được in ($x$ là số nguyên dương) và giả sử in bao nhiêu áo thì bán hết bấy nhiêu. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Nếu in $10$ áo thì tổng chi phí là $1\\,450\\,000$ đồng.",
+            "Nếu in và bán $17$ áo thì câu lạc bộ không bị lỗ.",
+            "Để lãi ít nhất $1\\,000\\,000$ đồng thì câu lạc bộ cần in và bán ít nhất $46$ áo.",
+            "Nếu giảm giá bán còn $110\\,000$ đồng/áo thì để lãi ít nhất $1\\,000\\,000$ đồng, câu lạc bộ cần in và bán ít nhất $64$ áo."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            true
+          ],
+          "points": 2,
+          "verify": "(()=>{const lai=(p,x)=>p*x-600000-85000*x;let n1=1;while(lai(120000,n1)<1000000)n1++;let n2=1;while(lai(110000,n2)<1000000)n2++;return [600000+85000*10===1450000, lai(120000,17)>=0, n1===46, n2===64];})()",
+          "explanation": "Tổng chi phí: $600\\,000 + 85\\,000x$ (đồng); doanh thu: $120\\,000x$ (đồng); tiền lãi: $120\\,000x - 600\\,000 - 85\\,000x = 35\\,000x - 600\\,000$ (đồng).\na) Đúng. $600\\,000 + 85\\,000 \\cdot 10 = 1\\,450\\,000$ (đồng).\nb) Sai. Không lỗ khi $35\\,000x - 600\\,000 \\ge 0 \\Leftrightarrow x \\ge \\frac{120}{7} \\approx 17{,}1$, cần ít nhất $18$ áo. Với $17$ áo: lãi $= 595\\,000 - 600\\,000 = -5\\,000$ đồng, tức là lỗ $5\\,000$ đồng.\nc) Đúng. $35\\,000x - 600\\,000 \\ge 1\\,000\\,000 \\Leftrightarrow 35\\,000x \\ge 1\\,600\\,000 \\Leftrightarrow x \\ge \\frac{320}{7} \\approx 45{,}7$. Số nguyên nhỏ nhất là $46$.\nd) Đúng. Lãi mỗi áo còn $110\\,000 - 85\\,000 = 25\\,000$ đồng. $25\\,000x - 600\\,000 \\ge 1\\,000\\,000 \\Leftrightarrow x \\ge 64$. Vậy cần ít nhất $64$ áo."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính tích các nghiệm của phương trình $x^3 + 3x^2 + 3x + 1 = 4(x + 1)$.",
+          "answer": [
+            "3"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let p=1;for(let x=-20;x<=20;x+=0.5){if(Math.abs(x**3+3*x*x+3*x+1-4*(x+1))<1e-9)p*=x;}return p;})()",
+          "explanation": "Vế trái là lập phương của một tổng: $x^3 + 3x^2 + 3x + 1 = (x + 1)^3$. Phương trình tương đương\n$(x + 1)^3 - 4(x + 1) = 0 \\Leftrightarrow (x + 1)\\big[(x + 1)^2 - 4\\big] = 0 \\Leftrightarrow (x + 1)(x - 1)(x + 3) = 0$.\nCác nghiệm: $x = -1$, $x = 1$, $x = -3$. Tích các nghiệm: $(-1) \\cdot 1 \\cdot (-3) = 3$. Đáp số: $3$.\n(Lỗi thường gặp: chia hai vế cho $x + 1$ làm mất nghiệm $x = -1$, dẫn tới đáp số sai $-3$.)"
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm nghiệm của phương trình $\\dfrac{x + 2}{x - 1} - \\dfrac{x}{x + 3} = \\dfrac{4x + 4}{x^2 + 2x - 3}$.",
+          "answer": [
+            "-1"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{for(let x=-30;x<=30;x+=0.5){if(x===1||x===-3)continue;if(Math.abs((x+2)/(x-1)-x/(x+3)-(4*x+4)/(x*x+2*x-3))<1e-9)return x;}return NaN;})()",
+          "explanation": "Ta có $x^2 + 2x - 3 = (x - 1)(x + 3)$ (kiểm tra bằng cách nhân: $(x - 1)(x + 3) = x^2 + 3x - x - 3$). ĐKXĐ: $x \\ne 1$ và $x \\ne -3$.\nQuy đồng mẫu $(x - 1)(x + 3)$ rồi khử mẫu:\n$(x + 2)(x + 3) - x(x - 1) = 4x + 4 \\Leftrightarrow x^2 + 5x + 6 - x^2 + x = 4x + 4 \\Leftrightarrow 6x + 6 = 4x + 4 \\Leftrightarrow 2x = -2 \\Leftrightarrow x = -1$ (thỏa mãn ĐKXĐ).\nThử lại: $\\frac{1}{-2} - \\frac{-1}{2} = 0$ và $\\frac{0}{-4} = 0$. Đáp số: $-1$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số nguyên $m$ nhỏ nhất để bất phương trình $2x - m < 3$ có đúng $5$ nghiệm nguyên dương.",
+          "answer": [
+            "8"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{for(let m=-50;m<=50;m++){let c=0;for(let x=1;x<=200;x++){if(2*x-m<3)c++;}if(c===5)return m;}return NaN;})()",
+          "explanation": "$2x - m < 3 \\Leftrightarrow x < \\frac{m + 3}{2}$. Các nghiệm nguyên dương là $1; 2; \\ldots$ nhỏ hơn $\\frac{m + 3}{2}$. Có đúng $5$ nghiệm nguyên dương ($1; 2; 3; 4; 5$) khi và chỉ khi $5$ là nghiệm nhưng $6$ không là nghiệm:\n$5 < \\frac{m + 3}{2} \\le 6 \\Leftrightarrow 10 < m + 3 \\le 12 \\Leftrightarrow 7 < m \\le 9$.\nCác số nguyên $m$ thỏa mãn: $8$; $9$. Số nhỏ nhất là $m = 8$. Đáp số: $8$.\n(Lỗi thường gặp: lấy $m = 7$; khi đó $x < 5$, chỉ có $4$ nghiệm nguyên dương.)"
+        },
+        {
+          "kind": "short",
+          "prompt": "Một rạp chiếu phim bán vé với giá $90\\,000$ đồng/vé. Rạp có thẻ thành viên giá $200\\,000$ đồng/năm; người có thẻ được giảm $25\\%$ giá mỗi vé. Trong một năm, một người phải xem ít nhất bao nhiêu bộ phim (mỗi phim một vé) thì việc mua thẻ thành viên có lợi hơn (tổng số tiền phải trả ít hơn)?",
+          "answer": [
+            "9"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let x=0;while(!(200000+90000*0.75*x<90000*x))x++;return x;})()",
+          "explanation": "Giá vé sau khi giảm: $90\\,000 \\cdot 75\\% = 67\\,500$ (đồng). Gọi $x$ là số phim xem trong năm ($x$ là số tự nhiên).\nCó thẻ: $200\\,000 + 67\\,500x$ (đồng); không có thẻ: $90\\,000x$ (đồng). Mua thẻ có lợi hơn khi\n$200\\,000 + 67\\,500x < 90\\,000x \\Leftrightarrow 22\\,500x > 200\\,000 \\Leftrightarrow x > \\frac{80}{9} \\approx 8{,}9$.\nSố tự nhiên nhỏ nhất là $x = 9$ (kiểm tra: $9$ phim có thẻ hết $807\\,500$ đồng, không có thẻ hết $810\\,000$ đồng). Đáp số: $9$."
+        }
+      ]
+    }
+  ]
+}

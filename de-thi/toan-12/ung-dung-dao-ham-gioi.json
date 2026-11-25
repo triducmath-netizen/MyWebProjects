@@ -1,0 +1,608 @@
+{
+  "grade": 12,
+  "topic": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số",
+  "exams": [
+    {
+      "slug": "toan12-ung-dung-dao-ham-gioi-01",
+      "title": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số — Đề 1",
+      "level": "gioi",
+      "sort_order": 1,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): tìm tham số để hàm số đồng biến trên ℝ, nghịch biến trên khoảng; cực trị và diện tích tam giác; giá trị lớn nhất, nhỏ nhất của hàm hợp lượng giác, hàm chứa dấu giá trị tuyệt đối; đếm tiệm cận có tham số; biện luận số nghiệm bằng bảng biến thiên; tối ưu lợi nhuận, thời gian di chuyển, thể tích khay.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu giá trị nguyên của tham số $m$ để hàm số $y = \\dfrac{1}{3}x^3 - mx^2 + (m + 6)x - 2$ đồng biến trên $\\mathbb{R}$?",
+          "options": [
+            "$4$",
+            "$5$",
+            "$6$",
+            "$7$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let m=-20;m<=20;m++){let ok=true;for(let i=-3000;i<=3000;i++){const x=i/100;if(x*x-2*m*x+m+6<-1e-9){ok=false;break;}}if(ok)c++;}return c;})()",
+          "explanation": "$y' = x^2 - 2mx + m + 6$. Hàm số đồng biến trên $\\mathbb{R}$ khi và chỉ khi $y' \\ge 0$ với mọi $x$ (dấu bằng chỉ xảy ra tại hữu hạn điểm), tức là $\\Delta' = m^2 - (m + 6) \\le 0 \\Leftrightarrow (m - 3)(m + 2) \\le 0 \\Leftrightarrow -2 \\le m \\le 3$. Khi $m = -2$ hoặc $m = 3$, $y' = (x - m)^2$ chỉ bằng $0$ tại một điểm nên hàm số vẫn đồng biến trên $\\mathbb{R}$. Các giá trị nguyên: $-2, -1, 0, 1, 2, 3$ — có $6$ giá trị. Phương án A ($4$ giá trị) do dùng điều kiện $\\Delta' < 0$, bỏ mất hai đầu mút $m = -2$, $m = 3$. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tập hợp tất cả các giá trị của tham số $m$ để hàm số $y = \\dfrac{mx + 4}{x + m}$ nghịch biến trên khoảng $(-\\infty;1)$ là",
+          "options": [
+            "$(-2;2)$",
+            "$(-2;-1]$",
+            "$[-1;2)$",
+            "$(-2;-1)$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Tập xác định $\\mathbb{R} \\setminus \\{-m\\}$, $y' = \\dfrac{m^2 - 4}{(x + m)^2}$. Hàm số nghịch biến trên $(-\\infty;1)$ khi và chỉ khi: (1) $y' < 0$, tức $m^2 - 4 < 0 \\Leftrightarrow -2 < m < 2$; (2) hàm số xác định trên cả khoảng $(-\\infty;1)$, tức $-m \\notin (-\\infty;1) \\Leftrightarrow -m \\ge 1 \\Leftrightarrow m \\le -1$. Kết hợp: $-2 < m \\le -1$. Kiểm tra $m = -1$: $y = \\dfrac{-x + 4}{x - 1}$ xác định trên $(-\\infty;1)$ và $y' = \\dfrac{-3}{(x - 1)^2} < 0$ — thỏa mãn. Phương án A quên điều kiện xác định trên khoảng; phương án C giải sai $-m \\le 1$; phương án D bỏ mất đầu mút $m = -1$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hàm số $y = x^3 - 3mx^2 + 4m^3$ với $m$ là tham số thực. Có bao nhiêu giá trị của $m$ để đồ thị hàm số có hai điểm cực trị $A$, $B$ sao cho tam giác $OAB$ có diện tích bằng $64$ ($O$ là gốc tọa độ)?",
+          "options": [
+            "$2$",
+            "$1$",
+            "$4$",
+            "$0$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{const f=(m,x)=>x**3-3*m*x*x+4*m**3;const A=m=>{const d=Math.sqrt(36*m*m);const r1=(6*m-d)/6,r2=(6*m+d)/6;if(Math.abs(r1-r2)<1e-12)return 0;return Math.abs(r1*f(m,r2)-r2*f(m,r1))/2;};let c=0;for(let i=-10000;i<10000;i++){const a=i/1000+0.0003,b=a+0.001;if((A(a)-64)*(A(b)-64)<0)c++;}return c;})()",
+          "explanation": "$y' = 3x^2 - 6mx = 3x(x - 2m)$. Hàm số có hai điểm cực trị khi $2m \\ne 0 \\Leftrightarrow m \\ne 0$. Khi đó hai điểm cực trị là $A(0;4m^3)$ (nằm trên trục $Oy$) và $B(2m;0)$ (vì $y(2m) = 8m^3 - 12m^3 + 4m^3 = 0$, nằm trên trục $Ox$). Tam giác $OAB$ vuông tại $O$: $S = \\dfrac{1}{2} \\cdot OA \\cdot OB = \\dfrac{1}{2} \\cdot |4m^3| \\cdot |2m| = 4m^4$. $4m^4 = 64 \\Leftrightarrow m^4 = 16 \\Leftrightarrow m = \\pm 2$ (đều khác $0$). Vậy có $2$ giá trị. Phương án B do chỉ lấy $m = 2$, quên nghiệm âm $m = -2$ (cả hai đều cho tam giác diện tích $64$). Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị nhỏ nhất của hàm số $y = 2\\sin^3 x - 3\\sin^2 x - 12\\sin x + 1$ bằng",
+          "options": [
+            "$-19$",
+            "$-12$",
+            "$1$",
+            "$8$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{let mn=Infinity;for(let i=0;i<=62832;i++){const s=Math.sin(i/10000);mn=Math.min(mn,2*s**3-3*s*s-12*s+1);}return Math.round(mn*1000)/1000;})()",
+          "explanation": "Đặt $t = \\sin x$, $t \\in [-1;1]$. Xét $f(t) = 2t^3 - 3t^2 - 12t + 1$ trên $[-1;1]$: $f'(t) = 6t^2 - 6t - 12 = 6(t + 1)(t - 2)$. Trên $(-1;1)$ ta có $f'(t) < 0$ ($t = 2$ không thuộc đoạn) nên $f$ nghịch biến trên $[-1;1]$. Do đó $\\min y = f(1) = 2 - 3 - 12 + 1 = -12$, đạt khi $\\sin x = 1$. Phương án A do quên điều kiện $t \\in [-1;1]$, lấy giá trị cực tiểu $f(2) = 16 - 12 - 24 + 1 = -19$ — giá trị này không đạt được vì $\\sin x$ không thể bằng $2$. Phương án D là giá trị lớn nhất $f(-1) = 8$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Gọi $S$ là tập hợp tất cả các giá trị thực của tham số $m$ sao cho giá trị lớn nhất của hàm số $y = |x^2 - 2x + m|$ trên đoạn $[0;3]$ bằng $5$. Tổng các phần tử của $S$ bằng",
+          "options": [
+            "$-2$",
+            "$-4$",
+            "$2$",
+            "$6$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{let s=0;for(let j=-80;j<=80;j++){const m=j/4;let M=0;for(let i=0;i<=3000;i++){const x=i/1000;M=Math.max(M,Math.abs(x*x-2*x+m));}if(Math.abs(M-5)<1e-9)s+=m;}return s;})()",
+          "explanation": "Xét $g(x) = x^2 - 2x + m$ trên $[0;3]$: $g'(x) = 2x - 2 = 0 \\Leftrightarrow x = 1$; $g(0) = m$, $g(1) = m - 1$, $g(3) = m + 3$. Vậy trên $[0;3]$, $g$ nhận mọi giá trị từ $m - 1$ đến $m + 3$, nên $\\max |g| = \\max\\{|m - 1|;|m + 3|\\}$. Xét từng trường hợp: • $|m + 3| = 5 \\Leftrightarrow m = 2$ hoặc $m = -8$. Với $m = 2$: $|m - 1| = 1 \\le 5$ — nhận; với $m = -8$: $|m - 1| = 9 > 5$ — loại. • $|m - 1| = 5 \\Leftrightarrow m = 6$ hoặc $m = -4$. Với $m = 6$: $|m + 3| = 9 > 5$ — loại; với $m = -4$: $|m + 3| = 1 \\le 5$ — nhận. Vậy $S = \\{2;-4\\}$, tổng bằng $-2$. Phương án B do không kiểm tra lại, cộng cả bốn giá trị $2 - 8 + 6 - 4 = -4$; phương án C chỉ xét giá trị tại $x = 3$. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu giá trị nguyên của tham số $m$ thuộc đoạn $[-10;10]$ để đồ thị hàm số $y = \\dfrac{x - 2}{x^2 - 2x + m}$ có đúng ba đường tiệm cận (tính cả tiệm cận đứng và tiệm cận ngang)?",
+          "options": [
+            "$9$",
+            "$11$",
+            "$12$",
+            "$10$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let m=-10;m<=10;m++){const D=4-4*m;let n=1;if(D>0){for(const r of [(2+Math.sqrt(D))/2,(2-Math.sqrt(D))/2]){if(Math.abs(r-2)>1e-9)n++;}}else if(D===0){n++;}if(n===3)c++;}return c;})()",
+          "explanation": "Bậc tử nhỏ hơn bậc mẫu nên $\\lim\\limits_{x \\to \\pm\\infty} y = 0$: đồ thị luôn có đúng một tiệm cận ngang $y = 0$. Cần thêm đúng hai tiệm cận đứng, tức là phương trình $x^2 - 2x + m = 0$ có hai nghiệm phân biệt và cả hai nghiệm đều khác $2$ (nghiệm của tử). • Hai nghiệm phân biệt: $\\Delta' = 1 - m > 0 \\Leftrightarrow m < 1$. • $x = 2$ không là nghiệm: $4 - 4 + m \\ne 0 \\Leftrightarrow m \\ne 0$. Thật vậy, khi $m = 0$: $y = \\dfrac{x - 2}{x(x - 2)} = \\dfrac{1}{x}$ (với $x \\ne 2$), chỉ có tiệm cận đứng $x = 0$. Vậy $m < 1$, $m \\ne 0$, $m \\in [-10;10]$ nguyên: $m \\in \\{-10;\\ldots;-1\\}$ — có $10$ giá trị. Phương án B ($11$) do quên loại $m = 0$. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hàm số $y = x^4 - 4x^2 + 3$. Có bao nhiêu giá trị nguyên của tham số $m$ để phương trình $x^4 - 4x^2 + 3 = m$ có bốn nghiệm thực phân biệt?",
+          "options": [
+            "$2$",
+            "$5$",
+            "$3$",
+            "$4$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let m=-10;m<=10;m++){let n=0;const g=x=>x**4-4*x*x+3-m;for(let i=-5000;i<5000;i++){const a=i/1000+0.00037,b=a+0.001;if(g(a)*g(b)<0)n++;}if(n===4)c++;}return c;})()",
+          "explanation": "$y' = 4x^3 - 8x = 4x(x^2 - 2)$, $y' = 0 \\Leftrightarrow x = 0$ hoặc $x = \\pm\\sqrt{2}$. Bảng biến thiên: hàm số nghịch biến trên $(-\\infty;-\\sqrt{2})$ và $(0;\\sqrt{2})$, đồng biến trên $(-\\sqrt{2};0)$ và $(\\sqrt{2};+\\infty)$; giá trị cực đại $y(0) = 3$, giá trị cực tiểu $y(\\pm\\sqrt{2}) = 4 - 8 + 3 = -1$; $y \\to +\\infty$ khi $x \\to \\pm\\infty$. Số nghiệm của phương trình là số giao điểm của đồ thị với đường thẳng $y = m$. Có bốn giao điểm khi và chỉ khi $-1 < m < 3$, nên $m \\in \\{0;1;2\\}$ — có $3$ giá trị. Lưu ý: $m = 3$ cho ba nghiệm ($x = 0$, $x = \\pm 2$), $m = -1$ cho hai nghiệm ($x = \\pm\\sqrt{2}$). Phương án B do lấy cả hai đầu mút ($-1 \\le m \\le 3$). Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một cửa hàng nhập áo đồng phục với giá $80$ nghìn đồng/chiếc. Nếu bán với giá $120$ nghìn đồng/chiếc thì mỗi tháng bán được $300$ chiếc. Khảo sát cho thấy cứ giảm giá bán $1$ nghìn đồng thì mỗi tháng bán thêm được $15$ chiếc. Để lợi nhuận mỗi tháng lớn nhất, cửa hàng nên bán mỗi chiếc áo với giá bao nhiêu nghìn đồng?",
+          "options": [
+            "$100$",
+            "$105$",
+            "$115$",
+            "$110$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{let best=-Infinity,bx=0;for(let i=0;i<=4000;i++){const x=i/100;const p=(120-x-80)*(300+15*x);if(p>best){best=p;bx=x;}}return 120-bx;})()",
+          "explanation": "Gọi $x$ (nghìn đồng, $0 \\le x \\le 40$) là số tiền giảm giá. Khi đó giá bán là $120 - x$, lãi mỗi chiếc là $40 - x$, số áo bán được là $300 + 15x$. Lợi nhuận: $P(x) = (40 - x)(300 + 15x) = -15x^2 + 300x + 12000$. $P'(x) = -30x + 300 = 0 \\Leftrightarrow x = 10$; $P'$ đổi dấu từ dương sang âm qua $x = 10$ nên $P$ lớn nhất tại $x = 10$: $P(10) = 30 \\cdot 450 = 13500$ (nghìn đồng), lớn hơn $P(0) = 12000$ và $P(40) = 0$. Giá bán tối ưu: $120 - 10 = 110$ nghìn đồng. Phương án A do nhầm lấy giá bán bằng $120 - 2 \\cdot 10$; nhiều bạn còn tính nhầm lợi nhuận theo giá bán ($120 - x$) thay vì theo tiền lãi ($40 - x$). Chọn D."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hàm số $y = \\dfrac{x^2 + mx - 2}{x - 1}$ với $m$ là tham số thực. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Khi $m = 0$, đồ thị hàm số có tiệm cận đứng là đường thẳng $x = 1$.",
+            "Với mọi giá trị của $m$, đồ thị hàm số có tiệm cận xiên là đường thẳng $y = x + m + 1$.",
+            "Khi $m = 3$, hàm số có hai điểm cực trị.",
+            "Có đúng $9$ giá trị nguyên của $m$ thuộc đoạn $[-10;10]$ để hàm số có hai điểm cực trị."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            true
+          ],
+          "points": 2,
+          "verify": "(()=>{const f=(m,x)=>(x*x+m*x-2)/(x-1);const d=(m,x)=>(f(m,x+1e-6)-f(m,x-1e-6))/2e-6;const ext=m=>{let c=0,p=null;for(let i=-2000;i<=2000;i++){const x=i/100+0.0003;if(Math.abs(x-1)<0.02)continue;const s=Math.sign(d(m,x));if(p!==null&&s!==p&&s!==0)c++;if(s!==0)p=s;}return c;};const a=(1+0-2)!==0&&(1-1)===0;const b=![-5,-4,-3,-2,-1,0,1,2,3,4,5].some(m=>Math.abs(f(m,10)-(10+m+1))<1e-9);const c=ext(3)===2;let n=0;for(let m=-10;m<=10;m++)if(ext(m)===2)n++;return [a,b,c,n===9];})()",
+          "explanation": "Chia đa thức: $x^2 + mx - 2 = (x - 1)(x + m + 1) + (m - 1)$, nên $y = x + m + 1 + \\dfrac{m - 1}{x - 1}$ với $x \\ne 1$. a) Đúng: khi $m = 0$, $y = \\dfrac{x^2 - 2}{x - 1}$; tử số tại $x = 1$ bằng $-1 \\ne 0$ nên $\\lim\\limits_{x \\to 1^{+}} y = -\\infty$, $x = 1$ là tiệm cận đứng. b) Sai: khi $m = 1$ thì $m - 1 = 0$, $y = x + 2$ với $x \\ne 1$ — đồ thị là đường thẳng bỏ đi một điểm, không có tiệm cận xiên (cũng không có tiệm cận đứng). Khẳng định chỉ đúng khi $m \\ne 1$. c) Đúng: khi $m = 3$, $y = x + 4 + \\dfrac{2}{x - 1}$, $y' = 1 - \\dfrac{2}{(x - 1)^2} = 0 \\Leftrightarrow (x - 1)^2 = 2 \\Leftrightarrow x = 1 \\pm \\sqrt{2}$, và $y'$ đổi dấu qua hai nghiệm này nên hàm số có hai điểm cực trị. d) Đúng: $y' = 1 - \\dfrac{m - 1}{(x - 1)^2}$. Nếu $m - 1 < 0$ thì $y' > 0$ với mọi $x \\ne 1$: không có cực trị; nếu $m = 1$ thì $y$ là hàm bậc nhất (trên từng khoảng): không có cực trị; nếu $m - 1 > 0$ thì $y' = 0 \\Leftrightarrow x = 1 \\pm \\sqrt{m - 1}$, hai nghiệm phân biệt và $y'$ đổi dấu: có hai cực trị. Vậy cần $m > 1$; với $m$ nguyên trong $[-10;10]$: $m \\in \\{2;3;\\ldots;10\\}$ — đúng $9$ giá trị."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Một hòn đảo ở vị trí $C$ cách bờ biển (coi là đường thẳng) $3$ km; $H$ là hình chiếu vuông góc của $C$ trên bờ biển. Trên bờ có điểm $B$ cách $H$ một khoảng $8$ km. Một người đi đò từ $C$ đến điểm $M$ trên đoạn $HB$ với vận tốc $3$ km/h, rồi đi bộ từ $M$ đến $B$ với vận tốc $5$ km/h. Đặt $HM = x$ (km), $0 \\le x \\le 8$, và gọi $T(x)$ là tổng thời gian (giờ) người đó đi từ $C$ đến $B$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Nếu người đó đi đò thẳng vào $H$ rồi đi bộ đến $B$ thì hết $2$ giờ $36$ phút.",
+            "$T(x) = \\dfrac{\\sqrt{x^2 + 9}}{5} + \\dfrac{8 - x}{3}$.",
+            "Thời gian đi từ $C$ đến $B$ ngắn nhất khi $HM = 2{,}25$ km.",
+            "Thời gian ngắn nhất để đi từ $C$ đến $B$ ít hơn $2$ giờ $20$ phút."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(()=>{const T=x=>Math.sqrt(x*x+9)/3+(8-x)/5;const Ts=x=>Math.sqrt(x*x+9)/5+(8-x)/3;let mn=Infinity,bx=0;for(let i=0;i<=80000;i++){const x=i/10000;if(T(x)<mn){mn=T(x);bx=x;}}return [Math.abs(T(0)*60-156)<1e-9, Math.abs(Ts(1)-T(1))<1e-9&&Math.abs(Ts(5)-T(5))<1e-9, Math.abs(bx-2.25)<1e-3, mn*60<140];})()",
+          "explanation": "Quãng đường đi đò $CM = \\sqrt{CH^2 + HM^2} = \\sqrt{x^2 + 9}$, quãng đường đi bộ $MB = 8 - x$. Do đó $T(x) = \\dfrac{\\sqrt{x^2 + 9}}{3} + \\dfrac{8 - x}{5}$. a) Đúng: $T(0) = \\dfrac{3}{3} + \\dfrac{8}{5} = 2{,}6$ giờ $= 2$ giờ $36$ phút. b) Sai: công thức này đã đổi chỗ hai vận tốc; đi đò (vận tốc $3$) là đoạn $CM$ nên phải chia $\\sqrt{x^2 + 9}$ cho $3$, đi bộ (vận tốc $5$) là đoạn $MB$ nên chia $8 - x$ cho $5$. c) Đúng: $T'(x) = \\dfrac{x}{3\\sqrt{x^2 + 9}} - \\dfrac{1}{5}$; $T'(x) = 0 \\Leftrightarrow 5x = 3\\sqrt{x^2 + 9} \\Leftrightarrow 25x^2 = 9x^2 + 81$ (với $x \\ge 0$) $\\Leftrightarrow x^2 = \\dfrac{81}{16} \\Leftrightarrow x = \\dfrac{9}{4} = 2{,}25$. $T'$ đổi dấu từ âm sang dương qua $x = 2{,}25$, nên $T$ nhỏ nhất trên $[0;8]$ tại đây (so với hai đầu mút $T(0) = 2{,}6$, $T(8) = \\dfrac{\\sqrt{73}}{3} \\approx 2{,}85$). d) Sai: $T(2{,}25) = \\dfrac{\\sqrt{5{,}0625 + 9}}{3} + \\dfrac{5{,}75}{5} = \\dfrac{3{,}75}{3} + 1{,}15 = 2{,}4$ giờ $= 2$ giờ $24$ phút, nhiều hơn $2$ giờ $20$ phút."
+        },
+        {
+          "kind": "short",
+          "prompt": "Có bao nhiêu giá trị nguyên của tham số $m$ thuộc khoảng $(-20;20)$ để hàm số $y = x^3 - 3x^2 - mx + 2$ đồng biến trên khoảng $(0;+\\infty)$?",
+          "answer": [
+            "17"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let m=-19;m<=19;m++){let ok=true;for(let i=1;i<=3000;i++){const x=i/100;if(3*x*x-6*x-m<-1e-9){ok=false;break;}}if(ok)c++;}return c;})()",
+          "explanation": "$y' = 3x^2 - 6x - m$. Hàm số đồng biến trên $(0;+\\infty)$ $\\Leftrightarrow$ $y' \\ge 0$ với mọi $x > 0$ (dấu bằng tại hữu hạn điểm) $\\Leftrightarrow$ $m \\le 3x^2 - 6x$ với mọi $x > 0$ $\\Leftrightarrow$ $m \\le \\min\\limits_{(0;+\\infty)} g(x)$ với $g(x) = 3x^2 - 6x$. Ta có $g'(x) = 6x - 6 = 0 \\Leftrightarrow x = 1$, $g$ nghịch biến trên $(0;1)$, đồng biến trên $(1;+\\infty)$ nên $\\min\\limits_{(0;+\\infty)} g = g(1) = -3$. Vậy $m \\le -3$ (khi $m = -3$, $y' = 3(x - 1)^2$ chỉ bằng $0$ tại $x = 1$, vẫn thỏa mãn). Với $m$ nguyên thuộc $(-20;20)$: $m \\in \\{-19;-18;\\ldots;-3\\}$ — có $17$ giá trị."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai số thực không âm $x$, $y$ thỏa mãn $x + y = 4$. Tìm giá trị nhỏ nhất của biểu thức $P = x^3 + 3y^2$.",
+          "answer": [
+            "20"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let mn=Infinity;for(let i=0;i<=40000;i++){const x=i/10000,y=4-x;mn=Math.min(mn,x**3+3*y*y);}return Math.round(mn*1e6)/1e6;})()",
+          "explanation": "Từ $x + y = 4$ và $x, y \\ge 0$ suy ra $y = 4 - x$ với $x \\in [0;4]$. Khi đó $P = f(x) = x^3 + 3(4 - x)^2 = x^3 + 3x^2 - 24x + 48$. $f'(x) = 3x^2 + 6x - 24 = 3(x - 2)(x + 4)$; trên $[0;4]$, $f'(x) = 0 \\Leftrightarrow x = 2$. So sánh: $f(0) = 48$, $f(2) = 8 + 12 = 20$, $f(4) = 64$. Vậy $\\min P = 20$, đạt khi $x = y = 2$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hàm số $y = \\dfrac{2x - 1}{x + 1}$ có đồ thị $(C)$. Xét các điểm $M$ thuộc $(C)$ có hoành độ dương. Tìm giá trị nhỏ nhất của tổng khoảng cách từ $M$ đến hai đường tiệm cận của $(C)$ (làm tròn kết quả đến hàng phần trăm).",
+          "answer": [
+            "3,46",
+            "3.46"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let mn=Infinity;for(let i=1;i<=100000;i++){const x=i/10000;const y=(2*x-1)/(x+1);mn=Math.min(mn,Math.abs(x+1)+Math.abs(y-2));}return Math.round(mn*100)/100;})()",
+          "explanation": "$(C)$ có tiệm cận đứng $x = -1$ và tiệm cận ngang $y = 2$. Viết $y = 2 - \\dfrac{3}{x + 1}$. Với $M(x;y) \\in (C)$, $x > 0$: khoảng cách đến tiệm cận đứng là $d_1 = |x + 1| = x + 1$, đến tiệm cận ngang là $d_2 = |y - 2| = \\dfrac{3}{x + 1}$. Đặt $t = x + 1 > 1$, xét $f(t) = t + \\dfrac{3}{t}$: $f'(t) = 1 - \\dfrac{3}{t^2} = 0 \\Leftrightarrow t = \\sqrt{3}$ (thuộc $(1;+\\infty)$), $f'$ đổi dấu từ âm sang dương nên $\\min f = f(\\sqrt{3}) = 2\\sqrt{3} \\approx 3{,}464$, đạt khi $x = \\sqrt{3} - 1 > 0$. Làm tròn: $3{,}46$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Từ một tấm nhôm hình chữ nhật kích thước $30$ cm $\\times$ $48$ cm, người ta cắt bỏ ở bốn góc bốn hình vuông bằng nhau rồi gập lại thành một chiếc khay hình hộp chữ nhật không nắp. Thể tích lớn nhất của chiếc khay là bao nhiêu centimét khối?",
+          "answer": [
+            "3888"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let mx=0;for(let i=1;i<15000;i++){const x=i/1000;mx=Math.max(mx,x*(30-2*x)*(48-2*x));}return Math.round(mx*1e6)/1e6;})()",
+          "explanation": "Gọi cạnh hình vuông cắt bỏ là $x$ (cm), $0 < x < 15$. Khay có đáy kích thước $(30 - 2x) \\times (48 - 2x)$ và chiều cao $x$: $V(x) = x(30 - 2x)(48 - 2x) = 4x^3 - 156x^2 + 1440x$. $V'(x) = 12x^2 - 312x + 1440 = 12(x^2 - 26x + 120) = 12(x - 6)(x - 20)$. Trên $(0;15)$, $V'(x) = 0 \\Leftrightarrow x = 6$ ($x = 20$ loại); $V'$ đổi dấu từ dương sang âm qua $x = 6$ nên $V$ lớn nhất tại $x = 6$: $V(6) = 6 \\cdot 18 \\cdot 36 = 3888$ (cm$^3$)."
+        }
+      ]
+    },
+    {
+      "slug": "toan12-ung-dung-dao-ham-gioi-02",
+      "title": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số — Đề 2",
+      "level": "gioi",
+      "sort_order": 2,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): đồng biến trên ℝ khi hệ số bậc cao chứa tham số, nghịch biến trên đoạn có độ dài cho trước, cực trị từ biểu thức đạo hàm chứa tham số; giá trị lớn nhất, nhỏ nhất có tham số, đổi biến, hàm căn thức; tiệm cận với tập xác định bị chặn và triệt tiêu nhân tử; số nghiệm phương trình chứa dấu giá trị tuyệt đối; chi phí xây bể, lợi nhuận sản xuất, quãng đường chuyển động.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu giá trị nguyên của tham số $m$ thuộc đoạn $[-5;5]$ để hàm số $y = \\dfrac{1}{3}(m^2 - 1)x^3 + (m + 1)x^2 + 3x + 5$ đồng biến trên $\\mathbb{R}$?",
+          "options": [
+            "$7$",
+            "$8$",
+            "$9$",
+            "$10$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let m=-5;m<=5;m++){let ok=true;for(let i=-5000;i<=5000;i++){const x=i/100;if((m*m-1)*x*x+2*(m+1)*x+3<-1e-9){ok=false;break;}}if(ok)c++;}return c;})()",
+          "explanation": "$y' = (m^2 - 1)x^2 + 2(m + 1)x + 3$. Xét các trường hợp: • $m = 1$: $y' = 4x + 3$ đổi dấu, hàm số không đồng biến trên $\\mathbb{R}$ — loại. • $m = -1$: $y' = 3 > 0$ với mọi $x$ — nhận. • $m^2 - 1 \\ne 0$: cần $m^2 - 1 > 0$ và $\\Delta' = (m + 1)^2 - 3(m^2 - 1) \\le 0 \\Leftrightarrow -2m^2 + 2m + 4 \\le 0 \\Leftrightarrow m^2 - m - 2 \\ge 0 \\Leftrightarrow m \\le -1$ hoặc $m \\ge 2$. Kết hợp với $m^2 > 1$: $m < -1$ hoặc $m \\ge 2$ (khi $m = 2$, $y' = 3(x + 1)^2$ chỉ bằng $0$ tại $x = -1$, vẫn thỏa mãn). Tổng hợp: $m \\le -1$ hoặc $m \\ge 2$. Trong $[-5;5]$: $m \\in \\{-5;-4;-3;-2;-1;2;3;4;5\\}$ — có $9$ giá trị. Phương án B do chỉ xét trường hợp hệ số $x^3$ khác $0$, bỏ sót $m = -1$. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tìm giá trị của tham số $m$ để hàm số $y = x^3 - 3x^2 + mx - 1$ nghịch biến trên một đoạn có độ dài bằng $1$.",
+          "options": [
+            "$2{,}25$",
+            "$0{,}75$",
+            "$3$",
+            "$4{,}5$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{const d=(m,x)=>3*x*x-6*x+m;const root=(m,lo,hi)=>{for(let k=0;k<80;k++){const mid=(lo+hi)/2;if(d(m,lo)*d(m,mid)<=0)hi=mid;else lo=mid;}return (lo+hi)/2;};const len=m=>root(m,1,10)-root(m,-10,1);let lo=0,hi=2.999;for(let k=0;k<80;k++){const mid=(lo+hi)/2;if((len(lo)-1)*(len(mid)-1)<=0)hi=mid;else lo=mid;}return Math.round((lo+hi)/2*1e6)/1e6;})()",
+          "explanation": "$y' = 3x^2 - 6x + m$. Hàm số nghịch biến trên đoạn có độ dài $1$ khi $y'$ có hai nghiệm phân biệt $x_1 < x_2$ với $x_2 - x_1 = 1$ (khi đó hàm số nghịch biến đúng trên $[x_1;x_2]$). Điều kiện $\\Delta' = 9 - 3m > 0 \\Leftrightarrow m < 3$. Theo định lí Viète: $x_1 + x_2 = 2$, $x_1 x_2 = \\dfrac{m}{3}$. $(x_2 - x_1)^2 = (x_1 + x_2)^2 - 4x_1x_2 = 4 - \\dfrac{4m}{3} = 1 \\Leftrightarrow m = \\dfrac{9}{4} = 2{,}25$ (thỏa $m < 3$). Phương án B do viết nhầm $x_1x_2 = m$ (quên chia cho hệ số $a = 3$): $4 - 4m = 1 \\Rightarrow m = 0{,}75$. Phương án C ứng với $\\Delta' = 0$, khi đó hàm số đồng biến trên $\\mathbb{R}$. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hàm số $y = f(x)$ có đạo hàm $f'(x) = (x - 1)^2(x^2 - 2mx + 3m - 2)$ với mọi $x \\in \\mathbb{R}$. Có bao nhiêu giá trị nguyên của tham số $m$ thuộc đoạn $[-10;10]$ để hàm số $y = f(x)$ có đúng hai điểm cực trị?",
+          "options": [
+            "$17$",
+            "$18$",
+            "$21$",
+            "$19$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let m=-10;m<=10;m++){const d=x=>(x-1)**2*(x*x-2*m*x+3*m-2);let n=0,p=null;for(let i=-30000;i<=30000;i++){const x=i/1000+0.00031;const s=Math.sign(d(x));if(p!==null&&s!==0&&s!==p)n++;if(s!==0)p=s;}if(n===2)c++;}return c;})()",
+          "explanation": "Thừa số $(x - 1)^2 \\ge 0$ không đổi dấu khi qua $x = 1$, nên dấu của $f'(x)$ (với $x \\ne 1$) là dấu của $g(x) = x^2 - 2mx + 3m - 2$. • Nếu $\\Delta'_g = m^2 - 3m + 2 \\le 0 \\Leftrightarrow 1 \\le m \\le 2$: $g(x) \\ge 0$ với mọi $x$, nên $f'(x) \\ge 0$, hàm số không có cực trị. • Nếu $\\Delta'_g > 0 \\Leftrightarrow m < 1$ hoặc $m > 2$: $g$ có hai nghiệm phân biệt và đổi dấu qua mỗi nghiệm. Hai nghiệm này khác $1$ vì $g(1) = m - 1 \\ne 0$ (do $m \\ne 1$), nên $f'$ đổi dấu đúng tại hai điểm: hàm số có đúng hai điểm cực trị. Vậy $m < 1$ hoặc $m > 2$; trong $[-10;10]$ có $21 - 2 = 19$ giá trị nguyên (loại $m = 1$, $m = 2$). Phương án C ($21$) do không xét dấu $\\Delta'_g$, cho rằng mọi $m$ đều thỏa; lưu ý $x = 1$ không phải điểm cực trị vì $f'$ không đổi dấu qua đó. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hàm số $y = \\dfrac{x + m}{x + 1}$ với $m$ là tham số thực, $m \\ne 1$. Biết $\\min\\limits_{[1;2]} y + \\max\\limits_{[1;2]} y = \\dfrac{16}{3}$. Giá trị của $m$ bằng",
+          "options": [
+            "$1{,}8$",
+            "$5$",
+            "$3$",
+            "$7$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{let res=null;for(let j=-100;j<=100;j++){const m=j/10;if(m===1)continue;let mn=Infinity,mx=-Infinity;for(let i=0;i<=1000;i++){const x=1+i/1000;const y=(x+m)/(x+1);mn=Math.min(mn,y);mx=Math.max(mx,y);}if(Math.abs(mn+mx-16/3)<1e-9)res=m;}return res;})()",
+          "explanation": "$y' = \\dfrac{1 - m}{(x + 1)^2}$ có dấu không đổi trên $[1;2]$ (vì $m \\ne 1$), nên hàm số đơn điệu trên $[1;2]$ và giá trị lớn nhất, nhỏ nhất đạt tại hai đầu mút. Do đó $\\min + \\max = y(1) + y(2) = \\dfrac{1 + m}{2} + \\dfrac{2 + m}{3}$. Giải $\\dfrac{1 + m}{2} + \\dfrac{2 + m}{3} = \\dfrac{16}{3} \\Leftrightarrow 3(1 + m) + 2(2 + m) = 32 \\Leftrightarrow 5m + 7 = 32 \\Leftrightarrow m = 5$ (thỏa $m \\ne 1$). Thử lại: $y(1) = 3$, $y(2) = \\dfrac{7}{3}$, tổng $\\dfrac{16}{3}$. Phương án A do quy đồng nhưng quên nhân vế phải với $6$: $3(1 + m) + 2(2 + m) = 16 \\Rightarrow m = 1{,}8$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị nhỏ nhất của hàm số $y = (x^2 + 2x)^2 + 4(x^2 + 2x) + 1$ bằng",
+          "options": [
+            "$-3$",
+            "$-2$",
+            "$1$",
+            "$6$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{let mn=Infinity;for(let i=-50000;i<=30000;i++){const x=i/10000;const t=x*x+2*x;mn=Math.min(mn,t*t+4*t+1);}return Math.round(mn*1e6)/1e6;})()",
+          "explanation": "Đặt $t = x^2 + 2x = (x + 1)^2 - 1$, điều kiện $t \\ge -1$ (dấu bằng khi $x = -1$). Xét $f(t) = t^2 + 4t + 1$ trên $[-1;+\\infty)$: $f'(t) = 2t + 4 > 0$ với mọi $t > -1$ (nghiệm $t = -2$ không thuộc miền xét). Vậy $f$ đồng biến trên $[-1;+\\infty)$, $\\min y = f(-1) = 1 - 4 + 1 = -2$, đạt khi $x = -1$. Phương án A do quên điều kiện $t \\ge -1$, lấy $f(-2) = -3$ — nhưng không có $x$ nào để $x^2 + 2x = -2$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Đồ thị hàm số $y = \\dfrac{\\sqrt{4 - x^2}}{x^2 - 3x - 4}$ có tất cả bao nhiêu đường tiệm cận (đứng và ngang)?",
+          "options": [
+            "$1$",
+            "$2$",
+            "$3$",
+            "$0$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{const D=9+16;const roots=[(3+Math.sqrt(D))/2,(3-Math.sqrt(D))/2];let n=0;for(const r of roots){if(r>-2&&r<2&&Math.sqrt(4-r*r)!==0)n++;}const horiz=0;return n+horiz;})()",
+          "explanation": "Điều kiện: $4 - x^2 \\ge 0$ và $x^2 - 3x - 4 \\ne 0$, tức $x \\in [-2;2]$, $x \\ne -1$ (mẫu có nghiệm $x = -1$ và $x = 4$, nhưng $x = 4 \\notin [-2;2]$). • Tập xác định bị chặn trong $[-2;2]$ nên không xét được giới hạn khi $x \\to \\pm\\infty$: đồ thị không có tiệm cận ngang. • Tại $x = -1$: tử số dần tới $\\sqrt{3} \\ne 0$, mẫu dần tới $0$ nên $\\lim\\limits_{x \\to -1^{+}} y = \\infty$: $x = -1$ là tiệm cận đứng. • $x = 4$ nằm ngoài tập xác định nên không phải tiệm cận. Vậy đồ thị có đúng $1$ đường tiệm cận. Phương án C do máy móc kết luận hai tiệm cận đứng $x = -1$, $x = 4$ và tiệm cận ngang $y = 0$ mà không tìm tập xác định. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hàm số bậc ba $y = f(x)$ đồng biến trên mỗi khoảng $(-\\infty;-1)$ và $(3;+\\infty)$, nghịch biến trên khoảng $(-1;3)$, có $f(-1) = 4$ và $f(3) = -2$. Số nghiệm thực của phương trình $|f(x)| = 3$ là",
+          "options": [
+            "$2$",
+            "$3$",
+            "$4$",
+            "$6$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{const F=x=>x**3/3-x*x-3*x;const k=6/(F(-1)-F(3));const c=4-k*F(-1);const f=x=>k*F(x)+c;const g=x=>Math.abs(f(x))-3;let n=0;for(let i=-20000;i<20000;i++){const a=i/1000+0.00029,b=a+0.001;if(g(a)*g(b)<0)n++;}return n;})()",
+          "explanation": "Từ giả thiết: hàm số đạt cực đại tại $x = -1$ với $f(-1) = 4$, đạt cực tiểu tại $x = 3$ với $f(3) = -2$; vì là hàm bậc ba nên $f(x) \\to -\\infty$ khi $x \\to -\\infty$ và $f(x) \\to +\\infty$ khi $x \\to +\\infty$. $|f(x)| = 3 \\Leftrightarrow f(x) = 3$ hoặc $f(x) = -3$. • $f(x) = 3$: vì $-2 < 3 < 4$, đường thẳng $y = 3$ cắt đồ thị tại $3$ điểm (một điểm trên mỗi khoảng $(-\\infty;-1)$, $(-1;3)$, $(3;+\\infty)$). • $f(x) = -3$: vì $-3 < -2$ (nhỏ hơn giá trị cực tiểu), đường thẳng $y = -3$ chỉ cắt đồ thị tại $1$ điểm (thuộc $(-\\infty;-1)$). Các nghiệm của hai phương trình khác nhau, tổng cộng $3 + 1 = 4$ nghiệm. Phương án D do cho rằng mỗi phương trình đều có $3$ nghiệm, không so sánh $-3$ với giá trị cực tiểu $-2$. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một bể nước hình hộp chữ nhật không nắp có thể tích $288$ dm$^3$, đáy là hình chữ nhật có chiều dài gấp đôi chiều rộng. Chi phí xây bể (cả đáy và bốn mặt bên) là $500$ nghìn đồng/m$^2$. Chi phí thấp nhất để xây bể là bao nhiêu nghìn đồng?",
+          "options": [
+            "$108$",
+            "$720$",
+            "$1440$",
+            "$1080$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{let mn=Infinity;for(let i=1;i<=30000;i++){const x=i/1000;const h=288/(2*x*x);const S=2*x*x+2*(x*h)+2*(2*x*h);mn=Math.min(mn,S);}return Math.round(mn/100*500*1000)/1000;})()",
+          "explanation": "Gọi chiều rộng đáy là $x$ (dm), $x > 0$; chiều dài $2x$, chiều cao $h$. Thể tích $2x^2h = 288 \\Rightarrow h = \\dfrac{144}{x^2}$. Diện tích cần xây (đáy và bốn mặt bên): $S = 2x^2 + 2xh + 2 \\cdot 2xh = 2x^2 + 6xh = 2x^2 + \\dfrac{864}{x}$. $S'(x) = 4x - \\dfrac{864}{x^2} = 0 \\Leftrightarrow x^3 = 216 \\Leftrightarrow x = 6$; $S'$ đổi dấu từ âm sang dương nên $S$ nhỏ nhất tại $x = 6$: $S = 72 + 144 = 216$ (dm$^2$) $= 2{,}16$ m$^2$. Chi phí thấp nhất: $2{,}16 \\cdot 500 = 1080$ (nghìn đồng). Phương án A do đổi đơn vị sai ($1$ m$^2 = 1000$ dm$^2$, được $0{,}216$ m$^2$); đúng là $1$ m$^2 = 100$ dm$^2$. Chọn D."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hàm số $y = f(x) = x^3 - 3mx^2 + 3(m^2 - 1)x - m^3 + m$ với $m$ là tham số thực. Gọi $A$, $B$ lần lượt là điểm cực đại, điểm cực tiểu của đồ thị hàm số (nếu có). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Với mọi giá trị của $m$, hàm số luôn có hai điểm cực trị.",
+            "Hàm số đạt cực đại tại $x = m + 1$.",
+            "Hàm số nghịch biến trên khoảng $(1;2)$ khi và chỉ khi $1 \\le m \\le 2$.",
+            "Tổng tất cả các giá trị của $m$ để $OA = 2OB$ ($O$ là gốc tọa độ) bằng $-3$."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(()=>{const f=(m,x)=>x**3-3*m*x*x+3*(m*m-1)*x-m**3+m;const d=(m,x)=>3*x*x-6*m*x+3*(m*m-1);const ext=m=>{let c=0,p=null;for(let i=-2000;i<=2000;i++){const x=i/100+0.0007;const s=Math.sign(d(m,x));if(p!==null&&s!==p)c++;p=s;}return c;};let a=true;for(let j=-10;j<=10;j++)if(ext(j/2)!==2)a=false;const b=[-2,0,0.5,3].every(m=>d(m,m+1-0.01)>0&&d(m,m+1+0.01)<0);let c=true;for(let j=-300;j<=500;j++){const m=j/100;let ok=true;for(let k=1;k<1000;k++){if(d(m,1+k/1000)>1e-12){ok=false;break;}}if(ok!==(m>=1-1e-9&&m<=2+1e-9))c=false;}const pts=m=>{const r=Math.sqrt(36*m*m-36*(m*m-1));const x1=(6*m-r)/6,x2=(6*m+r)/6;return [Math.hypot(x1,f(m,x1)),Math.hypot(x2,f(m,x2))];};const h=m=>{const [oa,ob]=pts(m);return oa-2*ob;};let s=0;for(let i=-10000;i<10000;i++){let lo=i/1000+0.00013,hi=lo+0.001;if(h(lo)*h(hi)<0){for(let k=0;k<60;k++){const mid=(lo+hi)/2;if(h(lo)*h(mid)<=0)hi=mid;else lo=mid;}s+=(lo+hi)/2;}}return [a,b,c,Math.abs(s-(-3))<1e-6];})()",
+          "explanation": "$f'(x) = 3x^2 - 6mx + 3(m^2 - 1) = 3[(x - m)^2 - 1]$, $f'(x) = 0 \\Leftrightarrow x = m - 1$ hoặc $x = m + 1$. a) Đúng: $f'$ luôn có hai nghiệm phân biệt $m \\pm 1$ và đổi dấu qua mỗi nghiệm, nên hàm số luôn có hai điểm cực trị. b) Sai: $f'$ mang dấu dương trên $(-\\infty;m - 1)$, âm trên $(m - 1;m + 1)$, dương trên $(m + 1;+\\infty)$, nên hàm số đạt cực đại tại $x = m - 1$ và đạt cực tiểu tại $x = m + 1$ (hệ số $a > 0$ thì điểm cực đại là nghiệm nhỏ hơn). c) Đúng: hàm số nghịch biến trên $[m - 1;m + 1]$, nên nghịch biến trên $(1;2)$ $\\Leftrightarrow (1;2) \\subset (m - 1;m + 1)$ hoặc trùng đầu mút $\\Leftrightarrow m - 1 \\le 1$ và $m + 1 \\ge 2 \\Leftrightarrow 1 \\le m \\le 2$. d) Sai: viết $f(x) = (x - m)^3 - 3(x - m) - 2m$, suy ra $A(m - 1;2 - 2m)$, $B(m + 1;-2 - 2m)$. $OA^2 = (m - 1)^2 + 4(m - 1)^2 = 5(m - 1)^2$, $OB^2 = 5(m + 1)^2$. $OA = 2OB \\Leftrightarrow |m - 1| = 2|m + 1| \\Leftrightarrow m - 1 = 2(m + 1)$ hoặc $m - 1 = -2(m + 1)$ $\\Leftrightarrow m = -3$ hoặc $m = -\\dfrac{1}{3}$. Tổng các giá trị là $-3 - \\dfrac{1}{3} = -\\dfrac{10}{3} \\ne -3$ (sai lầm thường gặp là bỏ sót trường hợp $m - 1 = -2(m + 1)$)."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Một xưởng sản xuất $x$ tấn sản phẩm mỗi tháng ($0 < x \\le 25$) với tổng chi phí $C(x) = x^3 - 30x^2 + 348x + 400$ (triệu đồng). Giá bán mỗi tấn sản phẩm là $240$ triệu đồng và xưởng bán hết sản phẩm làm ra. Gọi $P(x)$ là lợi nhuận mỗi tháng (triệu đồng). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Khi sản xuất $10$ tấn, lợi nhuận của xưởng là $520$ triệu đồng.",
+            "Lợi nhuận của xưởng luôn tăng khi sản lượng tăng trên nửa khoảng $(0;25]$.",
+            "Lợi nhuận lớn nhất đạt được khi xưởng sản xuất $18$ tấn mỗi tháng.",
+            "Nếu giá bán mỗi tấn tăng thêm $12$ triệu đồng thì sản lượng để lợi nhuận lớn nhất tăng thêm chưa đến $1$ tấn."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            true
+          ],
+          "points": 2,
+          "verify": "(()=>{const C=x=>x**3-30*x*x+348*x+400;const P=(x,p)=>p*x-C(x);const arg=p=>{let b=-Infinity,bx=0;for(let i=1;i<=25000;i++){const x=i/1000;if(P(x,p)>b){b=P(x,p);bx=x;}}return bx;};let inc=true;for(let i=1;i<25000;i++){if(P((i+1)/1000,240)<=P(i/1000,240)){inc=false;break;}}const x0=arg(240),x1=arg(252);return [Math.abs(P(10,240)-520)<1e-9, inc, Math.abs(x0-18)<1e-9, x1-x0>0&&x1-x0<1];})()",
+          "explanation": "$P(x) = 240x - C(x) = -x^3 + 30x^2 - 108x - 400$, $P'(x) = -3x^2 + 60x - 108 = -3(x - 2)(x - 18)$. a) Đúng: $P(10) = -1000 + 3000 - 1080 - 400 = 520$ (triệu đồng). b) Sai: $P'(x) < 0$ trên $(0;2)$ và $(18;25)$ nên lợi nhuận giảm trên các khoảng này; lợi nhuận chỉ tăng trên $(2;18)$. c) Đúng: trên $(0;25]$, $P$ giảm trên $(0;2)$, tăng trên $(2;18)$, giảm trên $(18;25)$. So sánh $P(18) = -5832 + 9720 - 1944 - 400 = 1544$ với giá trị khi $x$ gần $0$ ($P \\to -400$) và $P(25) = 28$, ta có lợi nhuận lớn nhất là $1544$ triệu đồng khi $x = 18$. d) Đúng: khi giá bán là $252$ triệu đồng/tấn, $P_1(x) = 252x - C(x)$, $P_1'(x) = -3x^2 + 60x - 96 = -3(x^2 - 20x + 32)$, nghiệm lớn $x = 10 + \\sqrt{68} \\approx 18{,}25$ là điểm cực đại; tương tự câu c, đây là điểm cho lợi nhuận lớn nhất trên $(0;25]$. Sản lượng tối ưu tăng thêm khoảng $18{,}25 - 18 = 0{,}25$ tấn, chưa đến $1$ tấn."
+        },
+        {
+          "kind": "short",
+          "prompt": "Có bao nhiêu giá trị nguyên của tham số $m$ thuộc khoảng $(-10;10)$ để hàm số $y = x^4 - 2(m - 1)x^2 + m - 2$ đồng biến trên khoảng $(1;3)$?",
+          "answer": [
+            "12"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let m=-9;m<=9;m++){let ok=true;for(let k=1;k<2000;k++){const x=1+k/1000;if(4*x**3-4*(m-1)*x<-1e-9){ok=false;break;}}if(ok)c++;}return c;})()",
+          "explanation": "$y' = 4x^3 - 4(m - 1)x = 4x\\left[x^2 - (m - 1)\\right]$. Trên $(1;3)$ ta có $4x > 0$, nên hàm số đồng biến trên $(1;3)$ $\\Leftrightarrow$ $x^2 - (m - 1) \\ge 0$ với mọi $x \\in (1;3)$ $\\Leftrightarrow$ $m - 1 \\le x^2$ với mọi $x \\in (1;3)$. Vì $x^2$ đồng biến trên $(1;3)$ và $x^2 > 1$ (tiến tới $1$ khi $x \\to 1^{+}$), điều kiện tương đương $m - 1 \\le 1 \\Leftrightarrow m \\le 2$ (khi $m = 2$, $y' = 4x(x^2 - 1) > 0$ trên $(1;3)$ — vẫn thỏa mãn). Với $m$ nguyên thuộc $(-10;10)$: $m \\in \\{-9;-8;\\ldots;2\\}$ — có $12$ giá trị."
+        },
+        {
+          "kind": "short",
+          "prompt": "Gọi $M$ và $m$ lần lượt là giá trị lớn nhất và giá trị nhỏ nhất của hàm số $y = x + \\sqrt{4 - x^2}$. Tính $M + m$ (làm tròn kết quả đến hàng phần trăm).",
+          "answer": [
+            "0,83",
+            "0.83"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let mn=Infinity,mx=-Infinity;for(let i=-200000;i<=200000;i++){const x=i/100000;const y=x+Math.sqrt(Math.max(0,4-x*x));mn=Math.min(mn,y);mx=Math.max(mx,y);}return Math.round((mn+mx)*100)/100;})()",
+          "explanation": "Tập xác định $D = [-2;2]$. $y' = 1 - \\dfrac{x}{\\sqrt{4 - x^2}}$ với $x \\in (-2;2)$. $y' = 0 \\Leftrightarrow \\sqrt{4 - x^2} = x \\Leftrightarrow x \\ge 0$ và $4 - x^2 = x^2 \\Leftrightarrow x = \\sqrt{2}$. So sánh: $y(-2) = -2$, $y(\\sqrt{2}) = 2\\sqrt{2}$, $y(2) = 2$. Vậy $M = 2\\sqrt{2}$, $m = -2$, $M + m = 2\\sqrt{2} - 2 \\approx 0{,}828$. Làm tròn: $0{,}83$. (Lưu ý loại nghiệm $x = -\\sqrt{2}$ vì khi đó $\\sqrt{4 - x^2} = \\sqrt{2} \\ne x$.)"
+        },
+        {
+          "kind": "short",
+          "prompt": "Có bao nhiêu giá trị nguyên của tham số $m$ thuộc đoạn $[-10;10]$ để đồ thị hàm số $y = \\dfrac{x^2 + x - 2}{x^2 - 2x + m}$ có đúng hai đường tiệm cận (đứng và ngang)?",
+          "answer": [
+            "2"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{const num=x=>x*x+x-2;let c=0;for(let m=-10;m<=10;m++){const D=4-4*m;let n=1;if(D===0){n++;}else if(D>0){for(const r of [(2+Math.sqrt(D))/2,(2-Math.sqrt(D))/2]){if(Math.abs(num(r))>1e-9)n++;}}if(n===2)c++;}return c;})()",
+          "explanation": "Tử và mẫu cùng bậc $2$, hệ số cao nhất đều là $1$ nên đồ thị luôn có đúng một tiệm cận ngang $y = 1$. Cần đúng một tiệm cận đứng. Tử số $x^2 + x - 2 = (x - 1)(x + 2)$. Mẫu $x^2 - 2x + m$ có $\\Delta' = 1 - m$. • $m > 1$: mẫu vô nghiệm, không có tiệm cận đứng (chỉ $1$ tiệm cận) — loại. • $m = 1$: mẫu $(x - 1)^2$, $y = \\dfrac{(x - 1)(x + 2)}{(x - 1)^2} = \\dfrac{x + 2}{x - 1}$ ($x \\ne 1$), có tiệm cận đứng $x = 1$ — nhận. • $m < 1$: mẫu có hai nghiệm phân biệt; để chỉ còn một tiệm cận đứng thì một nghiệm của mẫu phải là nghiệm của tử. Nghiệm $x = 1$: $1 - 2 + m = 0 \\Leftrightarrow m = 1$ (không thuộc trường hợp này). Nghiệm $x = -2$: $4 + 4 + m = 0 \\Leftrightarrow m = -8$; khi đó mẫu $(x + 2)(x - 4)$, $y = \\dfrac{x - 1}{x - 4}$ ($x \\ne -2$), chỉ có tiệm cận đứng $x = 4$ — nhận. Các $m < 1$ khác cho hai tiệm cận đứng. Vậy $m \\in \\{1;-8\\}$ — có $2$ giá trị."
+        },
+        {
+          "kind": "short",
+          "prompt": "Một chất điểm chuyển động thẳng có phương trình $s(t) = t^3 - 9t^2 + 15t + 10$, trong đó $t \\ge 0$ tính bằng giây và $s$ tính bằng mét. Tính quãng đường chất điểm đi được trong $6$ giây đầu tiên (đơn vị: mét).",
+          "answer": [
+            "46"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{const s=t=>t**3-9*t*t+15*t+10;let d=0;for(let i=0;i<60000;i++){d+=Math.abs(s((i+1)/10000)-s(i/10000));}return Math.round(d*1e4)/1e4;})()",
+          "explanation": "Vận tốc $v(t) = s'(t) = 3t^2 - 18t + 15 = 3(t - 1)(t - 5)$. Trên $[0;6]$, $v > 0$ trên $(0;1)$, $v < 0$ trên $(1;5)$, $v > 0$ trên $(5;6)$: chất điểm đổi chiều chuyển động tại $t = 1$ và $t = 5$. Ta có $s(0) = 10$, $s(1) = 17$, $s(5) = 125 - 225 + 75 + 10 = -15$, $s(6) = 216 - 324 + 90 + 10 = -8$. Quãng đường đi được: $|s(1) - s(0)| + |s(5) - s(1)| + |s(6) - s(5)| = 7 + 32 + 7 = 46$ (m). Lưu ý: $|s(6) - s(0)| = 18$ chỉ là độ dịch chuyển, không phải quãng đường."
+        }
+      ]
+    },
+    {
+      "slug": "toan12-ung-dung-dao-ham-gioi-03",
+      "title": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số — Đề 3",
+      "level": "gioi",
+      "sort_order": 3,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): đơn điệu của hàm hợp lượng giác, điều kiện cực đại, cực trị của hàm hợp f(x²) và hàm chứa dấu giá trị tuyệt đối; giá trị nhỏ nhất trên đoạn có tham số, hàm mũ đổi biến, biểu thức hai biến; tiệm cận ngang có căn thức, tiệm cận xiên có tham số; xác định hàm bậc ba từ cực trị; cực trị hàm trùng phương; thùng hình trụ, vận tốc gia tốc, độ bền dầm gỗ.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu giá trị nguyên của tham số $m$ thuộc đoạn $[-10;10]$ để hàm số $y = \\dfrac{\\cos x - 2}{\\cos x - m}$ nghịch biến trên khoảng $\\left(0;\\dfrac{\\pi}{2}\\right)$?",
+          "options": [
+            "$8$",
+            "$11$",
+            "$12$",
+            "$13$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let m=-10;m<=10;m++){let ok=true,prev=null;for(let i=1;i<1571;i++){const x=i/1000;const den=Math.cos(x)-m;if(Math.abs(den)<1e-12){ok=false;break;}const y=(Math.cos(x)-2)/den;if(prev!==null&&!(y<prev)){ok=false;break;}prev=y;}if(ok)c++;}return c;})()",
+          "explanation": "Đặt $t = \\cos x$. Khi $x \\in \\left(0;\\dfrac{\\pi}{2}\\right)$ thì $t \\in (0;1)$ và $t = \\cos x$ nghịch biến (vì $t' = -\\sin x < 0$). Xét $g(t) = \\dfrac{t - 2}{t - m}$, $g'(t) = \\dfrac{2 - m}{(t - m)^2}$. Ta có $y' = g'(t) \\cdot (-\\sin x)$, nên $y$ nghịch biến trên $\\left(0;\\dfrac{\\pi}{2}\\right)$ $\\Leftrightarrow$ $g$ đồng biến trên $(0;1)$ $\\Leftrightarrow$ $2 - m > 0$ và $m \\notin (0;1)$ $\\Leftrightarrow$ $m \\le 0$ hoặc $1 \\le m < 2$. Với $m$ nguyên thuộc $[-10;10]$: $m \\in \\{-10;\\ldots;0\\} \\cup \\{1\\}$ — có $12$ giá trị. Phương án A do quên rằng $t = \\cos x$ nghịch biến, giải $g'(t) < 0 \\Leftrightarrow m > 2$ được $8$ giá trị $m \\in \\{3;\\ldots;10\\}$. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Hàm số $y = \\dfrac{1}{3}x^3 - mx^2 + (m^2 - 4)x + 3$ đạt cực đại tại $x = 3$ khi $m$ bằng",
+          "options": [
+            "$1$",
+            "$5$",
+            "$3$",
+            "$-5$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{const d=(m,x)=>x*x-2*m*x+m*m-4;let r=null;for(let m=-20;m<=20;m++){if(Math.abs(d(m,3))<1e-9&&d(m,2.999)>0&&d(m,3.001)<0)r=m;}return r;})()",
+          "explanation": "$y' = x^2 - 2mx + m^2 - 4 = (x - m)^2 - 4$, $y' = 0 \\Leftrightarrow x = m - 2$ hoặc $x = m + 2$. Vì hệ số của $x^2$ trong $y'$ dương nên $y'$ dương, âm, dương lần lượt trên $(-\\infty;m - 2)$, $(m - 2;m + 2)$, $(m + 2;+\\infty)$: hàm số đạt cực đại tại $x = m - 2$. Do đó $m - 2 = 3 \\Leftrightarrow m = 5$. Kiểm tra: $m = 5$, $y' = (x - 3)(x - 7)$ đổi dấu từ dương sang âm qua $x = 3$ — đúng. Phương án A do chỉ giải $y'(3) = 0 \\Leftrightarrow m^2 - 6m + 5 = 0 \\Leftrightarrow m \\in \\{1;5\\}$ rồi chọn nhầm $m = 1$; nhưng với $m = 1$, $y' = (x + 1)(x - 3)$ đổi dấu từ âm sang dương qua $x = 3$, đó là điểm cực tiểu. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hàm số $y = f(x)$ có đạo hàm $f'(x) = x(x - 1)^2(x - 4)$ với mọi $x \\in \\mathbb{R}$. Số điểm cực trị của hàm số $g(x) = f(x^2)$ là",
+          "options": [
+            "$3$",
+            "$5$",
+            "$2$",
+            "$7$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{const fp=u=>u*(u-1)**2*(u-4);const gp=x=>2*x*fp(x*x);let n=0,p=null;for(let i=-5000;i<=5000;i++){const x=i/1000+0.00023;const s=Math.sign(gp(x));if(p!==null&&s!==0&&s!==p)n++;if(s!==0)p=s;}return n;})()",
+          "explanation": "$g'(x) = 2x \\cdot f'(x^2) = 2x \\cdot x^2(x^2 - 1)^2(x^2 - 4) = 2x^3(x - 1)^2(x + 1)^2(x - 2)(x + 2)$. Các nghiệm của $g'$: $x = 0$ (bội $3$, lẻ), $x = \\pm 1$ (bội $2$, chẵn), $x = \\pm 2$ (bội $1$, lẻ). $g'$ chỉ đổi dấu khi qua nghiệm bội lẻ, tức qua $x = 0$, $x = 2$, $x = -2$. Vậy $g$ có $3$ điểm cực trị. Phương án B do đếm cả $x = \\pm 1$ (tại đó $g'$ bằng $0$ nhưng không đổi dấu). Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu giá trị nguyên của tham số $m$ để giá trị nhỏ nhất của hàm số $f(x) = x^2 - 2mx + m + 2$ trên đoạn $[0;2]$ là một số không âm?",
+          "options": [
+            "$3$",
+            "$4$",
+            "$5$",
+            "$6$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let m=-20;m<=20;m++){let mn=Infinity;for(let i=0;i<=2000;i++){const x=i/1000;mn=Math.min(mn,x*x-2*m*x+m+2);}if(mn>=-1e-9)c++;}return c;})()",
+          "explanation": "$f'(x) = 2x - 2m = 0 \\Leftrightarrow x = m$. Xét vị trí của $m$ so với đoạn $[0;2]$: • $m \\le 0$: $f$ đồng biến trên $[0;2]$, $\\min f = f(0) = m + 2 \\ge 0 \\Leftrightarrow m \\ge -2$; được $-2 \\le m \\le 0$. • $0 < m < 2$: $\\min f = f(m) = -m^2 + m + 2 \\ge 0 \\Leftrightarrow -1 \\le m \\le 2$; được $0 < m < 2$. • $m \\ge 2$: $f$ nghịch biến trên $[0;2]$, $\\min f = f(2) = 6 - 3m \\ge 0 \\Leftrightarrow m \\le 2$; được $m = 2$. Hợp lại: $-2 \\le m \\le 2$, có $5$ giá trị nguyên. Phương án B do chỉ dùng giá trị tại đỉnh $f(m) \\ge 0 \\Leftrightarrow -1 \\le m \\le 2$ mà không xét trường hợp đỉnh nằm ngoài đoạn. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Gọi $M$, $m$ lần lượt là giá trị lớn nhất và giá trị nhỏ nhất của hàm số $y = 4^x - 2^{x + 2} + 3$ trên đoạn $[0;2]$. Giá trị của $M + m$ bằng",
+          "options": [
+            "$2$",
+            "$3$",
+            "$4$",
+            "$-1$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{let mn=Infinity,mx=-Infinity;for(let i=0;i<=200000;i++){const x=i/100000;const y=4**x-2**(x+2)+3;mn=Math.min(mn,y);mx=Math.max(mx,y);}return Math.round((mn+mx)*1e6)/1e6;})()",
+          "explanation": "Đặt $t = 2^x$; khi $x \\in [0;2]$ thì $t \\in [1;4]$, và $4^x = t^2$, $2^{x + 2} = 4t$. Xét $f(t) = t^2 - 4t + 3$ trên $[1;4]$: $f'(t) = 2t - 4 = 0 \\Leftrightarrow t = 2$. So sánh: $f(1) = 0$, $f(2) = -1$, $f(4) = 3$. Vậy $M = 3$ (khi $x = 2$), $m = -1$ (khi $x = 1$), $M + m = 2$. Phương án B do chỉ so sánh giá trị tại hai đầu mút ($0$ và $3$), bỏ sót điểm tới hạn $t = 2$. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tìm tất cả các giá trị của tham số $m$ để đồ thị hàm số $y = \\dfrac{x + 1}{\\sqrt{mx^2 + 1}}$ có hai đường tiệm cận ngang.",
+          "options": [
+            "$m < 0$",
+            "$m = 0$",
+            "$m \\ne 0$",
+            "$m > 0$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "• $m = 0$: $y = x + 1$, đồ thị là đường thẳng, không có tiệm cận ngang. • $m < 0$: điều kiện $mx^2 + 1 > 0 \\Leftrightarrow |x| < \\dfrac{1}{\\sqrt{-m}}$, tập xác định là một khoảng bị chặn nên không xét được giới hạn khi $x \\to \\pm\\infty$: không có tiệm cận ngang. • $m > 0$: tập xác định $\\mathbb{R}$; $\\lim\\limits_{x \\to +\\infty} y = \\lim\\limits_{x \\to +\\infty} \\dfrac{1 + \\frac{1}{x}}{\\sqrt{m + \\frac{1}{x^2}}} = \\dfrac{1}{\\sqrt{m}}$ và $\\lim\\limits_{x \\to -\\infty} y = \\lim\\limits_{x \\to -\\infty} \\dfrac{1 + \\frac{1}{x}}{-\\sqrt{m + \\frac{1}{x^2}}} = -\\dfrac{1}{\\sqrt{m}}$ (vì $\\sqrt{x^2} = -x$ khi $x < 0$). Hai giới hạn khác nhau nên có hai tiệm cận ngang $y = \\pm\\dfrac{1}{\\sqrt{m}}$. Phương án C do không để ý rằng với $m < 0$ hàm số không xác định khi $|x|$ lớn. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hàm số bậc ba $y = f(x)$ có đồ thị nhận $A(1;3)$ và $B(3;-1)$ là hai điểm cực trị. Số nghiệm thực của phương trình $f(|x|) = 0$ là",
+          "options": [
+            "$3$",
+            "$6$",
+            "$4$",
+            "$5$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{const M=[[3,2,1,0,0],[27,6,1,0,0],[1,1,1,1,3],[27,9,3,1,-1]];for(let i=0;i<4;i++){let p=i;for(let r=i+1;r<4;r++)if(Math.abs(M[r][i])>Math.abs(M[p][i]))p=r;[M[i],M[p]]=[M[p],M[i]];for(let r=0;r<4;r++){if(r===i)continue;const k=M[r][i]/M[i][i];for(let c=i;c<5;c++)M[r][c]-=k*M[i][c];}}const [a,b,c,d]=M.map((row,i)=>row[4]/row[i]);const f=x=>a*x**3+b*x*x+c*x+d;const g=x=>f(Math.abs(x));let n=0;for(let i=-10000;i<10000;i++){const u=i/1000+0.00041,v=u+0.001;if(g(u)*g(v)<0)n++;}return n;})()",
+          "explanation": "Đặt $f(x) = ax^3 + bx^2 + cx + d$. Vì $f'(1) = f'(3) = 0$ nên $f'(x) = 3a(x - 1)(x - 3) = 3a(x^2 - 4x + 3)$, suy ra $f(x) = a(x^3 - 6x^2 + 9x) + d$. Từ $f(1) = 4a + d = 3$ và $f(3) = 0 \\cdot a + d = -1$ suy ra $d = -1$, $a = 1$: $f(x) = x^3 - 6x^2 + 9x - 1$. Bảng biến thiên: cực đại $f(1) = 3$, cực tiểu $f(3) = -1$, và $f(0) = -1$. Trên $[0;+\\infty)$: $f$ tăng từ $-1$ lên $3$ trên $[0;1]$, giảm từ $3$ xuống $-1$ trên $[1;3]$, tăng từ $-1$ ra $+\\infty$ trên $[3;+\\infty)$. Do đó $f(t) = 0$ có đúng $3$ nghiệm dương $t_1 \\in (0;1)$, $t_2 \\in (1;3)$, $t_3 \\in (3;+\\infty)$. Phương trình $f(|x|) = 0 \\Leftrightarrow |x| \\in \\{t_1;t_2;t_3\\}$, mỗi giá trị dương cho hai nghiệm $x = \\pm t_i$: tổng cộng $6$ nghiệm. Phương án A do quên rằng $|x| = t_i$ cho hai giá trị $x$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một xưởng làm thùng hình trụ không nắp có thể tích $16\\pi$ dm$^3$. Giá vật liệu làm đáy gấp đôi giá vật liệu làm mặt xung quanh (tính trên cùng một đơn vị diện tích). Để chi phí vật liệu thấp nhất, chiều cao của thùng bằng bao nhiêu đề-xi-mét?",
+          "options": [
+            "$2$",
+            "$1$",
+            "$8$",
+            "$4$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{let mn=Infinity,br=0;for(let i=1;i<=100000;i++){const r=i/10000;const h=16/(r*r);const cost=2*Math.PI*r*r+2*Math.PI*r*h;if(cost<mn){mn=cost;br=r;}}return Math.round(16/(br*br)*1e6)/1e6;})()",
+          "explanation": "Gọi bán kính đáy là $r$ (dm), chiều cao $h$; $\\pi r^2 h = 16\\pi \\Rightarrow h = \\dfrac{16}{r^2}$. Gọi $k$ là giá vật liệu mặt xung quanh trên mỗi dm$^2$, chi phí là $k\\left(2 \\cdot \\pi r^2 + 2\\pi r h\\right) = k\\left(2\\pi r^2 + \\dfrac{32\\pi}{r}\\right)$. Xét $F(r) = 2\\pi r^2 + \\dfrac{32\\pi}{r}$, $r > 0$: $F'(r) = 4\\pi r - \\dfrac{32\\pi}{r^2} = 0 \\Leftrightarrow r^3 = 8 \\Leftrightarrow r = 2$; $F'$ đổi dấu từ âm sang dương nên chi phí nhỏ nhất tại $r = 2$. Khi đó $h = \\dfrac{16}{4} = 4$ (dm). Phương án A là bán kính đáy, không phải chiều cao. Chọn D."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hàm số $y = x^4 - 2(m + 1)x^2 + m^2$ với $m$ là tham số thực. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Khi $m = 0$, hàm số có ba điểm cực trị.",
+            "Hàm số có ba điểm cực trị khi và chỉ khi $m > 0$.",
+            "Khi $m = 0$, ba điểm cực trị của đồ thị hàm số là ba đỉnh của một tam giác vuông.",
+            "Ba điểm cực trị của đồ thị hàm số tạo thành một tam giác có diện tích bằng $32$ khi và chỉ khi $m = 3$."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            true
+          ],
+          "points": 2,
+          "verify": "(()=>{const f=(m,x)=>x**4-2*(m+1)*x*x+m*m;const d=(m,x)=>4*x**3-4*(m+1)*x;const ext=m=>{let c=0,p=null;for(let i=-5000;i<=5000;i++){const x=i/1000+0.00017;const s=Math.sign(d(m,x));if(p!==null&&s!==0&&s!==p)c++;if(s!==0)p=s;}return c;};const a=ext(0)===3;const b=[-2,-0.5,0.5,2,5].every(m=>(ext(m)===3)===(m>0));const u=Math.sqrt(1);const A=[0,f(0,0)],B=[u,f(0,u)],C=[-u,f(0,-u)];const c=Math.abs((B[0]-A[0])*(C[0]-A[0])+(B[1]-A[1])*(C[1]-A[1]))<1e-9;const area=m=>{const w=Math.sqrt(m+1);return w*(f(m,0)-f(m,w));};let mono=true;for(let j=1;j<2000;j++){if(area(-1+(j+1)/100)<=area(-1+j/100))mono=false;}return [a,b,c,Math.abs(area(3)-32)<1e-9&&mono];})()",
+          "explanation": "$y' = 4x^3 - 4(m + 1)x = 4x\\left[x^2 - (m + 1)\\right]$. a) Đúng: khi $m = 0$, $y' = 4x(x^2 - 1)$ có ba nghiệm phân biệt $0$, $\\pm 1$ và đổi dấu qua mỗi nghiệm. b) Sai: hàm số có ba điểm cực trị $\\Leftrightarrow$ $x^2 = m + 1$ có hai nghiệm phân biệt khác $0$ $\\Leftrightarrow m + 1 > 0 \\Leftrightarrow m > -1$. Chẳng hạn $m = -\\dfrac{1}{2}$ vẫn cho ba cực trị. c) Đúng: khi $m = 0$, ba điểm cực trị là $A(0;0)$, $B(1;-1)$, $C(-1;-1)$. $\\overrightarrow{AB} = (1;-1)$, $\\overrightarrow{AC} = (-1;-1)$, $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = -1 + 1 = 0$ nên tam giác $ABC$ vuông (cân) tại $A$. d) Đúng: với $m > -1$, ba điểm cực trị $A(0;m^2)$, $B\\left(\\sqrt{m + 1};-2m - 1\\right)$, $C\\left(-\\sqrt{m + 1};-2m - 1\\right)$. Tam giác cân tại $A$, đáy $BC = 2\\sqrt{m + 1}$, chiều cao $m^2 - (-2m - 1) = (m + 1)^2$. Diện tích $S = \\dfrac{1}{2} \\cdot 2\\sqrt{m + 1} \\cdot (m + 1)^2 = (m + 1)^{\\frac{5}{2}}$. $S = 32 = 2^5 \\Leftrightarrow \\sqrt{m + 1} = 2 \\Leftrightarrow m = 3$; vì $S$ đồng biến theo $m$ nên đây là giá trị duy nhất."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Một vật chuyển động thẳng có phương trình $s(t) = t^3 - 12t^2 + 36t$, trong đó $t \\in [0;8]$ tính bằng giây và $s$ tính bằng mét. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Vận tốc của vật tại thời điểm $t = 1$ giây là $15$ m/s.",
+            "Tại thời điểm vận tốc của vật bằng $0$ lần đầu tiên, gia tốc của vật bằng $12$ m/s$^2$.",
+            "Trong $8$ giây đầu, vận tốc nhỏ nhất của vật là $-12$ m/s.",
+            "Trong $8$ giây đầu, tốc độ (độ lớn của vận tốc) của vật đạt giá trị lớn nhất tại đúng một thời điểm."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(()=>{const s=t=>t**3-12*t*t+36*t;const v=t=>(s(t+1e-5)-s(t-1e-5))/2e-5;const vp=t=>3*t*t-24*t+36;let t0=null;for(let i=0;i<8000;i++){const a=i/1000,b=a+0.001;if(vp(a)*vp(b)<=0){t0=vp(a)===0?a:(vp(b)===0?b:a);break;}}let lo=t0-0.001,hi=t0+0.001;for(let k=0;k<60;k++){const mid=(lo+hi)/2;if(vp(lo)*vp(mid)<=0)hi=mid;else lo=mid;}t0=(lo+hi)/2;const acc=(vp(t0+1e-5)-vp(t0-1e-5))/2e-5;let mn=Infinity,mx=0;for(let i=0;i<=8000;i++){const t=i/1000;mn=Math.min(mn,vp(t));mx=Math.max(mx,Math.abs(vp(t)));}let cnt=0;for(let i=0;i<=8000;i++){if(Math.abs(vp(i/1000))>=mx-1e-9)cnt++;}return [Math.abs(v(1)-15)<1e-4, Math.abs(acc-12)<1e-4, Math.abs(mn+12)<1e-9, cnt===1];})()",
+          "explanation": "Vận tốc $v(t) = s'(t) = 3t^2 - 24t + 36 = 3(t - 2)(t - 6)$, gia tốc $a(t) = v'(t) = 6t - 24$. a) Đúng: $v(1) = 3 - 24 + 36 = 15$ (m/s). b) Sai: $v(t) = 0$ lần đầu tại $t = 2$; khi đó $a(2) = 12 - 24 = -12$ (m/s$^2$), không phải $12$ m/s$^2$ (lỗi thường gặp là bỏ mất dấu \"$-$\"). c) Đúng: $v(t)$ là hàm bậc hai có $v'(t) = 6t - 24 = 0 \\Leftrightarrow t = 4 \\in [0;8]$; so sánh $v(0) = 36$, $v(4) = 48 - 96 + 36 = -12$, $v(8) = 192 - 192 + 36 = 36$, nên vận tốc nhỏ nhất là $-12$ m/s tại $t = 4$. d) Sai: từ câu c, trên $[0;8]$ vận tốc nhận mọi giá trị từ $-12$ đến $36$, nên tốc độ $|v(t)|$ lớn nhất bằng $36$ m/s, đạt tại hai thời điểm $t = 0$ và $t = 8$ (không phải đúng một thời điểm)."
+        },
+        {
+          "kind": "short",
+          "prompt": "Có bao nhiêu giá trị nguyên của tham số $m$ thuộc đoạn $[-10;10]$ để hàm số $y = \\left|x^3 - 3x^2 + m\\right|$ có $5$ điểm cực trị?",
+          "answer": [
+            "3"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let c=0;for(let m=-10;m<=10;m++){const h=x=>Math.abs(x**3-3*x*x+m);let n=0;for(let i=-3000;i<5000;i++){const x=i/1000+0.0001,a=h(x-0.001),b=h(x),e=h(x+0.001);if((b-a)*(e-b)<0)n++;}if(n===5)c++;}return c;})()",
+          "explanation": "Xét $f(x) = x^3 - 3x^2 + m$: $f'(x) = 3x^2 - 6x = 0 \\Leftrightarrow x = 0$ hoặc $x = 2$; $f$ có hai điểm cực trị với giá trị cực đại $f(0) = m$ và giá trị cực tiểu $f(2) = m - 4$. Số điểm cực trị của $y = |f(x)|$ bằng số điểm cực trị của $f$ cộng với số nghiệm (bội lẻ) của phương trình $f(x) = 0$ khác các điểm cực trị đó. Do đó $|f|$ có $5$ điểm cực trị $\\Leftrightarrow$ $f(x) = 0$ có $3$ nghiệm phân biệt $\\Leftrightarrow$ giá trị cực đại và giá trị cực tiểu trái dấu: $m(m - 4) < 0 \\Leftrightarrow 0 < m < 4$. Các giá trị nguyên: $m \\in \\{1;2;3\\}$ — có $3$ giá trị. (Khi $m = 0$ hoặc $m = 4$, $f(x) = 0$ có một nghiệm kép trùng điểm cực trị, $|f|$ chỉ có $3$ điểm cực trị.)"
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai số thực $x$, $y$ thỏa mãn $x^2 + y^2 = 2$. Gọi $M$, $m$ lần lượt là giá trị lớn nhất và giá trị nhỏ nhất của biểu thức $P = 2(x^3 + y^3) - 3xy$. Tính $M + m$.",
+          "answer": [
+            "-0,5",
+            "-0.5"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let mn=Infinity,mx=-Infinity;for(let i=0;i<=628319;i++){const th=i/100000;const x=Math.SQRT2*Math.cos(th),y=Math.SQRT2*Math.sin(th);const P=2*(x**3+y**3)-3*x*y;mn=Math.min(mn,P);mx=Math.max(mx,P);}return Math.round((mn+mx)*100)/100;})()",
+          "explanation": "Đặt $t = x + y$. Từ $x^2 + y^2 = 2$ suy ra $xy = \\dfrac{t^2 - 2}{2}$; điều kiện để tồn tại $x, y$ là $t^2 \\le 2(x^2 + y^2) = 4 \\Leftrightarrow t \\in [-2;2]$. Ta có $x^3 + y^3 = t^3 - 3t \\cdot xy = t^3 - \\dfrac{3t(t^2 - 2)}{2} = \\dfrac{-t^3 + 6t}{2}$. Suy ra $P = f(t) = -t^3 + 6t - \\dfrac{3(t^2 - 2)}{2} = -t^3 - \\dfrac{3}{2}t^2 + 6t + 3$. $f'(t) = -3t^2 - 3t + 6 = -3(t - 1)(t + 2)$; trên $[-2;2]$: $f(-2) = 8 - 6 - 12 + 3 = -7$, $f(1) = -1 - 1{,}5 + 6 + 3 = 6{,}5$, $f(2) = -8 - 6 + 12 + 3 = 1$. Vậy $M = 6{,}5$, $m = -7$, $M + m = -0{,}5$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Gọi $S$ là tập hợp các giá trị của tham số $m$ để tiệm cận xiên của đồ thị hàm số $y = \\dfrac{x^2 + mx - 1}{x + 1}$ tạo với hai trục tọa độ một tam giác có diện tích bằng $8$. Tính tích các phần tử của $S$.",
+          "answer": [
+            "-15"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{const f=(m,x)=>(x*x+m*x-1)/(x+1);const X=1e7;const area=m=>{const a=(f(m,2*X)-f(m,X))/X;const b=f(m,X)-a*X;return (b*b)/(2*Math.abs(a));};const g=m=>area(m)-8;let p=1,cnt=0;for(let i=-2000;i<2000;i++){let lo=i/100+0.0013,hi=lo+0.01;if(g(lo)*g(hi)<0){for(let k=0;k<50;k++){const mid=(lo+hi)/2;if(g(lo)*g(mid)<=0)hi=mid;else lo=mid;}const m=(lo+hi)/2;const a=(f(m,2*X)-f(m,X))/X,b=f(m,X)-a*X;if(Math.abs(f(m,2)-(a*2+b))>1e-4){p*=m;cnt++;}}}return Math.round(p*1000)/1000;})()",
+          "explanation": "Chia đa thức: $x^2 + mx - 1 = (x + 1)(x + m - 1) - m$, nên $y = x + m - 1 - \\dfrac{m}{x + 1}$. Khi $m \\ne 0$, đồ thị có tiệm cận xiên $\\Delta: y = x + m - 1$ (khi $m = 0$, $y = x - 1$ với $x \\ne -1$, đồ thị là đường thẳng, không có tiệm cận xiên). $\\Delta$ cắt trục $Ox$ tại $(1 - m;0)$ và trục $Oy$ tại $(0;m - 1)$, nên diện tích tam giác tạo thành là $\\dfrac{1}{2}|1 - m| \\cdot |m - 1| = \\dfrac{(m - 1)^2}{2}$. $\\dfrac{(m - 1)^2}{2} = 8 \\Leftrightarrow (m - 1)^2 = 16 \\Leftrightarrow m = 5$ hoặc $m = -3$ (đều khác $0$). Tích các phần tử của $S$: $5 \\cdot (-3) = -15$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Từ một khúc gỗ hình trụ có đường kính $60$ cm, người ta xẻ ra một cây dầm có tiết diện là hình chữ nhật nội tiếp đường tròn đáy, chiều rộng $x$ (cm) và chiều cao $h$ (cm). Biết độ bền của dầm tỉ lệ thuận với $x \\cdot h^2$. Để dầm có độ bền lớn nhất thì chiều rộng $x$ bằng bao nhiêu centimét (làm tròn kết quả đến hàng phần mười)?",
+          "answer": [
+            "34,6",
+            "34.6"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let mx=-Infinity,bx=0;for(let i=1;i<600000;i++){const x=i/10000;const v=x*(3600-x*x);if(v>mx){mx=v;bx=x;}}return Math.round(bx*10)/10;})()",
+          "explanation": "Hình chữ nhật nội tiếp đường tròn đường kính $60$ cm nên đường chéo bằng $60$: $x^2 + h^2 = 3600$, $0 < x < 60$. Độ bền tỉ lệ với $F(x) = x h^2 = x(3600 - x^2) = 3600x - x^3$. $F'(x) = 3600 - 3x^2 = 0 \\Leftrightarrow x^2 = 1200 \\Leftrightarrow x = 20\\sqrt{3}$ (vì $x > 0$); $F'$ đổi dấu từ dương sang âm nên $F$ lớn nhất tại $x = 20\\sqrt{3} \\approx 34{,}64$ cm (khi đó $h = 20\\sqrt{6} \\approx 48{,}99$ cm). Làm tròn: $34{,}6$."
+        }
+      ]
+    }
+  ]
+}

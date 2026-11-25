@@ -1,0 +1,600 @@
+{
+  "grade": 9,
+  "topic": "Phương trình và hệ hai phương trình bậc nhất hai ẩn",
+  "exams": [
+    {
+      "slug": "toan9-he-phuong-trinh-bac-nhat-hai-an-gioi-01",
+      "title": "Phương trình và hệ hai phương trình bậc nhất hai ẩn — Đề 8",
+      "level": "gioi",
+      "sort_order": 1,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): nghiệm nguyên dương, đường thẳng chứa tham số song song trục hoành, tìm m để hệ vô nghiệm, hệ đặt ẩn phụ với ẩn ở mẫu, đường thẳng qua hai điểm, nghiệm phụ thuộc tham số và giá trị lớn nhất, hệ vô số nghiệm với hai tham số, bài toán chuyển động, chữ số, vòi nước và vận tốc thay đổi.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Phương trình $3x + 5y = 41$ có bao nhiêu nghiệm $(x; y)$ với $x$, $y$ là các số nguyên dương?",
+          "options": [
+            "$2$",
+            "$3$",
+            "$4$",
+            "$8$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{let c=0; for(let x=1;x<=41;x++)for(let y=1;y<=41;y++) if(3*x+5*y===41) c++; return c;})()",
+          "explanation": "Ta có $3x = 41 - 5y$. Vì $x \\ge 1$ nên $5y \\le 38$, suy ra $y \\in \\{1; 2; \\ldots; 7\\}$. Lần lượt thử, $41 - 5y$ nhận các giá trị $36;\\ 31;\\ 26;\\ 21;\\ 16;\\ 11;\\ 6$; trong đó chỉ có $36$, $21$, $6$ chia hết cho $3$, ứng với $y = 1$, $y = 4$, $y = 7$ và $x = 12$, $x = 7$, $x = 2$. Phương trình có 3 nghiệm nguyên dương: $(12; 1)$, $(7; 4)$, $(2; 7)$. Chọn B. Phương án $2$ là bỏ sót nghiệm $(2; 7)$; phương án $8$ là đếm mọi giá trị $y$ với $5y < 41$ mà quên điều kiện $41 - 5y$ chia hết cho $3$; phương án $4$ là đếm nhầm thêm một giá trị $y$ không cho $x$ nguyên."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Biết đường thẳng biểu diễn tập nghiệm của phương trình $(m - 3)x + (2m + 1)y = 2m + 8$ ($m$ là tham số) song song với trục hoành. Đường thẳng đó là",
+          "options": [
+            "$x = -2$",
+            "$y = \\frac{8}{7}$",
+            "$y = 14$",
+            "$y = 2$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Đường thẳng $ax + by = c$ song song hoặc trùng với trục hoành khi $a = 0$ và $b \\ne 0$; khi đó nó là đường thẳng $y = \\frac{c}{b}$. Ở đây $m - 3 = 0 \\Rightarrow m = 3$, và $2m + 1 = 7 \\ne 0$. Thay $m = 3$: $0x + 7y = 14 \\Leftrightarrow y = 2$. Đường thẳng $y = 2$ song song với trục hoành (không trùng vì $2 \\ne 0$). Chọn D. Phương án $x = -2$ là nhầm sang điều kiện song song với trục tung ($2m + 1 = 0 \\Rightarrow m = -\\frac{1}{2}$, được $-\\frac{7}{2}x = 7$); phương án $y = \\frac{8}{7}$ là quên thay $m$ vào vế phải; phương án $y = 14$ là quên chia cho hệ số $7$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị của $m$ để hệ phương trình $\\begin{cases} (m - 1)x + 2y = 1 \\\\ 3x + y = m \\end{cases}$ vô nghiệm là",
+          "options": [
+            "$7$",
+            "$6$",
+            "$-5$",
+            "$\\frac{1}{2}$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{for(let m=-20;m<=20;m++){const a1=m-1,b1=2,c1=1,a2=3,b2=1,c2=m; const D=a1*b2-a2*b1, Dx=c1*b2-c2*b1, Dy=a1*c2-a2*c1; if(D===0 && (Dx!==0||Dy!==0)) return m;}})()",
+          "explanation": "Nhân hai vế phương trình thứ hai với $2$: $6x + 2y = 2m$. Trừ từng vế cho phương trình thứ nhất: $(6 - m + 1)x = 2m - 1$, tức $(7 - m)x = 2m - 1$ (*). Hệ đã cho tương đương với hệ gồm (*) và $3x + y = m$.\n- Nếu $m = 7$: (*) thành $0x = 13$, vô lí, nên hệ vô nghiệm. (Kiểm tra: hệ là $6x + 2y = 1$ và $3x + y = 7$, tức $6x + 2y = 14$, mâu thuẫn.)\n- Nếu $m \\ne 7$: (*) có nghiệm duy nhất $x = \\frac{2m - 1}{7 - m}$, kéo theo $y = m - 3x$ duy nhất.\nChọn A. Phương án $6$ là giải nhầm $m - 1 = 6$ thành $m = 6$; phương án $-5$ là chuyển vế sai dấu ($m = -6 + 1$); phương án $\\frac{1}{2}$ là cho nhầm vế phải $2m - 1 = 0$ (khi đó hệ vẫn có nghiệm duy nhất $x = 0$, $y = \\frac{1}{2}$)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} \\dfrac{4}{x} + \\dfrac{3}{y} = 3 \\\\ \\dfrac{2}{x} - \\dfrac{6}{y} = -1 \\end{cases}$. Giá trị của $x_0 + y_0$ là",
+          "options": [
+            "$\\frac{5}{6}$",
+            "$6$",
+            "$5$",
+            "$1$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{for(let x=-30;x<=30;x++)for(let y=-30;y<=30;y++){ if(!x||!y) continue; if(Math.abs(4/x+3/y-3)<1e-9 && Math.abs(2/x-6/y+1)<1e-9) return x+y;}})()",
+          "explanation": "Điều kiện: $x \\ne 0$, $y \\ne 0$. Đặt $u = \\frac{1}{x}$, $v = \\frac{1}{y}$, hệ trở thành $\\begin{cases} 4u + 3v = 3 \\\\ 2u - 6v = -1 \\end{cases}$. Nhân phương trình đầu với $2$: $8u + 6v = 6$; cộng từng vế với phương trình sau: $10u = 5 \\Rightarrow u = \\frac{1}{2}$, suy ra $3v = 3 - 2 = 1$, $v = \\frac{1}{3}$. Do đó $x = 2$, $y = 3$ (thỏa mãn điều kiện). Thử lại: $2 + 1 = 3$; $1 - 2 = -1$. Vậy $x_0 + y_0 = 5$. Chọn C. Phương án $\\frac{5}{6}$ là tính $u + v$ mà quên đổi về $x$, $y$; phương án $6$ là tính $x_0 \\cdot y_0$; phương án $1$ là tính $y_0 - x_0$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Trong mặt phẳng tọa độ $Oxy$, đường thẳng $y = ax + b$ đi qua hai điểm $A(-1; 5)$ và $B(3; -3)$. Đường thẳng đó cắt trục hoành tại điểm có hoành độ là",
+          "options": [
+            "$1{,}5$",
+            "$3$",
+            "$-1{,}5$",
+            "$-\\frac{2}{3}$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{const a=(-3-5)/(3-(-1)); const b=5-a*(-1); return -b/a;})()",
+          "explanation": "Đường thẳng đi qua $A(-1; 5)$ nên $-a + b = 5$; đi qua $B(3; -3)$ nên $3a + b = -3$. Lấy phương trình sau trừ phương trình đầu: $4a = -8 \\Rightarrow a = -2$, suy ra $b = 5 + a = 3$. Đường thẳng là $y = -2x + 3$. Cho $y = 0$: $-2x + 3 = 0 \\Rightarrow x = 1{,}5$. Chọn A. Phương án $3$ là tung độ giao điểm với trục tung (giá trị $b$); phương án $-1{,}5$ là chuyển vế sai dấu; phương án $-\\frac{2}{3}$ là tính nhầm $\\frac{a}{b}$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hệ phương trình $\\begin{cases} x + y = 3m + 1 \\\\ x - y = 3 - m \\end{cases}$ ($m$ là tham số). Giá trị của $m$ để nghiệm $(x; y)$ của hệ thỏa mãn $3x - 2y = 9$ là",
+          "options": [
+            "$1$",
+            "$-17$",
+            "$-1$",
+            "$17$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{for(let m=-30;m<=30;m++){const x=((3*m+1)+(3-m))/2, y=((3*m+1)-(3-m))/2; if(3*x-2*y===9) return m;}})()",
+          "explanation": "Cộng từng vế: $2x = 2m + 4 \\Rightarrow x = m + 2$; trừ từng vế: $2y = 4m - 2 \\Rightarrow y = 2m - 1$. Với mọi $m$, hệ có nghiệm duy nhất $(m + 2; 2m - 1)$. Điều kiện: $3(m + 2) - 2(2m - 1) = 9 \\Leftrightarrow 3m + 6 - 4m + 2 = 9 \\Leftrightarrow -m + 8 = 9 \\Leftrightarrow m = -1$. Thử lại: với $m = -1$ hệ có nghiệm $(1; -3)$ và $3 \\cdot 1 - 2 \\cdot (-3) = 9$. Chọn C. Phương án $1$ là sai dấu ở bước cuối ($-m = 1 \\Rightarrow m = 1$); phương án $-17$ là chuyển vế sai dấu ($-m = 9 + 8$); phương án $17$ mắc cả hai lỗi trên."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Hai địa điểm $A$ và $B$ cách nhau $120$ km. Hai xe khởi hành cùng một lúc, xe thứ nhất đi từ $A$, xe thứ hai đi từ $B$, vận tốc mỗi xe không đổi. Nếu hai xe đi ngược chiều nhau thì sau 1 giờ 12 phút chúng gặp nhau. Nếu hai xe đi cùng chiều theo hướng từ $A$ đến $B$ thì sau 6 giờ xe thứ nhất đuổi kịp xe thứ hai. Vận tốc của xe thứ nhất là bao nhiêu km/h?",
+          "options": [
+            "$40$",
+            "$60$",
+            "$50$",
+            "$70$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{const s=120, t1=1+12/60, t2=6; const sum=s/t1, diff=s/t2; return (sum+diff)/2;})()",
+          "explanation": "Gọi vận tốc xe thứ nhất, xe thứ hai lần lượt là $x$, $y$ (km/h, $x > y > 0$). Đổi 1 giờ 12 phút $= 1{,}2$ giờ. Đi ngược chiều, sau $1{,}2$ giờ tổng quãng đường hai xe đi được bằng $AB$: $1{,}2(x + y) = 120 \\Rightarrow x + y = 100$. Đi cùng chiều, sau 6 giờ xe thứ nhất đi nhiều hơn xe thứ hai đúng bằng quãng đường $AB$: $6(x - y) = 120 \\Rightarrow x - y = 20$. Cộng từng vế: $2x = 120 \\Rightarrow x = 60$, $y = 40$. Chọn B. Phương án $40$ là vận tốc xe thứ hai; phương án $70$ là quên nhân với thời gian $1{,}2$ giờ (lấy $x + y = 120$); phương án $50$ là lấy trung bình $100 : 2$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một số tự nhiên có hai chữ số, chữ số hàng chục lớn hơn chữ số hàng đơn vị là $5$. Nếu chia số đó cho tổng các chữ số của nó thì được thương là $7$ và số dư là $6$. Số đó là",
+          "options": [
+            "$38$",
+            "$94$",
+            "$72$",
+            "$83$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{for(let n=10;n<=99;n++){const a=Math.floor(n/10), b=n%10, s=a+b; if(a-b===5 && Math.floor(n/s)===7 && n%s===6) return n;}})()",
+          "explanation": "Gọi chữ số hàng chục là $a$, chữ số hàng đơn vị là $b$ ($a$, $b$ là chữ số, $a \\ne 0$). Ta có $a - b = 5$. Số đó là $10a + b$; chia cho $a + b$ được thương $7$, dư $6$ nên $10a + b = 7(a + b) + 6 \\Leftrightarrow 3a - 6b = 6 \\Leftrightarrow a - 2b = 2$. Trừ từng vế hai phương trình $a - b = 5$ và $a - 2b = 2$: $b = 3$, suy ra $a = 8$. Số cần tìm là $83$. Thử lại: $8 - 3 = 5$; $83 = 7 \\cdot 11 + 6$ với $6 < 11$. Chọn D. Phương án $38$ là viết ngược thứ tự hai chữ số; $94$ và $72$ thỏa mãn điều kiện hiệu hai chữ số bằng $5$ nhưng $94 = 7 \\cdot 13 + 3$, $72 = 8 \\cdot 9$, không cho thương $7$ dư $6$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hệ phương trình $\\begin{cases} mx + y = 2m \\\\ x + my = m + 1 \\end{cases}$ ($m$ là tham số). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Khi $m = 2$, hệ có nghiệm duy nhất $\\left(\\frac{5}{3}; \\frac{2}{3}\\right)$.",
+            "Hệ vô nghiệm khi và chỉ khi $m = 1$ hoặc $m = -1$.",
+            "Khi hệ có nghiệm duy nhất $(x; y)$, ta luôn có $x - y = 1$.",
+            "Có đúng hai giá trị nguyên của $m$ để hệ có nghiệm duy nhất $(x; y)$ với $x$, $y$ đều là số nguyên."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            true
+          ],
+          "points": 2,
+          "verify": "(()=>{const sol=m=>{const D=m*m-1; if(D===0) return null; return {x:(2*m*m-(m+1))/D, y:(m*(m+1)-2*m)/D};}; const s2=sol(2); const a=Math.abs(s2.x-5/3)<1e-9&&Math.abs(s2.y-2/3)<1e-9; const vn=[]; for(let m=-10;m<=10;m++){const D=m*m-1, Dx=2*m*m-(m+1), Dy=m*(m+1)-2*m; if(D===0&&(Dx!==0||Dy!==0)) vn.push(m);} const b=vn.length===2&&vn.includes(1)&&vn.includes(-1); let c=true; for(let k=-40;k<=40;k++){const s=sol(k/4); if(s && Math.abs(s.x-s.y-1)>1e-9) c=false;} let cnt=0; for(let m=-100;m<=100;m++){const s=sol(m); if(s && Math.abs(s.x-Math.round(s.x))<1e-9 && Math.abs(s.y-Math.round(s.y))<1e-9) cnt++;} return [a,b,c,cnt===2];})()",
+          "explanation": "a) Đúng. Với $m = 2$: $\\begin{cases} 2x + y = 4 \\\\ x + 2y = 3 \\end{cases}$. Nhân phương trình sau với $2$ rồi trừ phương trình đầu: $3y = 2 \\Rightarrow y = \\frac{2}{3}$, suy ra $x = 3 - 2y = \\frac{5}{3}$.\n\nb) Sai. Từ phương trình đầu: $y = 2m - mx$. Thế vào phương trình sau: $x + m(2m - mx) = m + 1 \\Leftrightarrow (1 - m^2)x = 1 + m - 2m^2 \\Leftrightarrow (1 - m)(1 + m)x = (1 - m)(1 + 2m)$ (*) (khai triển hai vế để kiểm tra). Với $m = 1$: (*) thành $0x = 0$ và hai phương trình của hệ cùng là $x + y = 2$, nên hệ có vô số nghiệm, không phải vô nghiệm. Với $m = -1$: (*) thành $0x = -2$, vô lí, hệ vô nghiệm. Vậy hệ chỉ vô nghiệm khi $m = -1$.\n\nc) Đúng. Khi $m \\ne 1$ và $m \\ne -1$, từ (*) có $x = \\frac{1 + 2m}{1 + m}$, $y = 2m - mx = \\frac{2m + 2m^2 - m - 2m^2}{1 + m} = \\frac{m}{1 + m}$. Do đó $x - y = \\frac{1 + 2m - m}{1 + m} = 1$.\n\nd) Đúng. $x = 2 - \\frac{1}{m + 1}$ và $y = 1 - \\frac{1}{m + 1}$, nên $x$, $y$ nguyên khi và chỉ khi $m + 1$ là ước của $1$, tức $m + 1 = 1$ hoặc $m + 1 = -1$, nghĩa là $m = 0$ hoặc $m = -2$ (đều khác $\\pm 1$). Với $m = 0$ nghiệm là $(1; 0)$; với $m = -2$ nghiệm là $(3; 2)$. Có đúng hai giá trị. (Giá trị $m = 1$ bị loại vì khi đó hệ có vô số nghiệm, không có nghiệm duy nhất.)"
+        },
+        {
+          "kind": "tf",
+          "prompt": "Hai vòi nước cùng chảy vào một bể cạn (không có nước) thì sau 4 giờ 48 phút đầy bể. Nếu mở vòi thứ nhất trong 3 giờ và vòi thứ hai trong 4 giờ thì được $\\frac{3}{4}$ bể. Gọi $x$, $y$ (giờ) lần lượt là thời gian vòi thứ nhất, vòi thứ hai chảy một mình đầy bể ($x, y > 4{,}8$). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Trong 1 giờ, cả hai vòi cùng chảy được $\\frac{5}{24}$ bể.",
+            "Từ dữ kiện thứ hai, ta có phương trình $3x + 4y = \\frac{3}{4}$.",
+            "Vòi thứ hai chảy một mình thì sau 8 giờ đầy bể.",
+            "Nếu mở vòi thứ nhất trong 6 giờ rồi khóa lại, sau đó mở vòi thứ hai thì vòi thứ hai phải chảy thêm 3 giờ nữa mới đầy bể."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(()=>{const t=4+48/60; const s=1/t; const v=3/4-3*s; const u=s-v; const x=1/u, y=1/v; const rest=(1-6*u)/v; return [Math.abs(s-5/24)<1e-9, Math.abs(3*x+4*y-3/4)<1e-9, Math.abs(y-8)<1e-9, Math.abs(rest-3)<1e-9];})()",
+          "explanation": "a) Đúng. 4 giờ 48 phút $= 4\\frac{4}{5} = \\frac{24}{5}$ giờ, nên trong 1 giờ cả hai vòi chảy được $1 : \\frac{24}{5} = \\frac{5}{24}$ bể.\n\nb) Sai. Trong 1 giờ vòi thứ nhất chảy được $\\frac{1}{x}$ bể, vòi thứ hai chảy được $\\frac{1}{y}$ bể, nên phương trình đúng là $\\frac{3}{x} + \\frac{4}{y} = \\frac{3}{4}$.\n\nc) Đúng. Ta có $\\frac{1}{x} + \\frac{1}{y} = \\frac{5}{24}$. Đặt $u = \\frac{1}{x}$, $v = \\frac{1}{y}$: $\\begin{cases} u + v = \\frac{5}{24} \\\\ 3u + 4v = \\frac{3}{4} \\end{cases}$. Nhân phương trình đầu với $3$: $3u + 3v = \\frac{5}{8}$; trừ từng vế: $v = \\frac{3}{4} - \\frac{5}{8} = \\frac{1}{8}$, suy ra $u = \\frac{5}{24} - \\frac{3}{24} = \\frac{1}{12}$. Vậy $x = 12$, $y = 8$ (thỏa mãn điều kiện): vòi thứ hai chảy một mình 8 giờ thì đầy bể.\n\nd) Sai. Trong 6 giờ vòi thứ nhất chảy được $\\frac{6}{12} = \\frac{1}{2}$ bể; phần còn lại là $\\frac{1}{2}$ bể, vòi thứ hai cần $\\frac{1}{2} : \\frac{1}{8} = 4$ giờ, không phải 3 giờ."
+        },
+        {
+          "kind": "short",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} \\dfrac{3}{x - 1} + \\dfrac{2}{y + 2} = 2 \\\\ \\dfrac{2}{x - 1} + \\dfrac{4}{y + 2} = 2 \\end{cases}$. Tính $x_0^2 + y_0^2$.",
+          "answer": [
+            "13"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{for(let x=-30;x<=30;x++)for(let y=-30;y<=30;y++){ if(x===1||y===-2) continue; if(Math.abs(3/(x-1)+2/(y+2)-2)<1e-9 && Math.abs(2/(x-1)+4/(y+2)-2)<1e-9) return x*x+y*y;}})()",
+          "explanation": "Điều kiện: $x \\ne 1$, $y \\ne -2$. Đặt $u = \\frac{1}{x - 1}$, $v = \\frac{1}{y + 2}$, hệ trở thành $\\begin{cases} 3u + 2v = 2 \\\\ 2u + 4v = 2 \\end{cases}$. Nhân phương trình đầu với $2$: $6u + 4v = 4$; trừ từng vế cho phương trình sau: $4u = 2 \\Rightarrow u = \\frac{1}{2}$; khi đó $4v = 2 - 1 = 1 \\Rightarrow v = \\frac{1}{4}$. Suy ra $x - 1 = 2 \\Rightarrow x = 3$; $y + 2 = 4 \\Rightarrow y = 2$ (thỏa mãn điều kiện). Thử lại: $\\frac{3}{2} + \\frac{2}{4} = 2$; $\\frac{2}{2} + \\frac{4}{4} = 2$. Vậy $x_0^2 + y_0^2 = 9 + 4 = 13$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hệ phương trình $\\begin{cases} x + y = m + 4 \\\\ x - y = 3m - 4 \\end{cases}$ ($m$ là tham số). Tìm giá trị lớn nhất của biểu thức $P = x \\cdot y$, trong đó $(x; y)$ là nghiệm của hệ.",
+          "answer": [
+            "8"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let best=-Infinity; for(let k=-4000;k<=4000;k++){const m=k/100; const x=((m+4)+(3*m-4))/2, y=((m+4)-(3*m-4))/2; best=Math.max(best,x*y);} return Math.round(best*1e6)/1e6;})()",
+          "explanation": "Cộng từng vế: $2x = 4m \\Rightarrow x = 2m$; khi đó $y = m + 4 - 2m = 4 - m$. Với mọi $m$, hệ có nghiệm duy nhất $(2m; 4 - m)$. Ta có $P = 2m(4 - m) = 8m - 2m^2 = 8 - 2(m^2 - 4m + 4) = 8 - 2(m - 2)^2 \\le 8$. Dấu bằng xảy ra khi $m = 2$ (khi đó nghiệm là $(4; 2)$ và $P = 8$). Giá trị lớn nhất của $P$ là $8$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Một ô tô dự định đi từ $A$ đến $B$ với vận tốc không đổi trong một thời gian nhất định. Nếu vận tốc tăng thêm 10 km/h thì ô tô đến $B$ sớm hơn dự định 1 giờ. Nếu vận tốc giảm đi 10 km/h thì ô tô đến $B$ muộn hơn dự định 1 giờ 30 phút. Tính độ dài quãng đường $AB$ (đơn vị: km).",
+          "answer": [
+            "300"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{for(let v=11;v<=200;v++)for(let k=3;k<=400;k++){const t=k/2; if((v+10)*(t-1)===v*t && (v-10)*(t+1.5)===v*t) return v*t;}})()",
+          "explanation": "Gọi vận tốc dự định là $x$ (km/h) và thời gian dự định là $y$ (giờ), $x > 10$, $y > 1$. Quãng đường $AB$ là $xy$. Khi tăng vận tốc: $(x + 10)(y - 1) = xy \\Leftrightarrow xy - x + 10y - 10 = xy \\Leftrightarrow -x + 10y = 10$. Khi giảm vận tốc (1 giờ 30 phút $= 1{,}5$ giờ): $(x - 10)(y + 1{,}5) = xy \\Leftrightarrow xy + 1{,}5x - 10y - 15 = xy \\Leftrightarrow 1{,}5x - 10y = 15$. Cộng từng vế hai phương trình: $0{,}5x = 25 \\Rightarrow x = 50$; khi đó $10y = 10 + 50 = 60 \\Rightarrow y = 6$. Quãng đường $AB = 50 \\cdot 6 = 300$ (km). Thử lại: $60 \\cdot 5 = 300$; $40 \\cdot 7{,}5 = 300$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm $a$, $b$ để hệ phương trình $\\begin{cases} (a + 1)x - 3y = 5 \\\\ 4x + (b - 2)y = 10 \\end{cases}$ có vô số nghiệm. Tính $a - b$.",
+          "answer": [
+            "5"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{for(let a=-20;a<=20;a++)for(let b=-20;b<=20;b++){const D=(a+1)*(b-2)-4*(-3), Dx=5*(b-2)-10*(-3), Dy=(a+1)*10-4*5; if(D===0&&Dx===0&&Dy===0) return a-b;}})()",
+          "explanation": "Hệ có vô số nghiệm khi hai đường thẳng biểu diễn hai phương trình trùng nhau, tức hai phương trình tương đương: phương trình thứ hai nhận được bằng cách nhân hai vế phương trình thứ nhất với cùng một số. Vì vế phải $10 = 2 \\cdot 5$ nên số đó là $2$: $2(a + 1)x - 6y = 10$. So sánh hệ số: $2(a + 1) = 4 \\Rightarrow a = 1$; $b - 2 = -6 \\Rightarrow b = -4$. Kiểm tra: với $a = 1$, $b = -4$ hệ là $\\begin{cases} 2x - 3y = 5 \\\\ 4x - 6y = 10 \\end{cases}$; nhân phương trình đầu với $2$ rồi trừ từng vế được $0x + 0y = 0$, hệ có vô số nghiệm $\\left(x; \\frac{2x - 5}{3}\\right)$, $x \\in \\mathbb{R}$. Vậy $a - b = 1 - (-4) = 5$."
+        }
+      ]
+    },
+    {
+      "slug": "toan9-he-phuong-trinh-bac-nhat-hai-an-gioi-02",
+      "title": "Phương trình và hệ hai phương trình bậc nhất hai ẩn — Đề 9",
+      "level": "gioi",
+      "sort_order": 2,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): hệ có vô số nghiệm, điểm cố định của đường thẳng, biện luận hệ theo tham số, ẩn phụ với ẩn ở mẫu, ba điểm thẳng hàng, nghiệm phụ thuộc tham số và giá trị nhỏ nhất, bài toán cổ, phép chia có dư, đường lên dốc, thuế VAT và bài toán tuổi.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Phương trình nào sau đây cùng với phương trình $x - 2y = 3$ lập thành một hệ phương trình có vô số nghiệm?",
+          "options": [
+            "$2x - 4y = 3$",
+            "$2x + 4y = 6$",
+            "$-2x + 4y = -6$",
+            "$-3x + 6y = 9$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Hệ có vô số nghiệm khi phương trình mới tương đương với $x - 2y = 3$, tức nhận được bằng cách nhân hai vế của $x - 2y = 3$ với cùng một số khác $0$. Nhân với $-2$: $-2x + 4y = -6$. Chọn C. Phương án A: vế trái gấp đôi nhưng vế phải không gấp đôi ($3 \\ne 6$), hệ vô nghiệm. Phương án D: nhân $x - 2y = 3$ với $-3$ phải được $-3x + 6y = -9$; ở đây vế phải là $9$ (quên đổi dấu vế phải) nên hệ vô nghiệm. Phương án B: hệ số của $y$ đổi dấu nhưng hệ số của $x$ thì không, hai đường thẳng cắt nhau, hệ có nghiệm duy nhất $(3; 0)$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho phương trình $(m - 1)x + 2y = m + 3$ ($m$ là tham số). Với mọi giá trị của $m$, đường thẳng biểu diễn tập nghiệm của phương trình luôn đi qua điểm nào sau đây?",
+          "options": [
+            "$(1; 2)$",
+            "$(-1; 1)$",
+            "$(1; -2)$",
+            "$(2; 1)$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Điểm $(x_0; y_0)$ thuộc đường thẳng với mọi $m$ khi $(m - 1)x_0 + 2y_0 = m + 3$ đúng với mọi $m$, tức $m(x_0 - 1) + (-x_0 + 2y_0 - 3) = 0$ với mọi $m$. Điều này xảy ra khi $x_0 - 1 = 0$ và $-x_0 + 2y_0 - 3 = 0$, suy ra $x_0 = 1$, $y_0 = 2$. Kiểm tra: $(m - 1) \\cdot 1 + 2 \\cdot 2 = m + 3$ đúng với mọi $m$. Chọn A. Phương án $(1; -2)$ sai dấu khi chuyển vế; phương án $(2; 1)$ đổi chỗ hoành độ và tung độ, chỉ thỏa mãn khi $m = 3$; phương án $(-1; 1)$ chỉ thỏa mãn khi $m = 0$ — chỉ thử với một giá trị của $m$ là chưa đủ."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hệ phương trình $\\begin{cases} (m + 1)x + y = 2 \\\\ x - y = m \\end{cases}$ ($m$ là tham số). Khẳng định nào sau đây đúng?",
+          "options": [
+            "Hệ vô nghiệm khi $m = -2$",
+            "Hệ có vô số nghiệm khi $m = -2$",
+            "Hệ có nghiệm duy nhất với mọi giá trị của $m$",
+            "Hệ vô nghiệm khi $m = -1$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Cộng từng vế hai phương trình: $(m + 2)x = m + 2$ (*). Hệ đã cho tương đương với hệ gồm (*) và $x - y = m$.\n- Nếu $m = -2$: (*) thành $0x = 0$, đúng với mọi $x$; khi đó phương trình đầu là $-x + y = 2$, tương đương với $x - y = -2$, nên hệ có vô số nghiệm $(x; x + 2)$, $x \\in \\mathbb{R}$.\n- Nếu $m \\ne -2$: $x = 1$, $y = 1 - m$, hệ có nghiệm duy nhất.\nChọn B. Phương án A là kết luận vội khi thấy hệ số của $x$ bằng $0$ mà không xét vế phải; phương án C bỏ sót trường hợp $m = -2$; phương án D sai vì với $m = -1$ hệ có nghiệm duy nhất $(1; 2)$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} \\dfrac{4}{x + y} + \\dfrac{2}{x - y} = 2 \\\\ \\dfrac{8}{x + y} - \\dfrac{3}{x - y} = \\dfrac{1}{2} \\end{cases}$. Giá trị của $x_0 \\cdot y_0$ là",
+          "options": [
+            "$8$",
+            "$4$",
+            "$3$",
+            "$\\frac{1}{8}$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{for(let x=-30;x<=30;x++)for(let y=-30;y<=30;y++){ if(x+y===0||x-y===0) continue; if(Math.abs(4/(x+y)+2/(x-y)-2)<1e-9 && Math.abs(8/(x+y)-3/(x-y)-1/2)<1e-9) return x*y;}})()",
+          "explanation": "Điều kiện: $x + y \\ne 0$, $x - y \\ne 0$. Đặt $u = \\frac{1}{x + y}$, $v = \\frac{1}{x - y}$, hệ trở thành $\\begin{cases} 4u + 2v = 2 \\\\ 8u - 3v = \\frac{1}{2} \\end{cases}$. Nhân phương trình đầu với $2$: $8u + 4v = 4$; trừ từng vế cho phương trình sau: $7v = \\frac{7}{2} \\Rightarrow v = \\frac{1}{2}$; suy ra $4u = 2 - 1 = 1$, $u = \\frac{1}{4}$. Do đó $x + y = 4$ và $x - y = 2$, nên $x = 3$, $y = 1$ (thỏa mãn điều kiện). Vậy $x_0 \\cdot y_0 = 3$. Chọn C. Phương án $8$ là nhầm $x = 4$, $y = 2$ (lấy giá trị của $x + y$ và $x - y$ làm nghiệm); phương án $\\frac{1}{8}$ là tính $u \\cdot v$; phương án $4$ là tính $x_0 + y_0$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Trong mặt phẳng tọa độ $Oxy$, cho ba điểm $A(-1; 4)$, $B(2; -2)$ và $C(m; -6)$. Giá trị của $m$ để ba điểm $A$, $B$, $C$ thẳng hàng là",
+          "options": [
+            "$-4$",
+            "$2$",
+            "$-2$",
+            "$4$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{const a=(-2-4)/(2-(-1)); const b=4-a*(-1); return (-6-b)/a;})()",
+          "explanation": "Gọi đường thẳng $AB$ là $y = ax + b$. Đi qua $A$: $-a + b = 4$; đi qua $B$: $2a + b = -2$. Trừ từng vế: $3a = -6 \\Rightarrow a = -2$, $b = 2$. Đường thẳng $AB$: $y = -2x + 2$. Ba điểm thẳng hàng khi $C$ thuộc $AB$: $-6 = -2m + 2 \\Leftrightarrow 2m = 8 \\Leftrightarrow m = 4$. Chọn D. Phương án $-4$ sai dấu khi chia cho $-2$; phương án $2$ là chuyển vế sai ($-2m = -6 + 2$); phương án $-2$ là nhầm với hệ số $a$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hệ phương trình $\\begin{cases} x + 2y = 3m \\\\ 2x - y = m + 5 \\end{cases}$ ($m$ là tham số). Có bao nhiêu giá trị của $m$ để nghiệm $(x; y)$ của hệ thỏa mãn $x - y = 1$?",
+          "options": [
+            "$0$",
+            "$1$",
+            "$2$",
+            "Vô số"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{let c=0; for(let k=-2000;k<=2000;k++){const m=k/10; const D=1*(-1)-2*2; const x=(3*m*(-1)-(m+5)*2)/D, y=(1*(m+5)-2*3*m)/D; if(Math.abs(x-y-1)<1e-9) c++;} return c;})()",
+          "explanation": "Nhân phương trình thứ hai với $2$: $4x - 2y = 2m + 10$; cộng từng vế với phương trình đầu: $5x = 5m + 10 \\Rightarrow x = m + 2$; suy ra $y = 2x - m - 5 = m - 1$. Với mọi $m$, hệ có nghiệm duy nhất $(m + 2; m - 1)$ và $x - y = (m + 2) - (m - 1) = 3$. Vì $x - y$ luôn bằng $3 \\ne 1$ nên không có giá trị nào của $m$ thỏa mãn. Chọn A. Phương án \"Vô số\" thường do tính sai $y = m + 1$, khi đó $x - y = 1$ với mọi $m$; phương án $1$ thường do giải sai rồi tìm ra một giá trị $m$ mà không thử lại. Nhận xét: mọi điểm có tọa độ là nghiệm của hệ đều nằm trên đường thẳng $y = x - 3$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Bài toán cổ: \"Quýt, cam mười bảy quả tươi / Đem chia cho một trăm người cùng vui / Chia ba mỗi quả quýt rồi / Còn cam mỗi quả chia mười vừa xinh / Trăm người, trăm miếng ngọt lành / Quýt, cam mỗi loại tính rành là bao?\" Số quả cam là",
+          "options": [
+            "$10$",
+            "$30$",
+            "$70$",
+            "$7$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{for(let x=0;x<=17;x++){const y=17-x; if(3*x+10*y===100) return y;}})()",
+          "explanation": "Gọi số quả quýt là $x$, số quả cam là $y$ ($x, y \\in \\mathbb{N}$). Có 17 quả nên $x + y = 17$. Mỗi quả quýt chia 3 miếng, mỗi quả cam chia 10 miếng, tổng cộng 100 miếng: $3x + 10y = 100$. Thế $x = 17 - y$: $51 - 3y + 10y = 100 \\Rightarrow 7y = 49 \\Rightarrow y = 7$, $x = 10$. Thử lại: $3 \\cdot 10 + 10 \\cdot 7 = 100$. Có 7 quả cam. Chọn D. Phương án $10$ là số quả quýt (trả lời nhầm ẩn); $30$ và $70$ là số miếng quýt và số miếng cam."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Tổng của hai số tự nhiên bằng $850$. Nếu lấy số lớn chia cho số nhỏ thì được thương là $3$ và số dư là $26$. Số lớn là",
+          "options": [
+            "$206$",
+            "$644$",
+            "$631$",
+            "$618$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{for(let y=1;y<850;y++){const x=850-y; if(x>y && Math.floor(x/y)===3 && x%y===26) return x;}})()",
+          "explanation": "Gọi số lớn là $x$, số nhỏ là $y$ ($x, y \\in \\mathbb{N}$, $26 < y < x$). Ta có $x + y = 850$ và $x = 3y + 26$. Thế vào: $3y + 26 + y = 850 \\Rightarrow 4y = 824 \\Rightarrow y = 206$, $x = 644$. Thử lại: $644 = 3 \\cdot 206 + 26$ và $26 < 206$. Chọn B. Phương án $206$ là số nhỏ; $631$ là viết nhầm $x = 3y - 26$ (được $y = 219$); $618$ là quên số dư ($3 \\cdot 206 = 618$)."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hệ phương trình $\\begin{cases} x + y = m + 2 \\\\ 2x - y = 5m - 2 \\end{cases}$ ($m$ là tham số). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Khi $m = 1$, hệ có nghiệm $(2; 1)$.",
+            "Với mọi $m$, hệ có nghiệm duy nhất $(x; y) = (2m; m - 2)$.",
+            "Có đúng một giá trị của $m$ để nghiệm của hệ thỏa mãn $x = 3y$, đó là $m = \\frac{6}{5}$.",
+            "Biểu thức $x^2 + y^2$ đạt giá trị nhỏ nhất khi $m = 0$."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(()=>{const s=m=>{const D=1*(-1)-2*1; return {x:((m+2)*(-1)-(5*m-2)*1)/D, y:(1*(5*m-2)-2*(m+2))/D};}; const s1=s(1); const a=s1.x===2&&s1.y===1; let b=true; for(let m=-5;m<=5;m++){const t=s(m); if(!(t.x===2*m && t.y===m-2)) b=false;} const roots=[]; for(let k=-1000;k<=1000;k++){const m=k/100, t=s(m); if(Math.abs(t.x-3*t.y)<1e-9) roots.push(m);} const c=roots.length===1&&Math.abs(roots[0]-1.2)<1e-9; let best=Infinity, arg=null; for(let k=-1000;k<=1000;k++){const m=k/100, t=s(m), v=t.x*t.x+t.y*t.y; if(v<best-1e-12){best=v; arg=m;}} return [a,b,c,Math.abs(arg)<1e-9];})()",
+          "explanation": "a) Đúng. Với $m = 1$: $\\begin{cases} x + y = 3 \\\\ 2x - y = 3 \\end{cases}$; cộng từng vế: $3x = 6 \\Rightarrow x = 2$, $y = 1$.\n\nb) Sai. Cộng từng vế: $3x = 6m \\Rightarrow x = 2m$; suy ra $y = m + 2 - 2m = 2 - m$. Nghiệm là $(2m; 2 - m)$, không phải $(2m; m - 2)$ (sai dấu khi chuyển vế). Chẳng hạn với $m = 1$ thì $m - 2 = -1$, trái với ý a.\n\nc) Đúng. $x = 3y \\Leftrightarrow 2m = 3(2 - m) \\Leftrightarrow 5m = 6 \\Leftrightarrow m = \\frac{6}{5}$. Đây là phương trình bậc nhất ẩn $m$ nên có đúng một giá trị.\n\nd) Sai. $x^2 + y^2 = 4m^2 + (2 - m)^2 = 5m^2 - 4m + 4 = 5\\left(m - \\frac{2}{5}\\right)^2 + \\frac{16}{5}$. Biểu thức đạt giá trị nhỏ nhất bằng $\\frac{16}{5}$ khi $m = \\frac{2}{5}$, không phải khi $m = 0$ (với $m = 0$ thì $x^2 + y^2 = 4 > \\frac{16}{5}$)."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Quãng đường $AB$ dài 50 km, gồm một đoạn đường bằng và tiếp theo là một đoạn lên dốc (theo chiều từ $A$ đến $B$). Một người đi xe đạp từ $A$ đến $B$ với vận tốc 15 km/h trên đoạn đường bằng và 10 km/h trên đoạn lên dốc, hết tất cả 4 giờ. Gọi $x$, $y$ (km) lần lượt là độ dài đoạn đường bằng và đoạn lên dốc ($0 < x, y < 50$). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$x + y = 50$.",
+            "Thời gian đi từ $A$ đến $B$ được biểu thị bởi phương trình $15x + 10y = 4$.",
+            "Đoạn lên dốc dài 20 km.",
+            "Lúc về từ $B$ đến $A$, người đó xuống dốc với vận tốc 20 km/h và đi đoạn đường bằng với vận tốc 15 km/h. Khi đó thời gian về ít hơn thời gian đi đúng 1 giờ."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            true
+          ],
+          "points": 2,
+          "verify": "(()=>{const y=(4-50/15)/(1/10-1/15); const x=50-y; const back=y/20+x/15; return [Math.abs(x+y-50)<1e-9, Math.abs(15*x+10*y-4)<1e-9, Math.abs(y-20)<1e-9, Math.abs(4-back-1)<1e-9];})()",
+          "explanation": "a) Đúng. Tổng độ dài hai đoạn đường bằng quãng đường $AB$.\n\nb) Sai. Thời gian đi đoạn đường bằng là $\\frac{x}{15}$ giờ, đoạn lên dốc là $\\frac{y}{10}$ giờ, nên phương trình đúng là $\\frac{x}{15} + \\frac{y}{10} = 4$ (khẳng định đã nhầm thời gian thành tích của vận tốc và quãng đường).\n\nc) Đúng. Nhân hai vế $\\frac{x}{15} + \\frac{y}{10} = 4$ với $30$: $2x + 3y = 120$. Thế $x = 50 - y$: $100 - 2y + 3y = 120 \\Rightarrow y = 20$, $x = 30$.\n\nd) Đúng. Lúc về: xuống dốc $20$ km hết $\\frac{20}{20} = 1$ giờ, đường bằng $30$ km hết $\\frac{30}{15} = 2$ giờ, tổng cộng $3$ giờ. Thời gian về ít hơn thời gian đi $4 - 3 = 1$ giờ."
+        },
+        {
+          "kind": "short",
+          "prompt": "Trong mặt phẳng tọa độ $Oxy$, đường thẳng $y = ax + b$ đi qua điểm $A(2; 5)$ và giao điểm của hai đường thẳng $x + y = 1$, $2x - y = 8$. Tính $a + b$.",
+          "answer": [
+            "12"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{const x0=(1+8)/3, y0=1-x0; const a=(y0-5)/(x0-2); const b=5-2*a; return a+b;})()",
+          "explanation": "Tọa độ giao điểm $M$ của hai đường thẳng là nghiệm của hệ $\\begin{cases} x + y = 1 \\\\ 2x - y = 8 \\end{cases}$. Cộng từng vế: $3x = 9 \\Rightarrow x = 3$, $y = -2$, nên $M(3; -2)$. Đường thẳng $y = ax + b$ đi qua $A(2; 5)$ và $M(3; -2)$: $\\begin{cases} 2a + b = 5 \\\\ 3a + b = -2 \\end{cases}$. Trừ từng vế: $a = -7$, suy ra $b = 5 - 2a = 19$. Vậy $a + b = 12$. (Kiểm tra: đường thẳng $y = -7x + 19$ có $y = 5$ khi $x = 2$ và $y = -2$ khi $x = 3$.)"
+        },
+        {
+          "kind": "short",
+          "prompt": "Một người mua hai loại hàng và phải trả tổng cộng 1 632 nghìn đồng, trong đó đã tính thuế giá trị gia tăng (VAT) là 10% đối với loại hàng thứ nhất và 8% đối với loại hàng thứ hai. Nếu thuế VAT là 9% đối với cả hai loại hàng thì người đó phải trả tổng cộng 1 635 nghìn đồng. Hỏi giá của loại hàng thứ hai khi chưa tính VAT là bao nhiêu nghìn đồng?",
+          "answer": [
+            "900"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{const s=1635/1.09; const x=(1632-1.08*s)/(1.10-1.08); return Math.round((s-x)*1e6)/1e6;})()",
+          "explanation": "Gọi giá chưa tính VAT của loại hàng thứ nhất, thứ hai lần lượt là $x$, $y$ (nghìn đồng, $x, y > 0$). Với VAT 10% và 8%: $1{,}1x + 1{,}08y = 1632$. Với VAT 9% cho cả hai loại: $1{,}09(x + y) = 1635 \\Rightarrow x + y = 1500$. Thế $x = 1500 - y$: $1{,}1(1500 - y) + 1{,}08y = 1632 \\Rightarrow 1650 - 0{,}02y = 1632 \\Rightarrow 0{,}02y = 18 \\Rightarrow y = 900$, $x = 600$. Thử lại: $660 + 972 = 1632$; $1{,}09 \\cdot 1500 = 1635$. Giá loại hàng thứ hai khi chưa tính VAT là $900$ nghìn đồng."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm $m$ để hệ phương trình $\\begin{cases} 2x - 3y = 3 - m \\\\ (m - 2)x + 6y = -10 \\end{cases}$ có vô số nghiệm.",
+          "answer": [
+            "-2"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{for(let m=-30;m<=30;m++){const D=2*6-(m-2)*(-3), Dx=(3-m)*6-(-10)*(-3), Dy=2*(-10)-(m-2)*(3-m); if(D===0&&Dx===0&&Dy===0) return m;}})()",
+          "explanation": "Nhân hai vế phương trình thứ nhất với $2$: $4x - 6y = 6 - 2m$. Cộng từng vế với phương trình thứ hai: $(m + 2)x = -4 - 2m$, tức $(m + 2)x = -2(m + 2)$ (*). Hệ đã cho tương đương với hệ gồm phương trình thứ nhất và (*).\n- Nếu $m \\ne -2$: (*) cho $x = -2$, rồi $y$ được xác định duy nhất từ phương trình thứ nhất, hệ có nghiệm duy nhất.\n- Nếu $m = -2$: (*) thành $0x = 0$; hệ chỉ còn phương trình $2x - 3y = 5$ (phương trình thứ hai lúc này là $-4x + 6y = -10$, tương đương), nên có vô số nghiệm.\nVậy $m = -2$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Năm nay, tuổi mẹ gấp 3 lần tuổi con. Cách đây 5 năm, tuổi mẹ gấp 4 lần tuổi con. Hỏi sau bao nhiêu năm nữa thì tuổi mẹ gấp đôi tuổi con?",
+          "answer": [
+            "15"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{for(let c=6;c<=40;c++){const me=3*c; if(me-5===4*(c-5)){for(let t=0;t<=100;t++) if(me+t===2*(c+t)) return t;}}})()",
+          "explanation": "Gọi tuổi mẹ và tuổi con năm nay lần lượt là $x$, $y$ ($x, y \\in \\mathbb{N}$, $y > 5$). Ta có $x = 3y$ và $x - 5 = 4(y - 5) \\Leftrightarrow x - 4y = -15$. Thế $x = 3y$: $3y - 4y = -15 \\Rightarrow y = 15$, $x = 45$. Gọi $t$ là số năm cần tìm: $45 + t = 2(15 + t) \\Rightarrow t = 15$. Thử lại: cách đây 5 năm mẹ 40 tuổi, con 10 tuổi; sau 15 năm nữa mẹ 60 tuổi, con 30 tuổi. Đáp số: $15$."
+        }
+      ]
+    },
+    {
+      "slug": "toan9-he-phuong-trinh-bac-nhat-hai-an-gioi-03",
+      "title": "Phương trình và hệ hai phương trình bậc nhất hai ẩn — Đề 10",
+      "level": "gioi",
+      "sort_order": 3,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): phương trình nhận hai nghiệm cho trước, hệ luôn có nghiệm duy nhất, ẩn phụ, hệ có hệ số phân số, điểm cố định và biện luận hệ, nghiệm nguyên dương, diện tích tam giác, bài toán phần trăm, chuyển động, ca nô xuôi ngược dòng, làm chung công việc, hợp kim và lãi suất.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Phương trình nào sau đây nhận cả hai cặp số $(2; -1)$ và $(-4; 2)$ làm nghiệm?",
+          "options": [
+            "$2x + y = 3$",
+            "$x - 2y = 4$",
+            "$3x + 2y = -8$",
+            "$x + 2y = 0$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Thay lần lượt hai cặp số. D: $2 + 2 \\cdot (-1) = 0$ và $-4 + 2 \\cdot 2 = 0$, cả hai đều thỏa mãn. Chọn D. Ba phương án còn lại, mỗi phương trình chỉ nhận một cặp: A: $4 - 1 = 3$ đúng nhưng $-8 + 2 = -6 \\ne 3$; B: $2 + 2 = 4$ đúng nhưng $-4 - 4 = -8 \\ne 4$; C: $-12 + 4 = -8$ đúng nhưng $6 - 2 = 4 \\ne -8$. Cách khác: đường thẳng đi qua hai điểm $(2; -1)$ và $(-4; 2)$ là $y = -\\frac{1}{2}x$, tức $x + 2y = 0$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Hệ phương trình $\\begin{cases} x + my = 2 \\\\ mx - 2y = 1 \\end{cases}$ ($m$ là tham số) có nghiệm duy nhất khi và chỉ khi",
+          "options": [
+            "$m$ nhận giá trị tùy ý",
+            "$m \\ne 0$",
+            "$m = 0$",
+            "$m \\ne -2$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Từ phương trình thứ nhất: $x = 2 - my$. Thế vào phương trình thứ hai: $m(2 - my) - 2y = 1 \\Leftrightarrow (m^2 + 2)y = 2m - 1$. Vì $m^2 + 2 \\ge 2 > 0$ với mọi $m$ nên phương trình này luôn có nghiệm duy nhất $y = \\frac{2m - 1}{m^2 + 2}$, kéo theo $x = 2 - my$ duy nhất. Vậy hệ có nghiệm duy nhất với mọi $m$. Chọn A. Phương án $m \\ne 0$ là lo ngại phải chia cho $m$, nhưng phép thế ở trên không cần chia; phương án $m = 0$ chỉ là một trường hợp riêng (khi đó $x = 2$, $y = -\\frac{1}{2}$); phương án $m \\ne -2$ là nhầm rằng hệ số của $y$ ở hai phương trình phải khác nhau."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} \\dfrac{3}{2x - 1} + \\dfrac{4}{y + 1} = 3 \\\\ \\dfrac{6}{2x - 1} - \\dfrac{2}{y + 1} = 1 \\end{cases}$. Giá trị của $x_0 + y_0$ là",
+          "options": [
+            "$5$",
+            "$3$",
+            "$\\frac{5}{6}$",
+            "$1$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{for(let k=-60;k<=60;k++)for(let y=-30;y<=30;y++){const x=k/2; if(2*x-1===0||y+1===0) continue; if(Math.abs(3/(2*x-1)+4/(y+1)-3)<1e-9 && Math.abs(6/(2*x-1)-2/(y+1)-1)<1e-9) return x+y;}})()",
+          "explanation": "Điều kiện: $x \\ne \\frac{1}{2}$, $y \\ne -1$. Đặt $u = \\frac{1}{2x - 1}$, $v = \\frac{1}{y + 1}$, hệ trở thành $\\begin{cases} 3u + 4v = 3 \\\\ 6u - 2v = 1 \\end{cases}$. Nhân phương trình sau với $2$: $12u - 4v = 2$; cộng từng vế với phương trình đầu: $15u = 5 \\Rightarrow u = \\frac{1}{3}$; khi đó $4v = 3 - 1 = 2 \\Rightarrow v = \\frac{1}{2}$. Suy ra $2x - 1 = 3 \\Rightarrow x = 2$; $y + 1 = 2 \\Rightarrow y = 1$ (thỏa mãn điều kiện). Vậy $x_0 + y_0 = 3$. Chọn B. Phương án $5$ là lấy $2x - 1 = 3$, $y + 1 = 2$ rồi cộng $3 + 2$ (nhầm giá trị biểu thức với giá trị của ẩn); phương án $\\frac{5}{6}$ là tính $u + v$; phương án $1$ là tính $x_0 - y_0$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Gọi $(x_0; y_0)$ là nghiệm của hệ phương trình $\\begin{cases} \\dfrac{x + 1}{2} - \\dfrac{y - 2}{3} = 1 \\\\ \\dfrac{x - 3}{4} + \\dfrac{y + 1}{2} = 3 \\end{cases}$. Giá trị của $x_0 \\cdot y_0$ là",
+          "options": [
+            "$20$",
+            "$8$",
+            "$15$",
+            "$\\frac{3}{5}$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{for(let x=-30;x<=30;x++)for(let y=-30;y<=30;y++){ if(Math.abs((x+1)/2-(y-2)/3-1)<1e-9 && Math.abs((x-3)/4+(y+1)/2-3)<1e-9) return x*y;}})()",
+          "explanation": "Nhân hai vế phương trình thứ nhất với $6$: $3(x + 1) - 2(y - 2) = 6 \\Leftrightarrow 3x + 3 - 2y + 4 = 6 \\Leftrightarrow 3x - 2y = -1$. Nhân hai vế phương trình thứ hai với $4$: $(x - 3) + 2(y + 1) = 12 \\Leftrightarrow x + 2y = 13$. Cộng từng vế: $4x = 12 \\Rightarrow x = 3$, suy ra $2y = 10$, $y = 5$. Thử lại: $\\frac{4}{2} - \\frac{3}{3} = 1$; $\\frac{0}{4} + \\frac{6}{2} = 3$. Vậy $x_0 \\cdot y_0 = 15$. Chọn C. Phương án $20$ là bỏ ngoặc sai dấu $-2(y - 2) = -2y - 4$, dẫn tới $3x - 2y = 7$ và nghiệm sai $(5; 4)$; phương án $8$ là tính $x_0 + y_0$; phương án $\\frac{3}{5}$ là tính $x_0 : y_0$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một mảnh vườn hình chữ nhật có chu vi 72 m. Nếu giảm chiều dài đi 20% và tăng chiều rộng thêm 25% thì chu vi mảnh vườn không đổi. Diện tích mảnh vườn ban đầu là bao nhiêu mét vuông?",
+          "options": [
+            "$320$",
+            "$324$",
+            "$20$",
+            "$1280$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(()=>{for(let x=1;x<36;x++){const y=36-x; if(x>=y && Math.abs(0.8*x+1.25*y-36)<1e-9) return x*y;}})()",
+          "explanation": "Gọi chiều dài, chiều rộng ban đầu là $x$, $y$ (m, $0 < y \\le x$). Nửa chu vi: $x + y = 36$. Sau khi thay đổi, chiều dài là $0{,}8x$, chiều rộng là $1{,}25y$; chu vi không đổi nên $0{,}8x + 1{,}25y = 36$. Lấy phương trình $x + y = 36$ trừ phương trình sau: $0{,}2x - 0{,}25y = 0 \\Rightarrow 4x = 5y \\Rightarrow y = \\frac{4}{5}x$. Thế vào: $x + \\frac{4}{5}x = 36 \\Rightarrow x = 20$, $y = 16$. Diện tích ban đầu: $20 \\cdot 16 = 320$ (m²). Chọn A. Phương án $1280$ là quên chia đôi chu vi (lấy $x + y = 72$, được $40$ và $32$); phương án $324$ là coi mảnh vườn là hình vuông cạnh $18$ m; phương án $20$ là chiều dài."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Trong mặt phẳng tọa độ $Oxy$, đường thẳng $d: y = ax + b$ đi qua điểm $M(1; 4)$ và cắt trục hoành tại điểm có hoành độ bằng $-3$. Diện tích tam giác tạo bởi đường thẳng $d$ và hai trục tọa độ là (đơn vị diện tích)",
+          "options": [
+            "$9$",
+            "$3$",
+            "$6$",
+            "$4{,}5$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(()=>{const a=(4-0)/(1-(-3)); const b=4-a; return Math.abs(-b/a)*Math.abs(b)/2;})()",
+          "explanation": "$d$ đi qua $M(1; 4)$ nên $a + b = 4$; $d$ đi qua điểm $(-3; 0)$ nên $-3a + b = 0$. Trừ từng vế: $4a = 4 \\Rightarrow a = 1$, $b = 3$. Đường thẳng $d: y = x + 3$ cắt trục hoành tại $A(-3; 0)$ và cắt trục tung tại $B(0; 3)$, nên $OA = 3$, $OB = 3$. Tam giác $OAB$ vuông tại $O$: $S = \\frac{1}{2} \\cdot 3 \\cdot 3 = 4{,}5$. Chọn D. Phương án $9$ là quên nhân với $\\frac{1}{2}$; phương án $3$ là chỉ ghi giá trị $b$; phương án $6$ là cộng nhầm $OA + OB$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một người đi ô tô từ $A$ đến $B$. Nếu đi với vận tốc 45 km/h thì đến $B$ muộn 1 giờ so với dự định; nếu đi với vận tốc 60 km/h thì đến $B$ sớm 30 phút so với dự định. Quãng đường $AB$ dài bao nhiêu kilômét?",
+          "options": [
+            "$225$",
+            "$300$",
+            "$270$",
+            "$5$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(()=>{const t=(45*1+60*0.5)/(60-45); return 45*(t+1);})()",
+          "explanation": "Gọi quãng đường $AB$ là $x$ (km) và thời gian dự định là $y$ (giờ), $x > 0$, $y > 0{,}5$. Đi với vận tốc 45 km/h hết $y + 1$ giờ: $x = 45(y + 1)$. Đi với vận tốc 60 km/h hết $y - 0{,}5$ giờ: $x = 60(y - 0{,}5)$. Ta có hệ $\\begin{cases} x - 45y = 45 \\\\ x - 60y = -30 \\end{cases}$. Trừ từng vế: $15y = 75 \\Rightarrow y = 5$, $x = 45 \\cdot 6 = 270$. Thử lại: $60 \\cdot 4{,}5 = 270$. Chọn C. Phương án $5$ là thời gian dự định; phương án $225$ là lấy $45 \\cdot 5$ (quên 1 giờ đến muộn); phương án $300$ là lấy $60 \\cdot 5$ (quên 30 phút đến sớm)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Trong một giải bóng đá, mỗi trận thắng được 3 điểm, mỗi trận hòa được 1 điểm, mỗi trận thua không được điểm. Một đội bóng đã thi đấu 20 trận, thua 3 trận và giành được tổng cộng 41 điểm. Số trận hòa của đội đó là",
+          "options": [
+            "$12$",
+            "$5$",
+            "$17$",
+            "$3$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(()=>{for(let w=0;w<=17;w++){const d=17-w; if(3*w+d===41) return d;}})()",
+          "explanation": "Gọi số trận thắng, số trận hòa lần lượt là $x$, $y$ ($x, y \\in \\mathbb{N}$). Số trận không thua: $x + y = 20 - 3 = 17$. Tổng điểm: $3x + y = 41$. Trừ từng vế: $2x = 24 \\Rightarrow x = 12$, $y = 5$. Thử lại: $36 + 5 = 41$. Đội có 5 trận hòa. Chọn B. Phương án $12$ là số trận thắng; $17$ là số trận không thua; $3$ là số trận thua. Lưu ý: nếu quên trừ 3 trận thua ($x + y = 20$) thì được $2x = 21$, không có nghiệm tự nhiên — dấu hiệu đã lập hệ sai."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hệ phương trình $\\begin{cases} 2x - y = 3 \\\\ mx + y = 2m + 3 \\end{cases}$ ($m$ là tham số). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Khi $m = 0$, hệ có nghiệm $(3; 3)$.",
+            "Khi $m = -2$, hệ vô nghiệm.",
+            "Với mọi $m$, đường thẳng $mx + y = 2m + 3$ luôn đi qua điểm cố định $(3; 2)$.",
+            "Có giá trị của $m$ để hệ có nghiệm $(x; y)$ với $x = 2$."
+          ],
+          "answer": [
+            true,
+            true,
+            false,
+            false
+          ],
+          "points": 2,
+          "verify": "(()=>{const s=m=>{const D=2*1-m*(-1); if(D===0) return null; return {x:(3*1-(2*m+3)*(-1))/D, y:(2*(2*m+3)-m*3)/D};}; const s0=s(0); const a=s0.x===3&&s0.y===3; const m=-2, D=2+m, Dx=3+(2*m+3), Dy=2*(2*m+3)-3*m; const b=D===0&&(Dx!==0||Dy!==0); let c=true; for(let k=-5;k<=5;k++){ if(k*3+2!==2*k+3) c=false; } let d=false; for(let k=-10000;k<=10000;k++){const t=s(k/100); if(t&&Math.abs(t.x-2)<1e-9) d=true;} return [a,b,c,d];})()",
+          "explanation": "a) Đúng. Với $m = 0$: phương trình sau là $y = 3$, thay vào phương trình đầu: $2x - 3 = 3 \\Rightarrow x = 3$. Nghiệm $(3; 3)$.\n\nb) Đúng. Cộng từng vế hai phương trình: $(m + 2)x = 2m + 6$ (*). Với $m = -2$: (*) thành $0x = 2$, vô lí, nên hệ vô nghiệm (hai đường thẳng $y = 2x - 3$ và $y = 2x - 1$ song song).\n\nc) Sai. $mx + y = 2m + 3 \\Leftrightarrow m(x - 2) + (y - 3) = 0$, đúng với mọi $m$ khi $x = 2$ và $y = 3$. Điểm cố định là $(2; 3)$, không phải $(3; 2)$ (thay $(3; 2)$ được $3m + 2 = 2m + 3$, chỉ đúng khi $m = 1$).\n\nd) Sai. Nếu nghiệm có $x = 2$ thì từ phương trình đầu $y = 2 \\cdot 2 - 3 = 1$; thay vào phương trình sau: $2m + 1 = 2m + 3$, vô lí. Cách khác: với $m \\ne -2$, từ (*) có $x = \\frac{2m + 6}{m + 2} = 2 + \\frac{2}{m + 2} \\ne 2$. Vậy không có giá trị nào của $m$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Một ca nô chạy trên một khúc sông với vận tốc riêng và vận tốc dòng nước không đổi. Lần thứ nhất, ca nô xuôi dòng 90 km rồi ngược dòng 60 km, hết tất cả 6 giờ. Lần thứ hai, ca nô xuôi dòng 60 km rồi ngược dòng 80 km, cũng hết 6 giờ. Gọi $x$, $y$ (km/h) lần lượt là vận tốc xuôi dòng và vận tốc ngược dòng của ca nô ($x > y > 0$). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Từ lần chạy thứ nhất, ta có phương trình $\\frac{90}{x} + \\frac{60}{y} = 6$.",
+            "Vận tốc xuôi dòng của ca nô là 30 km/h.",
+            "Vận tốc dòng nước là 10 km/h.",
+            "Nếu ca nô xuôi dòng từ bến $A$ đến bến $B$ rồi ngay lập tức ngược dòng trở về $A$, hết tất cả 5 giờ, thì khoảng cách giữa hai bến là 60 km."
+          ],
+          "answer": [
+            true,
+            true,
+            false,
+            true
+          ],
+          "points": 2,
+          "verify": "(()=>{const D=90*80-60*60; const u=(6*80-6*60)/D, v=(90*6-60*6)/D; const x=1/u, y=1/v; const water=(x-y)/2; const s=5/(1/x+1/y); return [Math.abs(90/x+60/y-6)<1e-9, Math.abs(x-30)<1e-9, Math.abs(water-10)<1e-9, Math.abs(s-60)<1e-9];})()",
+          "explanation": "a) Đúng. Thời gian xuôi dòng 90 km là $\\frac{90}{x}$ giờ, ngược dòng 60 km là $\\frac{60}{y}$ giờ, tổng cộng 6 giờ.\n\nb) Đúng. Lần thứ hai cho $\\frac{60}{x} + \\frac{80}{y} = 6$. Đặt $u = \\frac{1}{x}$, $v = \\frac{1}{y}$: $\\begin{cases} 90u + 60v = 6 \\\\ 60u + 80v = 6 \\end{cases} \\Leftrightarrow \\begin{cases} 3u + 2v = 0{,}2 \\\\ 3u + 4v = 0{,}3 \\end{cases}$. Trừ từng vế: $2v = 0{,}1 \\Rightarrow v = \\frac{1}{20}$; $3u = 0{,}2 - 0{,}1 = 0{,}1 \\Rightarrow u = \\frac{1}{30}$. Vậy $x = 30$, $y = 20$.\n\nc) Sai. Vận tốc riêng cộng vận tốc dòng nước bằng $30$, vận tốc riêng trừ vận tốc dòng nước bằng $20$, nên vận tốc dòng nước là $\\frac{30 - 20}{2} = 5$ (km/h). Kết quả $10$ km/h là quên chia đôi.\n\nd) Đúng. Gọi khoảng cách hai bến là $s$ (km): $\\frac{s}{30} + \\frac{s}{20} = 5 \\Leftrightarrow \\frac{5s}{60} = 5 \\Leftrightarrow s = 60$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Một vật bằng hợp kim đồng và kẽm có khối lượng 248 g và thể tích 30 cm³. Biết mỗi cm³ đồng nặng 8,9 g và mỗi cm³ kẽm nặng 7 g. Hỏi khối lượng đồng có trong vật là bao nhiêu gam?",
+          "answer": [
+            "178"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{const a=(248-7*30)/(8.9-7); return Math.round(8.9*a*1e6)/1e6;})()",
+          "explanation": "Gọi thể tích đồng và kẽm trong vật lần lượt là $x$, $y$ (cm³, $x, y > 0$). Ta có $x + y = 30$ và $8{,}9x + 7y = 248$. Thế $y = 30 - x$: $8{,}9x + 210 - 7x = 248 \\Rightarrow 1{,}9x = 38 \\Rightarrow x = 20$, $y = 10$. Khối lượng đồng: $8{,}9 \\cdot 20 = 178$ (g); khối lượng kẽm: $7 \\cdot 10 = 70$ (g). Thử lại: $178 + 70 = 248$. Đáp số: $178$. (Chọn ẩn là thể tích giúp hệ có hệ số gọn hơn so với chọn ẩn là khối lượng.)"
+        },
+        {
+          "kind": "short",
+          "prompt": "Hai đội công nhân cùng làm một đoạn đường thì 12 ngày xong. Nếu đội thứ nhất làm một mình 8 ngày, sau đó đội thứ hai làm tiếp một mình 18 ngày thì hoàn thành đoạn đường. Hỏi nếu làm một mình thì đội thứ hai làm xong đoạn đường trong bao nhiêu ngày? (Năng suất mỗi đội không đổi.)",
+          "answer": [
+            "30"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{const s=1/12; const v=(1-8*s)/(18-8); return Math.round(1/v*1e6)/1e6;})()",
+          "explanation": "Gọi thời gian đội thứ nhất, đội thứ hai làm một mình xong đoạn đường là $x$, $y$ (ngày, $x, y > 12$). Mỗi ngày hai đội làm được lần lượt $\\frac{1}{x}$ và $\\frac{1}{y}$ đoạn đường. Ta có $\\begin{cases} \\frac{1}{x} + \\frac{1}{y} = \\frac{1}{12} \\\\ \\frac{8}{x} + \\frac{18}{y} = 1 \\end{cases}$. Đặt $u = \\frac{1}{x}$, $v = \\frac{1}{y}$: $u + v = \\frac{1}{12}$ và $8u + 18v = 1$. Nhân phương trình đầu với $8$: $8u + 8v = \\frac{2}{3}$; trừ từng vế: $10v = \\frac{1}{3} \\Rightarrow v = \\frac{1}{30}$, $u = \\frac{1}{12} - \\frac{1}{30} = \\frac{1}{20}$. Vậy $x = 20$, $y = 30$ (thỏa mãn). Thử lại: $\\frac{8}{20} + \\frac{18}{30} = 0{,}4 + 0{,}6 = 1$. Đội thứ hai làm một mình mất $30$ ngày."
+        },
+        {
+          "kind": "short",
+          "prompt": "Trong các nghiệm $(x; y)$ của phương trình $7x + 4y = 100$ với $x$, $y$ là các số nguyên dương, tìm nghiệm có tổng $x + y$ nhỏ nhất. Tính tổng đó.",
+          "answer": [
+            "16"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{let best=Infinity; for(let x=1;x<=100;x++)for(let y=1;y<=100;y++) if(7*x+4*y===100) best=Math.min(best,x+y); return best;})()",
+          "explanation": "Ta có $4y = 100 - 7x$. Vì $100$ và $4y$ đều chia hết cho $4$ nên $7x$ chia hết cho $4$; mà $7$ và $4$ nguyên tố cùng nhau nên $x$ chia hết cho $4$. Mặt khác $7x < 100$ nên $x \\le 14$. Do đó $x \\in \\{4; 8; 12\\}$, tương ứng $y = 18;\\ 11;\\ 4$. Các nghiệm nguyên dương là $(4; 18)$, $(8; 11)$, $(12; 4)$ với tổng $x + y$ lần lượt là $22$, $19$, $16$. Tổng nhỏ nhất là $16$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Bác Lan chia 500 triệu đồng gửi tiết kiệm vào hai ngân hàng $A$ và $B$ với lãi suất lần lượt là 6%/năm và 5%/năm. Sau một năm, tiền lãi bác nhận được từ ngân hàng $A$ nhiều hơn tiền lãi từ ngân hàng $B$ là 8 triệu đồng. Hỏi bác Lan đã gửi vào ngân hàng $A$ bao nhiêu triệu đồng?",
+          "answer": [
+            "300"
+          ],
+          "points": 0.5,
+          "verify": "(()=>{const x=(8+0.05*500)/(0.06+0.05); return Math.round(x*1e6)/1e6;})()",
+          "explanation": "Gọi số tiền gửi vào ngân hàng $A$, $B$ lần lượt là $x$, $y$ (triệu đồng, $0 < x, y < 500$). Ta có $x + y = 500$. Tiền lãi sau một năm ở ngân hàng $A$ là $0{,}06x$, ở ngân hàng $B$ là $0{,}05y$, nên $0{,}06x - 0{,}05y = 8$. Thế $y = 500 - x$: $0{,}06x - 25 + 0{,}05x = 8 \\Rightarrow 0{,}11x = 33 \\Rightarrow x = 300$, $y = 200$. Thử lại: lãi ở $A$ là $18$ triệu, ở $B$ là $10$ triệu, chênh lệch $8$ triệu. Bác Lan gửi vào ngân hàng $A$ $300$ triệu đồng."
+        }
+      ]
+    }
+  ]
+}

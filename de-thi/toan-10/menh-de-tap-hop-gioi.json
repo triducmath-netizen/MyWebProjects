@@ -1,0 +1,590 @@
+{
+  "grade": 10,
+  "topic": "Mệnh đề và tập hợp",
+  "exams": [
+    {
+      "slug": "toan10-menh-de-tap-hop-gioi-01",
+      "title": "Mệnh đề và tập hợp — Đề 1",
+      "level": "gioi",
+      "sort_order": 1,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): phủ định mệnh đề có hai lượng từ, thứ tự lượng từ, điều kiện đủ có tham số, chứng minh phản chứng, mệnh đề kéo theo chứa biến; tìm tham số để giao khác rỗng, hợp bằng tập số thực, tập con; đếm tập X thỏa điều kiện; biểu đồ Ven ba tập.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Phủ định của mệnh đề \"$\\forall x \\in \\mathbb{R}, \\exists y \\in \\mathbb{R}, y > x^2$\" là",
+          "options": [
+            "\"$\\exists x \\in \\mathbb{R}, \\forall y \\in \\mathbb{R}, y \\le x^2$\"",
+            "\"$\\exists x \\in \\mathbb{R}, \\forall y \\in \\mathbb{R}, y < x^2$\"",
+            "\"$\\forall x \\in \\mathbb{R}, \\exists y \\in \\mathbb{R}, y \\le x^2$\"",
+            "\"$\\exists x \\in \\mathbb{R}, \\exists y \\in \\mathbb{R}, y \\le x^2$\""
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "Khi phủ định mệnh đề có nhiều lượng từ, ta đổi lần lượt từng lượng từ ($\\forall$ thành $\\exists$, $\\exists$ thành $\\forall$) và phủ định tính chất cuối cùng. Phủ định của \"$y > x^2$\" là \"$y \\le x^2$\". Vậy phủ định là \"$\\exists x \\in \\mathbb{R}, \\forall y \\in \\mathbb{R}, y \\le x^2$\".\nPhương án B phủ định sai dấu ($>$ phải đổi thành $\\le$, không phải $<$); C giữ nguyên cả hai lượng từ; D chỉ đổi lượng từ thứ nhất, quên đổi $\\exists y$ thành $\\forall y$. (Mệnh đề ban đầu đúng, chẳng hạn chọn $y = x^2 + 1$, nên phủ định của nó là mệnh đề sai.) Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Mệnh đề nào sau đây là mệnh đề đúng?",
+          "options": [
+            "\"$\\exists y \\in \\mathbb{R}, \\forall x \\in \\mathbb{R}, x + y = 0$\"",
+            "\"$\\forall x \\in \\mathbb{R}, \\exists y \\in \\mathbb{R}, x \\cdot y = 1$\"",
+            "\"$\\forall x \\in \\mathbb{R}, \\exists y \\in \\mathbb{R}, x + y = 0$\"",
+            "\"$\\exists x \\in \\mathbb{N}, \\forall y \\in \\mathbb{N}, y < x$\""
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "C đúng: với mỗi số thực $x$, chọn $y = -x$ thì $x + y = 0$ (số $y$ được chọn tùy theo $x$).\nA sai: nếu có một số $y$ dùng chung cho mọi $x$ thì với $x = 0$ ta có $y = 0$, còn với $x = 1$ ta có $y = -1$, mâu thuẫn. Đây là lỗi thường gặp: đổi thứ tự hai lượng từ $\\forall$, $\\exists$ làm thay đổi nghĩa của mệnh đề.\nB sai: với $x = 0$ thì $0 \\cdot y = 0 \\ne 1$ với mọi $y$.\nD sai: với mọi $x \\in \\mathbb{N}$, lấy $y = x$ thì \"$y < x$\" sai. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai tập hợp $A = [m; m + 2]$ và $B = (1; 4)$, với $m$ là tham số. Tập hợp tất cả các giá trị của $m$ để $A \\cap B \\ne \\varnothing$ là",
+          "options": [
+            "$[-1; 4]$",
+            "$(-1; 4)$",
+            "$(1; 2)$",
+            "$(-\\infty; -1] \\cup [4; +\\infty)$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Xét trường hợp ngược lại $A \\cap B = \\varnothing$: đoạn $A$ nằm hoàn toàn bên trái hoặc bên phải khoảng $B$. Vì $B$ không chứa hai đầu mút $1$ và $4$ nên\n$A \\cap B = \\varnothing \\Leftrightarrow m + 2 \\le 1$ hoặc $m \\ge 4$, tức là $m \\le -1$ hoặc $m \\ge 4$.\nDo đó $A \\cap B \\ne \\varnothing \\Leftrightarrow -1 < m < 4$, tức là $m \\in (-1; 4)$.\nKiểm tra đầu mút: $m = -1$ thì $A = [-1; 1]$, số $1 \\notin B$ nên $A \\cap B = \\varnothing$; $m = 4$ thì $A = [4; 6]$, số $4 \\notin B$ nên cũng rỗng. Phương án A là lỗi lấy cả hai đầu mút (quên rằng $B$ là khoảng mở); C là điều kiện để $A \\subset B$; D là điều kiện để $A \\cap B = \\varnothing$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu tập hợp $X$ thỏa mãn $X \\cup \\{1; 2\\} = \\{1; 2; 3; 4\\}$?",
+          "options": [
+            "$1$",
+            "$16$",
+            "$3$",
+            "$4$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(() => { const U=[1,2,3,4]; let c=0; for (let s=0; s<16; s++) { const X=U.filter((_,i)=>(s>>i)&1); const H=new Set([...X,1,2]); if (H.size===4 && U.every(u=>H.has(u))) c++; } return c; })()",
+          "explanation": "Vì $X \\subset X \\cup \\{1; 2\\} = \\{1; 2; 3; 4\\}$ nên $X$ là tập con của $\\{1; 2; 3; 4\\}$. Hợp phải chứa $3$ và $4$ mà $\\{1; 2\\}$ không chứa hai số này, nên bắt buộc $3 \\in X$, $4 \\in X$. Còn $1$, $2$ đã có trong $\\{1; 2\\}$ nên mỗi số có thể thuộc hoặc không thuộc $X$: có $2 \\cdot 2 = 4$ cách.\nCác tập $X$ là: $\\{3; 4\\}$, $\\{1; 3; 4\\}$, $\\{2; 3; 4\\}$, $\\{1; 2; 3; 4\\}$.\nPhương án A chỉ tính $X = \\{3; 4\\}$; B là số tập con của $\\{1; 2; 3; 4\\}$ (quên điều kiện bắt buộc chứa $3$, $4$); C quên trường hợp $X = \\{1; 2; 3; 4\\}$. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Với $x$ là số thực, cho hai mệnh đề chứa biến $P(x)$: \"$1 < x < 3$\" và $Q(x)$: \"$x > m$\" ($m$ là tham số). Tìm tất cả các giá trị của $m$ để $P(x)$ là điều kiện đủ để có $Q(x)$, tức là mệnh đề \"$\\forall x \\in \\mathbb{R}, P(x) \\Rightarrow Q(x)$\" đúng.",
+          "options": [
+            "$m \\le 1$",
+            "$m < 1$",
+            "$m \\ge 3$",
+            "$m < 3$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "$P(x)$ là điều kiện đủ để có $Q(x)$ khi mọi $x$ thỏa mãn $P(x)$ đều thỏa mãn $Q(x)$, tức là $(1; 3) \\subset (m; +\\infty)$. Điều này xảy ra khi và chỉ khi $m \\le 1$.\nKiểm tra đầu mút $m = 1$: mọi $x \\in (1; 3)$ đều có $x > 1$, đúng. Nếu $m > 1$ thì lấy $x$ thỏa mãn $1 < x < 3$ và $x \\le m$ (chẳng hạn $x$ rất gần $1$), ta có $P(x)$ đúng nhưng $Q(x)$ sai.\nPhương án B là lỗi bỏ sót $m = 1$ (do quên $(1; 3)$ không chứa số $1$); D là điều kiện để chỉ cần tồn tại một $x \\in (1; 3)$ thỏa mãn $x > m$ (nhầm \"với mọi\" thành \"tồn tại\"); C so sánh nhầm với đầu mút $3$. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai tập hợp $A = (-\\infty; m + 4)$ và $B = (3m; +\\infty)$, với $m$ là tham số. Tìm tất cả các giá trị của $m$ để $A \\cup B = \\mathbb{R}$.",
+          "options": [
+            "$m \\le 2$",
+            "$m > 2$",
+            "$m \\ge 2$",
+            "$m < 2$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Hợp của $(-\\infty; m + 4)$ và $(3m; +\\infty)$ phủ kín trục số khi và chỉ khi hai khoảng \"chồng lên nhau\", tức là $3m < m + 4 \\Leftrightarrow m < 2$.\nChú ý đầu mút: với $m = 2$ ta có $A = (-\\infty; 6)$, $B = (6; +\\infty)$, cả hai đều không chứa số $6$ nên $A \\cup B = \\mathbb{R} \\setminus \\{6\\} \\ne \\mathbb{R}$. Với $m > 2$ thì các số thuộc $[m + 4; 3m]$ không thuộc $A \\cup B$.\nPhương án A là lỗi thường gặp: lấy cả dấu bằng mà quên rằng cả hai tập đều mở tại đầu mút; B, C đảo chiều bất đẳng thức. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Lớp 10A có $45$ học sinh. Trong một cuộc khảo sát về môn học yêu thích, có $25$ em thích Toán, $20$ em thích Vật lí, $18$ em thích Hóa học; $10$ em thích cả Toán và Vật lí, $8$ em thích cả Toán và Hóa học, $7$ em thích cả Vật lí và Hóa học, $4$ em thích cả ba môn. Hỏi có bao nhiêu em không thích môn nào trong ba môn trên?",
+          "options": [
+            "$7$",
+            "$3$",
+            "$42$",
+            "$11$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(() => { const T=25,L=20,H=18,TL=10,TH=8,LH=7,TLH=4; const onlyT=T-TL-TH+TLH, onlyL=L-TL-LH+TLH, onlyH=H-TH-LH+TLH; const k=onlyT+onlyL+onlyH+(TL-TLH)+(TH-TLH)+(LH-TLH)+TLH; return 45-k; })()",
+          "explanation": "Gọi $T$, $L$, $H$ lần lượt là tập học sinh thích Toán, Vật lí, Hóa học. Theo nguyên lí bao hàm – loại trừ (đếm trên biểu đồ Ven ba tập), số em thích ít nhất một môn là\n$$|T \\cup L \\cup H| = 25 + 20 + 18 - 10 - 8 - 7 + 4 = 42.$$\nGiải thích: khi cộng $25 + 20 + 18$, mỗi em thuộc đúng hai tập bị đếm hai lần nên phải trừ các giao từng đôi; nhưng $4$ em thích cả ba môn được cộng $3$ lần rồi bị trừ $3$ lần, nên phải cộng lại $4$.\nSố em không thích môn nào là $45 - 42 = 3$.\nPhương án A là do quên cộng lại $4$ (được $38$, rồi $45 - 38 = 7$); C là số em thích ít nhất một môn; D là do trừ $4$ thay vì cộng $4$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho $a$, $b$ là các số thực. Mệnh đề nào sau đây là mệnh đề đúng?",
+          "options": [
+            "\"Nếu $a + b > 2$ thì $a > 1$ và $b > 1$\".",
+            "\"Nếu $a > 1$ hoặc $b > 1$ thì $a + b > 2$\".",
+            "\"Nếu $a + b > 2$ thì $a > 1$ hoặc $b > 1$\".",
+            "\"Nếu $a \\cdot b > 1$ thì $a > 1$ hoặc $b > 1$\"."
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "C đúng, chứng minh bằng phản chứng: giả sử $a \\le 1$ và $b \\le 1$, cộng vế theo vế được $a + b \\le 2$, trái với giả thiết $a + b > 2$. Vậy phải có $a > 1$ hoặc $b > 1$.\nCác mệnh đề còn lại đều có phản ví dụ:\nA: $a = 3$, $b = 0$ có $a + b = 3 > 2$ nhưng $b \\le 1$ (lỗi nhầm \"hoặc\" thành \"và\").\nB: $a = 2$, $b = -5$ có $a > 1$ nhưng $a + b = -3 < 2$ (đây là mệnh đề đảo của C, không đúng).\nD: $a = b = -2$ có $a \\cdot b = 4 > 1$ nhưng cả $a$, $b$ đều nhỏ hơn $1$. Chọn C."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho mệnh đề chứa biến $P(x)$: \"$x^2 - 2x + m > 0$\" với $x \\in \\mathbb{R}$ và $m$ là tham số thực. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Với $m = 2$, mệnh đề \"$\\forall x \\in \\mathbb{R}, P(x)$\" đúng.",
+            "Với $m = 1$, mệnh đề \"$\\forall x \\in \\mathbb{R}, P(x)$\" đúng.",
+            "Phủ định của mệnh đề \"$\\forall x \\in \\mathbb{R}, x^2 - 2x + m > 0$\" là \"$\\exists x \\in \\mathbb{R}, x^2 - 2x + m < 0$\".",
+            "Mệnh đề \"$\\forall x \\in \\mathbb{R}, P(x)$\" đúng khi và chỉ khi $m > 1$."
+          ],
+          "answer": [
+            true,
+            false,
+            false,
+            true
+          ],
+          "points": 2,
+          "verify": "(() => { const X=Array.from({length:161},(_,i)=>-10+i/8); const f=(x,m)=>x*x-2*x+m; const all=m=>X.every(x=>f(x,m)>0); const M=Array.from({length:41},(_,i)=>-4+i/4); return [all(2), all(1), M.every(m=>X.some(x=>f(x,m)<0)===!all(m)), M.every(m=>all(m)===(m>1))]; })()",
+          "explanation": "Ta có $x^2 - 2x + m = (x - 1)^2 + m - 1$ với mọi $x$, và $(x - 1)^2 \\ge 0$, dấu bằng xảy ra khi $x = 1$.\n\na) Đúng. Với $m = 2$: $x^2 - 2x + 2 = (x - 1)^2 + 1 \\ge 1 > 0$ với mọi $x$.\n\nb) Sai. Với $m = 1$: $x^2 - 2x + 1 = (x - 1)^2$, tại $x = 1$ giá trị bằng $0$, không lớn hơn $0$. Vậy $P(1)$ sai nên mệnh đề \"với mọi\" sai.\n\nc) Sai. Phủ định của \"$x^2 - 2x + m > 0$\" là \"$x^2 - 2x + m \\le 0$\" (không phải \"$< 0$\"). Phủ định đúng là \"$\\exists x \\in \\mathbb{R}, x^2 - 2x + m \\le 0$\". Chẳng hạn với $m = 1$, mệnh đề \"với mọi\" sai nhưng câu \"$\\exists x, (x-1)^2 < 0$\" cũng sai, nên câu ở ý c) không phải là phủ định.\n\nd) Đúng. Giá trị nhỏ nhất của $(x - 1)^2 + m - 1$ là $m - 1$ (đạt tại $x = 1$). Mệnh đề \"$\\forall x \\in \\mathbb{R}, P(x)$\" đúng $\\Leftrightarrow m - 1 > 0 \\Leftrightarrow m > 1$. (Nếu $m \\le 1$ thì $x = 1$ là phản ví dụ.)"
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hai tập hợp $A = [-1; 3]$ và $B = (m; m + 5)$, với $m$ là tham số. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Với $m = 0$ thì $A \\cap B = (0; 3]$.",
+            "Với $m = -2$ thì $A \\subset B$.",
+            "$A \\subset B$ khi và chỉ khi $-2 < m < -1$.",
+            "Có đúng $7$ giá trị nguyên của $m$ để $A \\cap B \\ne \\varnothing$."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(() => { const G=Array.from({length:641},(_,i)=>-40+i/8); const inA=x=>x>=-1&&x<=3, inB=(x,m)=>x>m&&x<m+5; const sub=m=>G.every(x=>!inA(x)||inB(x,m)); const meet=m=>G.some(x=>inA(x)&&inB(x,m)); const M=Array.from({length:81},(_,i)=>-10+i/4); const Z=Array.from({length:41},(_,i)=>i-20); return [G.every(x=>(inA(x)&&inB(x,0))===(x>0&&x<=3)), sub(-2), M.every(m=>sub(m)===(m>-2&&m<-1)), Z.filter(meet).length===7]; })()",
+          "explanation": "a) Đúng. Với $m = 0$: $B = (0; 5)$. Phần chung của $[-1; 3]$ và $(0; 5)$ gồm các số $x$ với $0 < x \\le 3$, tức là $(0; 3]$.\n\nb) Sai. Với $m = -2$: $B = (-2; 3)$. Số $3 \\in A$ nhưng $3 \\notin B$ (khoảng mở tại $3$), nên $A \\not\\subset B$.\n\nc) Đúng. $A \\subset B \\Leftrightarrow m < -1$ và $m + 5 > 3$ (cả hai bất đẳng thức đều chặt, vì $A$ chứa đầu mút $-1$, $3$ còn $B$ không chứa đầu mút) $\\Leftrightarrow -2 < m < -1$.\n\nd) Sai. $A \\cap B = \\varnothing \\Leftrightarrow m + 5 \\le -1$ hoặc $m \\ge 3$ (dấu bằng vẫn rỗng vì $B$ mở). Do đó $A \\cap B \\ne \\varnothing \\Leftrightarrow -6 < m < 3$. Các số nguyên $m$ là $-5; -4; -3; -2; -1; 0; 1; 2$ — có $8$ giá trị, không phải $7$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai tập hợp $A = \\{x \\in \\mathbb{Z} \\mid -3 < x \\le 4\\}$ và $B = \\{x \\in \\mathbb{Z} \\mid x^2 - x - 2 = 0\\}$. Có bao nhiêu tập hợp $X$ thỏa mãn $B \\subset X \\subset A$?",
+          "answer": [
+            "32"
+          ],
+          "points": 0.5,
+          "verify": "(() => { const Z=Array.from({length:41},(_,i)=>i-20); const A=Z.filter(x=>x>-3&&x<=4), B=Z.filter(x=>x*x-x-2===0); let c=0; for (let s=0; s<(1<<A.length); s++) { const X=A.filter((_,i)=>(s>>i)&1); if (B.every(b=>X.includes(b))) c++; } return c; })()",
+          "explanation": "Liệt kê: $A = \\{-2; -1; 0; 1; 2; 3; 4\\}$ có $7$ phần tử (không lấy $-3$, lấy $4$).\n$x^2 - x - 2 = 0 \\Leftrightarrow (x + 1)(x - 2) = 0 \\Leftrightarrow x = -1$ hoặc $x = 2$, nên $B = \\{-1; 2\\} \\subset A$.\nTập $X$ thỏa mãn $B \\subset X \\subset A$ phải chứa $-1$ và $2$; mỗi phần tử trong $5$ phần tử còn lại của $A$ (là $-2; 0; 1; 3; 4$) có thể thuộc hoặc không thuộc $X$. Số tập $X$ bằng số tập con của $\\{-2; 0; 1; 3; 4\\}$, tức là $2^5 = 32$.\n\nĐáp số: $32$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai tập hợp $A = [m - 1; m + 3)$ và $B = (-2; 7]$, với $m$ là tham số. Có bao nhiêu số nguyên $m$ để $A \\subset B$?",
+          "answer": [
+            "5"
+          ],
+          "points": 0.5,
+          "verify": "(() => { const G=Array.from({length:481},(_,i)=>-30+i/8); const ok=m=>G.every(x=>!(x>=m-1&&x<m+3)||(x>-2&&x<=7)); return Array.from({length:41},(_,i)=>i-20).filter(ok).length; })()",
+          "explanation": "$A \\subset B$ khi đầu trái và đầu phải của $A$ đều nằm trong phạm vi của $B$:\n• Đầu trái: $A$ chứa số $m - 1$, còn $B$ không chứa $-2$, nên cần $m - 1 > -2 \\Leftrightarrow m > -1$.\n• Đầu phải: $A$ không chứa $m + 3$, còn $B$ chứa $7$, nên chỉ cần $m + 3 \\le 7 \\Leftrightarrow m \\le 4$.\nVậy $-1 < m \\le 4$, các số nguyên $m$ là $0; 1; 2; 3; 4$ — có $5$ giá trị.\nKiểm tra: $m = -1$ cho $A = [-2; 2)$ chứa $-2 \\notin B$ (loại); $m = 4$ cho $A = [3; 7) \\subset (-2; 7]$ (nhận). Nếu đặt cả hai bất đẳng thức là chặt sẽ được $4$; nếu đặt cả hai không chặt sẽ được $6$ — đều sai.\n\nĐáp số: $5$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Có bao nhiêu số nguyên $x$ thuộc đoạn $[-5; 5]$ để mệnh đề \"Nếu $x^2 < 4$ thì $x > 0$\" là mệnh đề đúng?",
+          "answer": [
+            "9"
+          ],
+          "points": 0.5,
+          "verify": "Array.from({length:11},(_,i)=>i-5).filter(x => !(x*x<4) || x>0).length",
+          "explanation": "Mệnh đề \"$P \\Rightarrow Q$\" chỉ sai trong đúng một trường hợp: $P$ đúng và $Q$ sai. Ở đây $P$: \"$x^2 < 4$\", $Q$: \"$x > 0$\".\nVới $x$ nguyên trong $[-5; 5]$, $P$ đúng khi $x \\in \\{-1; 0; 1\\}$. Trong ba số này, $Q$ sai khi $x = -1$ hoặc $x = 0$. Vậy mệnh đề sai với đúng $2$ giá trị $x = -1$, $x = 0$; với $x = 1$ và mọi $x$ có $P$ sai (như $x = -5$, $x = 3$, ...) mệnh đề đều đúng.\nĐoạn $[-5; 5]$ có $11$ số nguyên nên số giá trị cần tìm là $11 - 2 = 9$. (Lỗi thường gặp: chỉ đếm các $x$ làm cả $P$ và $Q$ đúng, được $1$.)\n\nĐáp số: $9$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai tập hợp $A = [-4; 7]$ và $B = (-\\infty; m) \\cup (m + 5; +\\infty)$, với $m$ là tham số. Có bao nhiêu số nguyên $m$ để $A \\cup B = \\mathbb{R}$?",
+          "answer": [
+            "7"
+          ],
+          "points": 0.5,
+          "verify": "(() => { const G=Array.from({length:801},(_,i)=>-50+i/8); const ok=m=>G.every(x=>(x>=-4&&x<=7)||x<m||x>m+5); return Array.from({length:61},(_,i)=>i-30).filter(ok).length; })()",
+          "explanation": "Các số thực không thuộc $B$ là $\\mathbb{R} \\setminus B = [m; m + 5]$. Do đó $A \\cup B = \\mathbb{R}$ khi và chỉ khi mọi số không thuộc $B$ đều thuộc $A$, tức là $[m; m + 5] \\subset [-4; 7]$:\n$$\\begin{cases} m \\ge -4 \\\\ m + 5 \\le 7 \\end{cases} \\Leftrightarrow -4 \\le m \\le 2.$$\nỞ đây được lấy dấu bằng vì $A$ là đoạn (chứa cả $-4$ và $7$). Các số nguyên $m$ là $-4; -3; -2; -1; 0; 1; 2$ — có $7$ giá trị.\n\nĐáp số: $7$."
+        }
+      ]
+    },
+    {
+      "slug": "toan10-menh-de-tap-hop-gioi-02",
+      "title": "Mệnh đề và tập hợp — Đề 2",
+      "level": "gioi",
+      "sort_order": 2,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): phủ định và tính đúng sai của mệnh đề có lượng từ lồng nhau, mệnh đề đảo, điều kiện cần – cần và đủ có tham số, mệnh đề tồn tại có tham số; tìm tham số để tập con, giao rỗng, hợp bằng tập số thực, hiệu là một đoạn; đếm tập X; bài toán Ven ba tập và hai tập.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Cho mệnh đề $P$: \"$\\exists x \\in \\mathbb{Z}, \\forall y \\in \\mathbb{Z}, x \\cdot y = y$\". Khẳng định nào sau đây đúng?",
+          "options": [
+            "$\\overline{P}$: \"$\\forall x \\in \\mathbb{Z}, \\exists y \\in \\mathbb{Z}, x \\cdot y \\ne y$\" và $\\overline{P}$ là mệnh đề đúng.",
+            "$\\overline{P}$: \"$\\forall x \\in \\mathbb{Z}, \\exists y \\in \\mathbb{Z}, x \\cdot y \\ne y$\" và $\\overline{P}$ là mệnh đề sai.",
+            "$\\overline{P}$: \"$\\forall x \\in \\mathbb{Z}, \\forall y \\in \\mathbb{Z}, x \\cdot y \\ne y$\" và $\\overline{P}$ là mệnh đề sai.",
+            "$\\overline{P}$: \"$\\exists x \\in \\mathbb{Z}, \\forall y \\in \\mathbb{Z}, x \\cdot y \\ne y$\" và $\\overline{P}$ là mệnh đề sai."
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Phủ định: đổi $\\exists x$ thành $\\forall x$, đổi $\\forall y$ thành $\\exists y$, phủ định \"$x \\cdot y = y$\" thành \"$x \\cdot y \\ne y$\". Ta được $\\overline{P}$: \"$\\forall x \\in \\mathbb{Z}, \\exists y \\in \\mathbb{Z}, x \\cdot y \\ne y$\".\nTính đúng sai: $P$ đúng vì chọn $x = 1$ thì $1 \\cdot y = y$ với mọi số nguyên $y$. Do đó $\\overline{P}$ là mệnh đề sai.\nPhương án A viết đúng phủ định nhưng đánh giá sai tính đúng sai (quên thử $x = 1$); C chỉ đổi lượng từ thứ nhất; D chỉ phủ định tính chất mà không đổi lượng từ nào ở đầu. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Mệnh đề nào sau đây có mệnh đề đảo là mệnh đề đúng?",
+          "options": [
+            "\"Nếu số nguyên $n$ chia hết cho $4$ thì $n$ là số chẵn\".",
+            "\"Nếu tam giác $ABC$ là tam giác đều thì $AB = AC$\".",
+            "\"Nếu số nguyên $n$ có $n^2$ chia hết cho $3$ thì $n$ chia hết cho $3$\".",
+            "\"Với $a$, $b$ là các số thực, nếu $a > b$ thì $a^2 > b^2$\"."
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Mệnh đề đảo của \"$P \\Rightarrow Q$\" là \"$Q \\Rightarrow P$\". Xét từng phương án:\nA: đảo là \"Nếu $n$ chẵn thì $n$ chia hết cho $4$\" — sai, phản ví dụ $n = 2$.\nB: đảo là \"Nếu $AB = AC$ thì tam giác $ABC$ đều\" — sai, tam giác cân tại $A$ chưa chắc đều.\nC: đảo là \"Nếu $n$ chia hết cho $3$ thì $n^2$ chia hết cho $3$\" — đúng, vì $n = 3k$ thì $n^2 = 9k^2 = 3 \\cdot 3k^2$.\nD: đảo là \"Nếu $a^2 > b^2$ thì $a > b$\" — sai, phản ví dụ $a = -3$, $b = 1$.\nLỗi thường gặp: chọn A hoặc B vì thấy mệnh đề ban đầu đúng, trong khi câu hỏi yêu cầu xét mệnh đề đảo. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai tập hợp $A = (m; m + 3)$ và $B = [-1; 4]$, với $m$ là tham số. Tập hợp tất cả các giá trị của $m$ để $A \\subset B$ là",
+          "options": [
+            "$[-1; 1]$",
+            "$(-1; 1)$",
+            "$[-1; 1)$",
+            "$(-4; 4)$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "$A \\subset B$ khi khoảng $(m; m + 3)$ nằm trong đoạn $[-1; 4]$. Vì $A$ không chứa hai đầu mút $m$, $m + 3$, còn $B$ chứa cả $-1$ và $4$, nên được phép lấy dấu bằng:\n$$\\begin{cases} m \\ge -1 \\\\ m + 3 \\le 4 \\end{cases} \\Leftrightarrow -1 \\le m \\le 1.$$\nKiểm tra: $m = -1$ cho $A = (-1; 2) \\subset B$; $m = 1$ cho $A = (1; 4) \\subset B$ — đều thỏa mãn.\nPhương án B, C là lỗi bỏ đầu mút do máy móc dùng bất đẳng thức chặt; D là điều kiện để $A \\cap B \\ne \\varnothing$ ($m < 4$ và $m + 3 > -1$). Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Trong một nhóm học sinh, mỗi em chơi ít nhất một trong ba môn: bóng đá, bóng rổ, cầu lông. Có $20$ em chơi bóng đá, $15$ em chơi bóng rổ, $18$ em chơi cầu lông; có $7$ em chơi đúng hai môn và $3$ em chơi cả ba môn. Số em chơi đúng một môn là",
+          "options": [
+            "$43$",
+            "$36$",
+            "$40$",
+            "$30$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(() => { for (let x=0; x<=60; x++) { if (x + 2*7 + 3*3 === 20+15+18) return x; } return -1; })()",
+          "explanation": "Gọi $x$ là số em chơi đúng một môn. Trong tổng $20 + 15 + 18 = 53$ (đếm theo từng môn trên biểu đồ Ven):\n• mỗi em chơi đúng một môn được đếm $1$ lần;\n• mỗi em chơi đúng hai môn được đếm $2$ lần;\n• mỗi em chơi cả ba môn được đếm $3$ lần.\nDo đó $53 = x + 2 \\cdot 7 + 3 \\cdot 3 \\Leftrightarrow x = 53 - 14 - 9 = 30$. (Cả nhóm có $30 + 7 + 3 = 40$ em.)\nPhương án A là lỗi trừ mỗi nhóm một lần ($53 - 7 - 3$); B quên rằng em chơi cả ba môn bị đếm $3$ lần ($53 - 14 - 3$); C là số em của cả nhóm. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Với $x$ là số thực, tìm tất cả các giá trị của tham số $m$ để \"$x < m$\" là điều kiện cần để có \"$-2 < x \\le 4$\".",
+          "options": [
+            "$m \\ge 4$",
+            "$m < -2$",
+            "$m > 4$",
+            "$m \\le -2$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "\"$x < m$\" là điều kiện cần để có \"$-2 < x \\le 4$\" nghĩa là mệnh đề \"$\\forall x \\in \\mathbb{R}, -2 < x \\le 4 \\Rightarrow x < m$\" đúng, tức là $(-2; 4] \\subset (-\\infty; m)$.\nVì số $4$ thuộc $(-2; 4]$ nên cần $4 < m$, tức là $m > 4$. Khi đó mọi $x \\le 4$ đều nhỏ hơn $m$.\nKiểm tra đầu mút $m = 4$: lấy $x = 4$ thỏa mãn $-2 < x \\le 4$ nhưng \"$4 < 4$\" sai, nên $m = 4$ không thỏa mãn. Phương án A là lỗi lấy cả đầu mút; B, D so sánh nhầm với đầu mút trái $-2$. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai tập hợp $A = [m - 2; m + 1)$ và $B = (3; 7)$, với $m$ là tham số. Tập hợp tất cả các giá trị của $m$ để $A \\cap B = \\varnothing$ là",
+          "options": [
+            "$(-\\infty; 2] \\cup [9; +\\infty)$",
+            "$(-\\infty; 2) \\cup (9; +\\infty)$",
+            "$(2; 9)$",
+            "$(-\\infty; 2] \\cup (9; +\\infty)$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "$A \\cap B = \\varnothing$ khi $A$ nằm hoàn toàn bên trái hoặc bên phải $B$.\n• Bên trái: $A$ không chứa $m + 1$ và $B$ không chứa $3$, nên chỉ cần $m + 1 \\le 3 \\Leftrightarrow m \\le 2$.\n• Bên phải: $A$ chứa $m - 2$ nhưng $B$ không chứa $7$, nên chỉ cần $m - 2 \\ge 7 \\Leftrightarrow m \\ge 9$.\nVậy $m \\in (-\\infty; 2] \\cup [9; +\\infty)$.\nKiểm tra: $m = 2$ cho $A = [0; 3)$, rời với $(3; 7)$; $m = 9$ cho $A = [7; 10)$, số $7 \\notin B$ nên cũng rời nhau. Phương án B, D bỏ sót đầu mút (lỗi nhầm ngoặc mở/đóng); C là điều kiện để $A \\cap B \\ne \\varnothing$. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu tập hợp $X$ thỏa mãn $X \\subset \\{1; 2; 3; 4; 5; 6\\}$ và $X \\cap \\{1; 2; 3\\} = \\{1\\}$?",
+          "options": [
+            "$16$",
+            "$4$",
+            "$7$",
+            "$8$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(() => { const U=[1,2,3,4,5,6]; let c=0; for (let s=0; s<64; s++) { const X=U.filter((_,i)=>(s>>i)&1); const I=X.filter(x=>x<=3); if (I.length===1 && I[0]===1) c++; } return c; })()",
+          "explanation": "Điều kiện $X \\cap \\{1; 2; 3\\} = \\{1\\}$ nghĩa là: $1 \\in X$, còn $2 \\notin X$ và $3 \\notin X$. Các phần tử $4; 5; 6$ không bị ràng buộc, mỗi phần tử có thể thuộc hoặc không thuộc $X$.\nVậy $X = \\{1\\} \\cup Y$ với $Y$ là một tập con bất kì của $\\{4; 5; 6\\}$, có $2^3 = 8$ tập $X$.\nPhương án A là do quên điều kiện $2, 3 \\notin X$ (chỉ đòi $1 \\in X$: $2^4 = 16$); C là do quên trường hợp $Y = \\varnothing$, tức $X = \\{1\\}$; B đếm nhầm $Y$ có $2$ phần tử. Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai tập hợp $A = (-\\infty; m)$ và $B = [-3; 5]$, với $m$ là tham số. Biết rằng $B \\setminus A$ là một đoạn có độ dài bằng $2$. Giá trị của $m$ là",
+          "options": [
+            "$-1$",
+            "$3$",
+            "$7$",
+            "$2$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "Array.from({length:81},(_,i)=>-20+i/2).find(m => { const lo=Math.max(-3,m), hi=5; return lo<=hi && hi-lo===2; })",
+          "explanation": "$B \\setminus A$ gồm các số thuộc $[-3; 5]$ nhưng không nhỏ hơn $m$, tức là các số $x$ với $x \\ge m$ và $-3 \\le x \\le 5$.\n• Nếu $m < -3$ thì $B \\setminus A = B = [-3; 5]$ có độ dài $8$.\n• Nếu $m > 5$ thì $B \\setminus A = \\varnothing$.\n• Nếu $-3 \\le m \\le 5$ thì $B \\setminus A = [m; 5]$ có độ dài $5 - m$.\nCho $5 - m = 2 \\Leftrightarrow m = 3$ (thỏa mãn $-3 \\le 3 \\le 5$). Khi đó $B \\setminus A = [3; 5]$.\nPhương án A là do nhầm sang $A \\cap B = [-3; m)$ có độ dài $m + 3 = 2$; C là do lấy $m = 5 + 2$. Chọn B."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Với $x$ là số thực, cho hai mệnh đề chứa biến $P(x)$: \"$x > 2$\" và $Q(x)$: \"$x^2 > 4$\". Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Mệnh đề \"$\\forall x \\in \\mathbb{R}, P(x) \\Rightarrow Q(x)$\" đúng.",
+            "Mệnh đề \"$\\forall x \\in \\mathbb{R}, Q(x) \\Rightarrow P(x)$\" đúng.",
+            "\"$x^2 > 4$\" là điều kiện cần và đủ để có \"$x > 2$\".",
+            "Với $m$ là tham số, mệnh đề \"$\\forall x \\in \\mathbb{R}, x > m \\Rightarrow x^2 > 4$\" đúng khi và chỉ khi $m \\ge 2$."
+          ],
+          "answer": [
+            true,
+            false,
+            false,
+            true
+          ],
+          "points": 2,
+          "verify": "(() => { const X=Array.from({length:321},(_,i)=>-20+i/8); const P=x=>x>2, Q=x=>x*x>4; const M=Array.from({length:41},(_,i)=>-5+i/4); const all=m=>X.filter(x=>x>m).every(Q); return [X.every(x=>!P(x)||Q(x)), X.every(x=>!Q(x)||P(x)), X.every(x=>P(x)===Q(x)), M.every(m=>all(m)===(m>=2))]; })()",
+          "explanation": "a) Đúng. Nếu $x > 2$ thì $x > 0$, nhân hai vế của $x > 2$ với số dương $x$ được $x^2 > 2x > 4$.\n\nb) Sai. Phản ví dụ $x = -3$: $x^2 = 9 > 4$ nhưng $-3 > 2$ sai.\n\nc) Sai. \"Cần và đủ\" đòi hỏi cả hai chiều $P(x) \\Rightarrow Q(x)$ và $Q(x) \\Rightarrow P(x)$ đều đúng, nhưng chiều $Q(x) \\Rightarrow P(x)$ sai (ý b). Thực ra \"$x^2 > 4$\" chỉ là điều kiện cần để có \"$x > 2$\".\n\nd) Đúng. Ta có $x^2 > 4 \\Leftrightarrow x > 2$ hoặc $x < -2$. Mệnh đề đúng khi khoảng $(m; +\\infty)$ nằm trong tập nghiệm đó; vì $(m; +\\infty)$ chứa các số rất lớn nên phải có $(m; +\\infty) \\subset (2; +\\infty)$, tức là $m \\ge 2$ (với $m = 2$: mọi $x > 2$ đều có $x^2 > 4$, đúng). Nếu $m < 2$ thì lấy $x$ thỏa mãn $\\max(m; 0) < x < 2$ sẽ có $x > m$ mà $x^2 < 4$, mệnh đề sai."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hai tập hợp $A = [-3; 5)$ và $B = (m; +\\infty)$, với $m$ là tham số. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Với $m = 1$ thì $A \\cap B = (1; 5)$.",
+            "Với $m = 1$ thì $A \\setminus B = [-3; 1)$.",
+            "Với $m = 1$ thì $\\mathbb{R} \\setminus (A \\cup B) = (-\\infty; -3)$.",
+            "Tập $A \\setminus B$ chứa đúng $4$ số nguyên khi và chỉ khi $0 < m \\le 1$."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            false
+          ],
+          "points": 2,
+          "verify": "(() => { const G=Array.from({length:321},(_,i)=>-20+i/8); const inA=x=>x>=-3&&x<5, inB=(x,m)=>x>m; const Z=Array.from({length:41},(_,i)=>i-20); const cnt=m=>Z.filter(k=>inA(k)&&!inB(k,m)).length; const M=Array.from({length:57},(_,i)=>-6+i/4); return [G.every(x=>(inA(x)&&inB(x,1))===(x>1&&x<5)), G.every(x=>(inA(x)&&!inB(x,1))===(x>=-3&&x<1)), G.every(x=>!(inA(x)||inB(x,1))===(x<-3)), M.every(m=>(cnt(m)===4)===(m>0&&m<=1))]; })()",
+          "explanation": "Với $m = 1$: $B = (1; +\\infty)$.\n\na) Đúng. $A \\cap B$ gồm các số thỏa mãn $-3 \\le x < 5$ và $x > 1$, tức là $1 < x < 5$: $A \\cap B = (1; 5)$.\n\nb) Sai. $A \\setminus B$ gồm các số thuộc $A$ và không thuộc $B$, tức là $-3 \\le x < 5$ và $x \\le 1$. Vậy $A \\setminus B = [-3; 1]$. Số $1$ không thuộc $B$ (vì $B$ mở tại $1$) nên $1 \\in A \\setminus B$; viết $[-3; 1)$ là thiếu số $1$.\n\nc) Đúng. $A \\cup B = [-3; +\\infty)$ (vì $A$ phủ từ $-3$ đến trước $5$, $B$ phủ mọi số lớn hơn $1$). Phần bù trong $\\mathbb{R}$ là $(-\\infty; -3)$.\n\nd) Sai. Với $-3 \\le m < 5$: $A \\setminus B = [-3; m]$, các số nguyên trong đó là $-3; -2; \\ldots$ đến số nguyên lớn nhất không vượt quá $m$. Có đúng $4$ số nguyên ($-3; -2; -1; 0$) khi và chỉ khi $0 \\le m < 1$. Khẳng định viết $0 < m \\le 1$ là nhầm ngoặc ở cả hai đầu: với $m = 0$ thì $A \\setminus B = [-3; 0]$ có đúng $4$ số nguyên (thỏa mãn), còn với $m = 1$ thì $A \\setminus B = [-3; 1]$ có $5$ số nguyên (không thỏa mãn)."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai tập hợp $A = [m; 2m + 2]$ (với $m > -2$) và $B = (3; 8)$. Có bao nhiêu số nguyên $m$ để $A \\cap B \\ne \\varnothing$?",
+          "answer": [
+            "7"
+          ],
+          "points": 0.5,
+          "verify": "(() => { const G=Array.from({length:801},(_,i)=>-20+i/8); const meet=m=>G.some(x=>x>=m&&x<=2*m+2&&x>3&&x<8); return Array.from({length:40},(_,i)=>i-1).filter(meet).length; })()",
+          "explanation": "Với $m > -2$ thì $m < 2m + 2$ nên $A$ là một đoạn. Ta có $A \\cap B = \\varnothing$ khi $A$ nằm hoàn toàn bên trái hoặc bên phải $B$; vì $B$ không chứa $3$ và $8$:\n$A \\cap B = \\varnothing \\Leftrightarrow 2m + 2 \\le 3$ hoặc $m \\ge 8$, tức là $m \\le \\frac{1}{2}$ hoặc $m \\ge 8$.\nDo đó $A \\cap B \\ne \\varnothing \\Leftrightarrow \\frac{1}{2} < m < 8$. Các số nguyên $m$ là $1; 2; 3; 4; 5; 6; 7$ — có $7$ giá trị.\nKiểm tra đầu mút: $m = 8$ cho $A = [8; 18]$, số $8 \\notin B$ nên giao rỗng (nếu lấy cả $m = 8$ sẽ sai thành $8$ giá trị).\n\nĐáp số: $7$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Có bao nhiêu số nguyên $m$ thuộc đoạn $[-10; 10]$ để mệnh đề \"$\\exists x \\in \\mathbb{R}, x^2 - 4x + m = 0$\" là mệnh đề đúng?",
+          "answer": [
+            "15"
+          ],
+          "points": 0.5,
+          "verify": "(() => { const X=Array.from({length:161},(_,i)=>-10+i/8); return Array.from({length:21},(_,i)=>i-10).filter(m => Math.min(...X.map(x=>x*x-4*x+m)) <= 0).length; })()",
+          "explanation": "Ta có $x^2 - 4x + m = 0 \\Leftrightarrow (x - 2)^2 = 4 - m$.\nVì $(x - 2)^2 \\ge 0$ và nhận mọi giá trị không âm, phương trình có nghiệm thực khi và chỉ khi $4 - m \\ge 0 \\Leftrightarrow m \\le 4$. Khi đó mệnh đề \"tồn tại\" là đúng (chẳng hạn $x = 2 + \\sqrt{4 - m}$ là một nghiệm).\nCác số nguyên $m$ thuộc $[-10; 10]$ và $m \\le 4$ là $-10; -9; \\ldots; 4$ — có $4 - (-10) + 1 = 15$ giá trị. (Chú ý $m = 4$ thỏa mãn vì phương trình có nghiệm kép $x = 2$.)\n\nĐáp số: $15$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai tập hợp $A = (-\\infty; m + 1)$ và $B = (2m - 3; +\\infty)$, với $m$ là tham số. Tìm giá trị nguyên lớn nhất của $m$ để $A \\cup B = \\mathbb{R}$.",
+          "answer": [
+            "3"
+          ],
+          "points": 0.5,
+          "verify": "(() => { const G=Array.from({length:961},(_,i)=>-60+i/8); const ok=m=>G.every(x=>x<m+1||x>2*m-3); return Math.max(...Array.from({length:41},(_,i)=>i-20).filter(ok)); })()",
+          "explanation": "$A \\cup B = \\mathbb{R}$ khi hai khoảng mở chồng lên nhau: $2m - 3 < m + 1 \\Leftrightarrow m < 4$.\nKhông được lấy dấu bằng: với $m = 4$ thì $A = (-\\infty; 5)$, $B = (5; +\\infty)$, số $5$ không thuộc $A \\cup B$.\nVậy $m < 4$, giá trị nguyên lớn nhất là $m = 3$ (khi đó $A = (-\\infty; 4)$, $B = (3; +\\infty)$, hợp bằng $\\mathbb{R}$).\n\nĐáp số: $3$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Lớp 10C có $40$ học sinh. Cuối học kì I, có $6$ em không đạt loại giỏi môn nào trong hai môn Toán và Ngữ văn, có $5$ em giỏi cả hai môn; số em giỏi Toán gấp đôi số em giỏi Ngữ văn. Hỏi có bao nhiêu em chỉ giỏi Toán (không giỏi Ngữ văn)?",
+          "answer": [
+            "21"
+          ],
+          "points": 0.5,
+          "verify": "(() => { for (let v=0; v<=40; v++) { const t=2*v; if (t + v - 5 === 40 - 6) return t - 5; } return -1; })()",
+          "explanation": "Gọi $T$, $V$ lần lượt là tập học sinh giỏi Toán, giỏi Ngữ văn; đặt $|V| = a$ thì $|T| = 2a$.\nSố em giỏi ít nhất một môn là $|T \\cup V| = 40 - 6 = 34$.\nMặt khác $|T \\cup V| = |T| + |V| - |T \\cap V| = 2a + a - 5 = 3a - 5$.\nSuy ra $3a - 5 = 34 \\Leftrightarrow a = 13$. Vậy có $13$ em giỏi Ngữ văn, $26$ em giỏi Toán.\nSố em chỉ giỏi Toán là $|T| - |T \\cap V| = 26 - 5 = 21$. (Chú ý: $26$ là số em giỏi Toán, chưa trừ $5$ em giỏi cả hai môn.)\n\nĐáp số: $21$."
+        }
+      ]
+    },
+    {
+      "slug": "toan10-menh-de-tap-hop-gioi-03",
+      "title": "Mệnh đề và tập hợp — Đề 3",
+      "level": "gioi",
+      "sort_order": 3,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): phủ định mệnh đề lượng từ phát biểu bằng lời, điều kiện cần và đủ về chia hết, phản ví dụ, mệnh đề với mọi có tham số; tìm tham số với điều kiện tập khác rỗng, phần bù; đếm tập con, tập X; nguyên lí bao hàm – loại trừ cho ba tập.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Phủ định của mệnh đề \"Với mọi số tự nhiên $n$, tồn tại số nguyên tố $p$ lớn hơn $n$\" là",
+          "options": [
+            "\"Tồn tại số tự nhiên $n$ sao cho mọi số nguyên tố $p$ đều nhỏ hơn $n$\".",
+            "\"Với mọi số tự nhiên $n$, tồn tại số nguyên tố $p$ nhỏ hơn hoặc bằng $n$\".",
+            "\"Tồn tại số tự nhiên $n$ sao cho mọi số nguyên tố $p$ đều nhỏ hơn hoặc bằng $n$\".",
+            "\"Tồn tại số tự nhiên $n$ và số nguyên tố $p$ sao cho $p$ nhỏ hơn hoặc bằng $n$\"."
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Mệnh đề đã cho có dạng \"$\\forall n \\in \\mathbb{N}, \\exists p$ nguyên tố, $p > n$\". Phủ định: đổi \"với mọi $n$\" thành \"tồn tại $n$\", đổi \"tồn tại $p$\" thành \"mọi $p$\", và phủ định \"$p > n$\" thành \"$p \\le n$\". Ta được: \"Tồn tại số tự nhiên $n$ sao cho mọi số nguyên tố $p$ đều nhỏ hơn hoặc bằng $n$\".\nPhương án A phủ định sai tính chất ($>$ phải thành $\\le$, không phải $<$); B không đổi lượng từ; D chỉ đổi tính chất, giữ \"tồn tại $p$\". (Mệnh đề ban đầu là đúng vì có vô số số nguyên tố, nên phủ định của nó sai.) Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Với $n$ là số nguyên, khẳng định nào sau đây đúng?",
+          "options": [
+            "\"$n$ chia hết cho $4$\" là điều kiện cần và đủ để \"$n^2$ chia hết cho $16$\".",
+            "\"$n$ chia hết cho $8$\" là điều kiện cần để \"$n^2$ chia hết cho $16$\".",
+            "\"$n$ chia hết cho $2$\" là điều kiện đủ để \"$n^2$ chia hết cho $8$\".",
+            "\"$n^2$ chia hết cho $4$\" là điều kiện đủ để \"$n$ chia hết cho $4$\"."
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "explanation": "A đúng. Chiều thuận: $n = 4k$ thì $n^2 = 16k^2$ chia hết cho $16$. Chiều đảo: nếu $n^2$ chia hết cho $16$ thì $n^2$ chẵn nên $n$ chẵn (nếu $n$ lẻ thì $n^2$ lẻ), đặt $n = 2k$, khi đó $4k^2$ chia hết cho $16$ nên $k^2$ chia hết cho $4$, suy ra $k$ chẵn, $k = 2h$ và $n = 4h$.\nB sai: \"điều kiện cần\" nghĩa là \"$n^2 \\vdots 16 \\Rightarrow n \\vdots 8$\", phản ví dụ $n = 4$ ($n^2 = 16$ nhưng $4$ không chia hết cho $8$).\nC sai: phản ví dụ $n = 2$, $n^2 = 4$ không chia hết cho $8$.\nD sai: phản ví dụ $n = 2$, $n^2 = 4$ chia hết cho $4$ nhưng $2$ không chia hết cho $4$. Lỗi thường gặp ở B, D là nhầm chiều của \"điều kiện cần\" và \"điều kiện đủ\". Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai tập hợp $A = \\{x \\in \\mathbb{R} \\mid m - 1 \\le x \\le 4\\}$ và $B = \\{x \\in \\mathbb{R} \\mid -2 < x < 2m + 2\\}$, với $m$ là tham số. Tập hợp tất cả các giá trị của $m$ để $A$, $B$ đều khác rỗng và $A \\cap B \\ne \\varnothing$ là",
+          "options": [
+            "$(-3; 5]$",
+            "$(-2; 5)$",
+            "$[-2; 5]$",
+            "$(-2; 5]$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "• $A \\ne \\varnothing \\Leftrightarrow m - 1 \\le 4 \\Leftrightarrow m \\le 5$ (với $m = 5$ thì $A = \\{4\\}$ vẫn khác rỗng).\n• $B \\ne \\varnothing \\Leftrightarrow -2 < 2m + 2 \\Leftrightarrow m > -2$ (với $m = -2$ thì không có số $x$ nào thỏa mãn $-2 < x < -2$).\n• Khi $A$, $B$ khác rỗng: $A = [m - 1; 4]$, $B = (-2; 2m + 2)$. Hai tập có phần chung khi $m - 1 < 2m + 2$ (đầu trái của $A$ nhỏ hơn đầu phải của $B$, chặt vì $B$ mở) và $-2 < 4$ (luôn đúng). Điều kiện $m - 1 < 2m + 2 \\Leftrightarrow m > -3$ luôn thỏa khi $m > -2$.\nKết hợp: $-2 < m \\le 5$, tức là $m \\in (-2; 5]$. Kiểm tra $m = 5$: $A = \\{4\\}$, $B = (-2; 12)$ chứa $4$, thỏa mãn.\nPhương án A quên điều kiện $B \\ne \\varnothing$; B bỏ sót $m = 5$; C lấy cả $m = -2$ (khi đó $B = \\varnothing$). Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho tập hợp $B = \\{a; b; c; d; e\\}$. Có bao nhiêu tập hợp $X$ thỏa mãn $\\{a; b\\} \\subset X \\subset B$ và $X \\ne B$?",
+          "options": [
+            "$8$",
+            "$7$",
+            "$6$",
+            "$31$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(() => { const U=['a','b','c','d','e']; let c=0; for (let s=0; s<32; s++) { const X=U.filter((_,i)=>(s>>i)&1); if (X.includes('a') && X.includes('b') && X.length<5) c++; } return c; })()",
+          "explanation": "Tập $X$ thỏa mãn $\\{a; b\\} \\subset X \\subset B$ phải chứa $a$, $b$; mỗi phần tử $c$, $d$, $e$ có thể thuộc hoặc không thuộc $X$, nên có $2^3 = 8$ tập như vậy. Bỏ đi trường hợp $X = B$, còn $8 - 1 = 7$ tập.\nPhương án A quên điều kiện $X \\ne B$; C bỏ thêm cả trường hợp $X = \\{a; b\\}$ (trường hợp này vẫn thỏa mãn vì $\\{a; b\\} \\subset \\{a; b\\}$); D là số tập con khác $B$ của $B$ ($2^5 - 1$), quên điều kiện chứa $a$, $b$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Với $x$ là số thực, tìm tất cả các giá trị của tham số $m$ để \"$m < x < m + 4$\" là điều kiện cần để có \"$1 \\le x \\le 3$\".",
+          "options": [
+            "$[-1; 1]$",
+            "$(-1; 1)$",
+            "$(-3; 3)$",
+            "$(-\\infty; 1)$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "\"$m < x < m + 4$\" là điều kiện cần để có \"$1 \\le x \\le 3$\" nghĩa là mọi $x \\in [1; 3]$ đều thuộc $(m; m + 4)$, tức là $[1; 3] \\subset (m; m + 4)$.\nVì đoạn $[1; 3]$ chứa cả $1$ và $3$, còn khoảng $(m; m + 4)$ không chứa đầu mút, nên cần\n$$\\begin{cases} m < 1 \\\\ m + 4 > 3 \\end{cases} \\Leftrightarrow -1 < m < 1.$$\nKiểm tra $m = 1$: $(1; 5)$ không chứa $1$, loại; $m = -1$: $(-1; 3)$ không chứa $3$, loại.\nPhương án A là lỗi lấy cả đầu mút; C là điều kiện để hai tập chỉ cần có phần chung ($m < 3$ và $m + 4 > 1$); D quên điều kiện ở đầu mút phải. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai tập hợp $A = [-3; 6]$ và $B = (m; m + 2]$, với $m$ là tham số. Tìm tất cả các giá trị của $m$ để $B \\subset \\mathbb{R} \\setminus A$.",
+          "options": [
+            "$(-\\infty; -5] \\cup [6; +\\infty)$",
+            "$(-\\infty; -5) \\cup (6; +\\infty)$",
+            "$(-\\infty; -5) \\cup [6; +\\infty)$",
+            "$[-5; 6)$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "$\\mathbb{R} \\setminus A = (-\\infty; -3) \\cup (6; +\\infty)$. Điều kiện $B \\subset \\mathbb{R} \\setminus A$ tương đương với $B \\cap A = \\varnothing$, tức là nửa khoảng $B$ nằm hoàn toàn bên trái hoặc bên phải đoạn $A$.\n• Bên trái: $B$ chứa $m + 2$ và $A$ chứa $-3$, nên cần $m + 2 < -3 \\Leftrightarrow m < -5$.\n• Bên phải: $B$ không chứa $m$, nên chỉ cần $m \\ge 6$.\nVậy $m \\in (-\\infty; -5) \\cup [6; +\\infty)$.\nKiểm tra: $m = -5$ cho $B = (-5; -3]$ chứa $-3 \\in A$, loại; $m = 6$ cho $B = (6; 8]$, không có điểm chung với $A$, nhận. Phương án A, B nhầm ngoặc ở một trong hai đầu mút; D gần với điều kiện để $A \\cap B \\ne \\varnothing$ nhưng còn sai ngoặc. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho $A$ là tập hợp các ước nguyên dương của $36$ và $B$ là tập hợp các ước nguyên dương của $24$. Số tập con của tập hợp $A \\cap B$ là",
+          "options": [
+            "$6$",
+            "$32$",
+            "$63$",
+            "$64$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(() => { const D=n=>Array.from({length:n},(_,i)=>i+1).filter(d=>n%d===0); const I=D(36).filter(x=>D(24).includes(x)); return 2 ** I.length; })()",
+          "explanation": "$A = \\{1; 2; 3; 4; 6; 9; 12; 18; 36\\}$, $B = \\{1; 2; 3; 4; 6; 8; 12; 24\\}$. Phần chung là tập các ước chung dương của $36$ và $24$, chính là các ước dương của ƯCLN$(36, 24) = 12$:\n$$A \\cap B = \\{1; 2; 3; 4; 6; 12\\}$$\ncó $6$ phần tử. Số tập con của một tập có $6$ phần tử là $2^6 = 64$.\nPhương án A là số phần tử (không phải số tập con); C quên tập rỗng hoặc quên chính tập đó; B do quên một ước chung (thường là quên $1$ hoặc $12$). Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Có bao nhiêu số nguyên $m$ thuộc đoạn $[-5; 5]$ để mệnh đề \"$\\forall x \\in [1; 3], x + m > 0$\" là mệnh đề đúng?",
+          "options": [
+            "$6$",
+            "$7$",
+            "$8$",
+            "$5$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(() => { const X=Array.from({length:17},(_,i)=>1+i/8); return Array.from({length:11},(_,i)=>i-5).filter(m => X.every(x=>x+m>0)).length; })()",
+          "explanation": "Mệnh đề \"$\\forall x \\in [1; 3], x + m > 0$\" đúng khi bất đẳng thức đúng với cả số nhỏ nhất của đoạn là $x = 1$ (khi đó với mọi $x \\ge 1$ thì $x + m \\ge 1 + m$). Vậy điều kiện là $1 + m > 0 \\Leftrightarrow m > -1$.\nCác số nguyên $m \\in [-5; 5]$ thỏa mãn là $0; 1; 2; 3; 4; 5$ — có $6$ giá trị.\nPhương án B là lỗi lấy cả $m = -1$ (khi đó $x = 1$ cho $1 + (-1) = 0$, không lớn hơn $0$); C là do nhầm \"với mọi\" thành \"tồn tại\" (chỉ xét $x = 3$: $m > -3$). Chọn A."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho mệnh đề $P$: \"$\\forall n \\in \\mathbb{N}, n^2 + n + 41$ là số nguyên tố\". Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Với $n = 1$, số $n^2 + n + 41$ là số nguyên tố.",
+            "Mệnh đề phủ định của $P$ là \"$\\exists n \\in \\mathbb{N}, n^2 + n + 41$ không là số nguyên tố\".",
+            "Mệnh đề $P$ là mệnh đề đúng.",
+            "$n = 41$ là số tự nhiên nhỏ nhất để $n^2 + n + 41$ không là số nguyên tố."
+          ],
+          "answer": [
+            true,
+            true,
+            false,
+            false
+          ],
+          "points": 2,
+          "verify": "(() => { const pr=k=>{ if (k<2) return false; for (let d=2; d*d<=k; d++) if (k%d===0) return false; return true; }; const f=n=>n*n+n+41; const N=Array.from({length:200},(_,i)=>i); const first=N.find(n=>!pr(f(n))); return [pr(f(1)), true, N.every(n=>pr(f(n))), first===41]; })()",
+          "explanation": "a) Đúng. Với $n = 1$: $1 + 1 + 41 = 43$, chỉ có hai ước dương là $1$ và $43$ nên là số nguyên tố.\n\nb) Đúng. Phủ định của \"$\\forall n \\in \\mathbb{N}, Q(n)$\" là \"$\\exists n \\in \\mathbb{N}, \\overline{Q(n)}$\", với $\\overline{Q(n)}$: \"$n^2 + n + 41$ không là số nguyên tố\".\n\nc) Sai. Với $n = 40$: $40^2 + 40 + 41 = 40 \\cdot (40 + 1) + 41 = 40 \\cdot 41 + 41 = 41 \\cdot 41 = 1681$, không là số nguyên tố. Chỉ cần một phản ví dụ là đủ kết luận $P$ sai (dù $P(n)$ đúng với rất nhiều giá trị $n$ đầu tiên).\n\nd) Sai. Với $n = 41$ thì $41^2 + 41 + 41 = 41 \\cdot 43$ đúng là hợp số, nhưng $n = 40$ nhỏ hơn đã cho hợp số $41^2$ (ý c). Thử lần lượt có thể thấy với $n = 0; 1; \\ldots; 39$ giá trị $n^2 + n + 41$ đều là số nguyên tố, nên số nhỏ nhất cần tìm là $n = 40$, không phải $41$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Lớp 10D có $40$ học sinh, mỗi em đăng kí ít nhất một trong ba câu lạc bộ: Toán, Tin học, Tiếng Anh. Có $22$ em đăng kí Toán, $18$ em đăng kí Tin học, $20$ em đăng kí Tiếng Anh; $9$ em đăng kí cả Toán và Tin học, $8$ em đăng kí cả Toán và Tiếng Anh, $7$ em đăng kí cả Tin học và Tiếng Anh. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Có $4$ em đăng kí cả ba câu lạc bộ.",
+            "Có $9$ em đăng kí cả Toán và Tin học nhưng không đăng kí Tiếng Anh.",
+            "Có $9$ em chỉ đăng kí câu lạc bộ Toán.",
+            "Có $12$ em đăng kí đúng hai câu lạc bộ."
+          ],
+          "answer": [
+            true,
+            false,
+            true,
+            true
+          ],
+          "points": 2,
+          "verify": "(() => { const T=22,I=18,E=20,TI=9,TE=8,IE=7; let x=-1; for (let k=0; k<=40; k++) if (T+I+E-TI-TE-IE+k===40) x=k; const ti=TI-x, te=TE-x, ie=IE-x; return [x===4, ti===9, T-ti-te-x===9, ti+te+ie===12]; })()",
+          "explanation": "Gọi $T$, $I$, $E$ lần lượt là tập học sinh đăng kí câu lạc bộ Toán, Tin học, Tiếng Anh và $x = |T \\cap I \\cap E|$. Vì mỗi em đăng kí ít nhất một câu lạc bộ nên $|T \\cup I \\cup E| = 40$.\n\na) Đúng. Theo nguyên lí bao hàm – loại trừ:\n$$40 = 22 + 18 + 20 - 9 - 8 - 7 + x = 36 + x \\Rightarrow x = 4.$$\n\nb) Sai. Trong $9$ em đăng kí cả Toán và Tin học có $4$ em đăng kí cả ba câu lạc bộ, nên số em đăng kí Toán và Tin học nhưng không đăng kí Tiếng Anh là $9 - 4 = 5$.\n\nc) Đúng. Số em chỉ đăng kí Toán là $22 - (9 - 4) - (8 - 4) - 4 = 22 - 5 - 4 - 4 = 9$ (lấy số em đăng kí Toán trừ đi các phần của tập $T$ nằm trong tập khác trên biểu đồ Ven).\n\nd) Đúng. Số em đăng kí đúng hai câu lạc bộ là $(9 - 4) + (8 - 4) + (7 - 4) = 5 + 4 + 3 = 12$. Kiểm tra: số em chỉ đăng kí Tin học là $18 - 5 - 3 - 4 = 6$, chỉ đăng kí Tiếng Anh là $20 - 4 - 3 - 4 = 9$; tổng $9 + 6 + 9 + 12 + 4 = 40$, khớp với sĩ số."
+        },
+        {
+          "kind": "short",
+          "prompt": "Có bao nhiêu số nguyên dương $n \\le 50$ không chia hết cho số nào trong ba số $2$, $3$, $5$?",
+          "answer": [
+            "14"
+          ],
+          "points": 0.5,
+          "verify": "Array.from({length:50},(_,i)=>i+1).filter(n => n%2!==0 && n%3!==0 && n%5!==0).length",
+          "explanation": "Gọi $A_2$, $A_3$, $A_5$ lần lượt là tập các số nguyên dương $n \\le 50$ chia hết cho $2$, $3$, $5$. Ta có\n$|A_2| = 25$, $|A_3| = 16$, $|A_5| = 10$; $|A_2 \\cap A_3| = 8$ (chia hết cho $6$), $|A_2 \\cap A_5| = 5$ (chia hết cho $10$), $|A_3 \\cap A_5| = 3$ (chia hết cho $15$), $|A_2 \\cap A_3 \\cap A_5| = 1$ (chia hết cho $30$).\nTheo nguyên lí bao hàm – loại trừ, số các số chia hết cho ít nhất một trong ba số là\n$$25 + 16 + 10 - 8 - 5 - 3 + 1 = 36.$$\nSố các số không chia hết cho số nào là $50 - 36 = 14$ (đó là $1; 7; 11; 13; 17; 19; 23; 29; 31; 37; 41; 43; 47; 49$).\n\nĐáp số: $14$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai tập hợp $A = [-5; 5)$ và $B = (m; m + 3]$, với $m$ là số nguyên. Có bao nhiêu số nguyên $m$ để tập $A \\cap B$ chứa đúng $2$ số nguyên?",
+          "answer": [
+            "2"
+          ],
+          "points": 0.5,
+          "verify": "(() => { const Z=Array.from({length:61},(_,i)=>i-30); const cnt=m=>Z.filter(k=>k>=-5&&k<5&&k>m&&k<=m+3).length; return Z.filter(m=>cnt(m)===2).length; })()",
+          "explanation": "Với $m$ nguyên, $B = (m; m + 3]$ chứa đúng $3$ số nguyên là $m + 1$, $m + 2$, $m + 3$ (không chứa $m$). Các số nguyên thuộc $A = [-5; 5)$ là $-5; -4; \\ldots; 4$.\nSố số nguyên của $A \\cap B$ là số các số trong $\\{m + 1; m + 2; m + 3\\}$ nằm trong $[-5; 4]$:\n• Cả $3$ số thuộc khi $m + 1 \\ge -5$ và $m + 3 \\le 4$, tức là $-6 \\le m \\le 1$.\n• Đúng $2$ số thuộc khi $B$ \"lệch\" ra ngoài đúng một số: $m + 3 = 5$ (tức $m = 2$, $B$ chứa $3; 4; 5$ mà $5 \\notin A$) hoặc $m + 1 = -6$ (tức $m = -7$, $B$ chứa $-6; -5; -4$ mà $-6 \\notin A$).\n• Với $m = 3$ hoặc $m = -8$ chỉ còn $1$ số; xa hơn nữa thì không còn số nào.\nVậy có $2$ giá trị là $m = -7$ và $m = 2$.\n\nĐáp số: $2$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho tập hợp $A = \\{x \\in \\mathbb{R} \\mid (x^2 - 1)(x^2 - 4x + m) = 0\\}$, với $m$ là tham số. Tính tổng tất cả các giá trị của $m$ để tập $A$ có đúng $3$ phần tử.",
+          "answer": [
+            "2"
+          ],
+          "points": 0.5,
+          "verify": "(() => { let s=0; for (let k=-160; k<=160; k++) { const m=k/4; const r=[1,-1]; const D=16-4*m; if (D>=0) r.push((4+Math.sqrt(D))/2, (4-Math.sqrt(D))/2); if (new Set(r.map(v=>Math.round(v*1e6))).size===3) s+=m; } return s; })()",
+          "explanation": "$(x^2 - 1)(x^2 - 4x + m) = 0 \\Leftrightarrow x = \\pm 1$ hoặc $x^2 - 4x + m = 0 \\quad (*)$.\nNhư vậy $A$ luôn chứa $1$ và $-1$; $A$ có đúng $3$ phần tử khi $(*)$ đóng góp đúng một phần tử mới (khác $\\pm 1$). Có hai khả năng:\n• $(*)$ có nghiệm kép khác $\\pm 1$: $(*) \\Leftrightarrow (x - 2)^2 = 4 - m$ có nghiệm kép khi $m = 4$, nghiệm $x = 2$. Khi đó $A = \\{-1; 1; 2\\}$, thỏa mãn.\n• $(*)$ có hai nghiệm phân biệt, trong đó đúng một nghiệm là $1$ hoặc $-1$:\n – $x = 1$ là nghiệm: $1 - 4 + m = 0 \\Leftrightarrow m = 3$, khi đó $(*)$ có nghiệm $1$ và $3$, $A = \\{-1; 1; 3\\}$, thỏa mãn.\n – $x = -1$ là nghiệm: $1 + 4 + m = 0 \\Leftrightarrow m = -5$, khi đó $(*)$ có nghiệm $-1$ và $5$, $A = \\{-1; 1; 5\\}$, thỏa mãn.\n (Hai nghiệm của $(*)$ có tổng bằng $4$ nên không thể đồng thời là $1$ và $-1$.)\nCác trường hợp khác: $m > 4$ thì $(*)$ vô nghiệm, $A$ có $2$ phần tử; còn lại $(*)$ có hai nghiệm khác $\\pm 1$, $A$ có $4$ phần tử.\nTổng các giá trị: $4 + 3 + (-5) = 2$.\n\nĐáp số: $2$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai tập hợp $A = (-\\infty; -2) \\cup [5; +\\infty)$ và $B = [-4; 1)$. Có bao nhiêu số nguyên thuộc tập hợp $\\mathbb{R} \\setminus (A \\cup B)$?",
+          "answer": [
+            "4"
+          ],
+          "points": 0.5,
+          "verify": "Array.from({length:41},(_,i)=>i-20).filter(x => !((x<-2 || x>=5) || (x>=-4 && x<1))).length",
+          "explanation": "Trên trục số, $(-\\infty; -2)$ và $[-4; 1)$ chồng lên nhau nên hợp của chúng là $(-\\infty; 1)$. Do đó\n$$A \\cup B = (-\\infty; 1) \\cup [5; +\\infty).$$\nPhần bù trong $\\mathbb{R}$ là $\\mathbb{R} \\setminus (A \\cup B) = [1; 5)$: lấy số $1$ (vì $1 \\notin B$) và không lấy số $5$ (vì $5 \\in A$).\nCác số nguyên thuộc $[1; 5)$ là $1; 2; 3; 4$ — có $4$ số. (Lỗi thường gặp: cho rằng số $1$ thuộc $B$ rồi viết phần bù là $(1; 5)$, chỉ đếm được $3$ số.)\n\nĐáp số: $4$."
+        }
+      ]
+    }
+  ]
+}

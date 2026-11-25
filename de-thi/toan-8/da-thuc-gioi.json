@@ -1,0 +1,423 @@
+{
+  "grade": 8,
+  "topic": "Đa thức",
+  "exams": [
+    {
+      "slug": "toan8-da-thuc-gioi-01",
+      "title": "Đa thức — Đề 1",
+      "level": "gioi",
+      "sort_order": 1,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): bậc của tích đơn thức có lũy thừa, điều kiện đồng dạng; tìm tham số để đa thức có bậc cho trước; tìm đa thức chưa biết; biểu thức không phụ thuộc biến; đồng nhất hệ số; tìm số tự nhiên n để phép chia hết; bài toán lối đi và hộp không nắp.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Bậc của đơn thức thu gọn từ $(-2x^2y)^3 \\cdot \\frac{1}{4}xy^2$ là",
+          "options": ["$12$", "$11$", "$10$", "$6$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(() => { const M = (x, y) => (-2*x*x*y)**3 * (1/4)*x*y*y; return Math.round(Math.log2(M(2, 2) / M(1, 1))); })()",
+          "explanation": "Lũy thừa của một tích bằng tích các lũy thừa: $(-2x^2y)^3 = (-2)^3 \\cdot (x^2)^3 \\cdot y^3 = -8x^6y^3$.\nNhân với $\\frac{1}{4}xy^2$:\n$$-8x^6y^3 \\cdot \\frac{1}{4}xy^2 = \\left(-8 \\cdot \\frac{1}{4}\\right) \\cdot (x^6 \\cdot x) \\cdot (y^3 \\cdot y^2) = -2x^7y^5.$$\nBậc của đơn thức là $7 + 5 = 12$. Chọn A.\nLỗi thường gặp: viết $(x^2)^3 = x^5$ (cộng số mũ thay vì nhân) nên ra bậc $11$; quên lập phương $y$ nên ra bậc $10$; cộng bậc của hai đơn thức $3 + 3 = 6$ mà quên lũy thừa bậc ba."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Biết hai đơn thức $3x^{m+2}y^4$ và $-5x^5y^{n-1}$ ($m$, $n$ là số tự nhiên, $n \\ge 1$) là hai đơn thức đồng dạng. Giá trị của $m + n$ là",
+          "options": ["$12$", "$6$", "$8$", "$10$"],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(() => { for (let m = 0; m <= 30; m++) for (let n = 1; n <= 30; n++) if (m + 2 === 5 && n - 1 === 4) return m + n; })()",
+          "explanation": "Hai đơn thức (hệ số khác 0) đồng dạng khi có cùng phần biến, tức là số mũ của từng biến bằng nhau:\n- Số mũ của $x$: $m + 2 = 5$, suy ra $m = 3$;\n- Số mũ của $y$: $n - 1 = 4$, suy ra $n = 5$.\nVậy $m + n = 3 + 5 = 8$. Chọn C.\nLỗi thường gặp: chuyển vế sai dấu, được $m = 5 + 2 = 7$ và $n = 4 - 1 = 3$ (tổng $10$); chỉ sai ở $m$ (tổng $12$) hoặc chỉ sai ở $n$ (tổng $6$)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho đa thức $P = 2x^4y^2 - 5xy^3 + ax^4y^2 + 3$ ($a$ là hằng số). Đa thức $P$ có bậc bằng $4$ khi và chỉ khi",
+          "options": ["$a = 2$", "$a = -2$", "$a \\ne -2$", "$a = 0$"],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Thu gọn: $P = (2 + a)x^4y^2 - 5xy^3 + 3$.\n- Nếu $2 + a \\ne 0$ thì hạng tử $(2 + a)x^4y^2$ có bậc $4 + 2 = 6$, nên $P$ có bậc $6$.\n- Nếu $2 + a = 0$, tức $a = -2$, thì $P = -5xy^3 + 3$ có bậc $1 + 3 = 4$.\nVậy $P$ có bậc $4$ khi và chỉ khi $a = -2$. Chọn B.\nLỗi thường gặp: giải $2 + a = 0$ ra $a = 2$ (sai dấu); hiểu ngược điều kiện thành $a \\ne -2$; chọn $a = 0$ vì nghĩ chỉ cần bỏ hạng tử $ax^4y^2$ (khi đó vẫn còn $2x^4y^2$ bậc $6$)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai đa thức $A = 3x^2y - 2xy^2 + 4$ và $B = -x^2y + 5xy^2 - 1$. Đa thức $C$ thỏa mãn $C - 2A = B$ là",
+          "options": ["$-7x^2y + 9xy^2 - 9$", "$5x^2y + xy^2 + 3$", "$2x^2y + 3xy^2 + 3$", "$5x^2y + xy^2 + 7$"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Từ $C - 2A = B$ suy ra $C = B + 2A$.\nTa có $2A = 6x^2y - 4xy^2 + 8$. Do đó\n$$C = (-x^2y + 5xy^2 - 1) + (6x^2y - 4xy^2 + 8) = 5x^2y + xy^2 + 7.$$\nChọn D.\nThử lại: $C - 2A = (5x^2y + xy^2 + 7) - (6x^2y - 4xy^2 + 8) = -x^2y + 5xy^2 - 1 = B$.\nLỗi thường gặp: chuyển vế thành $C = B - 2A$ (phương án A); khi tính $2A$ quên nhân $2$ với hạng tử tự do $4$ (phương án B); dùng $A$ thay cho $2A$ (phương án C)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Rút gọn biểu thức $M = (2x - 1)(x + 3) - x(2x + 5)$ ta được",
+          "options": ["$10x - 3$", "$-3$", "$3$", "$-10x - 3$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(() => { const M = x => (2*x - 1)*(x + 3) - x*(2*x + 5); const xs = [-3, 0, 1, 2, 5]; return xs.every(x => M(x) === M(7)) ? M(7) : NaN; })()",
+          "explanation": "Nhân đa thức với đa thức và đơn thức với đa thức:\n- $(2x - 1)(x + 3) = 2x^2 + 6x - x - 3 = 2x^2 + 5x - 3$;\n- $x(2x + 5) = 2x^2 + 5x$.\nDo đó $M = 2x^2 + 5x - 3 - 2x^2 - 5x = -3$. Giá trị của $M$ không phụ thuộc vào $x$. Chọn B.\nLỗi thường gặp: bỏ ngoặc $-x(2x + 5)$ thành $-2x^2 + 5x$ (quên đổi dấu) nên ra $10x - 3$ (phương án A); tính $(-1) \\cdot 3 = 3$ nên ra $3$ (phương án C)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Với $x \\ne 0$, $y \\ne 0$, rút gọn biểu thức $Q = (6x^3y^2 - 4x^2y^3) : 2x^2y^2 - (12x^2y - 6xy^2) : 3xy$ ta được",
+          "options": ["$x$", "$-x - 4y$", "$-x$", "$7x - 4y$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Chia từng hạng tử của đa thức cho đơn thức:\n- $(6x^3y^2 - 4x^2y^3) : 2x^2y^2 = 3x - 2y$;\n- $(12x^2y - 6xy^2) : 3xy = 4x - 2y$.\nDo đó $Q = (3x - 2y) - (4x - 2y) = 3x - 2y - 4x + 2y = -x$. Chọn C.\nLỗi thường gặp: bỏ ngoặc $-(4x - 2y)$ thành $-4x - 2y$ (quên đổi dấu $-2y$) nên ra $-x - 4y$; cộng hai thương thay vì trừ nên ra $7x - 4y$; lấy thương thứ hai trừ thương thứ nhất nên ra $x$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một mảnh vườn hình chữ nhật có chiều dài $(3x + 2)$ m và chiều rộng $(x + 4)$ m ($x > 0$). Người ta làm một lối đi rộng $1$ m chạy sát bốn cạnh, nằm bên trong mảnh vườn; phần còn lại để trồng rau. Diện tích lối đi (tính theo m²) là",
+          "options": ["$3x^2 + 6x$", "$4x + 5$", "$8x + 12$", "$8x + 8$"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Lối đi rộng $1$ m chạy sát cả bốn cạnh nên mỗi chiều của phần trồng rau giảm $2$ m (mỗi bên $1$ m):\n- Phần trồng rau có kích thước $3x$ m và $(x + 2)$ m, diện tích $3x(x + 2) = 3x^2 + 6x$ (m²).\n- Diện tích cả mảnh vườn: $(3x + 2)(x + 4) = 3x^2 + 12x + 2x + 8 = 3x^2 + 14x + 8$ (m²).\nDiện tích lối đi: $(3x^2 + 14x + 8) - (3x^2 + 6x) = 8x + 8$ (m²). Chọn D.\nLỗi thường gặp: mỗi chiều chỉ trừ $1$ m, được phần trồng rau $(3x + 1)(x + 3) = 3x^2 + 10x + 3$, lối đi $4x + 5$ (phương án B); lấy chu vi nhân $1$ m được $2(4x + 6) = 8x + 12$, tính thừa $4$ ô vuông ở góc (phương án C); nhầm với diện tích phần trồng rau (phương án A)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Biết $(x + a)(x^2 - 2x + b) = x^3 + x^2 - 5x + c$ với mọi giá trị của $x$ ($a$, $b$, $c$ là hằng số). Giá trị của $a + b + c$ là",
+          "options": ["$7$", "$-1$", "$4$", "$-41$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(() => { for (let a = -20; a <= 20; a++) for (let b = -20; b <= 20; b++) { const d = x => (x + a)*(x*x - 2*x + b) - (x**3 + x*x - 5*x); if ([1, 2, 3, -1, -2].every(x => d(x) === d(0))) return a + b + d(0); } })()",
+          "explanation": "Thực hiện phép nhân vế trái:\n$$(x + a)(x^2 - 2x + b) = x^3 - 2x^2 + bx + ax^2 - 2ax + ab = x^3 + (a - 2)x^2 + (b - 2a)x + ab.$$\nHai đa thức bằng nhau với mọi $x$ nên các hệ số tương ứng bằng nhau:\n- $a - 2 = 1$, suy ra $a = 3$;\n- $b - 2a = -5$, suy ra $b = -5 + 6 = 1$;\n- $c = ab = 3 \\cdot 1 = 3$.\nVậy $a + b + c = 3 + 1 + 3 = 7$. Chọn A.\nLỗi thường gặp: viết hệ số của $x^2$ là $a + 2$ nên $a = -1$, $b = -7$, $c = 7$, tổng $-1$ (phương án B); quên tính $c$, chỉ lấy $a + b = 4$ (phương án C); giải $b - 2a = -5$ thành $b = -5 - 2a = -11$ thì $c = -33$, tổng $-41$ (phương án D)."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho đa thức $P = (2x - 3)(x^2 + x - 1) - 2x(x^2 - 1)$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Sau khi thu gọn, $P$ là đa thức bậc $2$.",
+            "Hạng tử không chứa biến của $P$ (sau khi thu gọn) là $-3$.",
+            "Giá trị của $P$ tại $x = -1$ bằng $5$.",
+            "Với mọi số nguyên $x$, giá trị của $P$ luôn là số lẻ."
+          ],
+          "answer": [true, false, true, true],
+          "points": 2,
+          "verify": "(() => { const P = x => (2*x - 3)*(x*x + x - 1) - 2*x*(x*x - 1); const d2 = P(2) - 2*P(1) + P(0), d3 = P(3) - 3*P(2) + 3*P(1) - P(0); const ints = Array.from({length: 201}, (_, i) => i - 100); return [d3 === 0 && d2 !== 0, P(0) === -3, P(-1) === 5, ints.every(x => Math.abs(P(x)) % 2 === 1)]; })()",
+          "explanation": "Thu gọn $P$:\n$(2x - 3)(x^2 + x - 1) = 2x^3 + 2x^2 - 2x - 3x^2 - 3x + 3 = 2x^3 - x^2 - 5x + 3$;\n$2x(x^2 - 1) = 2x^3 - 2x$.\nDo đó $P = 2x^3 - x^2 - 5x + 3 - 2x^3 + 2x = -x^2 - 3x + 3$.\na) Đúng. Hai hạng tử $2x^3$ triệt tiêu nhau; hạng tử bậc cao nhất còn lại là $-x^2$, nên $P$ có bậc $2$.\nb) Sai. Hạng tử không chứa biến của $P$ là $3$ (từ $(-3) \\cdot (-1) = 3$), không phải $-3$.\nc) Đúng. $P(-1) = -(-1)^2 - 3 \\cdot (-1) + 3 = -1 + 3 + 3 = 5$.\nd) Đúng. Viết $P = 3 - (x^2 + 3x) = 3 - x(x + 3)$. Với $x$ nguyên: nếu $x$ chẵn thì $x(x + 3)$ chẵn; nếu $x$ lẻ thì $x + 3$ chẵn nên $x(x + 3)$ chẵn. Vậy $x(x + 3)$ luôn chẵn, suy ra $P = 3 - x(x + 3)$ luôn là số lẻ."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Từ một tấm bìa hình chữ nhật kích thước $30$ cm $\\times$ $20$ cm, bạn Minh cắt ở bốn góc bốn hình vuông bằng nhau có cạnh $x$ cm ($0 < x < 10$), rồi gấp phần còn lại thành một chiếc hộp hình hộp chữ nhật không nắp có chiều cao $x$ cm. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Diện tích đáy hộp là $(4x^2 - 100x + 600)$ cm².",
+            "Thể tích hộp là $(4x^3 - 100x^2 + 600x)$ cm³.",
+            "Diện tích phần bìa còn lại sau khi cắt là $(600 - x^2)$ cm².",
+            "Thể tích hộp khi $x = 5$ lớn hơn thể tích hộp khi $x = 4$."
+          ],
+          "answer": [true, true, false, false],
+          "points": 2,
+          "verify": "(() => { const xs = [1, 2, 3, 4, 5, 6]; const S = x => (30 - 2*x)*(20 - 2*x); const V = x => S(x)*x; return [xs.every(x => S(x) === 4*x*x - 100*x + 600), xs.every(x => V(x) === 4*x**3 - 100*x*x + 600*x), xs.every(x => 30*20 - 4*x*x === 600 - x*x), V(5) > V(4)]; })()",
+          "explanation": "Sau khi cắt, đáy hộp là hình chữ nhật có kích thước $(30 - 2x)$ cm và $(20 - 2x)$ cm.\na) Đúng. $(30 - 2x)(20 - 2x) = 600 - 60x - 40x + 4x^2 = 4x^2 - 100x + 600$ (cm²).\nb) Đúng. Thể tích $= x \\cdot (4x^2 - 100x + 600) = 4x^3 - 100x^2 + 600x$ (cm³).\nc) Sai. Đã cắt đi bốn hình vuông, mỗi hình có diện tích $x^2$ cm², nên phần còn lại là $600 - 4x^2$ (cm²), không phải $600 - x^2$.\nd) Sai. Khi $x = 5$: $V = 20 \\cdot 10 \\cdot 5 = 1000$ (cm³). Khi $x = 4$: $V = 22 \\cdot 12 \\cdot 4 = 1056$ (cm³). Vì $1000 < 1056$ nên thể tích khi $x = 5$ nhỏ hơn. (Cắt góc lớn hơn chưa chắc được hộp to hơn.)"
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai đơn thức $A = -\\frac{2}{3}x^3y^2$ và $B = \\frac{9}{4}xy^3$. Tính giá trị của tích $A \\cdot B$ tại $x = -1$, $y = 2$.",
+          "answer": ["-48"],
+          "points": 0.5,
+          "verify": "(() => { const x = -1, y = 2; return (-2/3*x**3*y**2) * (9/4*x*y**3); })()",
+          "explanation": "Thu gọn tích trước rồi mới thay số:\n$$A \\cdot B = \\left(-\\frac{2}{3} \\cdot \\frac{9}{4}\\right) \\cdot (x^3 \\cdot x) \\cdot (y^2 \\cdot y^3) = -\\frac{3}{2}x^4y^5.$$\nTại $x = -1$, $y = 2$: $-\\frac{3}{2} \\cdot (-1)^4 \\cdot 2^5 = -\\frac{3}{2} \\cdot 1 \\cdot 32 = -48$.\nChú ý $(-1)^4 = 1$ (số mũ chẵn). Đáp số: $-48$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho ba đa thức $A = 2x^2 - 3xy + y^2$, $B = -x^2 + 5xy - 2y^2$ và $C = 4x^2 - xy$. Tính giá trị của đa thức $A - 2B + C$ tại $x = 2$, $y = -1$.",
+          "answer": ["65"],
+          "points": 0.5,
+          "verify": "(() => { const x = 2, y = -1; const A = 2*x*x - 3*x*y + y*y, B = -x*x + 5*x*y - 2*y*y, C = 4*x*x - x*y; return A - 2*B + C; })()",
+          "explanation": "Thu gọn đa thức (chú ý đổi dấu khi bỏ ngoặc sau dấu \"$-$\"):\n$$A - 2B + C = 2x^2 - 3xy + y^2 + 2x^2 - 10xy + 4y^2 + 4x^2 - xy = 8x^2 - 14xy + 5y^2.$$\nTại $x = 2$, $y = -1$: $8 \\cdot 4 - 14 \\cdot 2 \\cdot (-1) + 5 \\cdot 1 = 32 + 28 + 5 = 65$.\n(Kiểm tra: $A = 15$, $B = -16$, $C = 18$, nên $A - 2B + C = 15 + 32 + 18 = 65$.)\nĐáp số: $65$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm $x$, biết $(3x - 2)(2x + 5) - 6x(x + 1) = 15$.",
+          "answer": ["5"],
+          "points": 0.5,
+          "verify": "(() => { for (let x = -50; x <= 50; x++) if ((3*x - 2)*(2*x + 5) - 6*x*(x + 1) === 15) return x; })()",
+          "explanation": "Thu gọn vế trái:\n$(3x - 2)(2x + 5) = 6x^2 + 15x - 4x - 10 = 6x^2 + 11x - 10$;\n$6x(x + 1) = 6x^2 + 6x$.\nVế trái $= 6x^2 + 11x - 10 - 6x^2 - 6x = 5x - 10$.\nTa có $5x - 10 = 15$, suy ra $5x = 25$, $x = 5$.\nThử lại: $13 \\cdot 15 - 30 \\cdot 6 = 195 - 180 = 15$. Đáp số: $5$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm số tự nhiên $n$ để đa thức $A = 6x^{n+3}y^4 - 9x^5y^{n+1} + x^7y^5$ chia hết cho đơn thức $B = 3x^{2n}y^3$.",
+          "answer": ["2"],
+          "points": 0.5,
+          "verify": "(() => { const ok = []; for (let n = 0; n <= 30; n++) { const terms = [[n + 3, 4], [5, n + 1], [7, 5]]; if (terms.every(([a, b]) => a >= 2*n && b >= 3)) ok.push(n); } return ok.length === 1 ? ok[0] : NaN; })()",
+          "explanation": "Đa thức $A$ chia hết cho đơn thức $B$ khi mỗi hạng tử của $A$ chia hết cho $B$, tức là số mũ của mỗi biến trong từng hạng tử không nhỏ hơn số mũ của biến đó trong $B$.\n- Biến $x$: $n + 3 \\ge 2n$, $5 \\ge 2n$, $7 \\ge 2n$. Suy ra $n \\le 3$ và $n \\le 2$, tức $n \\le 2$.\n- Biến $y$: $4 \\ge 3$ (đúng), $n + 1 \\ge 3$, $5 \\ge 3$ (đúng). Suy ra $n \\ge 2$.\nKết hợp lại: $n = 2$. Khi đó $B = 3x^4y^3$ và $A : B = 2xy - 3x + \\frac{1}{3}x^3y^2$.\nĐáp số: $2$."
+        }
+      ]
+    },
+    {
+      "slug": "toan8-da-thuc-gioi-02",
+      "title": "Đa thức — Đề 2",
+      "level": "gioi",
+      "sort_order": 2,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): lũy thừa của đơn thức, tìm hệ số từ giá trị của tổng đơn thức đồng dạng; tính giá trị đa thức theo $x + y$ và $xy$; đồng nhất hệ số khi trừ đa thức; hệ số trong tích hai đa thức; điều kiện chia hết cho đơn thức; bài toán diện tích, doanh thu biểu diễn bằng đa thức.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị của đơn thức $M = \\left(-\\frac{1}{2}x^2y^3\\right)^2 \\cdot (-4xy)$ tại $x = 2$, $y = -1$ là",
+          "options": ["$-32$", "$-64$", "$32$", "$64$"],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(() => { const x = 2, y = -1; return ((-1/2)*x**2*y**3)**2 * (-4*x*y); })()",
+          "explanation": "Thu gọn trước: $\\left(-\\frac{1}{2}x^2y^3\\right)^2 = \\frac{1}{4}x^4y^6$, nên\n$$M = \\frac{1}{4}x^4y^6 \\cdot (-4xy) = -x^5y^7.$$\nTại $x = 2$, $y = -1$: $M = -2^5 \\cdot (-1)^7 = -32 \\cdot (-1) = 32$. Chọn C.\nLỗi thường gặp: cho rằng $\\left(-\\frac{1}{2}\\right)^2 = -\\frac{1}{4}$ nên $M = x^5y^7$, ra $-32$ (phương án A); quên bình phương hệ số, lấy $\\left(-\\frac{1}{2}\\right) \\cdot (-4) = 2$ nên ra $-64$ (phương án B); bình phương sai thành $\\frac{1}{2}$ nên hệ số $-2$, ra $64$ (phương án D)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho ba đơn thức đồng dạng $\\frac{1}{2}x^2y$, $-\\frac{3}{4}x^2y$ và $ax^2y$ ($a$ là hằng số). Biết tổng của ba đơn thức này tại $x = -2$, $y = 3$ bằng $12$. Giá trị của $a$ là",
+          "options": ["$1{,}25$", "$0{,}75$", "$-0{,}75$", "$-0{,}25$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(() => { const x = -2, y = 3; return 12 / (x*x*y) - 1/2 + 3/4; })()",
+          "explanation": "Cộng các đơn thức đồng dạng:\n$$\\frac{1}{2}x^2y - \\frac{3}{4}x^2y + ax^2y = \\left(a - \\frac{1}{4}\\right)x^2y.$$\nTại $x = -2$, $y = 3$: $x^2y = (-2)^2 \\cdot 3 = 12$. Ta có $\\left(a - \\frac{1}{4}\\right) \\cdot 12 = 12$, suy ra $a - \\frac{1}{4} = 1$, $a = \\frac{5}{4} = 1{,}25$. Chọn A.\nLỗi thường gặp: tính $\\frac{1}{2} - \\frac{3}{4} = \\frac{1}{4}$ (sai dấu) nên $a = 0{,}75$; tính $(-2)^2 = -4$ nên $x^2y = -12$, ra $a = -0{,}75$; cộng $\\frac{1}{2} + \\frac{3}{4}$ (bỏ dấu \"$-$\") nên ra $a = -0{,}25$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho đa thức $P = x^2y + xy^2 - 3xy$. Biết $x + y = 5$ và $xy = -2$. Giá trị của $P$ là",
+          "options": ["$-16$", "$16$", "$4$", "$-4$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(() => { const r = Math.sqrt(33); const x = (5 + r) / 2, y = (5 - r) / 2; return Math.round((x*x*y + x*y*y - 3*x*y) * 1e6) / 1e6; })()",
+          "explanation": "Không cần tìm $x$, $y$. Dùng tính chất phân phối của phép nhân đối với phép cộng:\n$$x^2y + xy^2 = xy \\cdot x + xy \\cdot y = xy(x + y).$$\nDo đó $P = xy(x + y) - 3xy = (-2) \\cdot 5 - 3 \\cdot (-2) = -10 + 6 = -4$. Chọn D.\nLỗi thường gặp: tính $-3 \\cdot (-2) = -6$ nên ra $-16$ (phương án A); quên dấu của $xy = -2$ nên ra $10 - 6 = 4$ (phương án C) hoặc $10 + 6 = 16$ (phương án B)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai đa thức $A = ax^2y - 3xy + b$ và $B = 2x^2y + cxy - 4$ ($a$, $b$, $c$ là hằng số). Biết $A - B = 5x^2y + xy + 1$. Giá trị của $a + b + c$ là",
+          "options": ["$8$", "$0$", "$-4$", "$12$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(() => { const pts = [[1, 1], [2, 1], [1, 2], [0, 0], [-1, 3]]; for (let a = -20; a <= 20; a++) for (let b = -20; b <= 20; b++) for (let c = -20; c <= 20; c++) if (pts.every(([x, y]) => (a*x*x*y - 3*x*y + b) - (2*x*x*y + c*x*y - 4) === 5*x*x*y + x*y + 1)) return a + b + c; })()",
+          "explanation": "Thu gọn $A - B$ (đổi dấu mọi hạng tử của $B$):\n$$A - B = ax^2y - 3xy + b - 2x^2y - cxy + 4 = (a - 2)x^2y + (-3 - c)xy + (b + 4).$$\nSo sánh với $5x^2y + xy + 1$:\n- $a - 2 = 5$, suy ra $a = 7$;\n- $-3 - c = 1$, suy ra $c = -4$;\n- $b + 4 = 1$, suy ra $b = -3$.\nVậy $a + b + c = 7 - 3 - 4 = 0$. Chọn B.\nLỗi thường gặp: không đổi dấu hạng tử $cxy$ (được $c = 4$) hoặc hạng tử $-4$ (được $b = 5$), đều ra tổng $8$; tính nhầm thành $A + B$ (được $a = 3$, $c = 4$, $b = 5$) nên ra $12$; chỉ sai $a = 3$ ra $-4$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Hệ số của $x^2$ trong đa thức thu gọn của tích $(x^2 - 3x + 2)(2x^2 + x - 4)$ là",
+          "options": ["$-3$", "$0$", "$4$", "$-11$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(() => { const p = [2, -3, 1], q = [-4, 1, 2]; const r = [0, 0, 0, 0, 0]; p.forEach((a, i) => q.forEach((b, j) => { r[i + j] += a*b; })); return r[2]; })()",
+          "explanation": "Không cần nhân hết. Các tích cho hạng tử chứa $x^2$ là:\n- $x^2 \\cdot (-4) = -4x^2$;\n- $(-3x) \\cdot x = -3x^2$;\n- $2 \\cdot 2x^2 = 4x^2$.\nHệ số của $x^2$ là $-4 - 3 + 4 = -3$. Chọn A.\nLỗi thường gặp: bỏ sót tích $(-3x) \\cdot x$ nên ra $0$; chỉ lấy tích $2 \\cdot 2x^2$ nên ra $4$; nhầm dấu $2 \\cdot 2x^2 = -4x^2$ nên ra $-11$."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một mảnh vườn hình vuông có cạnh $x$ m ($x > 2$). Người ta tăng một cạnh thêm $3$ m và giảm cạnh kia đi $2$ m để được mảnh vườn hình chữ nhật. Hiệu \"diện tích mới trừ diện tích cũ\" (tính theo m²) là",
+          "options": ["$x + 6$", "$5x - 6$", "$x - 6$", "$-6$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Diện tích mới: $(x + 3)(x - 2) = x^2 - 2x + 3x - 6 = x^2 + x - 6$ (m²). Diện tích cũ: $x^2$ (m²).\nHiệu: $(x^2 + x - 6) - x^2 = x - 6$ (m²). Chọn C.\n(Như vậy diện tích tăng khi $x > 6$, giảm khi $2 < x < 6$ và không đổi khi $x = 6$.)\nLỗi thường gặp: tính $x \\cdot (-2) = 2x$ nên được $x^2 + 5x - 6$, hiệu $5x - 6$ (phương án B); chỉ nhân \"đầu với đầu, cuối với cuối\" được $x^2 - 6$, hiệu $-6$ (phương án D); sai dấu $3 \\cdot (-2) = 6$ (phương án A)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Đa thức nào sau đây chia hết cho đơn thức $3x^2y$?",
+          "options": ["$6x^3y^2 - 9x^2y + xy$", "$9x^2y - 6xy^3$", "$x^3 - 3x^2y$", "$3x^2y^2 - \\frac{1}{2}x^4y$"],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Đa thức chia hết cho đơn thức $3x^2y$ khi mọi hạng tử của nó đều chứa $x$ với số mũ $\\ge 2$ và $y$ với số mũ $\\ge 1$ (hệ số là số thực bất kì, không cần chia hết cho $3$).\n- A: hạng tử $xy$ chỉ có $x^1$, không chia hết.\n- B: hạng tử $-6xy^3$ chỉ có $x^1$, không chia hết.\n- C: hạng tử $x^3$ không chứa $y$, không chia hết.\n- D: $3x^2y^2 : 3x^2y = y$ và $-\\frac{1}{2}x^4y : 3x^2y = -\\frac{1}{6}x^2$. Chia hết. Chọn D.\nLỗi thường gặp: loại D vì nghĩ hệ số $-\\frac{1}{2}$ phải chia hết cho $3$; chọn A hoặc B vì chỉ xét hạng tử đầu."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Với $x \\ne 0$, giá trị của $x$ thỏa mãn $(9x^4 - 6x^3) : 3x^2 - x(3x - 4) = 10$ là",
+          "options": ["$-5$", "$5$", "$\\frac{5}{3}$", "$-\\frac{5}{3}$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(() => { for (let x = -50; x <= 50; x++) if (x !== 0 && (9*x**4 - 6*x**3) / (3*x*x) - x*(3*x - 4) === 10) return x; })()",
+          "explanation": "Thu gọn vế trái:\n- $(9x^4 - 6x^3) : 3x^2 = 3x^2 - 2x$;\n- $x(3x - 4) = 3x^2 - 4x$.\nVế trái $= 3x^2 - 2x - 3x^2 + 4x = 2x$. Ta có $2x = 10$, suy ra $x = 5$ (thỏa mãn $x \\ne 0$). Chọn B.\nLỗi thường gặp: bỏ ngoặc $-x(3x - 4)$ thành $-3x^2 - 4x$ nên được $-6x = 10$, $x = -\\frac{5}{3}$ (phương án D); chia $-6x^3 : 3x^2 = 2x$ (mất dấu) nên được $6x = 10$, $x = \\frac{5}{3}$ (phương án C)."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hai đa thức $P = 3x^3y - 2x^2y^2 + 5xy - 1$ và $Q = -x^3y + 4x^2y^2 - 5xy + 7$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "$P + Q = 2x^3y + 2x^2y^2 + 6$.",
+            "Đa thức $P + Q$ có bậc là $3$.",
+            "Giá trị của $P + Q$ tại $x = -1$, $y = 1$ bằng $6$.",
+            "Với mọi $x$, $y$ thỏa mãn $xy > 0$, giá trị của $P + Q$ luôn lớn hơn $6$."
+          ],
+          "answer": [true, false, true, true],
+          "points": 2,
+          "verify": "(() => { const P = (x, y) => 3*x**3*y - 2*x*x*y*y + 5*x*y - 1, Q = (x, y) => -(x**3)*y + 4*x*x*y*y - 5*x*y + 7, S = (x, y) => P(x, y) + Q(x, y); const pts = [[1, 1], [2, -1], [-1, 3], [3, 2], [0, 5]]; const pos = []; for (let x = -6; x <= 6; x++) for (let y = -6; y <= 6; y++) if (x*y > 0) pos.push([x, y]); for (const x of [0.1, -0.2, 0.5]) for (const y of [0.3, -0.1, 2]) if (x*y > 0) pos.push([x, y]); return [pts.every(([x, y]) => S(x, y) === 2*x**3*y + 2*x*x*y*y + 6), Math.max(3 + 1, 2 + 2) === 3, S(-1, 1) === 6, pos.every(([x, y]) => S(x, y) > 6)]; })()",
+          "explanation": "$P + Q = (3x^3y - x^3y) + (-2x^2y^2 + 4x^2y^2) + (5xy - 5xy) + (-1 + 7) = 2x^3y + 2x^2y^2 + 6$.\na) Đúng (xem phép cộng ở trên; hai hạng tử $5xy$ và $-5xy$ triệt tiêu).\nb) Sai. Hạng tử $2x^3y$ có bậc $3 + 1 = 4$, hạng tử $2x^2y^2$ có bậc $4$. Bậc của $P + Q$ là $4$ (không phải chỉ nhìn số mũ của $x$).\nc) Đúng. $2 \\cdot (-1)^3 \\cdot 1 + 2 \\cdot (-1)^2 \\cdot 1^2 + 6 = -2 + 2 + 6 = 6$.\nd) Đúng. Viết $P + Q - 6 = 2x^2 \\cdot (xy) + 2(xy)^2$. Khi $xy > 0$ thì $x \\ne 0$ nên $x^2 > 0$; do đó $2x^2 \\cdot (xy) > 0$ và $2(xy)^2 > 0$. Suy ra $P + Q - 6 > 0$, tức $P + Q > 6$."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Một cửa hàng bán áo đồng phục với giá $50$ nghìn đồng một chiếc. Cửa hàng dự định tăng giá mỗi chiếc thêm $x$ nghìn đồng ($0 < x < 100$); khi đó mỗi ngày bán được $(200 - 2x)$ chiếc. Gọi $R$ là doanh thu một ngày (nghìn đồng) sau khi tăng giá. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Khi $x = 10$, giá mỗi chiếc áo là $60$ nghìn đồng và mỗi ngày bán được $180$ chiếc.",
+            "$R = -2x^2 + 300x + 10000$.",
+            "Khi $x = 20$, doanh thu một ngày là $12000$ nghìn đồng.",
+            "Doanh thu một ngày khi $x = 30$ bằng doanh thu một ngày khi $x = 20$."
+          ],
+          "answer": [true, false, false, true],
+          "points": 2,
+          "verify": "(() => { const R = x => (50 + x)*(200 - 2*x); const xs = [1, 10, 20, 30, 50]; return [50 + 10 === 60 && 200 - 2*10 === 180, xs.every(x => R(x) === -2*x*x + 300*x + 10000), R(20) === 12000, R(30) === R(20)]; })()",
+          "explanation": "Doanh thu $=$ giá bán $\\times$ số áo bán được: $R = (x + 50)(200 - 2x) = 200x - 2x^2 + 10000 - 100x = -2x^2 + 100x + 10000$.\na) Đúng. Giá: $50 + 10 = 60$ (nghìn đồng); số áo: $200 - 2 \\cdot 10 = 180$ (chiếc).\nb) Sai. $R = -2x^2 + 100x + 10000$. Kết quả $300x$ là do cộng $200x + 100x$, quên rằng $50 \\cdot (-2x) = -100x$.\nc) Sai. Khi $x = 20$: $R = 70 \\cdot 160 = 11200$ (nghìn đồng), không phải $12000$.\nd) Đúng. Khi $x = 30$: $R = 80 \\cdot 140 = 11200$ (nghìn đồng), bằng doanh thu khi $x = 20$. (Kiểm tra bằng đa thức: $-2 \\cdot 900 + 3000 + 10000 = 11200$ và $-2 \\cdot 400 + 2000 + 10000 = 11200$.)"
+        },
+        {
+          "kind": "short",
+          "prompt": "Tính giá trị của biểu thức $S = x^2y + 2x^2y + 3x^2y + \\dots + 20x^2y$ tại $x = -1$, $y = 0{,}1$.",
+          "answer": ["21"],
+          "points": 0.5,
+          "verify": "(() => { const x = -1, y = 0.1; let s = 0; for (let k = 1; k <= 20; k++) s += k*x*x*y; return s; })()",
+          "explanation": "Các hạng tử là các đơn thức đồng dạng (cùng phần biến $x^2y$), nên\n$$S = (1 + 2 + 3 + \\dots + 20)x^2y = 210x^2y,$$\nvì $1 + 2 + \\dots + 20 = \\frac{20 \\cdot 21}{2} = 210$.\nTại $x = -1$, $y = 0{,}1$: $x^2y = 1 \\cdot 0{,}1 = 0{,}1$, nên $S = 210 \\cdot 0{,}1 = 21$.\nĐáp số: $21$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai đa thức $A = 4x^2 - 5xy + 3y^2$ và $B = 3x^2 + 2xy - y^2$. Tìm đa thức $C$ sao cho $A + C = 2B$, rồi tính giá trị của $C$ tại $x = 3$, $y = -2$.",
+          "answer": ["-56"],
+          "points": 0.5,
+          "verify": "(() => { const x = 3, y = -2; const A = 4*x*x - 5*x*y + 3*y*y, B = 3*x*x + 2*x*y - y*y; return 2*B - A; })()",
+          "explanation": "Từ $A + C = 2B$ suy ra $C = 2B - A$:\n$$C = 6x^2 + 4xy - 2y^2 - 4x^2 + 5xy - 3y^2 = 2x^2 + 9xy - 5y^2.$$\nTại $x = 3$, $y = -2$: $C = 2 \\cdot 9 + 9 \\cdot 3 \\cdot (-2) - 5 \\cdot 4 = 18 - 54 - 20 = -56$.\n(Kiểm tra: $A = 78$, $B = 11$, $2B - A = 22 - 78 = -56$.)\nĐáp số: $-56$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm hằng số $a$ để khi thực hiện phép nhân $(x^2 + ax + 2)(x - 3)$, đa thức thu được không có hạng tử chứa $x^2$. Với giá trị $a$ đó, hệ số của $x$ trong đa thức thu được là bao nhiêu?",
+          "answer": ["-7"],
+          "points": 0.5,
+          "verify": "(() => { for (let a = -20; a <= 20; a++) { const p = [2, a, 1], q = [-3, 1]; const r = [0, 0, 0, 0]; p.forEach((u, i) => q.forEach((v, j) => { r[i + j] += u*v; })); if (r[2] === 0) return r[1]; } })()",
+          "explanation": "Thực hiện phép nhân:\n$$(x^2 + ax + 2)(x - 3) = x^3 - 3x^2 + ax^2 - 3ax + 2x - 6 = x^3 + (a - 3)x^2 + (2 - 3a)x - 6.$$\nKhông có hạng tử chứa $x^2$ khi $a - 3 = 0$, tức $a = 3$.\nKhi đó hệ số của $x$ là $2 - 3 \\cdot 3 = -7$ (đa thức là $x^3 - 7x - 6$).\nĐáp số: $-7$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Một mảnh đất hình chữ nhật có diện tích $(6x^2y + 9xy^2)$ m² và chiều rộng $3xy$ m ($x > 0$, $y > 0$). Tính chu vi mảnh đất (m) khi $x = 2$, $y = 1$.",
+          "answer": ["26"],
+          "points": 0.5,
+          "verify": "(() => { const x = 2, y = 1; const w = 3*x*y, l = (6*x*x*y + 9*x*y*y) / w; return 2*(l + w); })()",
+          "explanation": "Chiều dài $=$ diện tích $:$ chiều rộng:\n$$(6x^2y + 9xy^2) : 3xy = 2x + 3y \\ \\text{(m)}.$$\nChu vi $= 2(2x + 3y + 3xy)$ (m).\nKhi $x = 2$, $y = 1$: chiều dài $7$ m, chiều rộng $6$ m, chu vi $2(7 + 6) = 26$ (m).\nĐáp số: $26$."
+        }
+      ]
+    },
+    {
+      "slug": "toan8-da-thuc-gioi-03",
+      "title": "Đa thức — Đề 3",
+      "level": "gioi",
+      "sort_order": 3,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 3 (nâng cao): tìm số mũ từ bậc của tích, dấu của đơn thức; tìm tham số từ giá trị đa thức; tìm hai đa thức biết tổng và hiệu; rút gọn rồi tính giá trị nhanh; chứng minh chia hết; tìm đa thức bị chia, đồng nhất hệ số thương; bài toán thùng hàng, bể nước.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Tìm số tự nhiên $n$, biết tích của hai đơn thức $2x^ny^3$ và $-x^2y^n$ là một đơn thức có bậc bằng $11$.",
+          "options": ["$3$", "$6$", "$4$", "$8$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(() => { for (let n = 0; n <= 20; n++) { const M = (x, y) => 2*x**n*y**3 * (-(x**2)*y**n); if (Math.round(Math.log2(M(2, 2) / M(1, 1))) === 11) return n; } })()",
+          "explanation": "Tích: $2x^ny^3 \\cdot (-x^2y^n) = -2x^{n+2}y^{n+3}$.\nBậc của tích là $(n + 2) + (n + 3) = 2n + 5$. Ta có $2n + 5 = 11$, suy ra $n = 3$. Chọn A.\nThử lại: với $n = 3$, tích là $-2x^5y^6$ có bậc $11$.\nLỗi thường gặp: chỉ tính số mũ $n$ một lần, được $n + 5 = 11$, $n = 6$ (phương án B); quên số mũ của $x^2$, được $2n + 3 = 11$, $n = 4$ (phương án C); chỉ xét bậc của đơn thức thứ nhất $n + 3 = 11$, $n = 8$ (phương án D)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai đơn thức $A = -2x^2y^4$ và $B = 3x^4y^2$. Khẳng định nào sau đây đúng?",
+          "options": ["$A \\cdot B$ là đơn thức bậc $8$.", "$A + B \\ge 0$ với mọi $x$, $y$.", "$A \\cdot B \\le 0$ với mọi $x$, $y$.", "$A$ và $B$ là hai đơn thức đồng dạng."],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "$A \\cdot B = (-2 \\cdot 3)x^6y^6 = -6x^6y^6$. Vì $x^6 \\ge 0$, $y^6 \\ge 0$ (số mũ chẵn) nên $-6x^6y^6 \\le 0$ với mọi $x$, $y$. Khẳng định C đúng. Chọn C.\n- A sai: bậc của $A \\cdot B$ là $6 + 6 = 12$ (không phải $8$; lỗi cộng nhầm số mũ $4 + 4$).\n- B sai: chẳng hạn $x = 1$, $y = 2$ thì $A = -32$, $B = 12$, $A + B = -20 < 0$.\n- D sai: $A$ và $B$ cùng bậc $6$ nhưng phần biến khác nhau ($x^2y^4$ và $x^4y^2$), nên không đồng dạng."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho đa thức $P = x^3 - 2x^2y + mxy^2 + 3x^2y - y^3$ ($m$ là hằng số). Biết giá trị của $P$ tại $x = 1$, $y = -1$ bằng $4$. Giá trị của $m$ là",
+          "options": ["$5$", "$3$", "$-3$", "$7$"],
+          "answer": 1,
+          "points": 0.5,
+          "verify": "(() => { for (let m = -20; m <= 20; m++) { const x = 1, y = -1; if (x**3 - 2*x*x*y + m*x*y*y + 3*x*x*y - y**3 === 4) return m; } })()",
+          "explanation": "Thu gọn: $P = x^3 + x^2y + mxy^2 - y^3$.\nTại $x = 1$, $y = -1$: $x^3 = 1$; $x^2y = -1$; $mxy^2 = m \\cdot 1 \\cdot 1 = m$; $-y^3 = -(-1) = 1$.\nDo đó $P = 1 - 1 + m + 1 = m + 1$. Từ $m + 1 = 4$ suy ra $m = 3$. Chọn B.\nLỗi thường gặp: tính $-y^3 = -1$ (quên $(-1)^3 = -1$) nên $m - 1 = 4$, $m = 5$ (phương án A); tính $y^2 = -1$ nên $-m + 1 = 4$, $m = -3$ (phương án C); sai dấu hạng tử $-2x^2y$ nên ra $m = 7$ (phương án D)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hai đa thức $M$ và $N$ thỏa mãn $M + N = 5x^2 - xy + 3$ và $M - N = x^2 + 3xy - 7$. Đa thức $M$ là",
+          "options": ["$2x^2 - 2xy + 5$", "$6x^2 + 2xy - 4$", "$3x^2 + xy - 2$", "$4x^2 - 4xy + 10$"],
+          "answer": 2,
+          "points": 0.5,
+          "explanation": "Cộng vế với vế hai đẳng thức: $(M + N) + (M - N) = 2M$, nên\n$$2M = (5x^2 - xy + 3) + (x^2 + 3xy - 7) = 6x^2 + 2xy - 4.$$\nChia cho $2$: $M = 3x^2 + xy - 2$. Chọn C.\n(Khi đó $N = (5x^2 - xy + 3) - M = 2x^2 - 2xy + 5$; thử lại $M - N = x^2 + 3xy - 7$, đúng.)\nLỗi thường gặp: quên chia cho $2$ (phương án B); nhầm sang đa thức $N$ (phương án A); lấy $(M + N) - (M - N) = 2N$ rồi tưởng là $M$ (phương án D)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Giá trị của biểu thức $A = x(x^2 - y) - x^2(x + y) + y(x^2 - x)$ tại $x = \\frac{1}{2}$, $y = -100$ là",
+          "options": ["$-100$", "$50$", "$-50$", "$100$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "(() => { const x = 1/2, y = -100; return x*(x*x - y) - x*x*(x + y) + y*(x*x - x); })()",
+          "explanation": "Rút gọn trước khi thay số:\n$$A = x^3 - xy - x^3 - x^2y + x^2y - xy = -2xy.$$\nTại $x = \\frac{1}{2}$, $y = -100$: $A = -2 \\cdot \\frac{1}{2} \\cdot (-100) = 100$. Chọn D.\nLỗi thường gặp: bỏ sót một hạng tử $-xy$ nên $A = -xy = 50$ (phương án B); sai dấu khi nhân với $y = -100$ nên ra $-100$ (phương án A)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Với mọi số nguyên $n$, giá trị của biểu thức $n(2n - 3) - 2n(n + 1)$ luôn chia hết cho số nào sau đây?",
+          "options": ["$2$", "$3$", "$7$", "$5$"],
+          "answer": 3,
+          "points": 0.5,
+          "verify": "[2, 3, 7, 5].find(d => Array.from({length: 41}, (_, i) => i - 20).every(n => (n*(2*n - 3) - 2*n*(n + 1)) % d === 0))",
+          "explanation": "Rút gọn: $n(2n - 3) - 2n(n + 1) = 2n^2 - 3n - 2n^2 - 2n = -5n$.\nVì $n$ là số nguyên nên $-5n$ luôn chia hết cho $5$. Chọn D.\nCác số $2$, $3$, $7$ không thỏa mãn: chẳng hạn $n = 1$ thì biểu thức bằng $-5$, không chia hết cho $2$, $3$, $7$.\nLỗi thường gặp: bỏ ngoặc $-2n(n + 1)$ thành $-2n^2 + 2n$ nên được $-n$, rồi chọn bừa; hoặc nhìn số $2$ trong $2n^2$ mà chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Đa thức $A$ thỏa mãn $A : (-2x^2y) = 3x^2y^2 - 2xy + 1$ là",
+          "options": ["$-6x^4y^3 - 4x^3y^2 - 2x^2y$", "$-6x^4y^3 + 4x^3y^2 - 2x^2y$", "$-6x^4y^3 + 4x^3y^2 + 1$", "$6x^4y^3 - 4x^3y^2 + 2x^2y$"],
+          "answer": 1,
+          "points": 0.5,
+          "explanation": "Số bị chia $=$ thương $\\times$ số chia:\n$$A = (-2x^2y)(3x^2y^2 - 2xy + 1) = -6x^4y^3 + 4x^3y^2 - 2x^2y.$$\nChọn B.\nThử lại: $(-6x^4y^3 + 4x^3y^2 - 2x^2y) : (-2x^2y) = 3x^2y^2 - 2xy + 1$.\nLỗi thường gặp: tính $(-2x^2y)(-2xy) = -4x^3y^2$ (sai dấu, phương án A); quên nhân $-2x^2y$ với hạng tử $1$ (phương án C); bỏ dấu \"$-$\" của số chia (phương án D)."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Một bể nước dạng hình hộp chữ nhật có thể tích $(6x^3 + 4x^2)$ dm³ và diện tích đáy $2x^2$ dm² ($x > 0$). Khi $x = 4$, chiều cao của bể là bao nhiêu đềximét?",
+          "options": ["$14$", "$12$", "$20$", "$50$"],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "(() => { const x = 4; return (6*x**3 + 4*x*x) / (2*x*x); })()",
+          "explanation": "Chiều cao $=$ thể tích $:$ diện tích đáy:\n$$(6x^3 + 4x^2) : 2x^2 = 3x + 2 \\ \\text{(dm)}.$$\nKhi $x = 4$: chiều cao $= 3 \\cdot 4 + 2 = 14$ (dm). Chọn A.\n(Kiểm tra: thể tích $6 \\cdot 64 + 4 \\cdot 16 = 448$ dm³, diện tích đáy $32$ dm², $448 : 32 = 14$.)\nLỗi thường gặp: cho rằng $4x^2 : 2x^2 = 0$ nên chiều cao $3x = 12$ (phương án B); chia $4x^2 : 2x^2 = 2x$ nên ra $5x = 20$ (phương án C); chia số mũ $6x^3 : 2x^2 = 3x^2$ nên ra $3x^2 + 2 = 50$ (phương án D)."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho biểu thức $A = (x + 3)(x^2 - 2x + 1) - x(x^2 + x - 5)$ và $B = (6x^4 - 9x^3 + 3x^2) : 3x^2$ với $x \\ne 0$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Hệ số của $x^2$ trong đa thức thu gọn của tích $(x + 3)(x^2 - 2x + 1)$ bằng $1$.",
+            "Giá trị của $A$ không phụ thuộc vào giá trị của $x$.",
+            "$B = 2x^2 - 3x$.",
+            "Có số nguyên $x$ ($x \\ne 0$) để $A \\cdot B = 3$."
+          ],
+          "answer": [true, true, false, false],
+          "points": 2,
+          "verify": "(() => { const A = x => (x + 3)*(x*x - 2*x + 1) - x*(x*x + x - 5); const B = x => (6*x**4 - 9*x**3 + 3*x*x) / (3*x*x); const p = [3, 1], q = [1, -2, 1]; const r = [0, 0, 0, 0]; p.forEach((u, i) => q.forEach((v, j) => { r[i + j] += u*v; })); const xs = [-5, -2, -1, 1, 2, 3, 10]; const ints = Array.from({length: 201}, (_, i) => i - 100).filter(x => x !== 0); return [r[2] === 1, xs.every(x => A(x) === A(1)), xs.every(x => B(x) === 2*x*x - 3*x), ints.some(x => A(x)*B(x) === 3)]; })()",
+          "explanation": "$(x + 3)(x^2 - 2x + 1) = x^3 - 2x^2 + x + 3x^2 - 6x + 3 = x^3 + x^2 - 5x + 3$.\n$x(x^2 + x - 5) = x^3 + x^2 - 5x$. Do đó $A = 3$.\n$B = 6x^4 : 3x^2 - 9x^3 : 3x^2 + 3x^2 : 3x^2 = 2x^2 - 3x + 1$.\na) Đúng. Hệ số của $x^2$ là $-2 + 3 = 1$.\nb) Đúng. $A = 3$ với mọi $x$.\nc) Sai. $3x^2 : 3x^2 = 1$ (không phải $0$), nên $B = 2x^2 - 3x + 1$.\nd) Sai. $A \\cdot B = 3(2x^2 - 3x + 1) = 3$ khi $2x^2 - 3x + 1 = 1$, tức $x(2x - 3) = 0$, nên $x = 0$ hoặc $x = \\frac{3}{2}$. Nhưng $x \\ne 0$ (điều kiện của phép chia cho $3x^2$) và $\\frac{3}{2}$ không phải số nguyên. Vậy không có số nguyên $x$ nào thỏa mãn."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Một thùng hàng dạng hình hộp chữ nhật có chiều rộng $x$ dm, chiều dài hơn chiều rộng $2$ dm và chiều cao hơn chiều rộng $1$ dm ($x > 0$). Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Diện tích đáy thùng là $(x^2 + 2x)$ dm².",
+            "Thể tích thùng là $(x^3 + 2x^2 + 2x)$ dm³.",
+            "Diện tích xung quanh của thùng là $(4x^2 + 6x + 2)$ dm².",
+            "Nếu tăng mỗi kích thước của thùng thêm $1$ dm thì thể tích tăng thêm $(3x^2 + 9x + 6)$ dm³."
+          ],
+          "answer": [true, false, false, true],
+          "points": 2,
+          "verify": "(() => { const xs = [1, 2, 3, 4, 5]; const V = x => x*(x + 2)*(x + 1); const Sxq = x => 2*(x + (x + 2))*(x + 1); return [xs.every(x => x*(x + 2) === x*x + 2*x), xs.every(x => V(x) === x**3 + 2*x*x + 2*x), xs.every(x => Sxq(x) === 4*x*x + 6*x + 2), xs.every(x => V(x + 1) - V(x) === 3*x*x + 9*x + 6)]; })()",
+          "explanation": "Các kích thước: chiều rộng $x$, chiều dài $x + 2$, chiều cao $x + 1$ (dm).\na) Đúng. Diện tích đáy $= x(x + 2) = x^2 + 2x$ (dm²).\nb) Sai. Thể tích $= (x^2 + 2x)(x + 1) = x^3 + x^2 + 2x^2 + 2x = x^3 + 3x^2 + 2x$ (dm³). Kết quả $x^3 + 2x^2 + 2x$ bỏ sót tích $x^2 \\cdot 1$.\nc) Sai. Diện tích xung quanh $=$ chu vi đáy $\\times$ chiều cao $= 2(x + x + 2)(x + 1) = (4x + 4)(x + 1) = 4x^2 + 8x + 4$ (dm²).\nd) Đúng. Kích thước mới: $x + 1$, $x + 3$, $x + 2$. Thể tích mới: $(x + 1)(x + 3)(x + 2) = (x^2 + 4x + 3)(x + 2) = x^3 + 6x^2 + 11x + 6$. Phần tăng thêm: $(x^3 + 6x^2 + 11x + 6) - (x^3 + 3x^2 + 2x) = 3x^2 + 9x + 6$ (dm³)."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho hai đơn thức $A = -\\frac{2}{3}ax^3y^2$ ($a$ là hằng số khác $0$) và $B = 6x^2y^3$. Biết giá trị của tích $A \\cdot B$ tại $x = 1$, $y = -1$ bằng $12$. Tìm $a$.",
+          "answer": ["3"],
+          "points": 0.5,
+          "verify": "(() => { for (let a = -20; a <= 20; a++) { const x = 1, y = -1; if (a !== 0 && Math.abs((-2/3*a*x**3*y**2) * (6*x*x*y**3) - 12) < 1e-9) return a; } })()",
+          "explanation": "Thu gọn tích: $A \\cdot B = \\left(-\\frac{2}{3}a \\cdot 6\\right)x^5y^5 = -4ax^5y^5$.\nTại $x = 1$, $y = -1$: $-4a \\cdot 1 \\cdot (-1)^5 = -4a \\cdot (-1) = 4a$.\nTa có $4a = 12$, suy ra $a = 3$.\nĐáp số: $3$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho đa thức $A = (m - 1)x^3 + 2x^2 - 5x^3 + mx^2 - 4$ ($m$ là hằng số). Biết $A$ là đa thức bậc $2$. Tìm hệ số của $x^2$ trong đa thức $A$ (sau khi thu gọn).",
+          "answer": ["8"],
+          "points": 0.5,
+          "verify": "(() => { for (let m = -20; m <= 20; m++) { const P = x => (m - 1)*x**3 + 2*x*x - 5*x**3 + m*x*x - 4; const c3 = (P(2) - 2*P(1) + 2*P(-1) - P(-2)) / 12; const c2 = (P(1) + P(-1)) / 2 - P(0); if (c3 === 0 && c2 !== 0) return c2; } })()",
+          "explanation": "Thu gọn: $A = (m - 1 - 5)x^3 + (2 + m)x^2 - 4 = (m - 6)x^3 + (m + 2)x^2 - 4$.\n$A$ có bậc $2$ khi hệ số của $x^3$ bằng $0$ và hệ số của $x^2$ khác $0$: $m - 6 = 0$, tức $m = 6$; khi đó $m + 2 = 8 \\ne 0$ (thỏa mãn).\nVậy $A = 8x^2 - 4$, hệ số của $x^2$ là $8$.\nĐáp số: $8$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Tìm $x$, biết $(x + 2)(x^2 - 2x + 4) - x(x^2 - 3) = 23$.",
+          "answer": ["5"],
+          "points": 0.5,
+          "verify": "(() => { for (let x = -50; x <= 50; x++) if ((x + 2)*(x*x - 2*x + 4) - x*(x*x - 3) === 23) return x; })()",
+          "explanation": "Thực hiện phép nhân:\n$(x + 2)(x^2 - 2x + 4) = x^3 - 2x^2 + 4x + 2x^2 - 4x + 8 = x^3 + 8$;\n$x(x^2 - 3) = x^3 - 3x$.\nVế trái $= x^3 + 8 - x^3 + 3x = 3x + 8$.\nTa có $3x + 8 = 23$, suy ra $3x = 15$, $x = 5$.\nĐáp số: $5$."
+        },
+        {
+          "kind": "short",
+          "prompt": "Biết $(ax^4y^3 - 10x^3y^2 + bx^2y^4) : (-2x^2y^2) = 3x^2y + cx - 2y^2$ ($a$, $b$, $c$ là hằng số). Tính $a + b + c$.",
+          "answer": ["3"],
+          "points": 0.5,
+          "verify": "(() => { const pts = [[1, 1], [2, 1], [1, 2], [-1, 3], [2, -3]]; for (let a = -20; a <= 20; a++) for (let b = -20; b <= 20; b++) for (let c = -20; c <= 20; c++) if (pts.every(([x, y]) => (a*x**4*y**3 - 10*x**3*y*y + b*x*x*y**4) / (-2*x*x*y*y) === 3*x*x*y + c*x - 2*y*y)) return a + b + c; })()",
+          "explanation": "Chia từng hạng tử cho $-2x^2y^2$:\n$$ax^4y^3 : (-2x^2y^2) = -\\frac{a}{2}x^2y;\\quad -10x^3y^2 : (-2x^2y^2) = 5x;\\quad bx^2y^4 : (-2x^2y^2) = -\\frac{b}{2}y^2.$$\nSo sánh với $3x^2y + cx - 2y^2$:\n- $-\\frac{a}{2} = 3$, suy ra $a = -6$;\n- $c = 5$;\n- $-\\frac{b}{2} = -2$, suy ra $b = 4$.\nVậy $a + b + c = -6 + 4 + 5 = 3$.\nĐáp số: $3$."
+        }
+      ]
+    }
+  ]
+}

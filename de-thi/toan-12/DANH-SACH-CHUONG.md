@@ -12,3 +12,8 @@ Nguồn đối chiếu: mục lục SGK Toán 12 KNTT (vietjack.com/toan-12-kn, 
 | VI (Tập 2) | Xác suất có điều kiện | Bài 18 Xác suất có điều kiện; Bài 19 Công thức xác suất toàn phần và công thức Bayes | `xac-suat-co-dieu-kien` |
 
 Mỗi chương: 10 đề (3 mức độ 1 `-tb`, 4 mức độ 2 `-kha`, 3 mức độ 3 `-gioi`), file `de-thi/toan-12/<slug>-<mức>.json`, slug đề `toan12-<slug>-<mức>-<nn>`.
+
+## Tiến độ
+| Chương | Số đề | Trạng thái |
+|---|---|---|
+| I. Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số (`ung-dung-dao-ham`) | 10 (3 · 4 · 3) | đã tải lên ngân hàng đề 25/11/2026 (mức độ 2 và 3 soạn ngày 24/11/2026) |

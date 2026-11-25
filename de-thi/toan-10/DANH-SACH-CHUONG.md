@@ -16,3 +16,8 @@ Nguồn đối chiếu: mục lục SGK trên vietjack.com và loigiaihay.com (h
 | IX | Tính xác suất theo định nghĩa cổ điển | Bài 26. Biến cố và định nghĩa cổ điển của xác suất; Bài 27. Thực hành tính xác suất theo định nghĩa cổ điển | `xac-suat-co-dien` |
 
 Mỗi chương: 10 đề (3 đề mức độ 1, 4 đề mức độ 2, 3 đề mức độ 3) trong `<slug>-tb.json`, `<slug>-kha.json`, `<slug>-gioi.json`.
+
+## Tiến độ
+| Chương | Số đề | Trạng thái |
+|---|---|---|
+| I. Mệnh đề và tập hợp (`menh-de-tap-hop`) | 10 (3 · 4 · 3) | đã tải lên ngân hàng đề 25/11/2026 (mức độ 2 và 3 soạn ngày 24/11/2026) |

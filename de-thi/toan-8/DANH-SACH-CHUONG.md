@@ -20,3 +20,8 @@ Mỗi chương là một chuyên đề trên ngân hàng đề: 10 đề (3 mứ
 | X | Một số hình khối trong thực tiễn | Bài 38–39: Hình chóp tam giác đều; Hình chóp tứ giác đều | `hinh-khoi-thuc-tien` | |
 
 Ghi chú: đề không dùng hình vẽ (website chưa hỗ trợ ảnh khi nhập tự động), nên câu hình học và biểu đồ được mô tả bằng lời / bảng số liệu viết trong đề.
+
+## Tiến độ
+| Chương | Số đề | Trạng thái |
+|---|---|---|
+| I. Đa thức (`da-thuc`) | 10 (3 mức độ 1 · 4 mức độ 2 · 3 mức độ 3) | đã tải lên ngân hàng đề 25/11/2026 (mức độ 2 và 3 soạn ngày 24/11/2026) |
