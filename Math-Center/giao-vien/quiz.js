@@ -3,6 +3,7 @@ import { sb, el, fmtNum, toast, errMsg, openDialog, uploadTo, BUCKET, fmtDateTim
 import {
   rich, imageUrls, qImage, KIND_LABEL, DEFAULT_POINTS, LETTERS, TF_LETTERS, reviewQuestion, fmtDeadline,
 } from '../portal/quiz-common.js?v=20261124g';
+import { downloadQuizPdf } from '../portal/pdf-export.js?v=20261125a';
 
 let ctx; // { state, classSelect, rerender }
 let opts = {}; // { bank: true, back } khi mở từ Ngân hàng đề
@@ -184,6 +185,10 @@ async function renderEditor(view, quizId) {
     el('div', { class: 'row', style: 'margin-bottom:16px' },
       el('button', { class: 'btn btn-outline btn-sm', text: bank ? '← Ngân hàng đề' : '← Danh sách đề', onclick: back }),
       el('button', { class: 'btn btn-outline btn-sm', text: 'Xem như học sinh', onclick: () => previewAsStudent(z, questions, urls) }),
+      el('button', { class: 'btn btn-navy btn-sm', text: 'Tải đề (PDF)',
+        onclick: (e) => downloadQuizPdf(z, questions, urls, { button: e.currentTarget }) }),
+      el('button', { class: 'btn btn-gold btn-sm', text: 'Tải đáp án (PDF)',
+        onclick: (e) => downloadQuizPdf(z, questions, urls, { keyMap, withKey: true, button: e.currentTarget }) }),
       canDelete ? el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa đề', disabled: locked,
         title: locked ? 'Đề đã có học sinh làm nên không xóa được' : 'Xóa đề',
         onclick: () => deleteQuiz(z, back) }) : null),

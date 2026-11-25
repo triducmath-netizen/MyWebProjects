@@ -3,6 +3,7 @@ import { sb, el, fmtNum, toast, errMsg, openDialog, fmtDateTime, askConfirm } fr
 import {
   rich, imageUrls, qImage, KIND_LABEL, LETTERS, TF_LETTERS, reviewQuestion, isAnswered, fmtDeadline,
 } from '../portal/quiz-common.js?v=20261124g';
+import { downloadQuizPdf } from '../portal/pdf-export.js?v=20261125a';
 
 let timer = null;
 let leaveGuard = null;
@@ -233,7 +234,9 @@ async function begin(box, student, z) {
   const progress = el('span', { class: 'progress' });
   const saved = el('span', { class: 'saved muted small', 'aria-live': 'polite' });
   const submitBtn = el('button', { class: 'btn btn-gold btn-sm', text: 'Nộp bài' });
-  const bar = el('div', { class: 'quiz-bar' }, el('b', { class: 'quiz-title', text: z.title }), progress, saved, clock, submitBtn);
+  const pdfBtn = el('button', { class: 'btn btn-outline btn-sm', text: 'Tải đề (PDF)', title: 'Tải đề về máy để in ra giấy',
+    onclick: (e) => downloadQuizPdf(z, questions, urls, { button: e.currentTarget }) });
+  const bar = el('div', { class: 'quiz-bar' }, el('b', { class: 'quiz-title', text: z.title }), progress, saved, clock, pdfBtn, submitBtn);
 
   const nav = el('div', { class: 'q-nav', 'aria-label': 'Chuyển nhanh đến câu' });
   const updateProgress = () => {
@@ -372,7 +375,9 @@ async function showResult(box, student, z, attemptId) {
 
   box.replaceChildren(
     el('div', { class: 'row', style: 'margin-bottom:16px' },
-      el('button', { class: 'btn btn-outline btn-sm', text: '← Danh sách bài', onclick: () => renderQuizList(box, student) })),
+      el('button', { class: 'btn btn-outline btn-sm', text: '← Danh sách bài', onclick: () => renderQuizList(box, student) }),
+      el('button', { class: 'btn btn-navy btn-sm', text: 'Tải đề (PDF)',
+        onclick: (e) => downloadQuizPdf(z, questions, urls, { button: e.currentTarget }) })),
     el('div', { class: 'panel result-hero' },
       el('p', { class: 'eyebrow dark', text: 'Kết quả bài làm' }),
       el('h2', { text: z.title }),
