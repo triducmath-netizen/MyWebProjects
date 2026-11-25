@@ -4,8 +4,8 @@ import {
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm, copyBox, fmtDateTime,
 } from '../portal/common.js?v=20261124g';
 import { SUPABASE_URL } from '../portal/config.js';
-import { renderQuizTab } from './quiz.js?v=20261125a';
-import { renderBankTab } from './bank.js?v=20261125a';
+import { renderQuizTab } from './quiz.js?v=20261201a';
+import { renderBankTab } from './bank.js?v=20261201a';
 
 const app = $('#app');
 const top = $('#top-actions');

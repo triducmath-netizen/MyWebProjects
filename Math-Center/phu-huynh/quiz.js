@@ -2,8 +2,8 @@
 import { sb, el, fmtNum, toast, errMsg, openDialog, fmtDateTime, askConfirm } from '../portal/common.js?v=20261124g';
 import {
   rich, imageUrls, qImage, KIND_LABEL, LETTERS, TF_LETTERS, reviewQuestion, isAnswered, fmtDeadline,
-} from '../portal/quiz-common.js?v=20261124g';
-import { downloadQuizPdf } from '../portal/pdf-export.js?v=20261125a';
+} from '../portal/quiz-common.js?v=20261201a';
+import { downloadQuizPdf } from '../portal/pdf-export.js?v=20261201a';
 
 let timer = null;
 let leaveGuard = null;
@@ -27,7 +27,8 @@ const levelName = (lv) => LEVELS.find((l) => l[0] === lv)?.[1] ?? lv;
 // Lựa chọn hiện tại, giữ nguyên khi quay lại từ trang làm bài / kết quả.
 const nav = { mode: 'practice', grade: null, topic: null, level: null };
 
-const ATTEMPT_COLS = 'id, quiz_id, deadline_at, submitted_at, score, max_score';
+const ATTEMPT_COLS = 'id, quiz_id, deadline_at, submitted_at, score, max_score, mode';
+const MODE_NOTE = { paper: 'Bài làm trên giấy · em tự nhập phiếu trả lời', manual: 'Bài làm trên giấy · giáo viên chấm' };
 const QUIZ_COLS = 'id, title, description, time_limit_min, opens_at, due_at, show_key_after, question_count, class_id, grade, topic, level, sort_order';
 
 async function loadAttempts(student) {
@@ -60,6 +61,7 @@ function quizItem(box, student, z, a) {
   const info = [`${nq} câu`, z.time_limit_min ? `${z.time_limit_min} phút` : 'Không giới hạn thời gian',
     z.due_at ? `Hạn nộp: ${fmtDeadline(z.due_at)}` : null].filter(Boolean).join(' · ');
   let right;
+  let available = false;
   if (a?.submitted_at) {
     right = el('div', { class: 'quiz-status' },
       el('div', { class: 'score' }, el('b', { text: fmtNum(a.score) }), el('span', { text: ` / ${fmtNum(a.max_score)}` })),
@@ -71,12 +73,100 @@ function quizItem(box, student, z, a) {
   } else if (z.due_at && new Date(z.due_at) <= now) {
     right = el('span', { class: 'badge warn', text: 'Đã hết hạn' });
   } else {
-    right = el('button', { class: 'btn btn-gold', text: 'Bắt đầu làm bài', onclick: () => confirmStart(box, student, z, nq) });
+    available = true;
+    const practice = z.class_id == null;
+    right = el('div', { class: 'acts' },
+      el('button', { class: 'btn btn-gold', text: 'Làm trên web', onclick: () => confirmStart(box, student, z, nq) }),
+      el('button', { class: 'btn btn-outline btn-sm', text: 'Tải đề (PDF)', title: 'Tải đề về in ra giấy — đồng hồ không chạy',
+        onclick: (e) => downloadPaper(z, e.currentTarget) }),
+      practice ? el('button', { class: 'btn btn-outline btn-sm', text: 'Nhập đáp án bài giấy',
+        title: 'Làm xong trên giấy thì nhập đáp án để được chấm điểm', onclick: () => answerSheet(box, student, z) }) : null);
   }
+  const hint = available
+    ? (z.class_id == null
+      ? 'Làm trên giấy: tải đề, làm xong bấm "Nhập đáp án bài giấy" để được chấm điểm.'
+      : 'Làm trên giấy: tải đề, làm xong nộp bài cho thầy cô để thầy cô nhập điểm.')
+    : null;
   return el('div', { class: 'item' },
     el('div', { class: 'meta' }, el('b', { text: z.title }), el('span', { class: 'muted small', text: info }),
-      a && !a.submitted_at ? el('span', { class: 'badge', text: 'Đang làm dở' }) : null),
+      a && !a.submitted_at ? el('span', { class: 'badge', text: 'Đang làm dở' }) : null,
+      a?.submitted_at && MODE_NOTE[a.mode] ? el('span', { class: 'muted small', text: MODE_NOTE[a.mode] }) : null,
+      hint ? el('span', { class: 'muted small', text: hint }) : null),
     right);
+}
+
+// =====================================================================
+// Làm bài trên giấy
+// =====================================================================
+async function paperQuestions(z) {
+  const { data, error } = await sb.rpc('quiz_paper_questions', { p_quiz: z.id });
+  if (error) throw error;
+  return data || [];
+}
+
+async function downloadPaper(z, button) {
+  try {
+    const questions = await paperQuestions(z);
+    const urls = await imageUrls(questions.map((q) => q.image_path));
+    await downloadQuizPdf(z, questions, urls, { button });
+  } catch (err) { toast(errMsg(err), 'error'); }
+}
+
+// Phiếu trả lời: nhập đáp án bài đã làm trên giấy để máy chấm (chỉ đề luyện tập).
+async function answerSheet(box, student, z) {
+  stopTaking();
+  box.replaceChildren(el('p', { class: 'muted', text: 'Đang tải phiếu trả lời…' }));
+  let questions;
+  try { questions = await paperQuestions(z); } catch (err) { box.replaceChildren(el('p', { class: 'error-text', text: errMsg(err) })); return; }
+  const answers = {};
+  const rows = questions.map((q, i) => {
+    const name = `ps${q.id}`;
+    let input;
+    if (q.kind === 'mcq') {
+      input = el('div', { class: 'sheet-opts', role: 'radiogroup', 'aria-label': `Câu ${i + 1}` }, LETTERS.map((L, k) =>
+        el('label', { class: 'sheet-pick' },
+          el('input', { type: 'radio', name, onchange: () => { answers[q.id] = k; } }), el('span', { text: L }))));
+    } else if (q.kind === 'tf') {
+      input = el('div', { class: 'sheet-tf' }, TF_LETTERS.map((L, k) => {
+        const set = (v) => { const arr = Array.isArray(answers[q.id]) ? [...answers[q.id]] : [null, null, null, null]; arr[k] = v; answers[q.id] = arr; };
+        return el('div', { class: 'sheet-tf-row' }, el('b', { text: `${L})` }),
+          el('label', { class: 'sheet-pick' }, el('input', { type: 'radio', name: `${name}-${k}`, onchange: () => set(true) }), el('span', { text: 'Đ' })),
+          el('label', { class: 'sheet-pick' }, el('input', { type: 'radio', name: `${name}-${k}`, onchange: () => set(false) }), el('span', { text: 'S' })));
+      }));
+    } else {
+      const inp = el('input', { class: 'short-input', inputmode: 'text', autocomplete: 'off', placeholder: 'Đáp số', 'aria-label': `Đáp số câu ${i + 1}` });
+      inp.addEventListener('input', () => { answers[q.id] = inp.value.replace(/[−‒–—﹣－]/g, '-'); });
+      input = inp;
+    }
+    return el('div', { class: 'sheet-row' },
+      el('span', { class: 'sheet-num', text: `Câu ${i + 1}` }),
+      el('span', { class: 'muted small sheet-kind', text: KIND_LABEL[q.kind] }),
+      input);
+  });
+  const submit = el('button', { class: 'btn btn-gold', text: 'Nộp phiếu trả lời' });
+  submit.addEventListener('click', async () => {
+    const left = questions.filter((q) => !isAnswered(q, answers[q.id])).length;
+    const msg = left
+      ? `Còn ${left} câu chưa nhập đáp án (sẽ tính 0 điểm). Vẫn nộp?`
+      : 'Nộp phiếu trả lời? Mỗi đề chỉ nộp 1 lần, sau khi nộp em không sửa được nữa.';
+    if (!await askConfirm(msg)) return;
+    submit.disabled = true; submit.textContent = 'Đang chấm…';
+    const { data, error } = await sb.rpc('submit_paper_quiz', { p_quiz: z.id, p_answers: answers });
+    if (error) { toast(errMsg(error), 'error'); submit.disabled = false; submit.textContent = 'Nộp phiếu trả lời'; return; }
+    toast('Đã chấm bài làm trên giấy của em.');
+    showResult(box, student, z, data.attempt_id);
+  });
+  box.replaceChildren(
+    el('div', { class: 'row', style: 'margin-bottom:16px' },
+      el('button', { class: 'btn btn-outline btn-sm', text: '← Danh sách bài', onclick: () => renderQuizList(box, student) }),
+      el('button', { class: 'btn btn-outline btn-sm', text: 'Tải đề (PDF)', onclick: (e) => downloadPaper(z, e.currentTarget) })),
+    el('div', { class: 'panel' },
+      el('p', { class: 'eyebrow dark', text: 'Phiếu trả lời bài làm trên giấy' }),
+      el('h2', { text: z.title }),
+      el('p', { class: 'muted', text: 'Chép đáp án em đã làm trên giấy vào phiếu này rồi bấm "Nộp phiếu trả lời". Máy sẽ chấm ngay và hiện lời giải chi tiết. Hãy nhập trung thực để biết đúng sức mình nhé!' })),
+    el('div', { class: 'panel section-gap answer-sheet' }, rows),
+    el('div', { class: 'quiz-end' }, submit));
+  window.scrollTo({ top: 0 });
 }
 
 // Phụ huynh: danh sách bài trực tuyến con đã làm.
@@ -84,7 +174,7 @@ const LEVEL_NAME = { tb: 'Mức độ 1', kha: 'Mức độ 2', gioi: 'Mức đ�
 async function renderChildAttempts(box, student) {
   box.replaceChildren(el('p', { class: 'muted', text: 'Đang tải…' }));
   const { data: attempts, error } = await sb.from('quiz_attempts')
-    .select('id, quiz_id, submitted_at, score, max_score, started_at, quizzes(id, title, class_id, grade, topic, level, due_at, show_key_after)')
+    .select('id, quiz_id, submitted_at, score, max_score, started_at, mode, quizzes(id, title, class_id, grade, topic, level, due_at, show_key_after)')
     .eq('student_id', student.id).order('started_at', { ascending: false });
   if (error) { box.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
   const done = (attempts || []).filter((a) => a.submitted_at && a.quizzes);
@@ -105,7 +195,8 @@ async function renderChildAttempts(box, student) {
       const kind = z.class_id ? 'Bài giáo viên giao' : `Luyện tập · Toán ${z.grade} · ${z.topic} · ${LEVEL_NAME[z.level] ?? ''}`;
       return el('div', { class: 'item' },
         el('div', { class: 'meta' }, el('b', { text: z.title }),
-          el('span', { class: 'muted small', text: `${kind} · Nộp lúc ${fmtDateTime(a.submitted_at)}` })),
+          el('span', { class: 'muted small', text: `${kind} · Nộp lúc ${fmtDateTime(a.submitted_at)}` }),
+          MODE_NOTE[a.mode] ? el('span', { class: 'muted small', text: MODE_NOTE[a.mode].replace('em tự', 'con tự') }) : null),
         el('div', { class: 'quiz-status' },
           el('div', { class: 'score' }, el('b', { text: fmtNum(a.score) }), el('span', { text: ` / ${fmtNum(a.max_score)}` })),
           el('button', { class: 'btn btn-outline btn-sm', text: 'Xem bài làm & lời giải', onclick: () => showResult(box, student, z, a.id) })));
@@ -372,6 +463,10 @@ async function showResult(box, student, z, attemptId) {
   const urls = await imageUrls([...questions.map((q) => q.image_path), ...(keys || []).map((k) => k.explanation_image_path)]);
   const on10 = a.max_score ? (Number(a.score) / Number(a.max_score)) * 10 : 0;
   const full = questions.filter((q) => Number(a.detail?.[q.id] ?? 0) >= Number(q.points)).length;
+  const manual = a.mode === 'manual';
+  const summary = manual
+    ? `Quy về thang 10: ${fmtNum(Math.round(on10 * 100) / 100)} · Bài làm trên giấy, giáo viên chấm · Nhập điểm lúc ${fmtDateTime(a.submitted_at)}`
+    : `Quy về thang 10: ${fmtNum(Math.round(on10 * 100) / 100)} · Đúng hoàn toàn ${full}/${questions.length} câu · ${a.mode === 'paper' ? 'Nộp phiếu bài giấy' : 'Nộp'} lúc ${fmtDateTime(a.submitted_at)}`;
 
   box.replaceChildren(
     el('div', { class: 'row', style: 'margin-bottom:16px' },
@@ -382,11 +477,11 @@ async function showResult(box, student, z, attemptId) {
       el('p', { class: 'eyebrow dark', text: 'Kết quả bài làm' }),
       el('h2', { text: z.title }),
       el('div', { class: 'big-score' }, el('b', { text: fmtNum(a.score) }), el('span', { text: ` / ${fmtNum(a.max_score)} điểm` })),
-      el('p', { class: 'muted', text: `Quy về thang 10: ${fmtNum(Math.round(on10 * 100) / 100)} · Đúng hoàn toàn ${full}/${questions.length} câu · Nộp lúc ${fmtDateTime(a.submitted_at)}` })),
+      el('p', { class: 'muted', text: summary })),
     keys?.length
       ? el('div', { class: 'quiz-take' },
           el('h3', { class: 'section-gap', text: 'Đáp án chi tiết' }),
-          questions.map((q, i) => reviewQuestion(q, i, a.answers?.[q.id], keyMap.get(q.id), a.detail?.[q.id], urls)))
+          questions.map((q, i) => reviewQuestion(q, i, a.answers?.[q.id], keyMap.get(q.id), a.detail?.[q.id], urls, { keyOnly: manual })))
       : el('div', { class: 'panel empty section-gap' },
           el('p', { text: z.due_at
             ? `Đáp án và lời giải sẽ hiện sau hạn chót (${fmtDeadline(z.due_at)}).`

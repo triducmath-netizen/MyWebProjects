@@ -1,7 +1,7 @@
 // Kết xuất đề / đáp án ra file PDF và tải về máy (dùng chung cho giáo viên, học sinh, phụ huynh).
 // Dựng một "tờ đề" A4 bằng HTML (công thức qua KaTeX), chụp bằng html2pdf rồi lưu file.
 import { el, fmtNum, toast } from './common.js?v=20261124g';
-import { rich, KIND_LABEL, LETTERS, TF_LETTERS } from './quiz-common.js?v=20261124g';
+import { rich, KIND_LABEL, LETTERS, TF_LETTERS } from './quiz-common.js?v=20261201a';
 
 const LIB_URL = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
 const LEVEL_NAME = { tb: 'Mức độ 1', kha: 'Mức độ 2', gioi: 'Mức độ 3' };
