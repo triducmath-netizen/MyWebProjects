@@ -4,10 +4,10 @@ import {
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm,
 } from '../portal/common.js?v=20261202a';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../portal/config.js';
-import { renderQuizList, setReadOnly } from './quiz.js?v=20261202a';
+import { renderQuizList, setReadOnly } from './quiz.js?v=20261205a';
 
 const app = $('#app');
-let currentTab = 'quiz';
+let currentTab = 'weekly'; // mở sẵn "Bài giáo viên giao"
 const top = $('#top-actions');
 
 if (!configured) {
@@ -235,7 +235,7 @@ async function showStudent(students, s, tab = currentTab) {
     : null;
 
   const tabs = el('div', { class: 'tabs', role: 'tablist' },
-    [['quiz', parentMode ? 'Bài trực tuyến đã làm' : 'Bài tập trực tuyến'], ['weekly', 'Kết quả hằng tuần']].map(([id, label]) =>
+    [['weekly', 'Bài giáo viên giao'], ['quiz', parentMode ? 'Bài trực tuyến đã làm' : 'Luyện đề & bài trực tuyến']].map(([id, label]) =>
       el('button', { class: 'tab', role: 'tab', 'aria-selected': String(tab === id), text: label,
         onclick: () => showStudent(students, s, id) })));
 
@@ -284,7 +284,7 @@ async function showStudent(students, s, tab = currentTab) {
     stat('Điểm trung bình (thang 10)', avg == null ? '—' : fmtNum(Math.round(avg * 10) / 10)),
     stat('Bài gần nhất', latest ? `${fmtNum(latest.score)} / ${fmtNum(latest.assessments.max_score)}` : '—'));
 
-  listBox.replaceChildren(stats, el('h2', { text: 'Theo từng tuần' }), ...rows.map((r) => weekCard(r, s, () => showStudent(students, s, 'weekly'))));
+  listBox.replaceChildren(stats, el('h2', { text: 'Bài kiểm tra của lớp' }), el('p', { class: 'muted small', text: 'Bấm vào tên bài để xem đề. Làm xong, chụp bài làm và bấm "Gửi bài làm" để gửi cho giáo viên.' }), ...rows.map((r) => weekCard(r, s, () => showStudent(students, s, 'weekly'))));
 }
 
 function stat(k, v) {
