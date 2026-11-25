@@ -1,9 +1,9 @@
 // Trang giáo viên — Bài tập trực tuyến: soạn đề, giao bài, xem kết quả.
-import { sb, el, fmtNum, toast, errMsg, openDialog, uploadTo, BUCKET, fmtDateTime, askConfirm } from '../portal/common.js?v=20261124g';
+import { sb, el, fmtNum, toast, errMsg, openDialog, uploadTo, BUCKET, fmtDateTime, askConfirm } from '../portal/common.js?v=20261202a';
 import {
   rich, imageUrls, qImage, KIND_LABEL, DEFAULT_POINTS, LETTERS, TF_LETTERS, reviewQuestion, fmtDeadline,
-} from '../portal/quiz-common.js?v=20261201a';
-import { downloadQuizPdf } from '../portal/pdf-export.js?v=20261201b';
+} from '../portal/quiz-common.js?v=20261202a';
+import { downloadQuizPdf } from '../portal/pdf-export.js?v=20261202a';
 
 let ctx; // { state, classSelect, rerender }
 let opts = {}; // { bank: true, back } khi mở từ Ngân hàng đề

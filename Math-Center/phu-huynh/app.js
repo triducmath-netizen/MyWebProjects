@@ -2,9 +2,9 @@ import {
   sb, logout, configured, $, el, loginToEmail, phoneToEmail, weekLabel, fmtNum, fmtDateTime,
   toast, errMsg, openDialog, showFiles, notConfiguredNotice,
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm,
-} from '../portal/common.js?v=20261124g';
+} from '../portal/common.js?v=20261202a';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../portal/config.js';
-import { renderQuizList, setReadOnly } from './quiz.js?v=20261201b';
+import { renderQuizList, setReadOnly } from './quiz.js?v=20261202a';
 
 const app = $('#app');
 let currentTab = 'quiz';
@@ -152,7 +152,7 @@ async function renderDashboard(user) {
   }
 
   const { data: students, error } = await sb
-    .from('students').select('id, code, full_name, parent_id, password_changed, classes(name, grade)').order('full_name');
+    .from('students').select('id, code, full_name, parent_id, password_changed, class_id, classes(name, grade)').order('full_name');
   if (error) { app.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
   const own = students.find((x) => x.parent_id === user.id);
   parentMode = !own;
@@ -247,18 +247,29 @@ async function showStudent(students, s, tab = currentTab) {
   app.replaceChildren(...[switcher, head, tabs, listBox].filter(Boolean));
   if (tab === 'quiz') { renderQuizList(listBox, s); return; }
 
-  const { data: rows, error } = await sb
-    .from('results')
-    .select('id, score, comment, updated_at, result_files(path), assessments(id, title, week_start, max_score, assessment_files(path))')
-    .eq('student_id', s.id);
+  // Bài kiểm tra của lớp (hiện ngay khi giáo viên giao, kể cả chưa chấm) + bài cũ đã có kết quả.
+  const [res, cls] = await Promise.all([
+    sb.from('results')
+      .select('id, score, comment, updated_at, result_files(path), assessments(id, title, week_start, max_score, assessment_files(path))')
+      .eq('student_id', s.id),
+    s.class_id
+      ? sb.from('assessments').select('id, title, week_start, max_score, assessment_files(path)').eq('class_id', s.class_id)
+      : Promise.resolve({ data: [] }),
+  ]);
+  const error = res.error || cls.error;
   if (error) { listBox.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
+  const rows = res.data.filter((r) => r.assessments);
+  const have = new Set(rows.map((r) => r.assessments.id));
+  for (const a of cls.data || []) {
+    if (!have.has(a.id)) rows.push({ id: 0, score: null, comment: null, updated_at: null, result_files: [], assessments: a });
+  }
 
-  rows.sort((a, b) => b.assessments.week_start.localeCompare(a.assessments.week_start) || b.id - a.id);
+  rows.sort((a, b) => b.assessments.week_start.localeCompare(a.assessments.week_start) || b.assessments.id - a.assessments.id);
 
   if (!rows.length) {
     listBox.replaceChildren(el('div', { class: 'panel empty' },
-      el('h2', { text: 'Chưa có kết quả' }),
-      el('p', { class: 'muted', text: 'Kết quả bài kiểm tra hằng tuần sẽ hiện ở đây sau khi giáo viên cập nhật.' })));
+      el('h2', { text: 'Chưa có bài kiểm tra' }),
+      el('p', { class: 'muted', text: 'Đề và kết quả bài kiểm tra hằng tuần sẽ hiện ở đây khi giáo viên giao bài.' })));
     return;
   }
 
@@ -292,7 +303,7 @@ function weekCard(r) {
       ? el('div', { class: 'score pending' }, el('b', { text: 'Chưa chấm' }))
       : el('div', { class: 'score', 'aria-label': `Điểm ${fmtNum(r.score)} trên ${fmtNum(a.max_score)}` },
           el('b', { text: fmtNum(r.score) }), el('span', { text: ` / ${fmtNum(a.max_score)}` })),
-    el('p', { class: 'muted small', text: `Cập nhật: ${fmtDateTime(r.updated_at)}` }),
+    r.updated_at ? el('p', { class: 'muted small', text: `Cập nhật: ${fmtDateTime(r.updated_at)}` }) : null,
     r.comment ? el('div', { class: 'comment' }, el('span', { class: 'lbl', text: 'Nhận xét của giáo viên' }), r.comment) : null,
     el('div', { class: 'week-actions' },
       el('button', { class: 'btn btn-outline btn-sm', disabled: !testFiles.length,

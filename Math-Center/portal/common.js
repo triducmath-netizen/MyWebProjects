@@ -192,18 +192,52 @@ export async function prepareFile(file) {
   }
 }
 
+// Kho file chỉ nhận các loại này, tối đa 10 MB mỗi file
+// (khớp storage.buckets 'tdm' trong supabase/migrations/20261122000000_parent_portal.sql).
+export const MAX_UPLOAD_MB = 10;
+const DOC = 'application/msword';
+const DOCX = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf', DOC, DOCX];
+const TYPE_BY_EXT = { pdf: 'application/pdf', jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', doc: DOC, docx: DOCX };
+// Ô chọn file đề bài / bài làm: ảnh, PDF, Word.
+export const FILE_ACCEPT = 'image/*,application/pdf,.pdf,.doc,.docx,' + DOC + ',' + DOCX;
+// Tên loại file theo đuôi đường dẫn trong kho.
+export function fileKind(path) {
+  if (/\.pdf$/i.test(path)) return 'PDF';
+  if (/\.docx?$/i.test(path)) return 'Word';
+  return 'ảnh';
+}
+
+// Loại file thật: một số máy (Android, Zalo, ổ mạng) gửi file PDF/ảnh với type rỗng hoặc lạ.
+function fileType(file) {
+  if (ALLOWED_TYPES.includes(file.type)) return file.type;
+  if (file.type === 'image/jpg' || file.type === 'image/pjpeg') return 'image/jpeg';
+  const ext = (file.name.match(/\.(\w+)$/)?.[1] || '').toLowerCase();
+  return TYPE_BY_EXT[ext] || file.type || '';
+}
+
 export function extOf(file) {
-  if (file.type === 'application/pdf') return 'pdf';
-  if (file.type === 'image/png') return 'png';
-  if (file.type === 'image/webp') return 'webp';
+  const t = fileType(file);
+  if (t === 'application/pdf') return 'pdf';
+  if (t === DOC) return 'doc';
+  if (t === DOCX) return 'docx';
+  if (t === 'image/png') return 'png';
+  if (t === 'image/webp') return 'webp';
   return 'jpg';
 }
 
 // Tải file lên kho riêng tư, trả về đường dẫn.
 export async function uploadTo(folder, file) {
   const f = await prepareFile(file);
+  const type = fileType(f);
+  if (!ALLOWED_TYPES.includes(type)) {
+    throw new Error(`File "${file.name}" không đúng định dạng. Chỉ nhận ảnh (JPG, PNG, WEBP), PDF hoặc Word (.doc, .docx). Ảnh HEIC của iPhone hãy đổi sang JPG.`);
+  }
+  if (f.size > MAX_UPLOAD_MB * 1024 * 1024) {
+    throw new Error(`File "${file.name}" nặng ${(f.size / 1024 / 1024).toFixed(1)} MB, vượt quá ${MAX_UPLOAD_MB} MB. Hãy nén PDF hoặc chia thành nhiều file nhỏ hơn.`);
+  }
   const path = `${folder}/${crypto.randomUUID()}.${extOf(f)}`;
-  const { error } = await sb.storage.from(BUCKET).upload(path, f, { contentType: f.type, upsert: false });
+  const { error } = await sb.storage.from(BUCKET).upload(path, f, { contentType: type, upsert: false });
   if (error) throw error;
   return path;
 }
@@ -212,7 +246,7 @@ export async function signedUrls(paths) {
   if (!paths.length) return [];
   const { data, error } = await sb.storage.from(BUCKET).createSignedUrls(paths, 3600);
   if (error) throw error;
-  return data.map((d) => ({ path: d.path, url: d.signedUrl, pdf: d.path.endsWith('.pdf') }));
+  return data.map((d) => ({ path: d.path, url: d.signedUrl, pdf: d.path.endsWith('.pdf'), kind: fileKind(d.path) }));
 }
 
 // ---------- Thông báo nhỏ ----------
@@ -231,6 +265,8 @@ export function errMsg(e) {
   if (/duplicate key/i.test(m)) return 'Dữ liệu bị trùng.';
   if (/row-level security|permission denied/i.test(m)) return 'Bạn không có quyền thực hiện việc này.';
   if (/Failed to fetch|NetworkError/i.test(m)) return 'Mất kết nối mạng. Vui lòng thử lại.';
+  if (/exceeded the maximum allowed size|Payload too large/i.test(m)) return 'File quá lớn (tối đa 10 MB mỗi file).';
+  if (/mime type .* is not supported|invalid_mime_type/i.test(m)) return 'File không đúng định dạng. Chỉ nhận ảnh (JPG, PNG, WEBP), PDF hoặc Word.';
   return m;
 }
 
@@ -295,8 +331,9 @@ export async function showFiles(title, paths) {
   openDialog(title, body, { wide: true });
   try {
     const files = await signedUrls(paths);
-    body.replaceChildren(...files.map((f, i) => f.pdf
-      ? el('a', { class: 'btn btn-outline', href: f.url, target: '_blank', rel: 'noopener', text: `Mở file PDF ${i + 1}` })
+    body.replaceChildren(...files.map((f, i) => f.kind !== 'ảnh'
+      ? el('a', { class: 'btn btn-outline', href: f.url, target: '_blank', rel: 'noopener',
+          text: f.kind === 'Word' ? `Tải file Word ${i + 1}` : `Mở file PDF ${i + 1}` })
       : el('a', { href: f.url, target: '_blank', rel: 'noopener', title: 'Mở ảnh cỡ lớn' },
           el('img', { src: f.url, alt: `${title} — trang ${i + 1}`, loading: 'lazy' }))));
   } catch (e) {

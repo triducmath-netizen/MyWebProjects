@@ -1,11 +1,11 @@
 import {
   sb, logout, configured, $, el, normalizeCode, mondayOf, toISODate, weekLabel, fmtNum,
-  randomPassword, uploadTo, toast, errMsg, openDialog, showFiles, notConfiguredNotice, formatLinkCode, displayLogin,
+  randomPassword, uploadTo, toast, errMsg, openDialog, showFiles, FILE_ACCEPT, fileKind, notConfiguredNotice, formatLinkCode, displayLogin,
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm, copyBox, fmtDateTime,
-} from '../portal/common.js?v=20261124g';
+} from '../portal/common.js?v=20261202a';
 import { SUPABASE_URL } from '../portal/config.js';
-import { renderQuizTab } from './quiz.js?v=20261201b';
-import { renderBankTab } from './bank.js?v=20261201b';
+import { renderQuizTab } from './quiz.js?v=20261202a';
+import { renderBankTab } from './bank.js?v=20261202a';
 
 const app = $('#app');
 const top = $('#top-actions');
@@ -162,10 +162,13 @@ function newAssessment(existing) {
         el('input', { name: 'week', type: 'date', required: true, value: existing?.week_start || toISODate(mondayOf()) })),
       el('label', { class: 'field' }, 'Điểm tối đa',
         el('input', { name: 'max', type: 'number', min: '1', step: '0.25', required: true, value: String(existing?.max_score ?? 10) }))),
-    existing ? null : el('label', {}, 'File đề bài (ảnh hoặc PDF, có thể chọn nhiều)',
-      el('input', { name: 'files', type: 'file', accept: 'image/*,application/pdf', multiple: true })),
+    existing ? null : el('label', {}, 'File đề bài (ảnh, PDF hoặc Word, tối đa 10 MB/file, có thể chọn nhiều)',
+      el('input', { name: 'files', type: 'file', accept: FILE_ACCEPT, multiple: true })),
     el('button', { class: 'btn btn-gold', type: 'submit', text: existing ? 'Lưu thay đổi' : 'Tạo bài kiểm tra' }));
   const dlg = openDialog(existing ? 'Sửa bài kiểm tra' : 'Bài kiểm tra mới', form);
+  let createdId = null; // bài đã tạo nhưng tải file lỗi → "Thử lại" chỉ tải lại file, không tạo bài trùng
+  const uploaded = new Set(); // file đã tải xong ở lần trước, không tải lại
+  dlg.addEventListener('close', () => { if (createdId) renderShell(); });
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = form.querySelector('button[type=submit]');
@@ -182,32 +185,44 @@ function newAssessment(existing) {
         const { error } = await sb.from('assessments').update(row).eq('id', id);
         if (error) throw error;
       } else {
-        const { data, error } = await sb.from('assessments').insert({ ...row, class_id: state.classId }).select('id').single();
-        if (error) throw error;
-        id = data.id;
-        await attachFiles('assessment', id, form.files.files);
+        if (createdId) {
+          id = createdId;
+          const { error } = await sb.from('assessments').update(row).eq('id', id);
+          if (error) throw error;
+        } else {
+          const { data, error } = await sb.from('assessments').insert({ ...row, class_id: state.classId }).select('id').single();
+          if (error) throw error;
+          id = createdId = data.id;
+          state.assessmentId = id;
+        }
+        await attachFiles('assessment', id, form.files.files, uploaded);
       }
       state.assessmentId = id;
+      createdId = null;
       dlg.close();
       toast('Đã lưu bài kiểm tra.');
       renderShell();
     } catch (err) {
-      toast(errMsg(err), 'error');
+      toast(createdId
+        ? `Đã tạo bài kiểm tra nhưng chưa tải được file: ${errMsg(err)} Chọn lại file rồi bấm "Thử lại", hoặc đóng hộp thoại và thêm file sau.`
+        : errMsg(err), 'error');
       btn.disabled = false; btn.textContent = 'Thử lại';
     }
   });
 }
 
 // Tải file lên và ghi vào bảng tương ứng.
-async function attachFiles(kind, id, files) {
+async function attachFiles(kind, id, files, done = new Set()) {
   const folder = kind === 'assessment' ? `assessments/${id}` : `results/${id}`;
   const table = kind === 'assessment' ? 'assessment_files' : 'result_files';
   const key = kind === 'assessment' ? 'assessment_id' : 'result_id';
-  for (const f of files) {
-    if (f.size > 25 * 1024 * 1024) throw new Error(`File "${f.name}" quá lớn.`);
+  for (const f of [...files]) {
+    const sig = `${f.name}|${f.size}|${f.lastModified}`;
+    if (done.has(sig)) continue;
     const path = await uploadTo(folder, f);
     const { error } = await sb.from(table).insert({ [key]: id, path });
     if (error) { await sb.storage.from('tdm').remove([path]); throw error; }
+    done.add(sig);
   }
 }
 
@@ -217,7 +232,7 @@ async function manageFiles(kind, id, title, onDone) {
   const { data: rows, error } = await sb.from(table).select('id, path').eq(key, id).order('id');
   if (error) { toast(errMsg(error), 'error'); return; }
   const list = el('div', { class: 'list' }, rows.length ? rows.map((r, i) => el('div', { class: 'item' },
-    el('span', { text: `File ${i + 1} (${r.path.endsWith('.pdf') ? 'PDF' : 'ảnh'})` }),
+    el('span', { text: `File ${i + 1} (${fileKind(r.path)})` }),
     el('div', { class: 'acts' },
       el('button', { class: 'btn btn-outline btn-sm', text: 'Xem', onclick: () => showFiles(title, [r.path]) }),
       el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: async () => {
@@ -243,7 +258,7 @@ async function renderAssessment(body, a) {
         el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa bài', onclick: () => deleteAssessment(a) }))),
     el('div', { class: 'row section-gap' },
       el('label', { class: 'field' }, 'Thêm file đề bài',
-        el('input', { type: 'file', accept: 'image/*,application/pdf', multiple: true, onchange: async (e) => {
+        el('input', { type: 'file', accept: FILE_ACCEPT, multiple: true, onchange: async (e) => {
           const input = e.target;
           try { await attachFiles('assessment', a.id, input.files); toast('Đã tải đề bài lên.'); renderShell(); }
           catch (err) { toast(errMsg(err), 'error'); input.value = ''; }
@@ -278,7 +293,7 @@ function gradeCard(a, s, r) {
     value: r?.score != null ? String(r.score) : '', 'aria-label': `Điểm của ${s.full_name}` });
   const comment = el('textarea', { rows: 2, placeholder: 'Nhận xét cho phụ huynh…', 'aria-label': `Nhận xét cho ${s.full_name}` });
   comment.value = r?.comment || '';
-  const files = el('input', { type: 'file', accept: 'image/*,application/pdf', multiple: true, 'aria-label': `Bài làm của ${s.full_name}` });
+  const files = el('input', { type: 'file', accept: FILE_ACCEPT, multiple: true, 'aria-label': `Bài làm của ${s.full_name}` });
   const fileInfo = el('button', { class: 'btn btn-outline btn-sm', type: 'button' });
   const setInfo = (n) => { fileInfo.textContent = `Bài làm (${n})`; fileInfo.disabled = !current; };
   setInfo(r?.result_files?.length ?? 0);
