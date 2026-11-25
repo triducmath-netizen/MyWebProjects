@@ -47,7 +47,7 @@ export async function renderQuizList(box, student) {
   if (readOnly) return renderChildAttempts(box, student);
   const body = el('div', {}, el('p', { class: 'muted', text: 'Đang tải…' }));
   const switcher = el('div', { class: 'child-switch' },
-    [['practice', 'Luyện đề theo chuyên đề'], ['assigned', 'Bài giáo viên giao']].map(([m, label]) =>
+    [['practice', 'Luyện đề theo chuyên đề'], ['assigned', 'Bài trắc nghiệm trực tuyến của lớp']].map(([m, label]) =>
       el('button', { class: `btn btn-sm ${nav.mode === m ? 'btn-navy' : 'btn-outline'}`, text: label,
         onclick: () => { nav.mode = m; renderQuizList(box, student); } })));
   box.replaceChildren(switcher, body);
@@ -211,8 +211,8 @@ async function renderAssigned(body, box, student) {
   if (error) { body.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
   if (!quizzes.length) {
     body.replaceChildren(el('div', { class: 'panel empty' },
-      el('h2', { text: 'Chưa có bài giáo viên giao' }),
-      el('p', { class: 'muted', text: 'Khi giáo viên giao bài cho lớp, bài sẽ hiện ở đây. Trong lúc chờ, em hãy luyện đề theo chuyên đề nhé!' })));
+      el('h2', { text: 'Chưa có bài trắc nghiệm trực tuyến' }),
+      el('p', { class: 'muted', text: 'Bài kiểm tra giáo viên giao (có file đề) nằm ở thẻ "Bài giáo viên giao". Bài trắc nghiệm làm trực tuyến sẽ hiện ở đây khi giáo viên giao.' })));
     return;
   }
   body.replaceChildren(el('div', { class: 'list' }, quizzes.map((z) => quizItem(box, student, z, byQuiz.get(z.id)))));
