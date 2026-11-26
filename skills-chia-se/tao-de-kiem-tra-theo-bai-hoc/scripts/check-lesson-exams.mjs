@@ -8,6 +8,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve, dirname, extname } from 'node:path';
 import vm from 'node:vm';
 import { createRequire } from 'node:module';
+import { createHash } from 'node:crypto';
 import { loadCatalog, findLesson } from './tien-do.mjs';
 
 const require = createRequire(import.meta.url);
@@ -178,7 +179,11 @@ export function checkFiles(paths, { partial = false } = {}) {
         if (!q.prompt?.trim()) errors.push(qa('thiếu prompt'));
         else {
           // So sau khi bỏ khác biệt cách viết LaTeX (\displaystyle, \,, \left, \right, ngoặc {}, khoảng trắng).
-          const key = q.prompt.replace(/\\displaystyle|\\,|\\left|\\right|[\s{}]/g, '');
+          // Tính cả phương án và nội dung hình: câu đọc hình có lời dẫn giống nhau nhưng hình khác nhau thì không trùng.
+          const norm = (s) => String(s ?? '').replace(/\\displaystyle|\\,|\\left|\\right|[\s{}]/g, '');
+          let figKey = '';
+          if (q.image) { try { figKey = createHash('md5').update(readFileSync(resolve(baseDir, String(q.image)))).digest('hex'); } catch { figKey = String(q.image); } }
+          const key = norm(q.prompt) + '|' + norm((q.options || []).join('|')) + '|' + figKey;
           if (prompts.has(key)) errors.push(qa(`trùng nguyên văn câu trong ${prompts.get(key)} — các đề tương đương phải đổi số liệu`));
           else prompts.set(key, `${e.slug} câu ${i + 1}`);
         }
