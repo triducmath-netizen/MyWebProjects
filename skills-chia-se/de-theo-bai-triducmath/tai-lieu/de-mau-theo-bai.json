@@ -1,5 +1,5 @@
 {
-  "_ghi_chu": "Mẫu định dạng: chỉ có 3 câu minh hoạ cho 3 dạng. Đề thật phải đủ 22 câu (12 mcq, 4 tf, 6 short) và đủ 20 đề. Đường dẫn image tính từ thư mục chứa file JSON.",
+  "_ghi_chu": "Mẫu định dạng: chỉ có 3 câu minh hoạ cho 3 dạng, đều là câu chống bấm máy (hàm ẩn, mô hình hoá, tham số). Đề thật phải đủ 22 câu (12 mcq, 4 tf, 6 short) và đủ 20 đề. Đường dẫn image tính từ thư mục chứa file JSON.",
   "grade": 12,
   "chapter": "Chương IV. Nguyên hàm và tích phân",
   "topic": "Bài 12. Tích phân",
@@ -10,23 +10,25 @@
       "title": "Bài 12. Tích phân — Đề 1",
       "sort_order": 1,
       "time_limit_min": 90,
-      "description": "Đề kiểm tra Bài 12 (Tích phân), cấu trúc THPT: 12 trắc nghiệm, 4 Đúng/Sai, 6 trả lời ngắn.",
+      "description": "Đề bài tập về nhà Bài 12 (Tích phân), cấu trúc THPT: 12 trắc nghiệm, 4 Đúng/Sai, 6 trả lời ngắn.",
       "questions": [
         {
           "kind": "mcq",
           "muc": "NB",
           "thuc_te": false,
-          "prompt": "Giá trị của $\\displaystyle\\int_0^2 (2x + 1)\\,dx$ bằng",
-          "options": ["$6$", "$5$", "$4$", "$8$"],
+          "bam_may": false,
+          "prompt": "Biết $\\displaystyle\\int_0^2 f(x)\\,dx = 3$. Giá trị của $\\displaystyle\\int_0^2 \\left[2f(x) + x\\right]dx$ bằng",
+          "options": ["$8$", "$5$", "$10$", "$7$"],
           "answer": 0,
           "points": 0.25,
-          "verify": "(()=>{const f=x=>2*x+1;const a=0,b=2,n=1000,h=(b-a)/n;let s=f(a)+f(b);for(let i=1;i<n;i++)s+=(i%2?4:2)*f(a+i*h);return Math.round(s*h/3*1e6)/1e6;})()",
-          "explanation": "Một nguyên hàm của $2x + 1$ là $x^2 + x$. Do đó $\\displaystyle\\int_0^2 (2x + 1)\\,dx = \\left(x^2 + x\\right)\\Big|_0^2 = (4 + 2) - 0 = 6$. Phương án D do lấy nhầm nguyên hàm của $1$ là $2x$; phương án C do bỏ quên số hạng $1$. Chọn A."
+          "verify": "2 * 3 + (2 * 2) / 2",
+          "explanation": "Theo tính chất của tích phân: $\\displaystyle\\int_0^2 \\left[2f(x) + x\\right]dx = 2\\int_0^2 f(x)\\,dx + \\int_0^2 x\\,dx = 2 \\cdot 3 + \\frac{x^2}{2}\\Big|_0^2 = 6 + 2 = 8$. Phương án B do quên nhân $2$ với $\\int_0^2 f(x)\\,dx$; phương án C do lấy nhầm nguyên hàm của $x$ là $x^2$. Chọn A."
         },
         {
           "kind": "tf",
           "muc": "TH",
           "thuc_te": true,
+          "bam_may": false,
           "prompt": "Một ô tô đang chạy với vận tốc $10$ m/s thì người lái đạp phanh. Từ thời điểm đó, ô tô chuyển động chậm dần đều với vận tốc $v(t) = 10 - 2t$ (m/s), trong đó $t$ (giây) là thời gian kể từ lúc đạp phanh. Đồ thị của $v(t)$ như hình bên. Xét tính đúng sai của các mệnh đề sau.",
           "image": "hinh-mau/van-toc-phanh.svg",
           "options": [
@@ -44,11 +46,12 @@
           "kind": "short",
           "muc": "TH",
           "thuc_te": false,
-          "prompt": "Tính $\\displaystyle\\int_0^{\\pi} \\sin x\\,dx$.",
+          "bam_may": false,
+          "prompt": "Tìm số thực $a$ sao cho $\\displaystyle\\int_0^{\\pi} (a\\sin x + 1)\\,dx = 4 + \\pi$.",
           "answer": ["2"],
           "points": 0.5,
-          "verify": "(()=>{const f=Math.sin;const a=0,b=Math.PI,n=1000,h=(b-a)/n;let s=f(a)+f(b);for(let i=1;i<n;i++)s+=(i%2?4:2)*f(a+i*h);return Math.round(s*h/3*1e6)/1e6;})()",
-          "explanation": "Một nguyên hàm của $\\sin x$ là $-\\cos x$. Do đó $\\displaystyle\\int_0^{\\pi} \\sin x\\,dx = \\left(-\\cos x\\right)\\Big|_0^{\\pi} = -\\cos\\pi + \\cos 0 = 1 + 1 = 2$."
+          "verify": "(4 + Math.PI - Math.PI) / 2",
+          "explanation": "Ta có $\\displaystyle\\int_0^{\\pi} (a\\sin x + 1)\\,dx = a\\int_0^{\\pi} \\sin x\\,dx + \\int_0^{\\pi} dx = a\\left(-\\cos x\\right)\\Big|_0^{\\pi} + \\pi = 2a + \\pi$. Từ $2a + \\pi = 4 + \\pi$ suy ra $a = 2$."
         }
       ]
     }

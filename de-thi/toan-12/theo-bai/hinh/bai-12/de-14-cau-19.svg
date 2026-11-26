@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 260" font-family="Times New Roman" font-size="17">
+  <defs><marker id="mui" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker></defs>
+  <rect width="470" height="260" fill="#fff"/>
+  <path d="M60,215 L60,95 L60,95 L220,215 A80,80 0 0 1 380,215  L380,215 Z" fill="#cfe3ff" fill-opacity="0.8"/>
+  
+  <line x1="30" y1="215" x2="430" y2="215" stroke="#000" stroke-width="1.5" marker-end="url(#mui)"/>
+  <line x1="220" y1="237" x2="220" y2="61" stroke="#000" stroke-width="1.5" marker-end="url(#mui)"/>
+  <text x="422" y="237" font-style="italic">x</text>
+  <text x="228" y="69" font-style="italic">y</text>
+  <text x="202" y="235" font-style="italic">O</text>
+  <line x1="60" y1="211" x2="60" y2="219" stroke="#000"/><text x="51" y="237">−4</text><line x1="100" y1="211" x2="100" y2="219" stroke="#000"/><text x="91" y="237">−3</text><line x1="140" y1="211" x2="140" y2="219" stroke="#000"/><text x="131" y="237">−2</text><line x1="180" y1="211" x2="180" y2="219" stroke="#000"/><text x="171" y="237">−1</text><line x1="260" y1="211" x2="260" y2="219" stroke="#000"/><text x="255" y="237">1</text><line x1="300" y1="211" x2="300" y2="219" stroke="#000"/><text x="295" y="237">2</text><line x1="340" y1="211" x2="340" y2="219" stroke="#000"/><text x="335" y="237">3</text><line x1="380" y1="211" x2="380" y2="219" stroke="#000"/><text x="375" y="237">4</text><line x1="216" y1="95" x2="224" y2="95" stroke="#000"/><text x="200" y="101">3</text><line x1="216" y1="135" x2="224" y2="135" stroke="#000"/><text x="200" y="141">2</text><line x1="380" y1="215" x2="380" y2="215" stroke="#555" stroke-dasharray="5,4"/><line x1="60" y1="215" x2="60" y2="95" stroke="#555" stroke-dasharray="5,4"/>
+  <path d="M60,95 L60,95 L220,215 A80,80 0 0 1 380,215 " fill="none" stroke="#1f4fa8" stroke-width="2.2"/>
+  <circle cx="300" cy="215" r="3" fill="#000"/><text x="296" y="257" font-style="italic">I</text>
+  
+  <text x="116" y="123" fill="#1f4fa8" font-style="italic">y = f(x)</text>
+</svg>

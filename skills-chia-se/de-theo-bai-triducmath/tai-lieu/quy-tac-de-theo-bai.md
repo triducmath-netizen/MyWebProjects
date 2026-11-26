@@ -19,7 +19,7 @@ Thang điểm 10, đánh số câu liên tục. Ghi `time_limit_min: 90` (thời
 
 - Mỗi câu ghi `muc`: `"NB"` (nhận biết), `"TH"` (thông hiểu), `"VD"` (vận dụng). Tỉ lệ ≈ 4:3:3 trên 22 câu, tức 9–10 NB, 6–7 TH, 6 VD. Công cụ cho phép NB 8–10, TH 6–8, VD 5–7.
 - Mỗi câu ghi `thuc_te`: `true`/`false`. Tổng điểm các câu thực tế **≥ 2,0** (20%). Câu thực tế có thể ở bất kỳ phần nào (một câu Đúng/Sai thực tế = 1 điểm).
-- `muc` và `thuc_te` chỉ để kiểm tra nội bộ và in ma trận cho giáo viên; **không** gửi lên web, **không** viết vào chữ học sinh thấy.
+- `muc`, `thuc_te` và `bam_may` (mục 4.3) chỉ để kiểm tra nội bộ và in ma trận cho giáo viên; **không** gửi lên web, **không** viết vào chữ học sinh thấy.
 
 ## 3. Phạm vi kiến thức
 
@@ -27,14 +27,44 @@ Thang điểm 10, đánh số câu liên tục. Ghi `time_limit_min: 90` (thời
 - Phương pháp tính chỉ dùng khi SGK của bài có (ví dụ đổi biến, từng phần). Không chắc thì không dùng.
 - Bối cảnh thực tế lấy từ SGK (HĐ mở đầu, ví dụ, bài tập) rồi đổi số liệu; số liệu hợp lý, phù hợp tuổi học sinh.
 
-## 4. Hạn chế bấm máy tính
+## 4. Chống bấm máy tính — (chặn một phần)
 
-Đề làm bằng tay, không cần máy tính cầm tay.
+Mục tiêu: học sinh **không thể bấm máy tính ra ngay đáp án**; máy chỉ được giúp phần cộng trừ nhân chia vặt. Học sinh phải hiểu bài mới làm được. Đề cũng phải làm được hoàn toàn bằng tay.
 
-- **Phần I, II**: đáp số trong phương án có thể là số nguyên, phân số tối giản, biểu thức chính xác có $\pi$, $e$, căn đơn giản (ví dụ `$\frac{9\pi}{4}$`, `$e - \frac{1}{2}$`, `$\frac{14}{3}$`).
-- **Phần III — (chặn)**: đáp số **phải là một số** (số nguyên hoặc thập phân hữu hạn), tốt nhất ≤ 4 ký tự kể cả dấu "−" và dấu phẩy (phiếu THPT có 4 ô). Web chấm bằng cách so số, nên `9π/4`, `14/3`, `2√3` sẽ bị chấm sai. Nếu kết quả tự nhiên là biểu thức, đổi câu hỏi để ra số: hỏi "$a + b$ bằng bao nhiêu" khi kết quả là $\frac{a}{b}$, hỏi tích phân có kết quả nguyên, hoặc hỏi giá trị làm tròn chỉ khi phép làm tròn kiểm tra được bằng suy luận. Có thể liệt kê cách viết tương đương trong `answer`, ví dụ `["2.5", "2,5"]`.
-- Không ra câu cần nhân/chia số lớn, khai căn hay tính lũy thừa phải dùng máy (công cụ cảnh báo khi có số từ 5 chữ số).
-- Với ý Đúng/Sai và phương án so sánh, ưu tiên mệnh đề kiểm tra bằng suy luận ("lớn hơn 10", "nhỏ hơn $\pi$") thay vì một số lẻ chính xác.
+### 4.1. Máy tính học sinh làm được gì (Casio fx-580VN X, fx-880BTG, Vinacal…)
+- Tính giá trị biểu thức số, lũy thừa, căn, lôgarit, lượng giác, giai thừa, tổ hợp, chỉnh hợp.
+- **Tích phân xác định** với cận là số; **đạo hàm tại một điểm**; tổng $\sum$.
+- **Giải phương trình** (SOLVE), phương trình bậc 2–4, hệ đến 4 ẩn, bất phương trình bậc 2–4.
+- **Bảng giá trị** (TABLE) để dò cực trị, GTLN–GTNN, số nghiệm, tính đơn điệu trên một đoạn.
+- **Thử từng phương án** bằng CALC (thay $x$ của 4 phương án vào phương trình / bất phương trình / đẳng thức).
+- Vectơ (tích vô hướng, tích có hướng, độ dài), ma trận, thống kê (trung bình, phương sai, độ lệch chuẩn từ bảng số liệu), hồi quy.
+
+Câu nào mà **chỉ cần nhập đề bài vào máy là ra đáp án** (hoặc thử 4 phương án là ra) thì coi là câu **bấm máy được**.
+
+### 4.2. Cách ra câu để máy không giải thay
+- **Tham số, chữ thay số**: hỏi điều kiện của $m$, đếm số giá trị nguyên của $m$, tìm $a$ để $\int_0^a f(x)\,dx = 6$, kết quả dạng $a + b\ln 2$ rồi hỏi $a + b$ (đổi dạng sao cho không đoán được bằng cách thử).
+- **Hàm ẩn / dữ kiện trừu tượng**: cho $\int_0^2 f(x)\,dx = 3$, cho $f'(x) = \ldots$ và $f(0) = 1$, cho tính chất của $f$ thay vì công thức của $f$.
+- **Đọc hình, bảng biến thiên, đồ thị**: dữ kiện nằm trên hình, máy không đọc được.
+- **Mô hình hoá bài toán thực tế**: học sinh phải tự lập hàm số / tích phân / phương trình từ tình huống; khi đã lập xong thì phép tính còn lại nên nhẹ.
+- **Suy luận, so sánh, đúng/sai về tính chất**: "hàm số đồng biến trên khoảng nào", "mệnh đề nào luôn đúng với mọi $x$", "dấu của…", "giá trị lớn hơn 10" — kiểm bằng lập luận chứ không bằng một số lẻ.
+- **Đếm, biện luận, tìm điều kiện**: số nghiệm theo $m$, số điểm cực trị của $f(|x|)$, số giá trị nguyên thỏa mãn.
+- **Phương án dạng biểu thức chứa chữ** ($\frac{a^2}{2}$, $2m - 1$, $F(x) = \ldots + C$) thay vì 4 số mà máy thử được.
+- **Đáp số Phần III** là số, nên phải ra kiểu: tham số, đếm, hàm ẩn, đọc hình, mô hình hoá, "$a + b + c$" từ dạng biểu diễn. **Không** ra "Tính $\int_1^3 (x^2 - 1)\,dx$", "Tính $f'(2)$ với $f(x) = \ldots$", "Giải phương trình…" rồi hỏi nghiệm.
+
+Ví dụ đổi câu (Bài 12. Tích phân):
+- Bấm máy được: "Tính $\int_0^2 (2x + 1)\,dx$" → máy cho ngay $6$.
+- Chống máy: "Biết $\int_0^2 f(x)\,dx = 3$. Tính $\int_0^2 \left[2f(x) + x\right]dx$" → phải dùng tính chất tích phân; đáp số $8$.
+- Chống máy: "Tìm số thực $a > 0$ sao cho $\int_0^a (2x + 1)\,dx = 6$" → phải lập $a^2 + a = 6$ (máy giải được phương trình, nhưng phải tự lập ra trước).
+
+### 4.3. Trường `bam_may` — (chặn)
+- Mỗi câu ghi `"bam_may": true` nếu nhập thẳng đề vào máy (hoặc thử 4 phương án) là ra đáp án; ngược lại `false`. Ghi trung thực: công cụ còn tự dò một số mẫu câu bấm máy được (tích phân số, đạo hàm tại điểm, giải phương trình số) và cảnh báo.
+- Cho phép **tối đa 3 câu** `bam_may: true` mỗi đề, **chỉ ở Phần I và chỉ mức NB**. Phần II, Phần III và mọi câu TH/VD phải `false`.
+- Ý Đúng/Sai: không để **cả 4 ý** đều là phép tính số máy làm được; ít nhất 2 ý phải cần suy luận / đọc hình / mô hình hoá.
+
+### 4.4. Đáp số, độ lớn số
+- **Phần I, II**: đáp số trong phương án có thể là số nguyên, phân số tối giản, biểu thức chính xác có $\pi$, $e$, căn đơn giản, hoặc biểu thức chứa chữ.
+- **Phần III — (chặn)**: đáp số **phải là một số** (số nguyên hoặc thập phân hữu hạn), tốt nhất ≤ 4 ký tự kể cả dấu "−" và dấu phẩy (phiếu THPT có 4 ô). Web chấm bằng cách so số, nên `9π/4`, `14/3`, `2√3` sẽ bị chấm sai. Có thể liệt kê cách viết tương đương trong `answer`, ví dụ `["2.5", "2,5"]`.
+- Không ra câu cần nhân/chia số lớn, khai căn hay tính lũy thừa phải dùng máy (công cụ cảnh báo khi có số từ 5 chữ số). Số liệu đẹp để làm tay nhanh.
 
 ## 5. Hình vẽ — (chặn khi câu nhắc tới hình mà thiếu file)
 
@@ -94,9 +124,9 @@ Một file cho cả bài: `de-thi/toan-<lớp>/theo-bai/bai-<số>-<slug>.json`.
       "time_limit_min": 90,
       "description": "Đề kiểm tra Bài 12 (Tích phân), cấu trúc THPT: 12 trắc nghiệm, 4 Đúng/Sai, 6 trả lời ngắn.",
       "questions": [
-        { "kind": "mcq", "muc": "NB", "thuc_te": false, "prompt": "...", "options": ["...", "...", "...", "..."], "answer": 0, "points": 0.25, "verify": "...", "explanation": "..." },
-        { "kind": "tf", "muc": "TH", "thuc_te": true, "prompt": "...", "options": ["a) ...", "b) ...", "c) ...", "d) ..."], "answer": [true, false, true, false], "points": 1, "explanation": "a) Đúng vì ... b) Sai vì ..." },
-        { "kind": "short", "muc": "VD", "thuc_te": false, "prompt": "...", "image": "hinh/bai-12/de-01-cau-17.svg", "answer": ["9"], "points": 0.5, "verify": "...", "explanation": "..." }
+        { "kind": "mcq", "muc": "NB", "thuc_te": false, "bam_may": false, "prompt": "...", "options": ["...", "...", "...", "..."], "answer": 0, "points": 0.25, "verify": "...", "explanation": "..." },
+        { "kind": "tf", "muc": "TH", "thuc_te": true, "bam_may": false, "prompt": "...", "options": ["a) ...", "b) ...", "c) ...", "d) ..."], "answer": [true, false, true, false], "points": 1, "explanation": "a) Đúng vì ... b) Sai vì ..." },
+        { "kind": "short", "muc": "VD", "thuc_te": false, "bam_may": false, "prompt": "...", "image": "hinh/bai-12/de-01-cau-17.svg", "answer": ["9"], "points": 0.5, "verify": "...", "explanation": "..." }
       ]
     }
   ]
