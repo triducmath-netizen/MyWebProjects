@@ -1,0 +1,56 @@
+{
+  "_ghi_chu": "Mẫu định dạng: chỉ có 3 câu minh hoạ cho 3 dạng. Đề thật phải đủ 22 câu (12 mcq, 4 tf, 6 short) và đủ 20 đề. Đường dẫn image tính từ thư mục chứa file JSON.",
+  "grade": 12,
+  "chapter": "Chương IV. Nguyên hàm và tích phân",
+  "topic": "Bài 12. Tích phân",
+  "level": "kha",
+  "exams": [
+    {
+      "slug": "toan12-bai12-tich-phan-01",
+      "title": "Bài 12. Tích phân — Đề 1",
+      "sort_order": 1,
+      "time_limit_min": 90,
+      "description": "Đề kiểm tra Bài 12 (Tích phân), cấu trúc THPT: 12 trắc nghiệm, 4 Đúng/Sai, 6 trả lời ngắn.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "muc": "NB",
+          "thuc_te": false,
+          "prompt": "Giá trị của $\\displaystyle\\int_0^2 (2x + 1)\\,dx$ bằng",
+          "options": ["$6$", "$5$", "$4$", "$8$"],
+          "answer": 0,
+          "points": 0.25,
+          "verify": "(()=>{const f=x=>2*x+1;const a=0,b=2,n=1000,h=(b-a)/n;let s=f(a)+f(b);for(let i=1;i<n;i++)s+=(i%2?4:2)*f(a+i*h);return Math.round(s*h/3*1e6)/1e6;})()",
+          "explanation": "Một nguyên hàm của $2x + 1$ là $x^2 + x$. Do đó $\\displaystyle\\int_0^2 (2x + 1)\\,dx = \\left(x^2 + x\\right)\\Big|_0^2 = (4 + 2) - 0 = 6$. Phương án D do lấy nhầm nguyên hàm của $1$ là $2x$; phương án C do bỏ quên số hạng $1$. Chọn A."
+        },
+        {
+          "kind": "tf",
+          "muc": "TH",
+          "thuc_te": true,
+          "prompt": "Một ô tô đang chạy với vận tốc $10$ m/s thì người lái đạp phanh. Từ thời điểm đó, ô tô chuyển động chậm dần đều với vận tốc $v(t) = 10 - 2t$ (m/s), trong đó $t$ (giây) là thời gian kể từ lúc đạp phanh. Đồ thị của $v(t)$ như hình bên. Xét tính đúng sai của các mệnh đề sau.",
+          "image": "hinh-mau/van-toc-phanh.svg",
+          "options": [
+            "a) Ô tô dừng hẳn sau $5$ giây kể từ lúc đạp phanh.",
+            "b) Vận tốc của ô tô tại thời điểm $t = 2$ là $8$ m/s.",
+            "c) Quãng đường ô tô đi được từ lúc đạp phanh đến khi dừng hẳn là $25$ m.",
+            "d) Trong $2$ giây cuối trước khi dừng hẳn, ô tô đi được quãng đường lớn hơn $5$ m."
+          ],
+          "answer": [true, false, true, false],
+          "points": 1,
+          "verify": "(()=>{const v=t=>10-2*t;const S=(a,b)=>{const n=1000,h=(b-a)/n;let s=v(a)+v(b);for(let i=1;i<n;i++)s+=(i%2?4:2)*v(a+i*h);return s*h/3;};return [v(5)===0, v(2)===8, Math.abs(S(0,5)-25)<1e-9, S(3,5)>5];})()",
+          "explanation": "a) Đúng: $v(t) = 0 \\Leftrightarrow 10 - 2t = 0 \\Leftrightarrow t = 5$. b) Sai: $v(2) = 10 - 4 = 6$ (m/s). c) Đúng: quãng đường là $\\displaystyle\\int_0^5 (10 - 2t)\\,dt = \\left(10t - t^2\\right)\\Big|_0^5 = 50 - 25 = 25$ (m). d) Sai: $2$ giây cuối ứng với $t \\in [3; 5]$, quãng đường là $\\displaystyle\\int_3^5 (10 - 2t)\\,dt = (50 - 25) - (30 - 9) = 4$ (m), nhỏ hơn $5$ m."
+        },
+        {
+          "kind": "short",
+          "muc": "TH",
+          "thuc_te": false,
+          "prompt": "Tính $\\displaystyle\\int_0^{\\pi} \\sin x\\,dx$.",
+          "answer": ["2"],
+          "points": 0.5,
+          "verify": "(()=>{const f=Math.sin;const a=0,b=Math.PI,n=1000,h=(b-a)/n;let s=f(a)+f(b);for(let i=1;i<n;i++)s+=(i%2?4:2)*f(a+i*h);return Math.round(s*h/3*1e6)/1e6;})()",
+          "explanation": "Một nguyên hàm của $\\sin x$ là $-\\cos x$. Do đó $\\displaystyle\\int_0^{\\pi} \\sin x\\,dx = \\left(-\\cos x\\right)\\Big|_0^{\\pi} = -\\cos\\pi + \\cos 0 = 1 + 1 = 2$."
+        }
+      ]
+    }
+  ]
+}

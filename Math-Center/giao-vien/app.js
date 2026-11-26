@@ -4,13 +4,13 @@ import {
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm, copyBox, fmtDateTime,
 } from '../portal/common.js?v=20261202a';
 import { SUPABASE_URL } from '../portal/config.js';
-import { renderQuizTab } from './quiz.js?v=20261202a';
-import { renderBankTab } from './bank.js?v=20261202a';
+import { renderQuizTab } from './quiz.js?v=20261205a';
+import { renderBankTab } from './bank.js?v=20261205a';
 
 const app = $('#app');
 const top = $('#top-actions');
 
-const state = { user: null, profile: null, classes: [], tab: 'grades', classId: null, assessmentId: null, quizId: null, quizResultsId: null, bankQuizId: null, bank: null };
+const state = { user: null, profile: null, classes: [], tab: 'grades', classId: null, assessmentId: null, quizId: null, quizResultsId: null, homeworkId: null, bankQuizId: null, bank: null };
 const isAdmin = () => state.profile?.role === 'admin';
 
 if (!configured) {
@@ -92,7 +92,7 @@ function renderShell() {
   app.replaceChildren(
     el('div', { class: 'tabs', role: 'tablist' }, tabs.map(([id, label]) =>
       el('button', { class: 'tab', role: 'tab', 'aria-selected': String(state.tab === id), text: label,
-        onclick: () => { state.tab = id; state.quizId = null; state.quizResultsId = null; state.bankQuizId = null; renderShell(); } }))),
+        onclick: () => { state.tab = id; state.quizId = null; state.quizResultsId = null; state.homeworkId = null; state.bankQuizId = null; renderShell(); } }))),
     view);
   if (!state.classes.length && !['admin', 'bank', 'trials'].includes(state.tab)) {
     view.append(el('div', { class: 'panel empty' },
