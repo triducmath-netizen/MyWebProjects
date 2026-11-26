@@ -4,6 +4,7 @@ import {
   rich, imageUrls, qImage, KIND_LABEL, DEFAULT_POINTS, LETTERS, TF_LETTERS, reviewQuestion, fmtDeadline,
 } from '../portal/quiz-common.js?v=20261202a';
 import { downloadQuizPdf } from '../portal/pdf-export.js?v=20261202a';
+import { renderHomeworkPanel, renderHomeworkResults } from './homework.js?v=20261205a';
 
 let ctx; // { state, classSelect, rerender }
 let opts = {}; // { bank: true, back } khi mở từ Ngân hàng đề
@@ -13,10 +14,22 @@ export function renderQuizTab(view, context) {
   opts = {};
   if (ctx.state.quizId) return renderEditor(view, ctx.state.quizId);
   if (ctx.state.quizResultsId) return renderResults(view, ctx.state.quizResultsId);
+  if (ctx.state.homeworkId) return renderHomeworkResults(view, ctx.state.homeworkId, ctx, () => go({}));
   return renderList(view);
 }
 
-const go = (patch) => { Object.assign(ctx.state, { quizId: null, quizResultsId: null }, patch); ctx.rerender(); };
+const go = (patch) => { Object.assign(ctx.state, { quizId: null, quizResultsId: null, homeworkId: null }, patch); ctx.rerender(); };
+
+// Xóa hình của đề quizId: chỉ xóa file nằm trong thư mục của chính đề này và không còn
+// đề nào khác dùng (bài về nhà chép từ đề ngân hàng dùng chung hình với đề gốc).
+async function removeImages(quizId, paths) {
+  let own = [...new Set(paths.filter((p) => p && p.startsWith(`quizzes/${quizId}/`)))];
+  if (!own.length) return;
+  const { data: shared, error } = await sb.rpc('quiz_images_shared', { p_quiz: quizId, p_paths: own });
+  if (error) return; // không chắc thì giữ file
+  own = own.filter((p) => !(shared || []).includes(p));
+  if (own.length) await sb.storage.from(BUCKET).remove(own);
+}
 const back = () => (opts.back ? opts.back() : go({}));
 const isAdmin = () => ctx.state.profile?.role === 'admin';
 
@@ -41,15 +54,19 @@ const fromLocalInput = (v) => (v ? new Date(v).toISOString() : null);
 // =====================================================================
 async function renderList(view) {
   const box = el('div', { class: 'list section-gap' }, el('p', { class: 'muted', text: 'Đang tải…' }));
+  const homework = el('div', { class: 'section-gap' });
   view.append(
     el('div', { class: 'panel' }, el('div', { class: 'row' },
       ctx.classSelect(() => ctx.rerender()),
       el('button', { class: 'btn btn-gold', text: '+ Đề mới', onclick: () => createQuiz() }))),
+    homework,
+    el('h3', { class: 'section-gap', text: 'Đề trực tuyến tự soạn của lớp' }),
     box);
+  renderHomeworkPanel(homework, ctx, (id) => go({ homeworkId: id }));
 
   const [{ data: quizzes, error }, { data: students }] = await Promise.all([
     sb.from('quizzes').select('id, title, published, time_limit_min, opens_at, due_at, quiz_questions(count), quiz_attempts(submitted_at)')
-      .eq('class_id', ctx.state.classId).order('created_at', { ascending: false }),
+      .eq('class_id', ctx.state.classId).is('homework_id', null).order('created_at', { ascending: false }),
     sb.from('students').select('id').eq('class_id', ctx.state.classId),
   ]);
   if (error) { box.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
@@ -240,10 +257,10 @@ function editorCard(q, i, key, urls, all, quizId, { canDelete = true, afterSave 
         canDelete ? el('button', { class: 'btn btn-danger btn-sm', text: 'Xóa', onclick: async () => {
           if (!await askConfirm(`Xóa câu ${i + 1}? Không thể khôi phục.`)) return;
           const paths = [q.image_path, key?.explanation_image_path].filter(Boolean);
-          if (paths.length) await sb.storage.from(BUCKET).remove(paths);
           const { data: gone, error } = await sb.from('quiz_questions').delete().eq('id', q.id).select('id');
           if (error) { toast(errMsg(error), 'error'); return; }
           if (!gone?.length) { toast('Bạn không có quyền xóa câu này.', 'error'); return; }
+          await removeImages(quizId, paths);
           ctx.rerender();
         } }) : null)),
     rich(q.prompt),
@@ -369,7 +386,7 @@ function questionDialog(quizId, q, key, afterSave = null) {
         question_id: qid, answer, explanation: form.explanation.value.trim() || null, explanation_image_path,
       }, { onConflict: 'question_id' });
       if (ke) throw ke;
-      if (oldPaths.length) await sb.storage.from(BUCKET).remove(oldPaths);
+      await removeImages(quizId, oldPaths);
       dlg.close();
       toast(isNew ? 'Đã thêm câu hỏi.' : 'Đã lưu câu hỏi.');
       if (afterSave) await afterSave();
@@ -407,7 +424,7 @@ export async function deleteQuiz(z, done = () => go({})) {
     ...(sol || []).filter((f) => f.id).map((f) => `quizzes/${z.id}/sol/${f.name}`),
   ];
   // Xóa hình trước (sau khi xóa đề thì không còn quyền với thư mục hình của đề).
-  if (paths.length) await sb.storage.from(BUCKET).remove(paths);
+  await removeImages(z.id, paths);
   const { data: gone, error } = await sb.from('quizzes').delete().eq('id', z.id).select('id');
   if (error) { toast(errMsg(error), 'error'); return; }
   if (!gone?.length) { toast('Bạn không có quyền xóa đề này.', 'error'); return; }

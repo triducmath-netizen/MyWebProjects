@@ -4,7 +4,7 @@ import {
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm,
 } from '../portal/common.js?v=20261202a';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../portal/config.js';
-import { renderQuizList, setReadOnly } from './quiz.js?v=20261205a';
+import { renderQuizList, renderHomeworkList, setReadOnly } from './quiz.js?v=20261207a';
 
 const app = $('#app');
 let currentTab = 'weekly'; // mở sẵn "Bài giáo viên giao"
@@ -248,6 +248,10 @@ async function showStudent(students, s, tab = currentTab) {
   if (tab === 'quiz') { renderQuizList(listBox, s); return; }
   if (tab === 'summary') { renderWeeklySummary(listBox, s); return; }
 
+  // Bài tập về nhà theo bài học (mỗi em một đề riêng) — hiện trên cùng.
+  const hwBox = el('div', { class: 'section-gap' });
+  const hwReady = renderHomeworkList(hwBox, listBox, s, () => showStudent(students, s, 'weekly'));
+
   // Bài kiểm tra của lớp (hiện ngay khi giáo viên giao, kể cả chưa chấm) + bài cũ đã có kết quả.
   const [res, cls] = await Promise.all([
     sb.from('results')
@@ -267,8 +271,9 @@ async function showStudent(students, s, tab = currentTab) {
 
   rows.sort((a, b) => b.assessments.week_start.localeCompare(a.assessments.week_start) || b.assessments.id - a.assessments.id);
 
+  await hwReady;
   if (!rows.length) {
-    listBox.replaceChildren(el('div', { class: 'panel empty' },
+    listBox.replaceChildren(hwBox, hwBox.childElementCount ? el('div') : el('div', { class: 'panel empty' },
       el('h2', { text: 'Chưa có bài kiểm tra' }),
       el('p', { class: 'muted', text: 'Đề và kết quả bài kiểm tra hằng tuần sẽ hiện ở đây khi giáo viên giao bài.' })));
     return;
@@ -285,7 +290,7 @@ async function showStudent(students, s, tab = currentTab) {
     stat('Điểm trung bình (thang 10)', avg == null ? '—' : fmtNum(Math.round(avg * 10) / 10)),
     stat('Bài gần nhất', latest ? `${fmtNum(latest.score)} / ${fmtNum(latest.assessments.max_score)}` : '—'));
 
-  listBox.replaceChildren(stats, el('h2', { text: 'Bài kiểm tra của lớp' }), el('p', { class: 'muted small', text: 'Bấm vào tên bài để xem đề. Làm xong, chụp bài làm và bấm "Gửi bài làm" để gửi cho giáo viên.' }), ...rows.map((r) => weekCard(r, s, () => showStudent(students, s, 'weekly'))));
+  listBox.replaceChildren(hwBox, stats, el('h2', { text: 'Bài kiểm tra của lớp' }), el('p', { class: 'muted small', text: 'Bấm vào tên bài để xem đề. Làm xong, chụp bài làm và bấm "Gửi bài làm" để gửi cho giáo viên.' }), ...rows.map((r) => weekCard(r, s, () => showStudent(students, s, 'weekly'))));
 }
 
 // ---------- Kết quả hằng tuần ----------

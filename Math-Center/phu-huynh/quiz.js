@@ -42,8 +42,13 @@ async function loadAttempts(student) {
   return new Map((attempts || []).map((a) => [a.quiz_id, a]));
 }
 
+// Nút "← Danh sách bài": về danh sách đang mở (luyện đề, hoặc bài về nhà ở thẻ "Bài giáo viên giao").
+let listBack = null;
+function toList(box, student) { stopTaking(); if (listBack) listBack(); else renderQuizList(box, student); }
+
 export async function renderQuizList(box, student) {
   stopTaking();
+  listBack = null;
   if (readOnly) return renderChildAttempts(box, student);
   const body = el('div', {}, el('p', { class: 'muted', text: 'Đang tải…' }));
   const switcher = el('div', { class: 'child-switch' },
@@ -158,7 +163,7 @@ async function answerSheet(box, student, z) {
   });
   box.replaceChildren(
     el('div', { class: 'row', style: 'margin-bottom:16px' },
-      el('button', { class: 'btn btn-outline btn-sm', text: '← Danh sách bài', onclick: () => renderQuizList(box, student) }),
+      el('button', { class: 'btn btn-outline btn-sm', text: '← Danh sách bài', onclick: () => toList(box, student) }),
       el('button', { class: 'btn btn-outline btn-sm', text: 'Tải đề (PDF)', onclick: (e) => downloadPaper(z, e.currentTarget) })),
     el('div', { class: 'panel' },
       el('p', { class: 'eyebrow dark', text: 'Phiếu trả lời bài làm trên giấy' }),
@@ -203,9 +208,33 @@ async function renderChildAttempts(box, student) {
     })));
 }
 
+// Bài tập về nhà theo bài học (mỗi em một đề riêng), hiện ở thẻ "Bài giáo viên giao".
+//   list: chỗ vẽ danh sách; box: chỗ vẽ trang làm bài / kết quả; onBack: vẽ lại thẻ.
+export async function renderHomeworkList(list, box, student, onBack) {
+  const [{ data: quizzes, error }, byQuiz] = await Promise.all([
+    sb.from('quizzes').select(`${QUIZ_COLS}, homework_id, chapter`).not('homework_id', 'is', null).order('created_at', { ascending: false }),
+    loadAttempts(student),
+  ]);
+  if (error) { list.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
+  // Phụ huynh: chỉ xem bài con đã nộp.
+  const shown = (quizzes || []).filter((z) => !readOnly || byQuiz.get(z.id)?.submitted_at);
+  if (!shown.length) { list.replaceChildren(); return; }
+  const wrap = (z) => {
+    const item = quizItem(box, student, z, byQuiz.get(z.id));
+    item.addEventListener('click', () => { listBack = onBack; }, true);
+    return item;
+  };
+  list.replaceChildren(
+    el('h2', { text: 'Bài tập về nhà' }),
+    el('p', { class: 'muted small', text: readOnly
+      ? 'Bài tập về nhà theo bài học con đã nộp. Bấm "Xem kết quả & lời giải" để xem bài làm.'
+      : 'Mỗi em một đề riêng theo bài vừa học. Làm trên web trước hạn nộp; nộp xong em xem được điểm và lời giải ngay.' }),
+    el('div', { class: 'list' }, shown.map(wrap)));
+}
+
 async function renderAssigned(body, box, student) {
   const [{ data: quizzes, error }, byQuiz] = await Promise.all([
-    sb.from('quizzes').select(QUIZ_COLS).not('class_id', 'is', null).order('created_at', { ascending: false }),
+    sb.from('quizzes').select(QUIZ_COLS).not('class_id', 'is', null).is('homework_id', null).order('created_at', { ascending: false }),
     loadAttempts(student),
   ]);
   if (error) { body.replaceChildren(el('p', { class: 'error-text', text: errMsg(error) })); return; }
@@ -470,7 +499,7 @@ async function showResult(box, student, z, attemptId) {
 
   box.replaceChildren(
     el('div', { class: 'row', style: 'margin-bottom:16px' },
-      el('button', { class: 'btn btn-outline btn-sm', text: '← Danh sách bài', onclick: () => renderQuizList(box, student) }),
+      el('button', { class: 'btn btn-outline btn-sm', text: '← Danh sách bài', onclick: () => toList(box, student) }),
       el('button', { class: 'btn btn-navy btn-sm', text: 'Tải đề (PDF)',
         onclick: (e) => downloadQuizPdf(z, questions, urls, { button: e.currentTarget }) })),
     el('div', { class: 'panel result-hero' },
