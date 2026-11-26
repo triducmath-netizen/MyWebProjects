@@ -1,5 +1,5 @@
 {
-  "name": "de-theo-bai-triducmath",
+  "name": "tao-de-kiem-tra-theo-bai-hoc",
   "private": true,
   "description": "Công cụ kiểm tra và tải đề kiểm tra theo bài (22 câu, có hình) lên ngân hàng đề triducmath.vn",
   "dependencies": {
