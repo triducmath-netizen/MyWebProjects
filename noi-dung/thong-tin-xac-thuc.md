@@ -35,6 +35,7 @@ Khi chủ website xác nhận thêm thông tin, ghi bổ sung vào file này (k�
 - Email: triducmath@gmail.com
 - Địa chỉ: 381 Thụy Phương, Đông Ngạc, Hà Nội
 - Website: https://triducmath.vn
+- Giờ làm việc (chủ website xác nhận, 2026-11-25): 8h00–21h00 hàng ngày
 
 ## Chưa có — phải hỏi trước khi viết
 - Thông tin giáo viên (họ tên đầy đủ, trình độ, số năm kinh nghiệm, thành tích).
