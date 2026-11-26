@@ -11,6 +11,30 @@ Bạn là giáo viên Toán ra đề của **Trí Đức Math** (gọi đúng t�
 
 `<SKILL>` là thư mục chứa file này. Đề lưu ở thư mục đang làm việc, dưới `de-thi/toan-<lớp>/theo-bai/`.
 
+## Yêu cầu của thầy Đức (chủ Trí Đức Math) — đọc trước, ưu tiên cao nhất
+
+Các yêu cầu dưới đây do chính thầy Đức nêu khi xây dựng skill. Khi một bước bên dưới hay một tài liệu khác mâu thuẫn với mục này, làm theo mục này.
+
+**Mục đích**
+1. Đây là hệ thống **bài tập về nhà sau bài học trên lớp**. Mỗi lớp khoảng 20 học sinh, nên mỗi bài làm **1 đề gốc rồi nhân lên thành 20 đề**: giống nhau về cấu trúc, kiến thức, ma trận đề; chỉ khác số liệu, ngữ cảnh và đáp án.
+2. Trên website, giáo viên vào phần giao bài về nhà, chọn bằng các thanh cuộn **Lớp → Chương → Bài** (tên chương, tên bài **theo đúng SGK Kết nối tri thức với cuộc sống**), bấm *Giao bài*. Mỗi học sinh tự động nhận **một đề ngẫu nhiên**, hiện ở phần **"Bài giáo viên giao"** của trang học sinh.
+
+**Nội dung đề** (giữ từ bản skill gốc `math-lesson-test-builder`)
+3. Phạm vi: chỉ kiến thức của bài đó và các bài trước; loại kiến thức các bài sau; chỉ dùng phương pháp (đổi biến, từng phần…) khi SGK của bài có; bối cảnh thực tế lấy từ SGK rồi đổi số liệu.
+4. Cấu trúc và thang điểm theo đề THPT 2025: Phần I 12 câu trắc nghiệm × 0,25; Phần II 4 câu Đúng/Sai × 1 (đúng 1/2/3/4 ý được 0,1/0,25/0,5/1 điểm); Phần III 6 câu trả lời ngắn × 0,5. Đánh số câu liên tục 1–22.
+5. Ma trận mức độ ≈ 4:3:3 (nhận biết : thông hiểu : vận dụng). Toán thực tế ≥ 20% tổng điểm (≥ 2 điểm).
+6. Mọi câu có parabol, đường tròn, hình phẳng, đồ thị, bảng biến thiên đều phải có hình vẽ, ghi điểm giao và nhãn trục, tô vùng cần tính.
+7. Mỗi câu có lời giải ngắn nhưng đủ (công thức, các bước, kết luận); Đúng/Sai giải thích từng ý. Đáp án Đúng/Sai không theo mẫu lặp lộ liễu.
+8. Tự tính lại từng đáp án, không tin kết quả nháp; đếm số câu mỗi phần, mỗi mức độ, tỉ lệ thực tế trước khi giao.
+
+**Chống bấm máy tính** (yêu cầu thêm của thầy Đức)
+9. Các đề làm ra phải **tránh tối đa việc học sinh bấm máy tính ra kết quả**. Học sinh có máy Casio fx-580VN X: tính được tích phân số, đạo hàm tại điểm, giải phương trình, bảng giá trị, thử từng phương án. Không ra câu mà nhập thẳng đề vào máy là ra đáp án; dùng tham số, hàm ẩn, đọc hình, mô hình hoá, suy luận (chi tiết ở quy tắc mục 4). Đề vẫn phải làm được hoàn toàn bằng tay, số liệu đẹp.
+
+**Quy trình làm đề**
+10. Thầy Đức chỉ gọi skill làm đề **trên máy này**. Skill giữ **danh sách các bài chưa làm đề**, mỗi lần gọi thì **hỏi làm đề bài nào**; làm xong (tải lên đủ 20 đề) thì **ghi lại là đã làm** để lần sau không hỏi lại bài đó (công cụ `scripts/tien-do.mjs`).
+11. Vì số lượng đề nhiều, **huy động các AI khác** cùng làm để giảm tải cho Claude Code: trợ lý Sonnet trong Claude Code soạn các đề tương đương; có thể nhờ Gemini hay AI khác (dùng `tai-lieu/loi-nhan-cho-ai-khac.md`). Cần cài thêm AI nào thì **báo thầy Đức cài đặt**, không tự cài. Phần AI khác làm phải qua bộ kiểm tra và Claude chính tự giải lại một phần trước khi tải lên.
+12. Giáo viên không duyệt từng đề, nên Claude tự chịu trách nhiệm về độ chính xác.
+
 ## Bước 0 — Môi trường (mỗi phiên một lần)
 
 1. `node --version` ≥ 18.
