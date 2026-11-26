@@ -35,7 +35,8 @@ Bạn là giáo viên Toán ra đề của **Trí Đức Math** (gọi đúng t�
 
 Đọc **toàn bộ** `<SKILL>/tai-lieu/quy-tac-de-theo-bai.md` (cấu trúc, ma trận, hạn chế bấm máy, hình vẽ, định dạng JSON, `verify`) và xem đề mẫu `<SKILL>/tai-lieu/de-mau-theo-bai.json` cùng hình mẫu `<SKILL>/tai-lieu/hinh-mau/`.
 
-1. Soạn **đề gốc** (Đề 1): đủ 22 câu, ghi `muc` (NB/TH/VD), `thuc_te`, `verify` cho từng câu; vẽ đủ hình SVG.
+1. Soạn **đề gốc** (Đề 1): đủ 22 câu, ghi `muc` (NB/TH/VD), `thuc_te`, `bam_may`, `verify` cho từng câu; vẽ đủ hình SVG.
+   **Chống bấm máy là yêu cầu hàng đầu** (quy tắc mục 4): học sinh có máy Casio fx-580VN X tính được tích phân số, đạo hàm tại điểm, giải phương trình, bảng giá trị và thử từng phương án. Với mỗi câu, tự hỏi "nhập đề vào máy có ra ngay đáp án không?"; nếu có thì đổi sang tham số, hàm ẩn, đọc hình, mô hình hoá hoặc suy luận. Tối đa 3 câu NB ở Phần I được phép bấm máy ra ngay.
 2. Lưu vào `de-thi/toan-<lớp>/theo-bai/_nhap/<tên-file>-de-01.json`; hình ở `de-thi/toan-<lớp>/theo-bai/hinh/bai-<số>/de-01-cau-<mm>.svg`.
 3. Chạy bộ kiểm tra với `--partial` cho riêng file này đến khi **0 lỗi**, và tự giải lại từng câu. Đề gốc là khuôn cho 19 đề kia: sai ở đây sẽ nhân lên 20 lần.
 
@@ -46,7 +47,7 @@ Bạn là giáo viên Toán ra đề của **Trí Đức Math** (gọi đúng t�
 1. Chạy song song **4 subagent** (công cụ Agent, `model: "sonnet"`), mỗi subagent một nhóm đề: 2–6, 7–11, 12–16, 17–20. Nội dung giao cho mỗi subagent:
    - toàn văn `<SKILL>/tai-lieu/quy-tac-de-theo-bai.md` và file đề gốc;
    - nhóm số đề phải làm, `slug` / `title` / `sort_order` tương ứng (ví dụ `toan12-bai12-tich-phan-07`, `Bài 12. Tích phân — Đề 7`, 7);
-   - yêu cầu: giữ đúng dạng câu, `muc`, `thuc_te`, có/không hình ở từng vị trí; chỉ đổi số liệu, hệ số, hàm cùng dạng, bối cảnh cùng loại; số đẹp, không cần máy tính; mỗi câu có `verify`; vẽ lại hình theo số liệu mới tại `hinh/bai-<số>/de-<nn>-cau-<mm>.svg`;
+   - yêu cầu: giữ đúng dạng câu, `muc`, `thuc_te`, `bam_may`, có/không hình ở từng vị trí; chỉ đổi số liệu, hệ số, hàm cùng dạng, bối cảnh cùng loại; số đẹp, không cần máy tính; mỗi câu có `verify`; vẽ lại hình theo số liệu mới tại `hinh/bai-<số>/de-<nn>-cau-<mm>.svg`;
    - ghi vào **file riêng** `de-thi/toan-<lớp>/theo-bai/_nhap/<tên-file>-de-<a>-<b>.json`, tự chạy `node <SKILL>/scripts/check-lesson-exams.mjs --partial <file>` đến 0 lỗi;
    - **không** tải lên, không sửa file của nhóm khác, không đọc `.env`.
 2. Gộp:
@@ -64,7 +65,7 @@ Bạn là giáo viên Toán ra đề của **Trí Đức Math** (gọi đúng t�
 node <SKILL>/scripts/check-lesson-exams.mjs --matrix de-thi/toan-<lớp>/theo-bai/<tên-file>.ma-tran.md de-thi/toan-<lớp>/theo-bai/<tên-file>.json
 ```
 
-- Công cụ chặn: thiếu/sai dạng tên chương (`chapter`) hoặc tên bài (`topic`), sai cấu trúc 12–4–6, sai điểm, không phải 90 phút, mức độ lệch 4:3:3, câu thực tế < 2 điểm, Đúng/Sai 4 ý cùng đáp án, đáp số Phần III không phải số, câu nhắc tới hình mà không có hình, hình SVG hỏng, công thức KaTeX lỗi, câu trùng nguyên văn giữa các đề, 20 đề không cùng cấu trúc, `verify` không khớp đáp án.
+- Công cụ chặn: thiếu/sai dạng tên chương (`chapter`) hoặc tên bài (`topic`), sai cấu trúc 12–4–6, sai điểm, không phải 90 phút, mức độ lệch 4:3:3, câu thực tế < 2 điểm, Đúng/Sai 4 ý cùng đáp án, đáp số Phần III không phải số, câu bấm máy ra ngay (quá 3 câu, hoặc ngoài Phần I mức NB, hoặc tự dò thấy mà ghi `bam_may: false`), câu nhắc tới hình mà không có hình, hình SVG hỏng, công thức KaTeX lỗi, câu trùng nguyên văn giữa các đề, 20 đề không cùng cấu trúc, `verify` không khớp đáp án.
 - Mới xong một phần: thêm `--partial` (bỏ qua yêu cầu đủ 20 đề).
 - Trước khi tải lên: chạy **không** `--partial`, đạt **0 lỗi**. Xử lý cảnh báo "chưa có verify", "nên có hình vẽ", "số từ 5 chữ số" (xem lại có phải bấm máy không).
 - `--matrix` ghi ma trận đề (mức độ, cờ thực tế, đáp án trắc nghiệm từng đề) cho giáo viên kiểm tra nhanh.

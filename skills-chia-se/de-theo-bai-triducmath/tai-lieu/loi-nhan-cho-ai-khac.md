@@ -17,6 +17,7 @@ Yêu cầu bắt buộc:
 - Mỗi đề: `slug` = `<toan12-bai12-tich-phan>-<nn>` (nn là số đề có 2 chữ số), `title` = `<Bài 12. Tích phân> — Đề <n>`, `sort_order` = n, `time_limit_min` = 90.
 - Ở **mỗi vị trí câu** (câu 1 đến 22), giữ đúng như đề gốc: `kind`, `muc`, `thuc_te`, `points`, có hình hay không. Chỉ đổi số liệu, hệ số, hàm số cùng dạng, bối cảnh thực tế cùng loại. Không chép nguyên văn câu của đề gốc.
 - Không dùng kiến thức của các bài sau bài này. Số liệu đẹp, làm bằng tay được, không cần máy tính.
+- **Chống bấm máy** (quy tắc mục 4): học sinh có máy Casio fx-580VN X (tính được tích phân số, đạo hàm tại điểm, giải phương trình, bảng giá trị, thử phương án). Không ra câu mà nhập thẳng đề vào máy là ra đáp án; dùng tham số, hàm ẩn, đọc hình, mô hình hoá, suy luận. Giữ nguyên trường `bam_may` của đề gốc ở từng vị trí câu.
 - Phần III (`short`): đáp số là **một số** (nguyên hoặc thập phân hữu hạn, tối đa 4 ký tự), không phải biểu thức.
 - Đúng/Sai: mỗi câu phải có cả ý Đúng lẫn ý Sai; giải thích từng ý a, b, c, d trong `explanation`.
 - Trắc nghiệm: đáp án đúng của 12 câu chia đều A/B/C/D (mỗi chữ 1–5 câu).

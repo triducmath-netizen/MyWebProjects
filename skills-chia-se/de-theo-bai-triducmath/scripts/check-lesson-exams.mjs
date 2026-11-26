@@ -19,6 +19,7 @@ export const FORMAT = {
   examsPerLesson: 20,
   levels: { NB: [8, 10], TH: [6, 8], VD: [5, 7] }, // mục tiêu 4:3:3 ≈ 9–10 / 6–7 / 6
   minPractical: 2,
+  maxCalc: 3, // tối đa số câu bấm máy ra ngay (chỉ Phần I, mức NB)
 };
 const ORDER = ['mcq', 'tf', 'short'];
 const LETTERS = 'ABCD';
@@ -80,6 +81,19 @@ export function figureToPng(path) {
 // Câu nhắc tới hình mà không có hình → lỗi; nói tới đối tượng hình học → nhắc nên có hình.
 const NEEDS_FIGURE = /hình vẽ|hình bên|hình dưới|như hình|trong hình|bảng biến thiên|đồ thị (?:như|ở|trong) hình|cho đồ thị/i;
 const SHOULD_FIGURE = /parabol|đường tròn|hình phẳng|miền (?:được )?giới hạn|đồ thị hàm số|hình chóp|hình lăng trụ|hình hộp|tam giác|hình thang|hình chữ nhật/i;
+// Mẫu câu học sinh nhập thẳng vào máy tính là ra đáp án (Casio fx-580VN X...).
+// Cận / số trong LaTeX: 2, -1, {3}, 1.5, \pi, \frac{1}{2}
+const NUM = String.raw`\{?-?(?:\d+(?:[.,]\d+)?|\\pi|\\frac\{\d+\}\{\d+\})\}?`;
+const CALC_PATTERNS = [
+  [new RegExp(String.raw`\\int_${NUM}\^${NUM}`), 'tích phân có cận là số'],
+  [/(?:f|y|g)'+\s*\(\s*-?\d/, 'đạo hàm tại một điểm'],
+  [/(?:giải|nghiệm của)\s+(?:các\s+)?(?:bất\s+)?phương trình/i, 'giải phương trình / bất phương trình'],
+  [/(?:tính|giá trị của)[^.?]*\\(?:log|ln|sin|cos|tan|sqrt|binom)|\b[CA]_\{?\d+\}?\^\{?\d+/i, 'tính giá trị biểu thức số'],
+];
+// Dấu hiệu câu đã có yếu tố máy không làm thay: tham số (a, b, m, k đứng riêng), hàm ẩn f(x)
+// (không cho công thức), đọc hình / bảng / đồ thị, dữ kiện "biết…", "thỏa mãn…", "sao cho…".
+const ANTI_CALC = /(?<![\p{L}\\])[abmk](?![\p{L}(])|f\(x\)(?!\s*=)|hình|bảng|đồ thị|biết\s|thỏa mãn|sao cho/iu;
+
 const BIG_NUMBER = /(?<![\d.,])\d{5,}(?![\d])|\d{1,3}(?:[ .]\d{3}){2,}/; // ≥ 5 chữ số liền: dễ phải bấm máy
 
 export function checkFiles(paths, { partial = false } = {}) {
@@ -140,6 +154,7 @@ export function checkFiles(paths, { partial = false } = {}) {
       const tfPatterns = [];
       const levelCount = { NB: 0, TH: 0, VD: 0 };
       let practical = 0;
+      let calcCount = 0;
 
       e.questions.forEach((q, i) => {
         const qa = (s) => at(`câu ${i + 1} (${q.kind}) › ${s}`);
@@ -148,6 +163,17 @@ export function checkFiles(paths, { partial = false } = {}) {
         else levelCount[q.muc]++;
         if (typeof q.thuc_te !== 'boolean') errors.push(qa('thuc_te phải là true/false'));
         else if (q.thuc_te) practical += Number(q.points) || 0;
+        if (typeof q.bam_may !== 'boolean') errors.push(qa('bam_may phải là true/false (câu nhập thẳng vào máy tính có ra đáp án không)'));
+        else if (q.bam_may) {
+          calcCount++;
+          if (q.kind !== 'mcq' || q.muc !== 'NB') errors.push(qa('chỉ câu trắc nghiệm mức NB mới được bam_may: true — đổi câu để máy không giải thay'));
+        } else {
+          const text = String(q.prompt ?? '') + ' ' + (q.options || []).join(' ');
+          const hit = CALC_PATTERNS.find(([re]) => re.test(text));
+          if (hit && !ANTI_CALC.test(String(q.prompt ?? '')) && !q.ly_do_khong_bam_may) {
+            errors.push(qa(`có vẻ bấm máy ra ngay (${hit[1]}) nhưng ghi bam_may: false — đổi câu (tham số, hàm ẩn, đọc hình, mô hình hoá…), ghi bam_may: true, hoặc ghi "ly_do_khong_bam_may" giải thích`));
+          }
+        }
 
         if (!q.prompt?.trim()) errors.push(qa('thiếu prompt'));
         else {
@@ -230,6 +256,8 @@ export function checkFiles(paths, { partial = false } = {}) {
       for (const [lv, [lo, hi]] of Object.entries(FORMAT.levels)) {
         if (levelCount[lv] < lo || levelCount[lv] > hi) errors.push(at(`số câu ${lv} = ${levelCount[lv]}, cần ${lo}–${hi} (tỉ lệ NB:TH:VD ≈ 4:3:3)`));
       }
+      exam._calc = calcCount;
+      if (calcCount > FORMAT.maxCalc) errors.push(at(`${calcCount} câu bấm máy ra ngay, tối đa ${FORMAT.maxCalc}`));
       if (practical + 1e-9 < FORMAT.minPractical) errors.push(at(`câu thực tế mới được ${practical} điểm, cần ít nhất ${FORMAT.minPractical} điểm (20%)`));
       if (mcqAnswers.length === 12) {
         const counts = [0, 1, 2, 3].map((k) => mcqAnswers.filter((x) => x === k).length);
@@ -247,8 +275,8 @@ export function checkFiles(paths, { partial = false } = {}) {
       if (x === ref || !Array.isArray(x.questions) || x.questions.length !== ref.questions.length) continue;
       x.questions.forEach((q, i) => {
         const r = ref.questions[i];
-        if (q.kind !== r.kind || q.muc !== r.muc || q.thuc_te !== r.thuc_te) {
-          errors.push(`${k} › ${x.slug} câu ${i + 1}: khác đề ${ref.slug} (dạng/mức độ/thực tế phải giống nhau ở cùng vị trí câu)`);
+        if (q.kind !== r.kind || q.muc !== r.muc || q.thuc_te !== r.thuc_te || q.bam_may !== r.bam_may) {
+          errors.push(`${k} › ${x.slug} câu ${i + 1}: khác đề ${ref.slug} (dạng/mức độ/thực tế/bấm máy phải giống nhau ở cùng vị trí câu)`);
         }
         if (!!q.image !== !!r.image) warns.push(`${k} › ${x.slug} câu ${i + 1}: có/không có hình khác với đề ${ref.slug}`);
       });
@@ -264,16 +292,16 @@ export function matrixMarkdown(lessons) {
     lines.push(`# Ma trận đề — ${k}`, '', `${list.length} đề · 22 câu/đề · 90 phút · thang điểm THPT 2025`, '');
     const ref = list[0];
     if (ref?.questions) {
-      lines.push('## Cấu trúc chung (giống nhau ở mọi đề)', '', '| Câu | Phần | Dạng | Mức độ | Thực tế | Điểm | Hình |', '|---|---|---|---|---|---|---|');
+      lines.push('## Cấu trúc chung (giống nhau ở mọi đề)', '', '| Câu | Phần | Dạng | Mức độ | Thực tế | Bấm máy ra ngay | Điểm | Hình |', '|---|---|---|---|---|---|---|---|');
       const part = { mcq: 'I', tf: 'II', short: 'III' };
       const name = { mcq: 'Trắc nghiệm', tf: 'Đúng/Sai', short: 'Trả lời ngắn' };
-      ref.questions.forEach((q, i) => lines.push(`| ${i + 1} | ${part[q.kind] ?? '?'} | ${name[q.kind] ?? q.kind} | ${q.muc ?? '?'} | ${q.thuc_te ? '✓' : ''} | ${String(q.points).replace('.', ',')} | ${q.image ? '✓' : ''} |`));
+      ref.questions.forEach((q, i) => lines.push(`| ${i + 1} | ${part[q.kind] ?? '?'} | ${name[q.kind] ?? q.kind} | ${q.muc ?? '?'} | ${q.thuc_te ? '✓' : ''} | ${q.bam_may ? '⚠' : ''} | ${String(q.points).replace('.', ',')} | ${q.image ? '✓' : ''} |`));
       lines.push('');
     }
-    lines.push('## Từng đề', '', '| Đề | NB | TH | VD | Điểm thực tế | Đáp án trắc nghiệm |', '|---|---|---|---|---|---|');
+    lines.push('## Từng đề', '', '| Đề | NB | TH | VD | Điểm thực tế | Câu bấm máy | Đáp án trắc nghiệm |', '|---|---|---|---|---|---|---|');
     for (const x of list) {
       const mcq = (x.questions || []).filter((q) => q.kind === 'mcq').map((q) => LETTERS[q.answer] ?? '?').join('');
-      lines.push(`| ${x.slug} | ${x._levels?.NB ?? '?'} | ${x._levels?.TH ?? '?'} | ${x._levels?.VD ?? '?'} | ${String(x._practical ?? '?').replace('.', ',')} | ${mcq} |`);
+      lines.push(`| ${x.slug} | ${x._levels?.NB ?? '?'} | ${x._levels?.TH ?? '?'} | ${x._levels?.VD ?? '?'} | ${String(x._practical ?? '?').replace('.', ',')} | ${x._calc ?? '?'} | ${mcq} |`);
     }
     lines.push('');
   }
