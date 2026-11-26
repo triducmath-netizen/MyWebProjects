@@ -1,5 +1,5 @@
 ---
-name: de-theo-bai-triducmath
+name: tao-de-kiem-tra-theo-bai-hoc
 description: Soạn bộ 20 đề bài tập về nhà tương đương cho MỘT BÀI trong SGK Toán 6–12 (Kết nối tri thức) theo cấu trúc THPT 2025 — 12 trắc nghiệm, 4 Đúng/Sai, 6 trả lời ngắn, thang 10 — có hình vẽ, ít bấm máy, ≥ 20% toán thực tế, đáp án và lời giải chi tiết; tự kiểm tra bằng công cụ rồi tải lên ngân hàng đề triducmath.vn để giáo viên giao về nhà (mỗi học sinh nhận ngẫu nhiên một đề). Dùng khi được yêu cầu "ra đề theo bài", "đề về nhà Bài 12", "20 đề cho bài ...".
 ---
 
