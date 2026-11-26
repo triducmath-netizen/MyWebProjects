@@ -177,7 +177,8 @@ export function checkFiles(paths, { partial = false } = {}) {
 
         if (!q.prompt?.trim()) errors.push(qa('thiếu prompt'));
         else {
-          const key = q.prompt.replace(/\s+/g, ' ').trim();
+          // So sau khi bỏ khác biệt cách viết LaTeX (\displaystyle, \,, \left, \right, ngoặc {}, khoảng trắng).
+          const key = q.prompt.replace(/\\displaystyle|\\,|\\left|\\right|[\s{}]/g, '');
           if (prompts.has(key)) errors.push(qa(`trùng nguyên văn câu trong ${prompts.get(key)} — các đề tương đương phải đổi số liệu`));
           else prompts.set(key, `${e.slug} câu ${i + 1}`);
         }
@@ -186,6 +187,11 @@ export function checkFiles(paths, { partial = false } = {}) {
         for (const t of texts) {
           if (t != null && !balancedDollars(t)) errors.push(qa(`dấu $ không cân: ${String(t).slice(0, 60)}`));
           for (const me of mathErrors(t)) errors.push(qa(`công thức lỗi hiển thị: ${me}`));
+          // Lệnh LaTeX bị mất dấu "\" (KaTeX vẫn dựng được nhưng hiện thành chữ thường, ví dụ "0 le t le 6").
+          for (const m of String(t ?? '').matchAll(/\$([^$]+)\$/g)) {
+            const lost = /(?<![\\\p{L}])(displaystyle|dfrac|frac\{|int_|le|ge|cdot|sqrt|mathbb|infty|Leftrightarrow|Big)(?![\p{L}])/u.exec(m[1]);
+            if (lost) { errors.push(qa(`công thức mất dấu "\\" trước "${lost[1]}": $${m[1].slice(0, 50)}$`)); break; }
+          }
         }
         if (BIG_NUMBER.test(String(q.prompt ?? '') + ' ' + (q.options || []).join(' '))) warns.push(qa('có số từ 5 chữ số trở lên — xem lại có phải bấm máy không'));
 

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 260" font-family="Times New Roman" font-size="17">
+  <defs><marker id="mui" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker></defs>
+  <rect width="420" height="260" fill="#fff"/>
+  <path d="M90,210 A80,80 0 0 1 250,210 L330,130 L330,210 Z" fill="#cfe3ff" fill-opacity="0.8"/>
+  
+  <line x1="50" y1="210" x2="400" y2="210" stroke="#000" stroke-width="1.5" marker-end="url(#mui)"/>
+  <line x1="170" y1="240" x2="170" y2="30" stroke="#000" stroke-width="1.5" marker-end="url(#mui)"/>
+  <text x="392" y="232" font-style="italic">x</text>
+  <text x="178" y="38" font-style="italic">y</text>
+  <text x="152" y="230" font-style="italic">O</text>
+  <line x1="90" y1="206" x2="90" y2="214" stroke="#000"/><text x="81" y="232">−2</text><line x1="130" y1="206" x2="130" y2="214" stroke="#000"/><text x="121" y="232">−1</text><line x1="210" y1="206" x2="210" y2="214" stroke="#000"/><text x="205" y="232">1</text><line x1="250" y1="206" x2="250" y2="214" stroke="#000"/><text x="245" y="232">2</text><line x1="290" y1="206" x2="290" y2="214" stroke="#000"/><text x="285" y="232">3</text><line x1="330" y1="206" x2="330" y2="214" stroke="#000"/><text x="325" y="232">4</text>
+  <line x1="330" y1="210" x2="330" y2="130" stroke="#555" stroke-dasharray="5,4"/>
+  <path d="M90,210 A80,80 0 0 1 250,210 L330,130" fill="none" stroke="#1f4fa8" stroke-width="2.2"/>
+  <text x="298" y="126" fill="#1f4fa8" font-style="italic">y = f(x)</text>
+</svg>
