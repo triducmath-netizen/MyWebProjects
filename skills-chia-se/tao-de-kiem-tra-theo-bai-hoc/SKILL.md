@@ -34,6 +34,7 @@ Các yêu cầu dưới đây do chính thầy Đức nêu khi xây dựng skill
 10. Thầy Đức chỉ gọi skill làm đề **trên máy này**. Skill giữ **danh sách các bài chưa làm đề**, mỗi lần gọi thì **hỏi làm đề bài nào**; làm xong (tải lên đủ 20 đề) thì **ghi lại là đã làm** để lần sau không hỏi lại bài đó (công cụ `scripts/tien-do.mjs`).
 11. Vì số lượng đề nhiều, **huy động các AI khác** cùng làm để giảm tải cho Claude Code: trợ lý Sonnet trong Claude Code soạn các đề tương đương; có thể nhờ Gemini hay AI khác (dùng `tai-lieu/loi-nhan-cho-ai-khac.md`). Cần cài thêm AI nào thì **báo thầy Đức cài đặt**, không tự cài. Phần AI khác làm phải qua bộ kiểm tra và Claude chính tự giải lại một phần trước khi tải lên.
 12. Giáo viên không duyệt từng đề, nên Claude tự chịu trách nhiệm về độ chính xác.
+13. **Tiết kiệm token**: tài khoản của thầy Đức có hạn. Mặc định sinh 19 đề tương đương bằng chương trình (Bước 4); tra SGK một lần rồi lưu ghi chú phạm vi vào `tai-lieu/pham-vi/`; soát lại bằng bản in gọn, không in cả đề khi không cần.
 
 ## Bước 0 — Môi trường (mỗi phiên một lần)
 
@@ -50,7 +51,7 @@ Các yêu cầu dưới đây do chính thầy Đức nêu khi xây dựng skill
 
 ## Bước 2 — Xác định phạm vi bài
 
-1. Tra nội dung SGK của bài đó (các mục, ví dụ, HĐ mở đầu, bài tập; đối chiếu hai nguồn). Ghi danh sách kiến thức ĐƯỢC dùng.
+1. Xem `<SKILL>/tai-lieu/pham-vi/toan-<lớp>-bai-<số>.md` trước; có rồi thì dùng luôn, không tra web. Chưa có thì tra nội dung SGK của bài (các mục, ví dụ, HĐ mở đầu, bài tập; đối chiếu hai nguồn), ghi danh sách kiến thức ĐƯỢC dùng, rồi **lưu vào file đó** cho lần sau.
 2. Liệt kê kiến thức của **các bài sau** bị loại trừ. Ví dụ: diện tích hình phẳng và thể tích vật thể tròn xoay thuộc Bài 13, không dùng trong Bài 12 (Tích phân).
 3. Chỉ dùng phương pháp (đổi biến, từng phần, …) khi SGK của bài đó có. Không chắc thì không dùng.
 4. Bối cảnh thực tế lấy từ SGK (HĐ mở đầu, ví dụ, bài tập có ngữ cảnh) rồi đổi số liệu; không sáng tác bối cảnh ngoài chương trình.
@@ -64,9 +65,18 @@ Các yêu cầu dưới đây do chính thầy Đức nêu khi xây dựng skill
 2. Lưu vào `de-thi/toan-<lớp>/theo-bai/_nhap/<tên-file>-de-01.json`; hình ở `de-thi/toan-<lớp>/theo-bai/hinh/bai-<số>/de-01-cau-<mm>.svg`.
 3. Chạy bộ kiểm tra với `--partial` cho riêng file này đến khi **0 lỗi**, và tự giải lại từng câu. Đề gốc là khuôn cho 19 đề kia: sai ở đây sẽ nhân lên 20 lần.
 
-## Bước 4 — Nhân thành 19 đề tương đương (chia việc cho AI khác)
+## Bước 4 — Nhân thành 19 đề tương đương
 
-Đề 2–20 là việc lặp lại theo khuôn, nên **giao cho subagent dùng model rẻ hơn** để Claude chính đỡ tải. Claude chính chỉ soạn đề gốc, gộp và kiểm tra.
+**Mặc định: sinh bằng chương trình (khuôn tham số) — tiết kiệm token** (yêu cầu của thầy Đức: tài khoản không đủ token cho cách giao 4 trợ lý AI; cách khuôn tốn khoảng 1/5–1/10).
+
+1. Viết script `de-thi/toan-<lớp>/theo-bai/sinh-de/<tên-file>.mjs` theo mẫu `de-thi/toan-10/theo-bai/sinh-de/bai-10.mjs` (đọc mẫu đó trước): mỗi câu 1–22 có một hàm khuôn `T[i](n, key)` — chọn bộ số đẹp (ngẫu nhiên có hạt giống), tự tính đáp án, phương án nhiễu (lỗi sai thường gặp), lời giải, `verify`, và vẽ hình nếu câu có hình. `key` là vị trí đáp án đúng (trắc nghiệm, xoay vòng để mỗi đề chia đều A/B/C/D) hoặc mẫu Đúng/Sai (lấy từ danh sách mẫu trộn); hàm trả `null` khi bộ số không đạt để thử bộ khác.
+2. Câu nào của đề gốc là câu lý thuyết không có số (công thức, định nghĩa) thì **đổi thành câu có số liệu** trước khi viết khuôn — câu không đổi số được sẽ trùng ở cả 20 đề.
+3. `verify` phải tính **độc lập** với phần tạo đề và **chính xác**: phương trình bậc nhất thì giải thẳng, không dò nghiệm theo lưới (lưới bỏ sót nghiệm phân số như 1/7); số thực thì làm tròn trước khi so.
+4. Chạy: `node <script> de-thi/.../_nhap/<tên-file>-de-01.json de-thi/.../_nhap/<tên-file>-de-02-20.json`, rồi gộp (bước 6 bên dưới) và kiểm tra cả bài. Lỗi `verify` = khuôn sai → sửa khuôn rồi sinh lại toàn bộ.
+5. Soát: tự giải lại 1 đề trọn vẹn và các câu Đúng/Sai của 1 đề khác; ghép xem toàn bộ hình (nhãn không đè trục, vectơ không nằm trên trục). In đề bằng dạng gọn, chỉ phần cần soát, để đỡ tốn token.
+6. Lưu script trong repo cùng đề (để sinh lại khi cần sửa).
+
+**Cách phụ: giao trợ lý AI** (chỉ khi thầy Đức yêu cầu, hoặc bài khó viết khuôn — ví dụ câu chữ phải rất đa dạng). Mỗi trợ lý Sonnet tốn khoảng 200–250 nghìn token cho 5 đề.
 
 1. Chạy song song **4 subagent** (công cụ Agent, `model: "sonnet"`), mỗi subagent một nhóm đề: 2–6, 7–11, 12–16, 17–20. Nội dung giao cho mỗi subagent:
    - toàn văn `<SKILL>/tai-lieu/quy-tac-de-theo-bai.md` và file đề gốc;

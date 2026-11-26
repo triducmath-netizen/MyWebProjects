@@ -173,7 +173,7 @@ File này do `scripts/tien-do.mjs` sinh ra — không sửa tay. Ghi tay bằng 
 | Bài 31. Hình trụ và hình nón | Chương X. Một số hình khối trong thực tiễn | ⬜ chưa làm |
 | Bài 32. Hình cầu | Chương X. Một số hình khối trong thực tiễn | ⬜ chưa làm |
 
-## Toán 10 — 0/27 bài có đề
+## Toán 10 — 1/27 bài có đề
 
 | Bài | Chương | Trạng thái |
 |---|---|---|
@@ -186,7 +186,7 @@ File này do `scripts/tien-do.mjs` sinh ra — không sửa tay. Ghi tay bằng 
 | Bài 7. Các khái niệm mở đầu | Chương IV. Vectơ | ⬜ chưa làm |
 | Bài 8. Tổng và hiệu của hai vectơ | Chương IV. Vectơ | ⬜ chưa làm |
 | Bài 9. Tích của một vectơ với một số | Chương IV. Vectơ | ⬜ chưa làm |
-| Bài 10. Vectơ trong mặt phẳng tọa độ | Chương IV. Vectơ | ⬜ chưa làm |
+| Bài 10. Vectơ trong mặt phẳng tọa độ | Chương IV. Vectơ | ✅ đã có đề (2026-11-26, 20 đề) |
 | Bài 11. Tích vô hướng của hai vectơ | Chương IV. Vectơ | ⬜ chưa làm |
 | Bài 12. Số gần đúng và sai số | Chương V. Các số đặc trưng của mẫu số liệu không ghép nhóm | ⬜ chưa làm |
 | Bài 13. Các số đặc trưng đo xu thế trung tâm | Chương V. Các số đặc trưng của mẫu số liệu không ghép nhóm | ⬜ chưa làm |
