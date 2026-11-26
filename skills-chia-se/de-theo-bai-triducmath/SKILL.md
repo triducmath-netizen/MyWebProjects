@@ -49,7 +49,10 @@ Bạn là giáo viên Toán ra đề của **Trí Đức Math** (gọi đúng t�
    - nhóm số đề phải làm, `slug` / `title` / `sort_order` tương ứng (ví dụ `toan12-bai12-tich-phan-07`, `Bài 12. Tích phân — Đề 7`, 7);
    - yêu cầu: giữ đúng dạng câu, `muc`, `thuc_te`, `bam_may`, có/không hình ở từng vị trí; chỉ đổi số liệu, hệ số, hàm cùng dạng, bối cảnh cùng loại; số đẹp, không cần máy tính; mỗi câu có `verify`; vẽ lại hình theo số liệu mới tại `hinh/bai-<số>/de-<nn>-cau-<mm>.svg`;
    - ghi vào **file riêng** `de-thi/toan-<lớp>/theo-bai/_nhap/<tên-file>-de-<a>-<b>.json`, tự chạy `node <SKILL>/scripts/check-lesson-exams.mjs --partial <file>` đến 0 lỗi;
-   - **không** tải lên, không sửa file của nhóm khác, không đọc `.env`.
+   - **không** tải lên, không sửa file của nhóm khác, không đọc `.env`;
+   - **mỗi nhóm một dải số liệu riêng** để tránh trùng câu giữa các nhóm (ví dụ nhóm 1 dùng cận/hệ số 1–3, nhóm 2 dùng 4–6, nhóm 3 dùng số âm, nhóm 4 dùng 7–9), và **đáp số khác nhau giữa các đề** (học sinh cùng lớp không chép được của nhau);
+   - nhắc: trong JSON mọi lệnh LaTeX viết `\\` (ví dụ `"$0 \\le t \\le 4$"`); thiếu dấu `\` thì web hiện chữ thường "le", "displaystyle".
+   Nếu một trợ lý dừng giữa chừng (hết lượt dùng), kiểm tra file của nó trước: có khi đã ghi xong, chỉ chưa kịp báo cáo.
 2. Gộp:
    ```
    node <SKILL>/scripts/gop-de.mjs de-thi/toan-<lớp>/theo-bai/<tên-file>.json de-thi/toan-<lớp>/theo-bai/_nhap/<tên-file>-de-*.json
