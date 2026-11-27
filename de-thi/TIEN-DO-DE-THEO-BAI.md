@@ -165,7 +165,7 @@ File này do `scripts/tien-do.mjs` sinh ra — không sửa tay. Ghi tay bằng 
 | Bài 39. Hình chóp tứ giác đều | Chương X. Một số hình khối trong thực tiễn | ⬜ chưa làm |
 | Ôn tập chương X | Chương X. Một số hình khối trong thực tiễn | ⬜ chưa làm |
 
-## Toán 9 — 0/42 bài có đề
+## Toán 9 — 1/42 bài có đề
 
 | Bài | Chương | Trạng thái |
 |---|---|---|
@@ -181,7 +181,7 @@ File này do `scripts/tien-do.mjs` sinh ra — không sửa tay. Ghi tay bằng 
 | Bài 8. Khai căn bậc hai với phép nhân và phép chia | Chương III. Căn bậc hai và căn bậc ba | ⬜ chưa làm |
 | Bài 9. Biến đổi đơn giản và rút gọn biểu thức chứa căn thức bậc hai | Chương III. Căn bậc hai và căn bậc ba | ⬜ chưa làm |
 | Bài 10. Căn bậc ba và căn thức bậc ba | Chương III. Căn bậc hai và căn bậc ba | ⬜ chưa làm |
-| Ôn tập chương III | Chương III. Căn bậc hai và căn bậc ba | ⬜ chưa làm |
+| Ôn tập chương III | Chương III. Căn bậc hai và căn bậc ba | ✅ đã có đề (2026-11-27, ghi tay) |
 | Bài 11. Tỉ số lượng giác của góc nhọn | Chương IV. Hệ thức lượng trong tam giác vuông | ⬜ chưa làm |
 | Bài 12. Một số hệ thức giữa cạnh, góc trong tam giác vuông và ứng dụng | Chương IV. Hệ thức lượng trong tam giác vuông | ⬜ chưa làm |
 | Ôn tập chương IV | Chương IV. Hệ thức lượng trong tam giác vuông | ⬜ chưa làm |
