@@ -37,9 +37,15 @@ Khi chủ website xác nhận thêm thông tin, ghi bổ sung vào file này (k�
 - Website: https://triducmath.vn
 - Giờ làm việc (chủ website xác nhận, 2026-11-25): 8h00–21h00 hàng ngày
 
+## Học phí & nghỉ học (chủ website xác nhận, 2026-11-27)
+- Học phí thông thường: THCS 200.000 đồng/buổi 3 tiếng; THPT 100.000 đồng/buổi 2 tiếng; tùy khối lớp và chính sách riêng.
+- Có anh/chị/em ruột đang học: giảm 50% học phí. Sinh đôi cùng học: tính học phí của một bạn.
+- Chưa có: chính sách bảo lưu / hoàn phí.
+- Nghỉ học: phụ huynh báo trước qua 0904 440 886; học sinh nhận bài giảng buổi đó để tự học, làm bài trực tuyến ở nhà; giáo viên hỗ trợ khi được yêu cầu; nếu chưa đạt mục tiêu bài học, giáo viên đề nghị học bù.
+
 ## Chưa có — phải hỏi trước khi viết
 - Thông tin giáo viên (họ tên đầy đủ, trình độ, số năm kinh nghiệm, thành tích).
 - Thành tích học sinh, tỉ lệ đỗ, điểm số cụ thể.
-- Học phí, chính sách ưu đãi, chính sách bảo lưu / hoàn phí.
+- Chính sách bảo lưu / hoàn phí.
 - Năm thành lập, số học sinh đã dạy.
 - Cảm nhận của phụ huynh / học sinh (chỉ dùng lời thật, có sự đồng ý).
