@@ -92,7 +92,7 @@ File này do `scripts/tien-do.mjs` sinh ra — không sửa tay. Ghi tay bằng 
 | Bài 36. Hình hộp chữ nhật và hình lập phương | Chương X. Một số hình khối trong thực tiễn | ⬜ chưa làm |
 | Bài 37. Hình lăng trụ đứng tam giác và hình lăng trụ đứng tứ giác | Chương X. Một số hình khối trong thực tiễn | ⬜ chưa làm |
 
-## Toán 8 — 0/39 bài có đề
+## Toán 8 — 1/39 bài có đề
 
 | Bài | Chương | Trạng thái |
 |---|---|---|
@@ -104,7 +104,7 @@ File này do `scripts/tien-do.mjs` sinh ra — không sửa tay. Ghi tay bằng 
 | Bài 6. Hiệu hai bình phương. Bình phương của một tổng hay một hiệu | Chương II. Hằng đẳng thức đáng nhớ và ứng dụng | ⬜ chưa làm |
 | Bài 7. Lập phương của một tổng. Lập phương của một hiệu | Chương II. Hằng đẳng thức đáng nhớ và ứng dụng | ⬜ chưa làm |
 | Bài 8. Tổng và hiệu hai lập phương | Chương II. Hằng đẳng thức đáng nhớ và ứng dụng | ⬜ chưa làm |
-| Bài 9. Phân tích đa thức thành nhân tử | Chương II. Hằng đẳng thức đáng nhớ và ứng dụng | ⬜ chưa làm |
+| Bài 9. Phân tích đa thức thành nhân tử | Chương II. Hằng đẳng thức đáng nhớ và ứng dụng | ✅ đã có đề (2026-11-27, 20 đề) |
 | Bài 10. Tứ giác | Chương III. Tứ giác | ⬜ chưa làm |
 | Bài 11. Hình thang cân | Chương III. Tứ giác | ⬜ chưa làm |
 | Bài 12. Hình bình hành | Chương III. Tứ giác | ⬜ chưa làm |
