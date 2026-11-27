@@ -253,7 +253,7 @@ File này do `scripts/tien-do.mjs` sinh ra — không sửa tay. Ghi tay bằng 
 | Bài 27. Thực hành tính xác suất theo định nghĩa cổ điển | Chương IX. Tính xác suất theo định nghĩa cổ điển | ⬜ chưa làm |
 | Ôn tập chương IX | Chương IX. Tính xác suất theo định nghĩa cổ điển | ⬜ chưa làm |
 
-## Toán 11 — 0/42 bài có đề
+## Toán 11 — 1/42 bài có đề
 
 | Bài | Chương | Trạng thái |
 |---|---|---|
@@ -275,7 +275,7 @@ File này do `scripts/tien-do.mjs` sinh ra — không sửa tay. Ghi tay bằng 
 | Bài 13. Hai mặt phẳng song song | Chương IV. Quan hệ song song trong không gian | ⬜ chưa làm |
 | Bài 14. Phép chiếu song song | Chương IV. Quan hệ song song trong không gian | ⬜ chưa làm |
 | Ôn tập chương IV | Chương IV. Quan hệ song song trong không gian | ⬜ chưa làm |
-| Bài 15. Giới hạn của dãy số | Chương V. Giới hạn. Hàm số liên tục | ⬜ chưa làm |
+| Bài 15. Giới hạn của dãy số | Chương V. Giới hạn. Hàm số liên tục | ✅ đã có đề (2026-11-27, ghi tay) |
 | Bài 16. Giới hạn của hàm số | Chương V. Giới hạn. Hàm số liên tục | ⬜ chưa làm |
 | Bài 17. Hàm số liên tục | Chương V. Giới hạn. Hàm số liên tục | ⬜ chưa làm |
 | Ôn tập chương V | Chương V. Giới hạn. Hàm số liên tục | ⬜ chưa làm |
