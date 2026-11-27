@@ -57,11 +57,16 @@ const imgPath = (n, c) => `../hinh/on-tap-iv/${fig(n, c)}`;
 const add = (p, q) => [p[0] + q[0], p[1] + q[1]], sub = (p, q) => [p[0] - q[0], p[1] - q[1]], mul = (k, p) => [k * p[0], k * p[1]];
 const along = (P, Q, t) => add(P, mul(t, sub(Q, P))); // điểm trên PQ với PX = t·PQ
 const len = (p) => Math.hypot(p[0], p[1]);
+// mọi góc của tam giác có ba cạnh a, b, c nằm trong [lo°, hi°]
+function angOK(a, b, c, lo = 25, hi = 115) {
+  const ang = (x, y, z) => Math.acos((y * y + z * z - x * x) / (2 * y * z)) * 180 / Math.PI;
+  return [ang(a, b, c), ang(b, a, c), ang(c, a, b)].every((g) => g >= lo && g <= hi);
+}
 // tam giác theo ba cạnh a = BC, b = CA, c = AB; B gốc, C trên trục hoành, A phía trên
 function triABC(a, b, c) {
   if (!(a < b + c && b < a + c && c < a + b)) return null;
   const x = (c * c - b * b + a * a) / (2 * a), y = Math.sqrt(c * c - x * x);
-  if (!(y > 0.25 * a)) return null; // tránh tam giác quá dẹt (hình khó đọc)
+  if (!angOK(a, b, c)) return null; // tránh tam giác quá dẹt / quá nhọn (hình khó đọc)
   return { A: [x, y], B: [0, 0], C: [a, 0] };
 }
 // cạnh còn lại khi biết AB = c, AC = b và góc A (độ)
@@ -91,25 +96,28 @@ function draw(file, P, o = {}) {
     const p1 = [V[0] + r * Math.cos(ta), V[1] + r * Math.sin(ta)], p2 = [V[0] + r * Math.cos(ta + dt), V[1] + r * Math.sin(ta + dt)];
     g += `<path d="M${p1[0]},${p1[1]} A${r},${r} 0 0 ${dt > 0 ? 1 : 0} ${p2[0]},${p2[1]}" fill="none" stroke="#c0392b" stroke-width="1.5"/>`;
   }
-  for (const [a, b, text, side] of o.lens ?? []) { // ghi độ dài: lệch ra xa tâm hình
-    const [p, q] = [S(P[a]), S(P[b])], m = [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2], d = sub(q, p), L = len(d);
+  for (const [a, b, text, side, at] of o.lens ?? []) { // ghi độ dài: lệch ra xa tâm hình; at = vị trí dọc cạnh
+    const [p, q] = [S(P[a]), S(P[b])], m = along(p, q, at ?? 0.5), d = sub(q, p), L = len(d);
     let u = [-d[1] / L, d[0] / L]; if ((m[0] - G[0]) * u[0] + (m[1] - G[1]) * u[1] < 0) u = mul(-1, u); if (side === 'in') u = mul(-1, u);
-    const c = add(m, mul(15, u));
+    // khoảng lệch theo bề rộng chữ: cạnh gần thẳng đứng thì đẩy chữ xa hơn để không đè nét
+    const w = String(text).length * 8.5, c = add(m, mul(7 + Math.abs(u[0]) * w / 2 + Math.abs(u[1]) * 9, u));
     g += `<text x="${c[0]}" y="${c[1] + 6}" text-anchor="middle" font-size="17">${text}</text>`;
   }
   if (o.over) g += o.over(S, s);
   for (const [k, p] of Object.entries(P)) {
     if (o.hide?.includes(k)) continue;
     const q = S(p); let d = sub(q, G); const L = len(d) || 1; d = mul(1 / L, d);
-    const off = o.lab?.[k] ?? [d[0] * 16 - 6, d[1] * 16 + 7];
+    const off = o.lab?.[k] ?? (o.inward?.includes(k) ? [-d[0] * 18 - 6, -d[1] * 18 + 7] : [d[0] * 16 - 6, d[1] * 16 + 7]);
     g += `<circle cx="${q[0]}" cy="${q[1]}" r="2.5" fill="#000"/><text x="${q[0] + off[0]}" y="${q[1] + off[1]}" font-style="italic">${k}</text>`;
   }
   writeFileSync(resolve(HINH, file), g + '</svg>\n');
 }
 
+const dLab = (A, D) => (A[0] < D[0] ? [7, -9] : [-19, -9]);
+
 // ---------- Bộ ba cạnh có phân giác chia cạnh đối thành số nguyên ----------
 const BIS = [];
-for (let a = 3; a <= 30; a++) for (let b = 3; b <= 30; b++) for (let c = 3; c <= 30; c++) {
+for (let a = 3; a <= 36; a++) for (let b = 3; b <= 36; b++) for (let c = 3; c <= 36; c++) {
   if (b === c || !triABC(a, b, c)) continue;
   if ((a * c) % (b + c) === 0) BIS.push([a, b, c]); // DB = ac/(b+c), DC = ab/(b+c) đều nguyên
 }
@@ -131,12 +139,13 @@ function thalesFig(file, m, k, n, l, deg, lens) {
   const c = m + k, b = n + l, h = deg / 2 * Math.PI / 180, A = [0, 0];
   const B = [-c * Math.sin(h), -c * Math.cos(h)], C = [b * Math.sin(h), -b * Math.cos(h)];
   const P = { A, B, C, M: along(A, B, m / c), N: along(A, C, n / b) };
-  draw(file, P, { poly: [['A', 'B', 'C']], segs: [['M', 'N', 'red']], lens });
+  draw(file, P, { poly: [['A', 'B', 'C']], segs: [['M', 'N', 'red']], lens, inward: ['M', 'N'] });
 }
 // 2. Thalès: tính NC
 T[2] = (n, idx) => {
-  const m = int(2, 9), k = int(2, 9), s = int(1, 4); if (m === k) return null;
-  const an = m * s, nc = k * s, deg = int(50, 70);
+  const m = int(2, 9), k = int(2, 9); if (m === k || m / (m + k) < 0.3 || m / (m + k) > 0.7) return null;
+  const an = int(Math.ceil(0.6 * m), Math.floor(1.7 * m)), nc = an * k / m, deg = int(50, 70); if (!isInt(nc)) return null;
+  const s = an; // khóa chống trùng
   const q = numQ(nv(nc), [nv(an * m / k), nv(an + k - m), nv(an + nc)], idx, `${an}*${k}/${m}`); if (!q) return null;
   return { ...q, _mkey: `${m},${k},${s}`, image: imgPath(n, '02'), _fig: () => thalesFig(fig(n, '02'), m, k, an, nc, deg, [['A', 'M', m], ['M', 'B', k], ['A', 'N', an], ['N', 'C', '?']]),
     prompt: R`Cho hình bên, biết $MN \parallel BC$, $AM = ${m}$ cm, $MB = ${k}$ cm, $AN = ${an}$ cm. Độ dài đoạn thẳng $NC$ là`,
@@ -162,14 +171,16 @@ T[4] = (n, idx) => {
 };
 // 5. Hệ quả Thalès: tính MN
 T[5] = (n, idx) => {
-  const m = int(1, 6), k = int(1, 6), t = int(2, 6), bc = (m + k) * t; if (m === k) return null;
-  const c = m + k, b = int(Math.max(3, Math.abs(c - bc) + 2), c + bc - 2), tri = triABC(bc, b, c); if (!tri) return null;
+  // AM = m·u, MB = k·u, BC = (m + k)·t; BC/AB = t/u giữ trong [0,6; 1,7] để hình cân đối
+  const m = int(2, 6), k = int(1, 6), u = int(1, 3), t = int(1, 6); if (m === k || m / (m + k) < 0.3 || m / (m + k) > 0.7 || t / u < 0.6 || t / u > 1.7) return null;
+  const am = m * u, mb = k * u, c = am + mb, bc = (m + k) * t;
+  const b = int(Math.max(3, Math.abs(c - bc) + 2), c + bc - 2), tri = triABC(bc, b, c); if (!tri) return null;
   const mn = t * m;
-  const q = numQ(nv(mn), [nv(t * k), nv(bc * m / k), nv(bc - m - k)], idx, `${bc}*${m}/(${m}+${k})`); if (!q) return null;
-  return { ...q, _mkey: `${m},${k},${t}`, image: imgPath(n, '05'),
-    _fig: () => { const P = { ...tri, M: along(tri.A, tri.B, m / c), N: along(tri.A, tri.C, m / c) }; draw(fig(n, '05'), P, { poly: [['A', 'B', 'C']], segs: [['M', 'N', 'red']], lens: [['A', 'M', m], ['M', 'B', k], ['B', 'C', bc], ['M', 'N', 'x', 'in']] }); },
-    prompt: R`Cho hình bên, biết $MN \parallel BC$, $AM = ${m}$ cm, $MB = ${k}$ cm, $BC = ${bc}$ cm. Giá trị của $x$ là`,
-    explanation: R`Vì $MN \parallel BC$ nên theo hệ quả của định lí Thalès: $\dfrac{MN}{BC} = \dfrac{AM}{AB} = \dfrac{${m}}{${m} + ${k}} = ${F(m, c)}$. Suy ra $x = MN = ${F(m, c)} \cdot ${bc} = ${mn}$ (cm). Phương án $${t * k}$ do lấy tỉ số $\dfrac{MB}{AB}$; phương án $${N(bc * m / k)}$ do lấy tỉ số $\dfrac{AM}{MB}$.` };
+  const q = numQ(nv(mn), [nv(t * k), nv(bc * am / mb), nv(bc / 2)], idx, `${bc}*${am}/(${am}+${mb})`); if (!q) return null;
+  return { ...q, _mkey: `${am},${mb},${bc}`, image: imgPath(n, '05'),
+    _fig: () => { const P = { ...tri, M: along(tri.A, tri.B, am / c), N: along(tri.A, tri.C, am / c) }; draw(fig(n, '05'), P, { poly: [['A', 'B', 'C']], segs: [['M', 'N', 'red']], lens: [['A', 'M', am], ['M', 'B', mb], ['B', 'C', bc], ['M', 'N', 'x']], inward: ['M', 'N'] }); },
+    prompt: R`Cho hình bên, biết $MN \parallel BC$, $AM = ${am}$ cm, $MB = ${mb}$ cm, $BC = ${bc}$ cm. Giá trị của $x$ là`,
+    explanation: R`Vì $MN \parallel BC$ nên theo hệ quả của định lí Thalès: $\dfrac{MN}{BC} = \dfrac{AM}{AB} = \dfrac{${am}}{${am} + ${mb}} = ${F(am, c)}$. Suy ra $x = MN = ${F(am, c)} \cdot ${bc} = ${mn}$ (cm). Phương án $${t * k}$ do lấy tỉ số $\dfrac{MB}{AB}$; phương án $${N(bc * am / mb)}$ do lấy tỉ số $\dfrac{AM}{MB}$.` };
 };
 // 6. Đường trung bình: biết BC − MN
 T[6] = (n, idx) => {
@@ -187,20 +198,20 @@ T[7] = (n, idx) => {
   const w3 = a * c / b;
   const q = numQ(nv(db), [nv(dc), nv(a / 2), nv(w3)], idx, `(()=>{const r=${c}/${b};return ${a}*r/(1+r);})()`); if (!q) return null;
   return { ...q, _mkey: `${a},${b},${c}`, image: imgPath(n, '07'),
-    _fig: () => { const D = along(tri.B, tri.C, db / a); draw(fig(n, '07'), { ...tri, D }, { poly: [['A', 'B', 'C']], segs: [['A', 'D', 'red']], arcs: [['A', 'B', 'D', 26], ['A', 'D', 'C', 30]], lens: [['A', 'B', `${c} cm`], ['A', 'C', `${b} cm`], ['B', 'C', `${a} cm`]] }); },
+    _fig: () => { const D = along(tri.B, tri.C, db / a); draw(fig(n, '07'), { ...tri, D }, { poly: [['A', 'B', 'C']], segs: [['A', 'D', 'red']], arcs: [['A', 'B', 'D', 26], ['A', 'D', 'C', 30]], lens: [['A', 'B', `${c} cm`], ['A', 'C', `${b} cm`], ['B', 'C', `${a} cm`]], lab: { D: dLab(tri.A, D) } }); },
     prompt: R`Cho tam giác $ABC$ có $AB = ${c}$ cm, $AC = ${b}$ cm, $BC = ${a}$ cm. Đường phân giác của góc $A$ cắt $BC$ tại $D$ (hình bên). Độ dài đoạn thẳng $DB$ là`,
     explanation: R`Theo tính chất đường phân giác: $\dfrac{DB}{DC} = \dfrac{AB}{AC} = \dfrac{${c}}{${b}}$, nên $\dfrac{DB}{BC} = \dfrac{${c}}{${c} + ${b}}$. Suy ra $DB = \dfrac{${c} \cdot ${a}}{${b + c}} = ${N(db)}$ (cm). Phương án $${N(dc)}$ là độ dài $DC$; phương án $${N(a / 2)}$ do nhầm $D$ là trung điểm của $BC$.` };
 };
 // 8. Tứ giác: E, F, K trung điểm AD, BC, AC → EK + KF
 T[8] = (n, idx) => {
-  const p = int(3, 15) * 2, qd = int(3, 15) * 2; if (p === qd) return null;
+  const p = int(3, 15) * 2, qd = int(3, 15) * 2; if (p === qd || p / qd < 0.6 || p / qd > 1.6) return null;
   const q = numQ(nv((p + qd) / 2), [nv(p + qd), nv((p + qd) / 4), nv(Math.abs(p - qd) / 2)], idx, `${qd}/2+${p}/2`); if (!q) return null;
   return { ...q, _mkey: `${Math.min(p, qd)},${Math.max(p, qd)}`, image: imgPath(n, '08'),
     _fig: () => {
       const h = 0.65 * Math.max(p, qd), f = 12 * Math.PI / 180; // AB = p, CD = qd đúng độ dài
       const A = [0, 0], B = [p, 0], D = [-0.12 * p, h], C = add(D, [qd * Math.cos(f), qd * Math.sin(f)]);
       const P = { A, B, C, D, E: along(A, D, 0.5), F: along(B, C, 0.5), K: along(A, C, 0.5) };
-      draw(fig(n, '08'), P, { poly: [['A', 'B', 'C', 'D']], segs: [['A', 'C', 'dash'], ['E', 'K', 'red'], ['K', 'F', 'red']], ticks: [['A', 'E', 1], ['E', 'D', 1], ['B', 'F', 2], ['F', 'C', 2]], lens: [['A', 'B', `${p} cm`], ['C', 'D', `${qd} cm`]] });
+      draw(fig(n, '08'), P, { poly: [['A', 'B', 'C', 'D']], segs: [['A', 'C', 'dash'], ['E', 'K', 'red'], ['K', 'F', 'red']], ticks: [['A', 'E', 1], ['E', 'D', 1], ['B', 'F', 2], ['F', 'C', 2]], lens: [['A', 'B', `${p} cm`], ['C', 'D', `${qd} cm`]], lab: { K: [-18, -8] } });
     },
     prompt: R`Cho tứ giác $ABCD$ có $AB = ${p}$ cm, $CD = ${qd}$ cm. Gọi $E$, $F$, $K$ lần lượt là trung điểm của $AD$, $BC$, $AC$ (hình bên). Giá trị của $EK + KF$ là`,
     explanation: R`$EK$ là đường trung bình của tam giác $ACD$ nên $EK = \dfrac{CD}{2} = ${qd / 2}$ cm; $KF$ là đường trung bình của tam giác $ABC$ nên $KF = \dfrac{AB}{2} = ${p / 2}$ cm. Vậy $EK + KF = ${(p + qd) / 2}$ (cm). Phương án $${p + qd}$ do quên chia đôi.` };
@@ -216,7 +227,7 @@ T[9] = (n, idx) => {
 };
 // 10. Tam giác cân, phân giác góc B: tính AD
 const ISO = [];
-for (let b = 4; b <= 40; b++) for (let a = 2; a < 2 * b; a++) if ((b * b) % (a + b) === 0 && a !== b) ISO.push([a, b]);
+for (let b = 4; b <= 50; b++) for (let a = 2; a < 2 * b; a++) if ((b * b) % (a + b) === 0 && a !== b) ISO.push([a, b]);
 T[10] = (n, idx) => {
   const [a, b] = pick(ISO), tri = triABC(a, b, b); if (!tri) return null;
   const ad = b * b / (a + b), dc = a * b / (a + b);
@@ -231,6 +242,7 @@ T[11] = (n, idx) => {
   const ad = int(4, 30) * 10, ratio = pick([[1, 2], [1, 3], [2, 3], [1, 4], [3, 4], [2, 5]]);
   const bd = ad * ratio[0] / ratio[1]; if (!isInt(bd)) return null; // BD : AD = r
   const ab = ad + bd, de = int(2, 9) * 5 * ratio[1], bc = de * ab / ad; if (!isInt(bc)) return null;
+  if (bc / ab < 0.45 || bc / ab > 1.3 || bd / ab < 0.25 || bd / ab > 0.6) return null; // hình không quá mảnh
   const q = numQ(nv(ad), [nv(ab), nv(bd * de / bc), nv(bd * bc / de)], idx, `(()=>{const k=${de}/${bc};return ${bd}*k/(1-k);})()`); if (!q) return null;
   return { ...q, _mkey: `${ad},${bd},${de}`, image: imgPath(n, '11'),
     _fig: () => {
@@ -239,7 +251,7 @@ T[11] = (n, idx) => {
       const D = along(A, B, ad / ab), E = along(A, C, ad / ab);
       draw(fig(n, '11'), { A, B, C, D, E }, {
         under: (S) => { const y1 = S(A)[1] + 14, y2 = S(D)[1] - 10; return `<rect x="0" y="${y1}" width="420" height="${y2 - y1}" fill="#bfe1f6" opacity="0.8"/><text x="18" y="${(y1 + y2) / 2 + 6}" font-size="16" fill="#1f6fa8">sông</text>`; },
-        poly: [['A', 'B', 'C']], fill: 'none', segs: [['D', 'E', 'red']], lens: [['D', 'E', `${de} m`, 'in'], ['B', 'C', `${bc} m`], ['B', 'D', `${bd} m`]] });
+        poly: [['A', 'B', 'C']], fill: 'none', inward: ['D', 'E'], segs: [['D', 'E', 'red']], lens: [['D', 'E', `${de} m`], ['B', 'C', `${bc} m`], ['B', 'D', `${bd} m`]] });
     },
     prompt: R`Để đo khoảng cách từ điểm $D$ ở bờ sông bên này đến điểm $A$ ở bờ bên kia, người ta chọn các điểm $B$, $C$, $E$ như hình bên sao cho $D$ nằm giữa $A$ và $B$, $E$ nằm giữa $A$ và $C$, $DE \parallel BC$. Đo được $BD = ${bd}$ m, $DE = ${de}$ m, $BC = ${bc}$ m. Khoảng cách $AD$ là`,
     explanation: R`Vì $DE \parallel BC$ nên $\dfrac{AD}{AB} = \dfrac{DE}{BC} = \dfrac{${de}}{${bc}} = ${F(de, bc)}$. Đặt $AD = x$ thì $AB = x + ${bd}$, nên $x \cdot ${bc / gcd(de, bc)} = ${de / gcd(de, bc)}(x + ${bd})$, suy ra $x = ${ad}$ (m). Phương án $${ab}$ là độ dài $AB$.` };
@@ -250,13 +262,13 @@ T[12] = (n, idx) => {
   const de = b * c / (b + c); if (!isInt(de * 2)) return null;
   const q = numQ(nv(de), [nv(c * c / (b + c)), nv(c / 2), nv(b * c / Math.abs(b - c))], idx, `(()=>{const t=${b}/(${b}+${c});return t*${c};})()`); if (!q) return null;
   return { ...q, _mkey: `${b},${c}`, image: imgPath(n, '12'), // BC không dùng trong đề nên không tính vào bộ số
-    _fig: () => { const D = along(tri.B, tri.C, c / (b + c)), E = along(tri.C, tri.A, b / (b + c)); draw(fig(n, '12'), { ...tri, D, E }, { poly: [['A', 'B', 'C']], segs: [['A', 'D', 'red'], ['D', 'E', 'red']], arcs: [['A', 'B', 'D', 26], ['A', 'D', 'C', 30]], lens: [['A', 'B', `${c} cm`], ['A', 'C', `${b} cm`]] }); },
+    _fig: () => { const D = along(tri.B, tri.C, c / (b + c)), E = along(tri.C, tri.A, b / (b + c)); draw(fig(n, '12'), { ...tri, D, E }, { poly: [['A', 'B', 'C']], segs: [['A', 'D', 'red'], ['D', 'E', 'red']], arcs: [['A', 'B', 'D', 26], ['A', 'D', 'C', 30]], lens: [['A', 'B', `${c} cm`], ['A', 'C', `${b} cm`, '', c / (b + c) > 0.5 ? 0.25 : 0.75]] }); },
     prompt: R`Cho tam giác $ABC$ có $AB = ${c}$ cm, $AC = ${b}$ cm, $AD$ là đường phân giác của góc $A$ ($D \in BC$). Qua $D$ kẻ đường thẳng song song với $AB$, cắt $AC$ tại $E$ (hình bên). Độ dài đoạn thẳng $DE$ là`,
     explanation: R`Theo tính chất phân giác: $\dfrac{DB}{DC} = \dfrac{AB}{AC} = \dfrac{${c}}{${b}}$, nên $\dfrac{CD}{CB} = \dfrac{${b}}{${b + c}}$. Vì $DE \parallel AB$ nên theo hệ quả của định lí Thalès: $\dfrac{DE}{AB} = \dfrac{CD}{CB} = \dfrac{${b}}{${b + c}}$, suy ra $DE = \dfrac{${b} \cdot ${c}}{${b + c}} = ${N(de)}$ (cm). Phương án $${N(c * c / (b + c))}$ do dùng nhầm tỉ số $\dfrac{BD}{BC}$.` };
 };
 // 13. Đúng/Sai: Thalès thuận, hệ quả, đảo
 T[13] = (n, pat) => {
-  const m = int(2, 6), k = int(2, 6), s = int(1, 3), t = int(1, 4); if (m === k) return null;
+  const m = int(2, 6), k = int(2, 6), s = int(1, 3), t = int(1, 4); if (m === k || m / (m + k) < 0.3 || m / (m + k) > 0.7) return null;
   const an = m * s, nc = k * s, bc = (m + k) * t, c = m + k, b = an + nc; if (!triABC(bc, b, c)) return null;
   const [ta, tb, tc, td] = pat;
   const ncF = an + k - m !== nc && an + k - m > 0 ? an + k - m : nc + 1;
@@ -266,7 +278,7 @@ T[13] = (n, pat) => {
   const v = [ta ? nc : ncF, tb ? acT : acF, tc ? mnT : mnF, td ? bpT : bpF];
   const tri = triABC(bc, b, c);
   return { answer: pat, _mkey: `${m},${k},${s},${t}`, image: imgPath(n, '13'),
-    _fig: () => { const P = { ...tri, M: along(tri.A, tri.B, m / c), N: along(tri.A, tri.C, m / c) }; draw(fig(n, '13'), P, { poly: [['A', 'B', 'C']], segs: [['M', 'N', 'red']], lens: [['A', 'M', m], ['M', 'B', k], ['A', 'N', an], ['B', 'C', bc]] }); },
+    _fig: () => { const P = { ...tri, M: along(tri.A, tri.B, m / c), N: along(tri.A, tri.C, m / c) }; draw(fig(n, '13'), P, { poly: [['A', 'B', 'C']], segs: [['M', 'N', 'red']], lens: [['A', 'M', m], ['M', 'B', k], ['A', 'N', an], ['B', 'C', bc]], inward: ['M', 'N'] }); },
     prompt: R`Cho tam giác $ABC$ có $MN \parallel BC$ ($M \in AB$, $N \in AC$) như hình bên, với $AM = ${m}$ cm, $MB = ${k}$ cm, $AN = ${an}$ cm, $BC = ${bc}$ cm. Xét tính đúng sai của các mệnh đề sau.`,
     options: [R`a) $NC = ${v[0]}$ cm.`, R`b) $AC = ${v[1]}$ cm.`, R`c) $MN = ${v[2]}$ cm.`, R`d) Nếu $P$ là điểm trên cạnh $BC$ với $BP = ${v[3]}$ cm thì $MP \parallel AC$.`],
     verify: `(()=>{const m=${m},k=${k},an=${an},bc=${bc};const nc=an*k/m,ac=an+nc,mn=bc*m/(m+k);const bp=${v[3]};const par=Math.abs(k/(m+k)-bp/bc)<1e-9;const eq=(x,y)=>Math.abs(x-y)<1e-9;return [eq(nc,${v[0]}),eq(ac,${v[1]}),eq(mn,${v[2]}),par];})()`,
@@ -278,7 +290,7 @@ T[14] = (n, pat) => {
   const tri = triABC(a, b, c); if (!tri) return null;
   const [ta, tb, tc, td] = pat;
   return { answer: pat, _mkey: `${a},${b},${c}`, image: imgPath(n, '14'),
-    _fig: () => { const P = { ...tri, M: along(tri.A, tri.B, 0.5), N: along(tri.A, tri.C, 0.5), P: along(tri.B, tri.C, 0.5) }; draw(fig(n, '14'), P, { poly: [['A', 'B', 'C']], segs: [['M', 'N', 'red'], ['N', 'P', 'red'], ['P', 'M', 'red']], ticks: [['A', 'M', 1], ['M', 'B', 1], ['A', 'N', 2], ['N', 'C', 2], ['B', 'P', 3], ['P', 'C', 3]], lens: [['A', 'B', c], ['A', 'C', b], ['B', 'C', a]] }); },
+    _fig: () => { const P = { ...tri, M: along(tri.A, tri.B, 0.5), N: along(tri.A, tri.C, 0.5), P: along(tri.B, tri.C, 0.5) }; draw(fig(n, '14'), P, { poly: [['A', 'B', 'C']], segs: [['M', 'N', 'red'], ['N', 'P', 'red'], ['P', 'M', 'red']], ticks: [['A', 'M', 1], ['M', 'B', 1], ['A', 'N', 2], ['N', 'C', 2], ['B', 'P', 3], ['P', 'C', 3]] }); },
     prompt: R`Cho tam giác $ABC$ có $AB = ${c}$ cm, $AC = ${b}$ cm, $BC = ${a}$ cm. Gọi $M$, $N$, $P$ lần lượt là trung điểm của $AB$, $AC$, $BC$ (hình bên). Xét tính đúng sai của các mệnh đề sau.`,
     options: [R`a) $MN = ${ta ? a / 2 : b / 2}$ cm.`, tb ? R`b) Tứ giác $BMNP$ là hình bình hành.` : R`b) Tứ giác $BMNC$ là hình bình hành.`, R`c) Chu vi tam giác $MNP$ bằng $${tc ? (a + b + c) / 2 : a + b + c}$ cm.`, R`d) $MP \parallel AC$ và $MP = ${td ? b / 2 : c / 2}$ cm.`],
     verify: `(()=>{const a=${a},b=${b},c=${c};return [${ta ? a / 2 : b / 2}===a/2, ${tb}, ${tc ? (a + b + c) / 2 : a + b + c}===(a+b+c)/2, ${td ? b / 2 : c / 2}===b/2];})()`,
@@ -287,9 +299,9 @@ T[14] = (n, pat) => {
 // 15. Đúng/Sai thực tế: đo khoảng cách qua ao
 T[15] = (n, pat) => {
   // k = 2 thì M, N đã là trung điểm, ý c trở nên hiển nhiên → chỉ dùng 3, 4
-  const k = pick([3, 4]), op = int(4, 12) * k, oq = int(4, 12) * k, d = int(6, 20); if (op === oq) return null;
+  const k = 3, op = int(4, 12) * k, oq = int(4, 12) * k, d = int(6, 20); if (op === oq) return null;
   const [ta, tb, tc, td] = pat, pq = k * d;
-  if (!triABC(pq, oq, op)) return null; // ba điểm O, P, Q phải tạo thành tam giác thật (bất đẳng thức tam giác)
+  if (!triABC(pq, oq, op) || !angOK(pq, oq, op, 30, 120)) return null; // ba điểm O, P, Q phải tạo thành tam giác thật (bất đẳng thức tam giác)
   const x = int(2, 5) * (op / gcd(op, oq)), y = x * oq / op; if (!isInt(y) || x >= op || x === op / k) return null; // M' khác M
   const st = oq / gcd(op, oq), yF = y + st < oq ? y + st : y - st; // N' phải nằm trong đoạn OQ, không trùng đầu mút
   if (!(y < oq) || !(yF > 0 && yF < oq)) return null;
@@ -315,7 +327,7 @@ T[16] = (n, pat) => {
   const tri = triABC(a, b, c); if (!tri) return null;
   const [ta, tb, tc, td] = pat, db = a * c / (b + c), dc = a * b / (b + c);
   return { answer: pat, _mkey: `${a},${b},${c}`, image: imgPath(n, '16'),
-    _fig: () => { const D = along(tri.B, tri.C, db / a); draw(fig(n, '16'), { ...tri, D }, { poly: [['A', 'B', 'C']], segs: [['A', 'D', 'red']], arcs: [['A', 'B', 'D', 26], ['A', 'D', 'C', 30]], lens: [['A', 'B', c], ['A', 'C', b], ['B', 'C', a]] }); },
+    _fig: () => { const D = along(tri.B, tri.C, db / a); draw(fig(n, '16'), { ...tri, D }, { poly: [['A', 'B', 'C']], segs: [['A', 'D', 'red']], arcs: [['A', 'B', 'D', 26], ['A', 'D', 'C', 30]], lens: [['A', 'B', c], ['A', 'C', b], ['B', 'C', a]], lab: { D: dLab(tri.A, D) } }); },
     prompt: R`Cho tam giác $ABC$ có $AB = ${c}$ cm, $AC = ${b}$ cm, $BC = ${a}$ cm và $AD$ là đường phân giác của góc $A$ ($D \in BC$) như hình bên. Xét tính đúng sai của các mệnh đề sau.`,
     options: [R`a) $\dfrac{DB}{DC} = ${ta ? F(c, b) : F(b, c)}$.`, R`b) $DB = ${N(tb ? db : a / 2)}$ cm.`, R`c) $DC = ${N(tc ? dc : db)}$ cm.`, R`d) Nếu đường phân giác của góc $B$ cắt $AC$ tại $E$ thì $\dfrac{EA}{EC} = ${td ? F(c, a) : F(a, c)}$.`],
     verify: `(()=>{const a=${a},b=${b},c=${c};const db=a*c/(b+c),dc=a-db;return [Math.abs(${ta ? c / b : b / c}-db/dc)<1e-9, Math.abs(${tb ? db : a / 2}-db)<1e-9, Math.abs(${tc ? dc : db}-dc)<1e-9, Math.abs(${td ? c / a : a / c}-c/a)<1e-9];})()`,
@@ -323,8 +335,9 @@ T[16] = (n, pat) => {
 };
 // 17. Trả lời ngắn: tìm x trên hình (Thalès)
 T[17] = (n) => {
-  const m = int(2, 9), k = int(2, 9), s = int(1, 5); if (m === k) return null;
-  const l = k * s, x = m * s, deg = int(50, 70);
+  const m = int(2, 15), k = int(2, 15); if (m === k || m / (m + k) < 0.3 || m / (m + k) > 0.7) return null;
+  const l = int(Math.ceil(0.6 * k), Math.floor(1.7 * k)), x = m * l / k, deg = int(50, 70); if (!isInt(x)) return null;
+  const s = l; // khóa chống trùng
   return { answer: [String(x)], _mkey: `${m},${k},${s}`, image: imgPath(n, '17'), _fig: () => thalesFig(fig(n, '17'), m, k, x, l, deg, [['A', 'M', m], ['M', 'B', k], ['A', 'N', 'x'], ['N', 'C', l]]),
     prompt: R`Trong hình bên, $MN \parallel BC$ và các độ dài cho trên hình có cùng đơn vị là cm. Tìm $x$.`,
     verify: `(()=>{const r=${m}/${k};return r*${l};})()`,
@@ -335,7 +348,7 @@ T[18] = (n) => {
   const d = int(3, 20), b = int(5, 30), c = int(5, 30); if (!triABC(2 * d, b, c) || b === c) return null;
   const ans = b + c + 2 * d, tri = triABC(2 * d, b, c);
   return { answer: [String(ans)], _mkey: `${d},${b},${c}`, image: imgPath(n, '18'),
-    _fig: () => { const P = { ...tri, M: along(tri.A, tri.B, 0.5), N: along(tri.A, tri.C, 0.5) }; draw(fig(n, '18'), P, { poly: [['A', 'B', 'C']], segs: [['M', 'N', 'red']], ticks: [['A', 'M', 1], ['M', 'B', 1], ['A', 'N', 2], ['N', 'C', 2]], lens: [['A', 'B', `${c} cm`], ['A', 'C', `${b} cm`], ['M', 'N', `${d} cm`, 'in']] }); },
+    _fig: () => { const P = { ...tri, M: along(tri.A, tri.B, 0.5), N: along(tri.A, tri.C, 0.5) }; draw(fig(n, '18'), P, { poly: [['A', 'B', 'C']], segs: [['M', 'N', 'red']], ticks: [['A', 'M', 1], ['M', 'B', 1], ['A', 'N', 2], ['N', 'C', 2]], lens: [['M', 'N', `${d} cm`, 'in']] }); },
     prompt: R`Cho tam giác $ABC$ có $AB = ${c}$ cm, $AC = ${b}$ cm. Gọi $M$, $N$ lần lượt là trung điểm của $AB$, $AC$ (hình bên). Biết $MN = ${d}$ cm. Tính chu vi tam giác $ABC$ (cm).`,
     verify: `${c}+${b}+${d}/0.5`,
     explanation: R`$MN$ là đường trung bình của tam giác $ABC$ nên $BC = 2MN = ${2 * d}$ cm. Chu vi tam giác $ABC$ là $${c} + ${b} + ${2 * d} = ${ans}$ (cm).` };
@@ -345,14 +358,14 @@ T[19] = (n) => {
   const [a, b, c] = pick(BIS); const db = a * c / (b + c), dc = a * b / (b + c); if (!isInt(db) || !isInt(dc)) return null;
   const tri = triABC(a, b, c);
   return { answer: [String(c)], _mkey: `${a},${b},${c}`, image: imgPath(n, '19'),
-    _fig: () => { const D = along(tri.B, tri.C, db / a); draw(fig(n, '19'), { ...tri, D }, { poly: [['A', 'B', 'C']], segs: [['A', 'D', 'red']], arcs: [['A', 'B', 'D', 26], ['A', 'D', 'C', 30]], lens: [['B', 'D', db], ['D', 'C', dc]] }); },
+    _fig: () => { const D = along(tri.B, tri.C, db / a); draw(fig(n, '19'), { ...tri, D }, { poly: [['A', 'B', 'C']], segs: [['A', 'D', 'red']], arcs: [['A', 'B', 'D', 26], ['A', 'D', 'C', 30]], lens: [['B', 'D', db], ['D', 'C', dc]], lab: { D: dLab(tri.A, D) } }); },
     prompt: R`Cho tam giác $ABC$ có $AD$ là đường phân giác của góc $A$ ($D \in BC$), $DB = ${db}$ cm, $DC = ${dc}$ cm (hình bên). Biết $AB + AC = ${b + c}$ cm. Tính độ dài cạnh $AB$ (cm).`,
     verify: `(()=>{const s=${b + c};return s*${db}/(${db}+${dc});})()`,
     explanation: R`Theo tính chất đường phân giác: $\dfrac{AB}{AC} = \dfrac{DB}{DC} = \dfrac{${db}}{${dc}}$, nên $\dfrac{AB}{AB + AC} = \dfrac{${db}}{${db + dc}}$. Suy ra $AB = \dfrac{${db} \cdot ${b + c}}{${db + dc}} = ${c}$ (cm).` };
 };
 // 20. Trả lời ngắn: trung điểm bốn cạnh tứ giác → chu vi hình bình hành
 T[20] = (n) => {
-  const p = int(5, 30), q = int(5, 30); if (p === q) return null;
+  const p = int(5, 30), q = int(5, 30); if (p === q || p / q < 0.6 || p / q > 1.6) return null;
   return { answer: [String(p + q)], _mkey: `${Math.min(p, q)},${Math.max(p, q)}`, image: imgPath(n, '20'),
     _fig: () => {
       const f = Math.PI * 70 / 180, O = [0.45 * p, 0], u = [Math.cos(f), Math.sin(f)]; // AC = p, BD = q đúng độ dài
@@ -366,13 +379,15 @@ T[20] = (n) => {
 };
 // 21. Trả lời ngắn thực tế: đo chiều cao cây bằng cọc
 T[21] = (n) => {
-  const ad = int(2, 6), db = int(4, 16), h = pick([1, 1.2, 1.5, 2]), H = h * (ad + db) / ad; if (!isInt(H * 10) || String(H).length > 4 || H < 3) return null; // cây cao ít nhất 3 m
+  const ad = int(2, 6), db = int(4, Math.min(16, 4 * ad)), h = pick([1, 1.2, 1.5, 2]), H = h * (ad + db) / ad; if (!isInt(H * 10) || String(H).length > 4 || H < 3) return null; // cây cao ít nhất 3 m
   return { answer: [String(H), String(H).replace('.', ',')], _mkey: `${ad},${db},${h}`, image: imgPath(n, '21'),
     _fig: () => {
       const A = [0, 0], D = [ad, 0], B = [ad + db, 0], E = [ad, h], C = [ad + db, H];
       draw(fig(n, '21'), { A, D, B, E, C }, {
         under: (S) => `<line x1="10" y1="${S(A)[1]}" x2="410" y2="${S(A)[1]}" stroke="#7a5c2e" stroke-width="2"/>`,
-        segs: [['A', 'C', 'dash'], ['D', 'E'], ['B', 'C']], lens: [['A', 'D', `${ad} m`], ['D', 'B', `${db} m`], ['D', 'E', `${T_(h)} m`, 'in']], center: [ad, H * 2], lab: { C: [8, 6], B: [6, 20], A: [-14, 20], D: [-6, 20], E: [-18, 0] } });
+        // chiều cao cọc ghi bên phải cọc (dưới tia nắng), chữ E phía trên bên trái (trên tia nắng)
+        over: (S) => { const p = S(D), q = S(E); return `<text x="${p[0] + 6}" y="${(p[1] + q[1]) / 2 + 6}" font-size="17">${T_(h)} m</text>`; },
+        segs: [['A', 'C', 'dash'], ['D', 'E'], ['B', 'C']], lens: [['A', 'D', `${ad} m`], ['D', 'B', `${db} m`]], center: [ad, H * 2], lab: { C: [8, 6], B: [6, 20], A: [-14, 20], D: [-6, 20], E: [-16, -8] } });
     },
     prompt: R`Để đo chiều cao $BC$ của một cái cây, bạn An cắm một cái cọc $DE$ cao $${N(h)}$ m vuông góc với mặt đất sao cho đỉnh cọc $E$ và ngọn cây $C$ cùng nằm trên một đường thẳng đi qua điểm $A$ trên mặt đất (hình bên). Đo được $AD = ${ad}$ m, $DB = ${db}$ m. Tính chiều cao $BC$ của cây (m).`,
     verify: `Math.round(${h}/${ad}*(${ad}+${db})*100)/100`,
@@ -380,13 +395,16 @@ T[21] = (n) => {
 };
 // 22. Trả lời ngắn thực tế: thang chữ A
 T[22] = (n) => {
-  const L = pick([150, 180, 200, 240, 250]), bc = int(6, 14) * 10, am = int(8, 30) * 5; if (am >= L - 20) return null; // thanh ngang cách đỉnh ít nhất 40 cm
+  const L = pick([150, 180, 200, 240, 250]), bc = int(6, 14) * 10, am = int(8, 30) * 5; if (am >= L - 20 || am < 0.35 * L) return null; // thanh ngang không quá sát đỉnh/chân
   const mn = bc * am / L; if (!isInt(mn)) return null;
   return { answer: [String(am)], _mkey: `${L},${bc},${am}`, image: imgPath(n, '22'),
     _fig: () => {
       const hgt = Math.sqrt(L * L - (bc / 2) ** 2) || L, A = [0, hgt], B = [-bc / 2, 0], C = [bc / 2, 0];
       const M = along(A, B, am / L), Nn = along(A, C, am / L);
-      draw(fig(n, '22'), { A, B, C, M, N: Nn }, { under: (S) => `<line x1="10" y1="${S(B)[1]}" x2="410" y2="${S(B)[1]}" stroke="#7a5c2e" stroke-width="2"/>`, segs: [['A', 'B'], ['A', 'C'], ['M', 'N', 'red']], lens: [['A', 'B', `${L} cm`], ['M', 'N', `${mn} cm`, 'in'], ['B', 'C', `${bc} cm`]] });
+      draw(fig(n, '22'), { A, B, C, M, N: Nn }, { under: (S) => `<line x1="10" y1="${S(B)[1]}" x2="410" y2="${S(B)[1]}" stroke="#7a5c2e" stroke-width="2"/>`, segs: [['A', 'B'], ['A', 'C'], ['M', 'N', 'red']],
+        // nhãn chân thang tránh chỗ điểm M; độ dài thanh ngang ghi ra ngoài, bên phải N
+        lens: [['A', 'B', `${L} cm`, '', am / L > 0.5 ? 0.25 : 0.78], ['B', 'C', `${bc} cm`]],
+        over: (S) => { const q = S(Nn); return `<text x="${q[0] + 10}" y="${q[1] + 22}" font-size="17" fill="#c0392b">MN = ${mn} cm</text>`; }, lab: { N: [8, -4] } });
     },
     prompt: R`Một chiếc thang chữ A có hai chân $AB = AC = ${L}$ cm. Thanh ngang $MN$ ($M \in AB$, $N \in AC$, $AM = AN$) song song với mặt đất và dài $${mn}$ cm; khoảng cách giữa hai chân thang trên mặt đất là $BC = ${bc}$ cm (hình bên). Tính độ dài $AM$ (cm).`,
     verify: `(()=>{const r=${mn}/${bc};return r*${L};})()`,

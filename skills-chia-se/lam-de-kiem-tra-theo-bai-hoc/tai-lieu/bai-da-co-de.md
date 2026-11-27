@@ -8,4 +8,4 @@ Sổ `D:\MyWebProjects\de-thi\theo-bai-tien-do.json` có thể cũ (nhánh chín
 | Toán 10 | Bài 10. Vectơ trong mặt phẳng tọa độ | đã có đề trên web (26/11/2026) |
 | Toán 12 | Bài 12. Tích phân | đã có đề trên web (26/11/2026) |
 | Toán 8 | Bài 9. Phân tích đa thức thành nhân tử | đã có đề trên web (27/11/2026) |
-| Toán 8 | Ôn tập chương IV | phiên chính đang làm (27/11/2026) |
+| Toán 8 | Ôn tập chương IV | đã có đề trên web (27/11/2026) |

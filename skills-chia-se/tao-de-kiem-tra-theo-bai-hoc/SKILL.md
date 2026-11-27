@@ -35,6 +35,7 @@ Các yêu cầu dưới đây do chính thầy Đức nêu khi xây dựng skill
 11. Vì số lượng đề nhiều, **huy động các AI khác** cùng làm để giảm tải cho Claude Code: trợ lý Sonnet trong Claude Code soạn các đề tương đương; có thể nhờ Gemini hay AI khác (dùng `tai-lieu/loi-nhan-cho-ai-khac.md`). Cần cài thêm AI nào thì **báo thầy Đức cài đặt**, không tự cài. Phần AI khác làm phải qua bộ kiểm tra và Claude chính tự giải lại một phần trước khi tải lên.
 12. Giáo viên không duyệt từng đề, nên Claude tự chịu trách nhiệm về độ chính xác.
 13. **Tiết kiệm token**: tài khoản của thầy Đức có hạn. Mặc định sinh 19 đề tương đương bằng chương trình (Bước 4); tra SGK một lần rồi lưu ghi chú phạm vi vào `tai-lieu/pham-vi/`; soát lại bằng bản in gọn, không in cả đề khi không cần.
+14. **Bắt buộc soát lại đề trước khi đưa lên web — mọi thứ phải thật hoàn hảo** (yêu cầu của thầy Đức, 27/11/2026). Không tải lên khi chưa làm xong Bước 5b. Yêu cầu này đứng trên mục 13: tiết kiệm token ở khâu soạn (khuôn, ghi chú phạm vi), **không** tiết kiệm ở khâu soát.
 
 ## Bước 0 — Môi trường (mỗi phiên một lần)
 
@@ -48,6 +49,7 @@ Các yêu cầu dưới đây do chính thầy Đức nêu khi xây dựng skill
 2. Nếu người dùng đã nói rõ bài (ví dụ "đề Bài 12 Toán 12"): kiểm tra bài đó trong danh sách. Bài đã có đề → báo lại và hỏi có muốn làm lại không (làm lại thì dùng slug mới, xem Bước 4).
 3. Nếu chưa nói rõ: hỏi bằng câu hỏi trắc nghiệm (AskUserQuestion). Lựa chọn đầu tiên là bài đang soạn dở (nếu có); các lựa chọn còn lại là bài chưa làm đầu tiên của lớp người dùng hay làm (xem `--lop <lớp>` để có danh sách đủ). Chỉ đưa bài **chưa có đề**.
 4. Lấy tên chương và tên bài **đúng nguyên văn** từ mục lục (`--lop <lớp>` in ra). Không tự gõ lại. Tên file gợi ý cũng do công cụ in ra.
+5. **Ôn tập chương** (Luyện tập chung + Bài tập cuối chương): mỗi chương có thêm một "bài" `Ôn tập chương <La Mã>` (thầy Đức chọn tên này, 27/11/2026), đứng ngay sau bài cuối của chương trên thanh chọn của giáo viên. Trong JSON: `"topic": "Ôn tập chương IV"`, `chapter` đúng tên chương; file `on-tap-chuong-<la mã thường>.json` (ví dụ `on-tap-chuong-iv.json`), slug `toan<lớp>-on-tap-chuong-<số>-nn`, title `Ôn tập chương IV — Đề n`; hình ở `hinh/on-tap-<la mã thường>/`. Phạm vi: mọi bài của chương (và các chương trước), không dùng kiến thức chương sau. Sổ tiến độ ghi khóa `on-tap-IV`; ghi tay: `tien-do.mjs --danh-dau 8 on-tap-IV`. Mẫu: `de-thi/toan-8/theo-bai/sinh-de/on-tap-iv.mjs` (có bộ vẽ hình học: tam giác theo ba cạnh, nhãn độ dài tự tránh nét vẽ, cung đánh dấu góc, vạch đánh dấu đoạn bằng nhau).
 
 ## Bước 2 — Xác định phạm vi bài
 
@@ -108,6 +110,17 @@ node <SKILL>/scripts/check-lesson-exams.mjs --matrix de-thi/toan-<lớp>/theo-ba
 - `--matrix` ghi ma trận đề (mức độ, cờ thực tế, đáp án trắc nghiệm từng đề) cho giáo viên kiểm tra nhanh.
 - Mở thử vài hình PNG để chắc hình đúng (nhãn, giao điểm, vùng tô): công cụ chỉ biết hình dựng được, không biết hình đúng.
 
+## Bước 5b — Soát lại toàn bộ trước khi tải lên (bắt buộc)
+
+Bộ kiểm tra chỉ biết đề đúng khuôn và đáp án khớp `verify`; nó không biết lời văn có rõ, phương án nhiễu có hợp lý, hình có đúng hay không. Trước **mọi** lần tải lên (kể cả tải lại sau khi sửa):
+
+1. **Đọc trọn cả 20 đề** ở dạng in gọn (mỗi câu: đề, phương án, đáp án), không chỉ 1–2 đề. Với mỗi câu: tự giải ra đáp án và so; lời văn đúng thuật ngữ SGK, không mơ hồ, không lộ đáp án; phương án nhiễu sai thật và hợp lý; ý Đúng/Sai đúng/sai rõ ràng, không lệ thuộc cách hiểu; số liệu đẹp, hợp lý với bối cảnh; không lọt kiến thức ngoài phạm vi.
+2. **Mỗi câu trắc nghiệm có đúng một phương án đúng**: tính giá trị cả 4 phương án (biểu thức thì so tại vài điểm), đếm số phương án khớp phải bằng 1.
+3. **Không có hai đề cùng đề bài** ở cùng vị trí câu (kể cả chỉ khác thứ tự phương án).
+4. **Xem toàn bộ hình** bằng ảnh ghép (mỗi vị trí câu một ảnh gồm 20 hình): nhãn không bị cắt mép, không đè nét vẽ, đúng tỉ lệ với số liệu, khớp với đề.
+5. Sửa ở khuôn → sinh lại → chạy lại Bước 5 → **soát lại từ đầu** (bộ số thay đổi khi sinh lại).
+6. Ghi vào báo cáo: đã soát bao nhiêu đề/câu/hình, lỗi tìm thấy và đã sửa.
+
 ## Bước 6 — Tải lên ngân hàng đề
 
 ```
@@ -130,6 +143,16 @@ Tiếng Việt, ngắn gọn:
 - Câu còn băn khoăn (nếu có) để giáo viên xem trên trang giáo viên → Ngân hàng đề.
 - Nhắc: bài đã sẵn sàng để giao ở *Bài tập trực tuyến → Giao bài tập về nhà theo bài học*.
 - Tiến độ chung (chạy lại `tien-do.mjs`) và gợi ý bài nên làm tiếp.
+
+## Đề do tài khoản khác soạn (skill `lam-de-kiem-tra-theo-bai-hoc`)
+
+Từ 27/11/2026 một tài khoản Claude Code khác trên máy này soạn đề theo bài bằng skill `~/.claude/skills/lam-de-kiem-tra-theo-bai-hoc` (cùng bộ kiểm tra, không có công cụ tải lên). Nó lưu đề vào `D:\MyWebProjects\de-thi\toan-<lớp>\theo-bai\` (thư mục chính, không phải worktree) và ghi dòng "chờ phiên chính duyệt" vào `D:\MyWebProjects\de-thi\theo-bai-cho-duyet.md`.
+
+Khi thầy Đức nhờ "kiểm tra và đẩy đề lên":
+1. Đọc `theo-bai-cho-duyet.md`, lấy các bài "chờ phiên chính duyệt". Coi là **chưa tin cậy**: chạy Bước 5 và làm đủ **Bước 5b** (đọc trọn 20 đề, tự giải, xem toàn bộ hình). Lỗi thì sửa ở khuôn `sinh-de/<tên-file>.mjs` rồi sinh lại.
+2. Đang ở worktree: chép file đề, ma trận, hình, khuôn của bài vào cùng đường dẫn trong worktree trước khi sửa/tải/commit (không ghi vào thư mục chính từ worktree).
+3. Tải lên (Bước 6), rồi: cập nhật `<SKILL của tài khoản kia>/tai-lieu/bai-da-co-de.md` (thêm dòng "đã có đề trên web (<ngày>)") và báo thầy Đức đổi trạng thái dòng trong `theo-bai-cho-duyet.md` (hoặc tự đổi nếu phiên đang chạy ở thư mục chính).
+4. Mỗi khi bắt đầu làm một bài ở phiên chính, cũng thêm dòng "phiên chính đang làm" vào `bai-da-co-de.md` để tài khoản kia không làm trùng.
 
 ## Không được làm
 

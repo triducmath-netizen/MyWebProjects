@@ -4,6 +4,7 @@
 //   node <SKILL>/scripts/tien-do.mjs --lop 12        danh sách đầy đủ của Toán 12
 //   node <SKILL>/scripts/tien-do.mjs --danh-dau 12 11 [--ghi-chu "..."]   ghi tay: Toán 12 Bài 11 đã có đề
 //   node <SKILL>/scripts/tien-do.mjs --bo-danh-dau 12 11                  xóa ghi chú đã làm
+//   (ôn tập chương: thay số bài bằng on-tap-IV, ví dụ --danh-dau 8 on-tap-IV)
 // Sổ tiến độ: de-thi/theo-bai-tien-do.json (thư mục làm việc) — công cụ tải lên tự ghi sau
 // khi tải đủ 20 đề của một bài. Bản để đọc: de-thi/TIEN-DO-DE-THEO-BAI.md.
 import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from 'node:fs';
@@ -27,6 +28,24 @@ export function findLesson(catalog, grade, no) {
   return null;
 }
 
+// Ôn tập chương: một "bài" riêng đứng sau bài cuối của chương; khóa trong sổ tiến độ là "on-tap-IV".
+// Tên hiển thị trên web: "Ôn tập chương IV" (thầy Đức chọn, 27/11/2026).
+export const romanOf = (chuong) => /^Chương ([IVXL]+)\./.exec(chuong)?.[1] ?? null;
+export function findReview(catalog, grade, roman) {
+  for (const c of catalog[String(grade)] || []) {
+    if (romanOf(c.chuong) === String(roman).toUpperCase())
+      return { grade: Number(grade), key: `on-tap-${romanOf(c.chuong)}`, no: c.bai[c.bai.length - 1][0], lesson: `Ôn tập chương ${romanOf(c.chuong)}`, chapter: c.chuong };
+  }
+  return null;
+}
+// Tra theo tên hiển thị (topic): "Bài 12. Tích phân" hoặc "Ôn tập chương IV".
+export function findTopic(catalog, grade, topic) {
+  const b = /^Bài (\d+)\./.exec(topic ?? '');
+  if (b) { const l = findLesson(catalog, grade, b[1]); return l && { ...l, key: String(l.no) }; }
+  const r = /^Ôn tập chương ([IVXL]+)$/.exec(topic ?? '');
+  return r ? findReview(catalog, grade, r[1]) : null;
+}
+
 // Tên file gợi ý: bai-12-tich-phan
 export function lessonSlug(no, name) {
   const s = name.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D')
@@ -45,11 +64,11 @@ export function saveBook(book) {
   writeFileSync(resolve(deThi(), 'TIEN-DO-DE-THEO-BAI.md'), markdown(loadCatalog(), book), 'utf8');
 }
 
-// Ghi một bài là đã có đề trên web.
-export function markDone(grade, no, info = {}) {
+// Ghi một bài là đã có đề trên web. key: số bài ("12") hoặc ôn tập chương ("on-tap-IV").
+export function markDone(grade, key, info = {}) {
   const book = loadBook();
   book[String(grade)] ??= {};
-  book[String(grade)][String(no)] = { trang_thai: 'da-tai', ngay: new Date().toISOString().slice(0, 10), ...info };
+  book[String(grade)][String(key)] = { trang_thai: 'da-tai', ngay: new Date().toISOString().slice(0, 10), ...info };
   saveBook(book);
 }
 
@@ -63,8 +82,9 @@ function draftFiles(grade) {
   for (const [d, rel] of [[nhap, `de-thi/toan-${grade}/theo-bai/_nhap`], [dir, `de-thi/toan-${grade}/theo-bai`]]) {
     if (!existsSync(d)) continue;
     for (const f of readdirSync(d)) {
-      const k = /^bai-(\d+)-.*\.json$/.exec(f);
-      if (k) m.set(Number(k[1]), `${rel}/${f}`);
+      const k = /^bai-(\d+)-.*\.json$/.exec(f), r = /^on-tap-chuong-([ivxl]+)[-.].*json$/.exec(f);
+      if (k) m.set(String(Number(k[1])), `${rel}/${f}`);
+      else if (r) m.set(`on-tap-${r[1].toUpperCase()}`, `${rel}/${f}`);
     }
   }
   return m;
@@ -75,12 +95,14 @@ export function status(catalog, book) {
   for (const g of GRADES) {
     const drafts = draftFiles(g);
     for (const c of catalog[g] || []) {
-      for (const [n, name] of c.bai) {
-        const rec = book[g]?.[String(n)];
-        out.push({ grade: Number(g), no: n, lesson: `Bài ${n}. ${name}`, chapter: c.chuong,
-          state: rec ? 'da-tai' : drafts.has(n) ? 'dang-soan' : 'chua-lam', rec, file: drafts.get(n) ?? null,
-          suggest: `de-thi/toan-${g}/theo-bai/${lessonSlug(n, name)}.json` });
-      }
+      const row = (key, no, lesson, suggest) => {
+        const rec = book[g]?.[key];
+        out.push({ grade: Number(g), key, no, lesson, chapter: c.chuong,
+          state: rec ? 'da-tai' : drafts.has(key) ? 'dang-soan' : 'chua-lam', rec, file: drafts.get(key) ?? null, suggest });
+      };
+      for (const [n, name] of c.bai) row(String(n), n, `Bài ${n}. ${name}`, `de-thi/toan-${g}/theo-bai/${lessonSlug(n, name)}.json`);
+      const rv = romanOf(c.chuong); // ôn tập chương, đứng sau bài cuối của chương
+      if (rv) row(`on-tap-${rv}`, c.bai[c.bai.length - 1][0], `Ôn tập chương ${rv}`, `de-thi/toan-${g}/theo-bai/on-tap-chuong-${rv.toLowerCase()}.json`);
     }
   }
   return out;
@@ -113,11 +135,13 @@ if (process.argv[1]?.endsWith('tien-do.mjs')) {
   if (args.includes('--danh-dau') || args.includes('--bo-danh-dau')) {
     const k = args.includes('--danh-dau') ? '--danh-dau' : '--bo-danh-dau';
     const i = args.indexOf(k);
-    const [g, n] = [args[i + 1], args[i + 2]];
-    const l = findLesson(catalog, g, n);
-    if (!l) { console.error(`Không có Toán ${g} Bài ${n} trong mục lục.`); process.exit(2); }
-    if (k === '--danh-dau') { markDone(g, n, { ghi_chu: arg('--ghi-chu') ?? 'ghi tay' }); console.log(`Đã ghi: Toán ${g} · ${l.lesson} — đã có đề.`); }
-    else { const b = loadBook(); delete b[g]?.[String(n)]; saveBook(b); console.log(`Đã xóa ghi chú: Toán ${g} · ${l.lesson}.`); }
+    const [g, n] = [args[i + 1], args[i + 2]]; // n: số bài, hoặc on-tap-IV
+    const rv = /^on-tap-([ivxl]+)$/i.exec(n ?? '');
+    const l = rv ? findReview(catalog, g, rv[1]) : findLesson(catalog, g, n);
+    if (!l) { console.error(`Không có Toán ${g} ${rv ? 'Ôn tập chương ' + rv[1] : 'Bài ' + n} trong mục lục.`); process.exit(2); }
+    const key = rv ? l.key : String(l.no);
+    if (k === '--danh-dau') { markDone(g, key, { ghi_chu: arg('--ghi-chu') ?? 'ghi tay' }); console.log(`Đã ghi: Toán ${g} · ${l.lesson} — đã có đề.`); }
+    else { const b = loadBook(); delete b[g]?.[key]; saveBook(b); console.log(`Đã xóa ghi chú: Toán ${g} · ${l.lesson}.`); }
     process.exit(0);
   }
 

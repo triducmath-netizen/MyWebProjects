@@ -104,7 +104,7 @@ if (imageMissing) console.error(`${imageMissing} đề bị mất hình trên we
 if (!partial && !fail && !imageMissing) {
   for (const list of lessons.values()) {
     const e = list[0];
-    markDone(e.grade, e.lesson_no, { so_de: list.length, file: e._file.split('\\').join('/') });
+    markDone(e.grade, e.lesson_key ?? e.lesson_no, { so_de: list.length, file: e._file.split('\\').join('/') });
     console.log(`Đã ghi tiến độ: Toán ${e.grade} · ${e.topic} — đã có đề.`);
   }
 }

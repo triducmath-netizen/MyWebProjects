@@ -9,7 +9,7 @@ import { resolve, dirname, extname } from 'node:path';
 import vm from 'node:vm';
 import { createRequire } from 'node:module';
 import { createHash } from 'node:crypto';
-import { loadCatalog, findLesson } from './tien-do.mjs';
+import { loadCatalog, findTopic } from './tien-do.mjs';
 
 const require = createRequire(import.meta.url);
 
@@ -112,12 +112,14 @@ export function checkFiles(paths, { partial = false } = {}) {
     const where = (s) => `${p} › ${s}`;
     const baseDir = dirname(resolve(p));
     if (!Number.isInteger(doc.grade) || doc.grade < 6 || doc.grade > 12) errors.push(where('grade phải là số nguyên 6–12'));
-    if (typeof doc.topic !== 'string' || !/^Bài \d+\. \S/.test(doc.topic)) errors.push(where('topic phải có dạng "Bài <số>. <tên bài đúng SGK>"'));
+    const isReview = /^Ôn tập chương [IVXL]+$/.test(doc.topic ?? '');
+    if (typeof doc.topic !== 'string' || !(/^Bài \d+\. \S/.test(doc.topic) || isReview)) errors.push(where('topic phải có dạng "Bài <số>. <tên bài đúng SGK>" hoặc "Ôn tập chương <số La Mã>"'));
     if (typeof doc.chapter !== 'string' || !/^Chương [IVXL]+\. \S/.test(doc.chapter)) errors.push(where('chapter phải có dạng "Chương <số La Mã>. <tên chương đúng SGK>"'));
-    const lessonNo = Number(/^Bài (\d+)\./.exec(doc.topic ?? '')?.[1]) || null;
     // Tên chương, tên bài phải khớp nguyên văn mục lục SGK (tai-lieu/muc-luc-sgk.json).
-    const sgk = lessonNo && findLesson(catalog, doc.grade, lessonNo);
-    if (lessonNo && !sgk) errors.push(where(`không có Toán ${doc.grade} Bài ${lessonNo} trong mục lục SGK`));
+    // "Ôn tập chương IV" mang số của bài cuối chương (để web xếp ngay sau bài đó).
+    const sgk = typeof doc.topic === 'string' ? findTopic(catalog, doc.grade, doc.topic) : null;
+    const lessonNo = sgk?.no ?? (Number(/^Bài (\d+)\./.exec(doc.topic ?? '')?.[1]) || null);
+    if ((lessonNo || isReview) && !sgk) errors.push(where(`không có Toán ${doc.grade} · ${doc.topic} trong mục lục SGK`));
     else if (sgk) {
       if (doc.topic !== sgk.lesson) errors.push(where(`topic phải đúng nguyên văn SGK: "${sgk.lesson}"`));
       if (doc.chapter !== sgk.chapter) errors.push(where(`chapter phải đúng nguyên văn SGK: "${sgk.chapter}"`));
@@ -129,7 +131,7 @@ export function checkFiles(paths, { partial = false } = {}) {
 
     for (const e of doc.exams) {
       const at = (s) => where(`${e.slug ?? e.title ?? '?'} › ${s}`);
-      const exam = { ...e, grade: doc.grade, topic: doc.topic, chapter: doc.chapter, lesson_no: lessonNo,
+      const exam = { ...e, grade: doc.grade, topic: doc.topic, chapter: doc.chapter, lesson_no: lessonNo, lesson_key: sgk?.key ?? null,
         level: e.level ?? doc.level ?? 'kha', _file: p, _dir: baseDir };
       exams.push(exam);
       lessons.get(lessonKey).push(exam);
