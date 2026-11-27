@@ -15,8 +15,12 @@ const [out1, out2, seedArg] = process.argv.slice(2);
 const R = String.raw;
 
 // ---------- Tiện ích ----------
-let seed = Number(seedArg ?? 20261127);
-const rnd = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+// Mỗi vị trí câu một dòng số ngẫu nhiên riêng: sửa khuôn một câu chỉ làm đổi câu đó, các câu khác giữ nguyên.
+const seed0 = Number(seedArg ?? 20261127);
+const seeds = Array.from({ length: 23 }, (_, i) => (seed0 + i * 7919) % 2147483648);
+let cur = 0;
+const rnd = () => { seeds[cur] = (seeds[cur] * 1103515245 + 12345) % 2147483648; return seeds[cur] / 2147483648; };
+const dn = (v) => String(v).replace('.', '{,}'); // số thập phân trong LaTeX
 const pick = (a) => a[Math.floor(rnd() * a.length)];
 const int = (lo, hi) => lo + Math.floor(rnd() * (hi - lo + 1));
 const gcd = (a, b) => (b ? gcd(b, a % b) : Math.abs(a));
@@ -60,18 +64,34 @@ const HEAD = (W, H) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W
   <defs><marker id="m2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker></defs>
   <rect width="${W}" height="${H}" fill="#fff"/>`;
 const dim = (x1, y1, x2, y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#000" stroke-width="1.3" marker-start="url(#m2)" marker-end="url(#m2)"/>`;
-// lối đi quanh hình vuông: outside = lối đi ở ngoài (cạnh trong là x), ngược lại lối đi ở trong (cạnh ngoài là x)
+const ext = (x1, y1, x2, y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#555" stroke-width="1" stroke-dasharray="4,3"/>`;
+const loiDi = (x, yText, yBand) => `<line x1="${x + 22}" y1="${yText - 5}" x2="${x + 40}" y2="${yBand}" stroke="#1f4fa8" stroke-width="1"/><circle cx="${x + 40}" cy="${yBand}" r="2.5" fill="#1f4fa8"/><text x="${x}" y="${yText}" text-anchor="middle" font-size="15" fill="#1f4fa8">lối đi</text>`;
+const xm = (x, y, s = 'x') => `<text x="${x}" y="${y}" text-anchor="middle" font-style="italic">${s} <tspan font-style="normal">m</tspan></text>`;
+// lối đi quanh hình vuông: outside = lối đi ở ngoài (cạnh trong là x), ngược lại lối đi ở trong (cạnh ngoài là x).
+// Kích thước ghi bên ngoài hình, có đường gióng nét đứt, để không đè lên nét vẽ.
 function walkFig(file, w, outside, noun) {
   const O = 40, S = 260, t = 16 + 6 * w, I = O + t, s = S - 2 * t;
-  let g = HEAD(360, 360);
+  let g = HEAD(360, 370);
   g += `<rect x="${O}" y="${O}" width="${S}" height="${S}" fill="#cfe3ff" fill-opacity="0.8" stroke="#1f4fa8" stroke-width="2"/>`;
   g += `<rect x="${I}" y="${I}" width="${s}" height="${s}" fill="#dff0d4" stroke="#2e7d32" stroke-width="2"/>`;
   g += `<text x="${O + S / 2}" y="${O + S / 2 + 6}" text-anchor="middle" fill="#2e7d32">${noun}</text>`;
-  g += `<text x="${O + S / 2}" y="${O + t / 2 + 6}" text-anchor="middle" font-size="15" fill="#1f4fa8">lối đi</text>`;
-  // bề rộng lối đi (bên phải)
+  g += loiDi(O + S / 2 - 40, O - 14, O + t / 2);
   g += dim(O + S - t, O + S / 2 + 40, O + S, O + S / 2 + 40) + `<text x="${O + S + 6}" y="${O + S / 2 + 46}" font-size="16">${w} m</text>`;
-  if (outside) g += dim(I, I + s - 14, I + s, I + s - 14) + `<text x="${O + S / 2}" y="${I + s - 22}" text-anchor="middle" font-style="italic">x <tspan font-style="normal">m</tspan></text>`;
-  else g += dim(O, O + S + 22, O + S, O + S + 22) + `<text x="${O + S / 2}" y="${O + S + 46}" text-anchor="middle" font-style="italic">x <tspan font-style="normal">m</tspan></text>`;
+  const [a0, a1] = outside ? [I, I + s] : [O, O + S], yb = outside ? I + s : O + S;
+  g += ext(a0, yb + 4, a0, O + S + 30) + ext(a1, yb + 4, a1, O + S + 30) + dim(a0, O + S + 22, a1, O + S + 22) + xm((a0 + a1) / 2, O + S + 46);
+  writeFileSync(resolve(HINH, file), g + '</svg>\n');
+}
+// hình chữ nhật (rộng x, dài x + a) có lối đi rộng w bao quanh phía ngoài
+function rectFig(file, w, a, noun) {
+  const O = 70, T = 40, t = 14 + 6 * w, iw = 190 + 8 * a, ih = 150, W = iw + 2 * t, H = ih + 2 * t, L = O + t, Tp = T + t;
+  let g = HEAD(O + W + 60, T + H + 60);
+  g += `<rect x="${O}" y="${T}" width="${W}" height="${H}" fill="#cfe3ff" fill-opacity="0.8" stroke="#1f4fa8" stroke-width="2"/>`;
+  g += `<rect x="${L}" y="${Tp}" width="${iw}" height="${ih}" fill="#dff0d4" stroke="#2e7d32" stroke-width="2"/>`;
+  g += `<text x="${L + iw / 2}" y="${Tp + ih / 2 + 6}" text-anchor="middle" fill="#2e7d32">${noun}</text>`;
+  g += loiDi(O + W / 2 - 40, T - 14, T + t / 2);
+  g += ext(L, Tp + ih + 4, L, T + H + 30) + ext(L + iw, Tp + ih + 4, L + iw, T + H + 30) + dim(L, T + H + 22, L + iw, T + H + 22) + xm(L + iw / 2, T + H + 46, `x + ${a}`);
+  g += ext(L - 4, Tp, O - 30, Tp) + ext(L - 4, Tp + ih, O - 30, Tp + ih) + dim(O - 22, Tp, O - 22, Tp + ih) + `<text x="${O - 30}" y="${Tp + ih / 2 + 6}" text-anchor="end" font-style="italic">x <tspan font-style="normal">m</tspan></text>`;
+  g += dim(O + W - t, T + H / 2 + 30, O + W, T + H / 2 + 30) + `<text x="${O + W + 6}" y="${T + H / 2 + 36}" font-size="16">${w} m</text>`;
   writeFileSync(resolve(HINH, file), g + '</svg>\n');
 }
 function cutFig(file, a, b) {
@@ -81,7 +101,10 @@ function cutFig(file, a, b) {
   g += `<rect x="${O + S - sb}" y="${O}" width="${sb}" height="${sb}" fill="#fff" stroke="#888" stroke-width="1.5" stroke-dasharray="6,4"/>`;
   g += dim(O, O + S + 20, O + S, O + S + 20) + `<text x="${O + S / 2}" y="${O + S + 44}" text-anchor="middle" font-style="italic">a</text>`;
   g += dim(O + S + 18, O, O + S + 18, O + sb) + `<text x="${O + S + 26}" y="${O + sb / 2 + 6}" font-style="italic">b</text>`;
-  g += `<text x="${O + S / 2 - 20}" y="${O + S / 2 + 20}" text-anchor="middle" fill="#1f4fa8">phần còn lại</text>`;
+  // chữ đặt giữa dải dưới của phần còn lại; dải mỏng thì ghi phía trên hình, có đường dẫn
+  const hb = S - sb;
+  g += hb >= 56 ? `<text x="${O + S / 2}" y="${O + sb + hb / 2 + 6}" text-anchor="middle" fill="#1f4fa8">phần còn lại</text>`
+    : `<line x1="${O + hb / 2}" y1="${O - 14}" x2="${O + hb / 2}" y2="${O + S - hb / 2}" stroke="#1f4fa8" stroke-width="1"/><circle cx="${O + hb / 2}" cy="${O + S - hb / 2}" r="2.5" fill="#1f4fa8"/><text x="${Math.max(O + hb / 2, 48)}" y="${O - 20}" text-anchor="middle" fill="#1f4fa8">phần còn lại</text>`;
   writeFileSync(resolve(HINH, file), g + '</svg>\n');
 }
 
@@ -108,7 +131,7 @@ T[2] = (n, idx) => {
   const q = exprQ(`${a * a}*x*x-${b * b}`, [`(${L(a, -b)})(${L(a, b)})`, `(${a}*x-${b})*(${a}*x+${b})`],
     [[`(${L(a, -b)})^2`, `(${a}*x-${b})**2`], [`(${L(a, b)})^2`, `(${a}*x+${b})**2`], [`(${poly([[b, ''], [-a, 'x']])})(${poly([[b, ''], [a, 'x']])})`, `(${b}-${a}*x)*(${b}+${a}*x)`]], idx);
   return q && { ...q, prompt: R`Phân tích đa thức $${poly([[a * a, 'x^2'], [-b * b, '']])}$ thành nhân tử, ta được`,
-    explanation: R`$${poly([[a * a, 'x^2'], [-b * b, '']])} = (${cf(a)}x)^2 - ${b}^2 = (${L(a, -b)})(${L(a, b)})$ (hiệu hai bình phương). Phương án $(${poly([[b, ''], [-a, 'x']])})(${poly([[b, ''], [a, 'x']])})$ bằng $${b * b} - ${cf(a * a)}x^2$, ngược dấu.` };
+    explanation: R`$${poly([[a * a, 'x^2'], [-b * b, '']])} = ${a === 1 ? "x" : `(${a}x)`}^2 - ${b}^2 = (${L(a, -b)})(${L(a, b)})$ (hiệu hai bình phương). Phương án $(${poly([[b, ''], [-a, 'x']])})(${poly([[b, ''], [a, 'x']])})$ bằng $${b * b} - ${cf(a * a)}x^2$, ngược dấu.` };
 };
 // 3. Bình phương của một tổng / hiệu
 T[3] = (n, idx) => {
@@ -117,7 +140,7 @@ T[3] = (n, idx) => {
   const q = exprQ(`${a * a}*x*x+(${2 * a * k * s})*x+${k * k}`, [`(${L(a, s * k)})^2`, `(${a}*x+(${s * k}))**2`],
     [[`(${L(a, -s * k)})^2`, `(${a}*x-(${s * k}))**2`], [`(${L(a, -k)})(${L(a, k)})`, `(${a}*x-${k})*(${a}*x+${k})`], [`(${L(a, 2 * s * k)})^2`, `(${a}*x+(${2 * s * k}))**2`]], idx);
   return q && { ...q, prompt: R`Phân tích đa thức $${P}$ thành nhân tử, ta được`,
-    explanation: R`$${P} = (${cf(a)}x)^2 ${s > 0 ? '+' : '-'} 2 \cdot ${cf(a)}x \cdot ${k} + ${k}^2 = (${L(a, s * k)})^2$. Phương án $(${L(a, -s * k)})^2$ sai dấu hạng tử giữa; phương án $(${L(a, -k)})(${L(a, k)})$ là hiệu hai bình phương, không có hạng tử chứa $x$.` };
+    explanation: R`$${P} = ${a === 1 ? "x" : `(${a}x)`}^2 ${s > 0 ? '+' : '-'} 2 \cdot ${cf(a)}x \cdot ${k} + ${k}^2 = (${L(a, s * k)})^2$. Phương án $(${L(a, -s * k)})^2$ sai dấu hạng tử giữa; phương án $(${L(a, -k)})(${L(a, k)})$ là hiệu hai bình phương, không có hạng tử chứa $x$.` };
 };
 // 4. Tổng / hiệu hai lập phương
 T[4] = (n, idx) => {
@@ -128,7 +151,7 @@ T[4] = (n, idx) => {
   const q = exprQ(`${a ** 3}*x**3+(${s * k ** 3})`, [`(${L(a, s * k)})(${sq(-s)})`, `(${a}*x+(${s * k}))*${sqj(-s)}`],
     [[`(${L(a, s * k)})(${sq(s)})`, `(${a}*x+(${s * k}))*${sqj(s)}`], [`(${L(a, s * k)})(${sq(-2 * s)})`, `(${a}*x+(${s * k}))*${sqj(-2 * s)}`], [`(${L(a, -s * k)})(${sq(s)})`, `(${a}*x-(${s * k}))*${sqj(s)}`]], idx);
   return q && { ...q, prompt: R`Phân tích đa thức $${P}$ thành nhân tử, ta được`,
-    explanation: R`$${P} = (${cf(a)}x)^3 ${s > 0 ? '+' : '-'} ${k}^3 = (${L(a, s * k)})(${sq(-s)})$ theo hằng đẳng thức $A^3 ${s > 0 ? '+' : '-'} B^3 = (A ${s > 0 ? '+' : '-'} B)(A^2 ${s > 0 ? '-' : '+'} AB + B^2)$. Phương án $(${L(a, s * k)})(${sq(s)})$ sai dấu của $AB$; phương án có $${Math.abs(2 * a * k)}x$ nhầm với bình phương của một ${s > 0 ? 'hiệu' : 'tổng'}.` };
+    explanation: R`$${P} = ${a === 1 ? "x" : `(${a}x)`}^3 ${s > 0 ? '+' : '-'} ${k}^3 = (${L(a, s * k)})(${sq(-s)})$ theo hằng đẳng thức $A^3 ${s > 0 ? '+' : '-'} B^3 = (A ${s > 0 ? '+' : '-'} B)(A^2 ${s > 0 ? '-' : '+'} AB + B^2)$. Phương án $(${L(a, s * k)})(${sq(s)})$ sai dấu của $AB$; phương án có $${Math.abs(2 * a * k)}x$ nhầm với bình phương của một ${s > 0 ? 'hiệu' : 'tổng'}.` };
 };
 // 5. Đặt nhân tử chung sau khi đổi dấu
 T[5] = (n, idx) => {
@@ -141,27 +164,27 @@ T[5] = (n, idx) => {
 };
 // 6. Dữ kiện ẩn: x ± y = d → bình phương
 T[6] = (n, idx) => {
-  const d = int(3, 15), v = pick([0, 1]);
+  const d = int(3, 25), v = pick([0, 1]);
   const q = numQ(d * d, [2 * d, -d * d, d], idx); if (!q) return null;
   const cond = v ? `x + y = ${d}` : `x - y = ${d}`, E = v ? 'x^2 + 2xy + y^2' : 'x^2 - 2xy + y^2';
-  return { ...q, prompt: R`Biết $${cond}$. Giá trị của biểu thức $${E}$ bằng`,
+  return { ...q, _mkey: `${d}`, prompt: R`Biết $${cond}$. Giá trị của biểu thức $${E}$ bằng`,
     verify: v ? `(()=>{const x=${d}-1.5,y=1.5;return Math.round((x*x+2*x*y+y*y)*1e6)/1e6;})()` : `(()=>{const x=${d}+1.5,y=1.5;return Math.round((x*x-2*x*y+y*y)*1e6)/1e6;})()`,
     explanation: R`$${E} = (${v ? 'x + y' : 'x - y'})^2 = ${d}^2 = ${d * d}$. Phương án $${2 * d}$ do nhầm bình phương với nhân đôi; phương án $${-d * d}$ sai dấu.` };
 };
 // 7. x² − y² = P và một tổng/hiệu → tổng/hiệu còn lại
 T[7] = (n, idx) => {
-  const s = int(2, 9), qv = int(1, 9), v = pick([0, 1]); if (qv === s) return null;
+  const s = int(2, 9), qv = int(2, 9), v = pick([0, 1]); if (qv === s) return null;
   const P = s * qv;
   const q = numQ(qv, [-qv, P - s, P + s], idx); if (!q) return null;
   const [given, ask] = v ? ['x - y', 'x + y'] : ['x + y', 'x - y'];
-  return { ...q, prompt: R`Biết $x^2 - y^2 = ${P}$ và $${given} = ${s}$. Giá trị của $${ask}$ bằng`,
+  return { ...q, _mkey: `${s},${qv}`, prompt: R`Biết $x^2 - y^2 = ${P}$ và $${given} = ${s}$. Giá trị của $${ask}$ bằng`,
     verify: `${P}/${s}`,
     explanation: R`$x^2 - y^2 = (x + y)(x - y)$, nên $${s} \cdot (${ask}) = ${P}$, suy ra $${ask} = ${P} : ${s} = ${qv}$. Phương án $${P - s}$ do lấy $${P} - ${s}$ thay vì chia.` };
 };
 // 8. Nhóm hạng tử: nhận ra nhân tử
 T[8] = (n, idx) => {
   const a = int(1, 9), c = int(1, 3), v = pick([0, 1]);
-  const P = `x^2 - ${a * a} + ${cf(c)}xy ${v ? '-' : '+'} ${c * a}y`;
+  const P = `x^2 - ${a * a} + ${cf(c)}xy ${v ? '-' : '+'} ${cf(c * a)}y`;
   const corr = v ? `x - ${a}` : `x + ${a}`, all = [`x + ${a}`, `x - ${a}`, `y + ${a}`, `y - ${a}`];
   const o = place([corr, 0], all.filter((x) => x !== corr).map((x) => [x, 0]), idx); if (!o) return null;
   const f = `(x,y)=>x*x-${a * a}+${c}*x*y+(${v ? -1 : 1})*${c * a}*y`;
@@ -173,9 +196,9 @@ T[8] = (n, idx) => {
 };
 // 9. Tìm hệ số tự do để là bình phương
 T[9] = (n, idx) => {
-  const k = int(3, 15), s = pick([1, -1]);
+  const k = int(3, 25), s = pick([1, -1]);
   const q = numQ(k * k, [2 * k, 4 * k * k, -k * k], idx); if (!q) return null;
-  return { ...q, prompt: R`Biết đa thức $x^2 ${s > 0 ? '+' : '-'} ${2 * k}x + m$ viết được dưới dạng $(x ${s > 0 ? '+' : '-'} a)^2$ với $a$ là hằng số. Giá trị của $m$ là`,
+  return { ...q, _mkey: `${k}`, prompt: R`Biết đa thức $x^2 ${s > 0 ? '+' : '-'} ${2 * k}x + m$ viết được dưới dạng $(x ${s > 0 ? '+' : '-'} a)^2$ với $a$ là hằng số. Giá trị của $m$ là`,
     verify: `(()=>{const b=${2 * k * s};return (b/2)*(b/2);})()`,
     explanation: R`$(x ${s > 0 ? '+' : '-'} a)^2 = x^2 ${s > 0 ? '+' : '-'} 2ax + a^2$. So sánh: $2a = ${2 * k}$ nên $a = ${k}$ và $m = a^2 = ${k * k}$. Phương án $${4 * k * k}$ do lấy $(${2 * k})^2$.` };
 };
@@ -192,13 +215,14 @@ T[10] = (n, idx) => {
 };
 // 11. Lối đi bao quanh (thực tế, mô hình hoá)
 const NOUN11 = [['Một mảnh vườn', 'vườn'], ['Một bồn hoa', 'bồn hoa'], ['Một bể bơi', 'bể bơi'], ['Một sân cỏ', 'sân cỏ'], ['Một ao cá', 'ao cá']];
+// Hình chữ nhật chiều rộng x, chiều dài x + a, lối đi rộng w bao quanh phía ngoài: S = 2w(2x + a + 2w)
 T[11] = (n, idx) => {
-  const w = int(1, 5), [Ctx, noun] = pick(NOUN11);
-  const q = exprQ(`(x+${2 * w})**2-x*x`, [`${4 * w}(x + ${w})`, `${4 * w}*(x+${w})`],
-    [[`${4 * w}(x + ${2 * w})`, `${4 * w}*(x+${2 * w})`], [`${2 * w}(x + ${w})`, `${2 * w}*(x+${w})`], [w === 1 ? `4x + 1` : `${w}(4x + ${w})`, `${w}*(4*x+${w})`]], idx);
-  return q && { ...q, _key: Ctx + w, image: imgPath(n, '11'), _fig: () => walkFig(fig(n, '11'), w, true, noun),
-    prompt: R`${Ctx} có dạng hình vuông cạnh $x$ (m). Người ta làm một lối đi rộng $${w}$ m bao quanh phía ngoài ${noun} như hình bên. Diện tích của lối đi (m²) là`,
-    explanation: R`Hình vuông lớn (gồm ${noun} và lối đi) có cạnh $x + ${2 * w}$. Diện tích lối đi: $(x + ${2 * w})^2 - x^2 = (x + ${2 * w} - x)(x + ${2 * w} + x) = ${2 * w}(2x + ${2 * w}) = ${4 * w}(x + ${w})$. Phương án $${4 * w}(x + ${2 * w})$ do tính nhầm; phương án $${2 * w}(x + ${w})$ do lấy cạnh lớn là $x + ${w}$ ở mỗi bên.` };
+  const w = int(1, 3), a = int(1, 8), [Ctx, noun] = pick(NOUN11);
+  const q = exprQ(`(x+${2 * w})*(x+${a + 2 * w})-x*(x+${a})`, [`${2 * w}(2x + ${a + 2 * w})`, `${2 * w}*(2*x+${a + 2 * w})`],
+    [[`${2 * w}(2x + ${a + w})`, `${2 * w}*(2*x+${a + w})`], [w === 1 ? `2x + ${a + 2}` : `${w}(2x + ${a + 2 * w})`, `${w}*(2*x+${a + 2 * w})`], [`${2 * w}(x + ${a + 2 * w})`, `${2 * w}*(x+${a + 2 * w})`]], idx);
+  return q && { ...q, _mkey: `${w},${a}`, image: imgPath(n, '11'), _fig: () => rectFig(fig(n, '11'), w, a, noun),
+    prompt: R`${Ctx} có dạng hình chữ nhật với chiều rộng $x$ (m) và chiều dài hơn chiều rộng $${a}$ m. Người ta làm một lối đi rộng $${w}$ m bao quanh phía ngoài ${noun} như hình bên. Diện tích của lối đi (m²) là`,
+    explanation: R`${noun[0].toUpperCase() + noun.slice(1)} có kích thước $x$ và $x + ${a}$; hình chữ nhật lớn (gồm cả lối đi) có kích thước $x + ${2 * w}$ và $x + ${a + 2 * w}$. Diện tích lối đi: $(x + ${2 * w})(x + ${a + 2 * w}) - x(x + ${a}) = x^2 + ${a + 4 * w}x + ${2 * w * (a + 2 * w)} - x^2 - ${cf(a)}x = ${4 * w}x + ${2 * w * (a + 2 * w)} = ${2 * w}(2x + ${a + 2 * w})$. Phương án $${2 * w}(2x + ${a + w})$ do chỉ cộng bề rộng lối đi ở một bên; phương án $${2 * w}(x + ${a + 2 * w})$ do đặt nhân tử chung sai.` };
 };
 // 12. a ± b, ab → a³ ± b³
 T[12] = (n, idx) => {
@@ -209,13 +233,13 @@ T[12] = (n, idx) => {
   return { ...q, prompt: R`Cho hai số thực $a$, $b$ thỏa mãn $${cond}$ và $ab = ${p}$. Giá trị của $${E}$ bằng`,
     verify: v ? `(()=>{const a=(${d}+Math.sqrt(${d * d - 4 * p}))/2,b=${d}-a;return Math.round((a**3+b**3)*1e6)/1e6;})()` : `(()=>{const b=(-${d}+Math.sqrt(${d * d + 4 * p}))/2,a=b+${d};return Math.round((a**3-b**3)*1e6)/1e6;})()`,
     explanation: v
-      ? R`$a^3 + b^3 = (a + b)(a^2 - ab + b^2) = (a + b)\left[(a + b)^2 - 3ab\right] = ${d}(${d * d} - ${3 * p}) = ${C}$. Phương án $${d ** 3 - d * p}$ do viết $a^2 - ab + b^2 = (a + b)^2 - ab$.`
-      : R`$a^3 - b^3 = (a - b)(a^2 + ab + b^2) = (a - b)\left[(a - b)^2 + 3ab\right] = ${d}(${d * d} + ${3 * p}) = ${C}$. Phương án $${d ** 3 + d * p}$ do viết $a^2 + ab + b^2 = (a - b)^2 + ab$.` };
+      ? R`$a^3 + b^3 = (a + b)(a^2 - ab + b^2) = (a + b)\left[(a + b)^2 - 3ab\right] = ${d} \cdot (${d * d} - ${3 * p}) = ${C}$. Phương án $${d ** 3 - d * p}$ do viết $a^2 - ab + b^2 = (a + b)^2 - ab$.`
+      : R`$a^3 - b^3 = (a - b)(a^2 + ab + b^2) = (a - b)\left[(a - b)^2 + 3ab\right] = ${d} \cdot (${d * d} + ${3 * p}) = ${C}$. Phương án $${d ** 3 + d * p}$ do viết $a^2 + ab + b^2 = (a - b)^2 + ab$.` };
 };
 // 13. Đúng/Sai: P(x) = c x³ − c k² x
 T[13] = (n, pat) => {
   const c = int(1, 3), k = int(2, 9), [ta, tb, tc, td] = pat;
-  const P = poly([[c, 'x^3'], [-c * k * k, 'x']]), V = c * (k + 1) * (2 * k + 1), Vs = tc ? V : V + 2, cnt = td ? 3 : 2;
+  const P = poly([[c, 'x^3'], [-c * k * k, 'x']]), V = c * (k + 1) * (2 * k + 1), Vs = tc ? V : 2 * c * k * (k + 1) /* lỗi: (k+1)+k tính thành 2k */, cnt = td ? 3 : 2;
   return { answer: pat,
     prompt: R`Cho đa thức $P(x) = ${P}$. Xét tính đúng sai của các mệnh đề sau.`,
     options: [ta ? R`a) $P(x) = ${cf(c)}x(x^2 - ${k * k})$.` : R`a) $P(x) = ${cf(c)}x^2(x - ${k * k})$.`, tb ? R`b) $P(x) = ${cf(c)}x(x - ${k})(x + ${k})$.` : R`b) $P(x) = ${cf(c)}x(x - ${k})^2$.`,
@@ -244,7 +268,7 @@ const NOUN15 = [['mảnh vườn', 'vườn'], ['bồn hoa', 'bồn hoa'], ['sâ
 T[15] = (n, pat) => {
   const w = int(1, 3), X = int(8, 30), X0 = int(8, 30), [noun, short] = pick(NOUN15), [ta, tb, tc, td] = pat; if (X0 === X) return null;
   const S = (x) => 4 * w * (x + w), cs = tc ? S(X) : 4 * w * (X + 2 * w), xs = td ? X0 : X0 + w;
-  return { answer: pat, _key: `${X},${X0}`, image: imgPath(n, '15'), _fig: () => walkFig(fig(n, '15'), w, true, short),
+  return { answer: pat, _mkey: `${w},${X},${X0}`, image: imgPath(n, '15'), _fig: () => walkFig(fig(n, '15'), w, true, short),
     prompt: R`Một ${noun} có dạng hình vuông cạnh $x$ (m). Người ta làm một lối đi rộng $${w}$ m bao quanh phía ngoài ${noun} như hình bên. Gọi $S$ là diện tích của lối đi (m²). Xét tính đúng sai của các mệnh đề sau.`,
     options: [R`a) Hình vuông lớn (gồm ${noun} và lối đi) có cạnh bằng $x + ${ta ? 2 * w : w}$ (m).`, R`b) $S = ${4 * w}(x + ${tb ? w : 2 * w})$.`,
       R`c) Khi $x = ${X}$ thì $S = ${cs}$ m².`, R`d) Nếu diện tích lối đi là $${S(X0)}$ m² thì cạnh của ${noun} là $${xs}$ m.`],
@@ -266,7 +290,7 @@ T[16] = (n, pat) => {
 };
 // 17. Trả lời ngắn: hệ số khi đặt nhân tử chung
 T[17] = (n) => {
-  const g = int(2, 9), p = int(1, 6), q = int(1, 9), s = pick([1, -1]); if (gcd(p, q) !== 1 || p === q) return null;
+  const g = int(2, 12), p = int(1, 7), q = int(1, 11), s = pick([1, -1]); if (gcd(p, q) !== 1 || p === q) return null;
   const a = g * p, b = g * q;
   return { answer: [String(g + p + q)],
     prompt: R`Đặt nhân tử chung, ta viết được $${poly([[a, 'x^2'], [s * b, 'x']])} = cx(px ${s > 0 ? '+' : '-'} q)$, trong đó $c$, $p$, $q$ là các số nguyên dương và $p$, $q$ nguyên tố cùng nhau. Tính $c + p + q$.`,
@@ -275,40 +299,40 @@ T[17] = (n) => {
 };
 // 18. Trả lời ngắn: hệ số trong tổng/hiệu hai lập phương
 T[18] = (n) => {
-  const a = int(1, 3), k = int(1, 9), s = pick([1, -1]); if (gcd(a, k) !== 1 || a === k || (a === 1 && k < 2)) return null;
+  const a = int(1, 4), k = int(1, 9), s = pick([1, -1]); if (gcd(a, k) !== 1 || a === k || (a === 1 && k < 2)) return null;
   const ans = a * k + k * k; if (ans > 999) return null;
   return { answer: [String(ans)],
     prompt: R`Biết $${poly([[a ** 3, 'x^3'], [s * k ** 3, '']])} = (${L(a, s * k)})(${cf(a * a)}x^2 ${s > 0 ? '-' : '+'} mx + n)$ với mọi $x$, trong đó $m$, $n$ là các hằng số. Tính $m + n$.`,
     verify: `(()=>{const n=(${s * k ** 3})/(${s * k});const val=(${a ** 3}+(${s * k ** 3}))/(${a}+(${s * k}));const m=${s}*(${a * a}+n-val);return m+n;})()`,
-    explanation: R`$${poly([[a ** 3, 'x^3'], [s * k ** 3, '']])} = (${cf(a)}x)^3 ${s > 0 ? '+' : '-'} ${k}^3 = (${L(a, s * k)})(${poly([[a * a, 'x^2'], [-s * a * k, 'x'], [k * k, '']])})$. So sánh: $m = ${a * k}$, $n = ${k * k}$. Vậy $m + n = ${ans}$.` };
+    explanation: R`$${poly([[a ** 3, 'x^3'], [s * k ** 3, '']])} = ${a === 1 ? "x" : `(${a}x)`}^3 ${s > 0 ? '+' : '-'} ${k}^3 = (${L(a, s * k)})(${poly([[a * a, 'x^2'], [-s * a * k, 'x'], [k * k, '']])})$. So sánh: $m = ${a * k}$, $n = ${k * k}$. Vậy $m + n = ${ans}$.` };
 };
 // 19. Trả lời ngắn: tính giá trị nhờ phân tích (dữ kiện tổng, hiệu)
 T[19] = (n) => {
   const s = int(2, 12), d = int(1, 9), k = int(1, 9), v = pick([0, 1]); if (d === s) return null;
   const ans = v ? s * (d - k) : d * (s + k); if (ans === 0) return null;
-  const E = v ? `x^2 - y^2 - ${k}x - ${k}y` : `x^2 - y^2 + ${k}x - ${k}y`;
+  const E = poly([[1, 'x^2'], [-1, 'y^2'], [v ? -k : k, 'x'], [-k, 'y']]);
   return { answer: [String(ans)],
     prompt: R`Biết $x + y = ${s}$ và $x - y = ${d}$. Tính giá trị của biểu thức $A = ${E}$.`,
     verify: `(()=>{const x=(${s}+${d})/2,y=(${s}-${d})/2;return Math.round((x*x-y*y+(${v ? -k : k})*x-${k}*y)*1e6)/1e6;})()`,
     explanation: v
-      ? R`$A = (x - y)(x + y) - ${k}(x + y) = (x + y)(x - y - ${k}) = ${s} \cdot ${par(d - k)} = ${ans}$.`
-      : R`$A = (x - y)(x + y) + ${k}(x - y) = (x - y)(x + y + ${k}) = ${d} \cdot ${s + k} = ${ans}$.` };
+      ? R`$A = (x - y)(x + y) - ${cf(k)}(x + y) = (x + y)(x - y - ${k}) = ${s} \cdot ${par(d - k)} = ${ans}$.`
+      : R`$A = (x - y)(x + y) + ${cf(k)}(x - y) = (x - y)(x + y + ${k}) = ${d} \cdot ${s + k} = ${ans}$.` };
 };
 // 20. Trả lời ngắn: tìm x dạng A·B = 0
 T[20] = (n) => {
   const a = int(1, 9), b = int(1, 9), s = pick([1, -1]); if (a === b) return null;
   const ans = s > 0 ? a + b : a - b; if (ans === 0) return null;
-  const lhs = `x(x - ${a}) ${s > 0 ? '+' : '-'} ${b}(${a} - x)`;
+  const lhs = `x(x - ${a}) ${s > 0 ? '+' : '-'} ${cf(b)}(${a} - x)`;
   return { answer: [String(ans)],
     prompt: R`Tính tổng tất cả các giá trị của $x$ thỏa mãn $${lhs} = 0$.`,
     verify: `(()=>{const B=-(${a}+(${s})*${b}),C=(${s})*${a}*${b};const D=Math.sqrt(B*B-4*C);const r=[...new Set([(-B+D)/2,(-B-D)/2])];return r.reduce((u,v)=>u+v,0);})()`,
-    explanation: R`$${lhs} = x(x - ${a}) ${s > 0 ? '-' : '+'} ${b}(x - ${a}) = (x - ${a})(${L(1, -s * b)})$. Do đó $x - ${a} = 0$ hoặc $${L(1, -s * b)} = 0$, tức $x = ${a}$ hoặc $x = ${s * b}$. Tổng các giá trị là $${a} + ${par(s * b)} = ${ans}$.` };
+    explanation: R`$${lhs} = x(x - ${a}) ${s > 0 ? '-' : '+'} ${cf(b)}(x - ${a}) = (x - ${a})(${L(1, -s * b)})$. Do đó $x - ${a} = 0$ hoặc $${L(1, -s * b)} = 0$, tức $x = ${a}$ hoặc $x = ${s * b}$. Tổng các giá trị là $${a} + ${par(s * b)} = ${ans}$.` };
 };
 // 21. Trả lời ngắn thực tế: tấm bìa cắt góc
 const NOUN21 = ['một tấm bìa', 'một tấm tôn', 'một tấm gỗ', 'một mảnh vải'];
 T[21] = (n) => {
-  const a = int(6, 20), b = int(1, a - 3), ctx = pick(NOUN21), s = a + b, S = a * a - b * b;
-  return { answer: [String(a)], _key: ctx, image: imgPath(n, '21'), _fig: () => cutFig(fig(n, '21'), a, b),
+  const a = int(6, 30), b = int(1, a - 3), ctx = pick(NOUN21), s = a + b, S = a * a - b * b;
+  return { answer: [String(a)], _mkey: `${a},${b}`, image: imgPath(n, '21'), _fig: () => cutFig(fig(n, '21'), a, b),
     prompt: R`Từ ${ctx} hình vuông cạnh $a$ (cm), người ta cắt bỏ ở một góc một hình vuông cạnh $b$ (cm) như hình bên. Biết phần còn lại có diện tích $${S}$ cm² và $a + b = ${s}$. Tính $a$ (cm).`,
     verify: `(${s}+${S}/${s})/2`,
     explanation: R`Diện tích phần còn lại: $a^2 - b^2 = (a - b)(a + b) = ${S}$, nên $a - b = ${S} : ${s} = ${a - b}$. Từ $a + b = ${s}$ và $a - b = ${a - b}$ suy ra $a = (${s} + ${a - b}) : 2 = ${a}$ (cm).` };
@@ -318,7 +342,7 @@ const NAME22 = ['Bác Minh', 'Cô Lan', 'Ông Hòa', 'Chú Tâm', 'Bà Mai'];
 const NOUN22 = [['mảnh vườn', 'vườn'], ['mảnh đất', 'đất'], ['sân', 'sân']];
 T[22] = (n) => {
   const w = int(1, 2), x = int(10, 40), who = pick(NAME22), [noun, short] = pick(NOUN22), S = 4 * w * (x - w);
-  return { answer: [String(x)], _key: who + noun, image: imgPath(n, '22'), _fig: () => walkFig(fig(n, '22'), w, false, 'phần trong'),
+  return { answer: [String(x)], _mkey: `${w},${x}`, image: imgPath(n, '22'), _fig: () => walkFig(fig(n, '22'), w, false, 'phần trong'),
     prompt: R`${who} có một ${noun} hình vuông. Người ta làm một lối đi rộng $${w}$ m chạy sát mép bên trong, bao quanh ${noun} như hình bên. Biết diện tích lối đi là $${S}$ m². Tính cạnh $x$ của ${noun} (m).`,
     verify: `(()=>{const w=${w},S=${S};return (S+4*w*w)/(4*w);})()`,
     explanation: R`Phần bên trong lối đi là hình vuông cạnh $x - ${2 * w}$. Diện tích lối đi: $x^2 - (x - ${2 * w})^2 = (x - x + ${2 * w})(x + x - ${2 * w}) = ${2 * w}(2x - ${2 * w}) = ${4 * w}(x - ${w})$. Từ $${4 * w}(x - ${w}) = ${S}$ suy ra $x - ${w} = ${S / (4 * w)}$, $x = ${x}$ (m).` };
@@ -337,7 +361,8 @@ const PTS = { mcq: 0.25, tf: 1, short: 0.5 };
 const MCQ_BASE = [0, 1, 2, 3, 2, 0, 3, 1, 0, 2, 3, 1];
 const PATTERNS = [[1, 0, 1, 1], [1, 0, 1, 0], [1, 1, 0, 0], [1, 1, 0, 1], [0, 1, 1, 0], [0, 1, 0, 1], [1, 0, 0, 1], [0, 0, 1, 1], [0, 1, 1, 1], [1, 1, 1, 0], [0, 1, 0, 0], [1, 0, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]].map((p) => p.map(Boolean));
 // chống trùng theo đề bài (không tính thứ tự phương án)
-const qkey = (q) => q.prompt.replace(/\s+/g, '') + (q._key ?? '');
+// chống trùng: theo bộ số (_mkey) nếu có — đổi ngữ cảnh mà giữ số vẫn tính là trùng; không thì theo đề bài
+const qkey = (q) => q._mkey ?? q.prompt.replace(/\s+/g, '') + (q._key ?? '');
 const seen = new Set();
 const shortSeen = META.map(() => new Set());
 const exams = [];
@@ -345,8 +370,9 @@ for (let n = 1; n <= 20; n++) {
   const qs = META.map(([kind, muc, thuc_te, bam_may], i) => {
     for (let tries = 0; tries < 6000; tries++) {
       const key = kind === 'mcq' ? (MCQ_BASE[i] + n - 1) % 4 : kind === 'tf' ? PATTERNS[(n * 3 + (i - 12) * 5) % PATTERNS.length] : null;
+      cur = i + 1;
       const q = T[i + 1](n, key); if (!q) continue;
-      const k = qkey(q); if (seen.has(k)) continue; delete q._key;
+      const k = `${i}|` + qkey(q); if (seen.has(k)) continue; delete q._key; delete q._mkey;
       if (kind === 'short' && shortSeen[i].has(q.answer[0]) && tries < 4000) continue;
       seen.add(k); if (kind === 'short') shortSeen[i].add(q.answer[0]);
       const fg = q._fig; delete q._fig; if (fg) fg();
