@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 338" font-family="Times New Roman" font-size="18">
+  <rect width="760" height="338" fill="#fff"/>
+  <rect x="12" y="12" width="736" height="314" rx="8" fill="#f7fbff" stroke="#1f4fa8" stroke-width="2"/>
+  <text x="380" y="46" text-anchor="middle" font-weight="bold" font-size="20" fill="#1f4fa8">PHIẾU KHẢO SÁT</text>
+  <text x="32" y="84">Câu 1. Mỗi ngày em dành bao nhiêu thời gian để tự học?</text>
+  <text x="56" y="110" font-size="16" fill="#444">Trả lời: ......................................</text>
+  <text x="32" y="146">Câu 2. Em hài lòng với thư viện trường ở mức nào?</text>
+  <text x="56" y="172" font-size="16" fill="#444">□ Rất hài lòng   □ Hài lòng   □ Không hài lòng</text>
+  <text x="32" y="208">Câu 3. Tháng trước em đọc được bao nhiêu cuốn sách?</text>
+  <text x="56" y="234" font-size="16" fill="#444">Trả lời: ......................................</text>
+  <text x="32" y="270">Câu 4. Màu sắc yêu thích của em là gì?</text>
+  <text x="56" y="296" font-size="16" fill="#444">Trả lời: ......................................</text>
+</svg>
