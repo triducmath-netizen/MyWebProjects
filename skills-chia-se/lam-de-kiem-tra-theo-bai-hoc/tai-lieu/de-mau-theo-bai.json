@@ -1,0 +1,59 @@
+{
+  "_ghi_chu": "Mẫu định dạng: chỉ có 3 câu minh hoạ cho 3 dạng, đều là câu chống bấm máy (hàm ẩn, mô hình hoá, tham số). Đề thật phải đủ 22 câu (12 mcq, 4 tf, 6 short) và đủ 20 đề. Đường dẫn image tính từ thư mục chứa file JSON.",
+  "grade": 12,
+  "chapter": "Chương IV. Nguyên hàm và tích phân",
+  "topic": "Bài 12. Tích phân",
+  "level": "kha",
+  "exams": [
+    {
+      "slug": "toan12-bai12-tich-phan-01",
+      "title": "Bài 12. Tích phân — Đề 1",
+      "sort_order": 1,
+      "time_limit_min": 90,
+      "description": "Đề bài tập về nhà Bài 12 (Tích phân), cấu trúc THPT: 12 trắc nghiệm, 4 Đúng/Sai, 6 trả lời ngắn.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "muc": "NB",
+          "thuc_te": false,
+          "bam_may": false,
+          "prompt": "Biết $\\displaystyle\\int_0^2 f(x)\\,dx = 3$. Giá trị của $\\displaystyle\\int_0^2 \\left[2f(x) + x\\right]dx$ bằng",
+          "options": ["$8$", "$5$", "$10$", "$7$"],
+          "answer": 0,
+          "points": 0.25,
+          "verify": "2 * 3 + (2 * 2) / 2",
+          "explanation": "Theo tính chất của tích phân: $\\displaystyle\\int_0^2 \\left[2f(x) + x\\right]dx = 2\\int_0^2 f(x)\\,dx + \\int_0^2 x\\,dx = 2 \\cdot 3 + \\frac{x^2}{2}\\Big|_0^2 = 6 + 2 = 8$. Phương án B do quên nhân $2$ với $\\int_0^2 f(x)\\,dx$; phương án C do lấy nhầm nguyên hàm của $x$ là $x^2$. Chọn A."
+        },
+        {
+          "kind": "tf",
+          "muc": "TH",
+          "thuc_te": true,
+          "bam_may": false,
+          "prompt": "Một ô tô đang chạy với vận tốc $10$ m/s thì người lái đạp phanh. Từ thời điểm đó, ô tô chuyển động chậm dần đều với vận tốc $v(t) = 10 - 2t$ (m/s), trong đó $t$ (giây) là thời gian kể từ lúc đạp phanh. Đồ thị của $v(t)$ như hình bên. Xét tính đúng sai của các mệnh đề sau.",
+          "image": "hinh-mau/van-toc-phanh.svg",
+          "options": [
+            "a) Ô tô dừng hẳn sau $5$ giây kể từ lúc đạp phanh.",
+            "b) Vận tốc của ô tô tại thời điểm $t = 2$ là $8$ m/s.",
+            "c) Quãng đường ô tô đi được từ lúc đạp phanh đến khi dừng hẳn là $25$ m.",
+            "d) Trong $2$ giây cuối trước khi dừng hẳn, ô tô đi được quãng đường lớn hơn $5$ m."
+          ],
+          "answer": [true, false, true, false],
+          "points": 1,
+          "verify": "(()=>{const v=t=>10-2*t;const S=(a,b)=>{const n=1000,h=(b-a)/n;let s=v(a)+v(b);for(let i=1;i<n;i++)s+=(i%2?4:2)*v(a+i*h);return s*h/3;};return [v(5)===0, v(2)===8, Math.abs(S(0,5)-25)<1e-9, S(3,5)>5];})()",
+          "explanation": "a) Đúng: $v(t) = 0 \\Leftrightarrow 10 - 2t = 0 \\Leftrightarrow t = 5$. b) Sai: $v(2) = 10 - 4 = 6$ (m/s). c) Đúng: quãng đường là $\\displaystyle\\int_0^5 (10 - 2t)\\,dt = \\left(10t - t^2\\right)\\Big|_0^5 = 50 - 25 = 25$ (m). d) Sai: $2$ giây cuối ứng với $t \\in [3; 5]$, quãng đường là $\\displaystyle\\int_3^5 (10 - 2t)\\,dt = (50 - 25) - (30 - 9) = 4$ (m), nhỏ hơn $5$ m."
+        },
+        {
+          "kind": "short",
+          "muc": "TH",
+          "thuc_te": false,
+          "bam_may": false,
+          "prompt": "Tìm số thực $a$ sao cho $\\displaystyle\\int_0^{\\pi} (a\\sin x + 1)\\,dx = 4 + \\pi$.",
+          "answer": ["2"],
+          "points": 0.5,
+          "verify": "(4 + Math.PI - Math.PI) / 2",
+          "explanation": "Ta có $\\displaystyle\\int_0^{\\pi} (a\\sin x + 1)\\,dx = a\\int_0^{\\pi} \\sin x\\,dx + \\int_0^{\\pi} dx = a\\left(-\\cos x\\right)\\Big|_0^{\\pi} + \\pi = 2a + \\pi$. Từ $2a + \\pi = 4 + \\pi$ suy ra $a = 2$."
+        }
+      ]
+    }
+  ]
+}
