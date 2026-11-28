@@ -2,7 +2,9 @@
 // Kiểm tra file đề luyện tập trước khi tải lên.
 //   node tools/check-exams.mjs de-thi/toan-6/so-nguyen-*.json
 // Thoát với mã 1 nếu có lỗi. Cảnh báo (WARN) không chặn tải lên.
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
+import { resolve, dirname, extname } from 'node:path';
+import { homedir } from 'node:os';
 import vm from 'node:vm';
 import { createRequire } from 'node:module';
 
@@ -10,7 +12,7 @@ export const FORMAT = {
   time_limit_min: 45,
   parts: { mcq: { count: 8, points: 0.5 }, tf: { count: 2, points: 2 }, short: { count: 4, points: 0.5 } },
   total: 10,
-  perTopic: { tb: 3, kha: 4, gioi: 3 },
+  perTopic: { tb: 1, kha: 1, gioi: 1 }, // từ 28/11/2026: mỗi chương ít nhất 1 đề mỗi mức
 };
 const ORDER = ['mcq', 'tf', 'short'];
 
@@ -50,6 +52,30 @@ function mathErrors(text) {
   return out;
 }
 
+// Hình câu hỏi (trường image / explanation_image, đường dẫn tương đối so với file JSON): SVG → PNG để gửi lên web.
+// Thư viện @resvg/resvg-js lấy từ repo, hoặc từ skill lam-de-kiem-tra-theo-bai-hoc đã cài trên máy.
+let Resvg = null;
+for (const base of [import.meta.url, resolve(homedir(), '.claude/skills/lam-de-kiem-tra-theo-bai-hoc/package.json')]) {
+  try { ({ Resvg } = createRequire(base)('@resvg/resvg-js')); break; } catch { /* thử chỗ khác */ }
+}
+export function figureToPng(path) {
+  const ext = extname(path).toLowerCase();
+  const buf = readFileSync(path);
+  if (ext === '.png') {
+    if (buf.readUInt32BE(0) !== 0x89504e47) throw new Error('không phải file PNG');
+    return buf;
+  }
+  if (ext !== '.svg') throw new Error('hình phải là .svg hoặc .png');
+  if (!Resvg) throw new Error('chưa cài @resvg/resvg-js');
+  const svg = buf.toString('utf8');
+  if (!/<svg[\s>]/.test(svg)) throw new Error('file SVG không có thẻ <svg>');
+  if (/<script|<foreignObject|xlink:href="http|href="http/i.test(svg)) throw new Error('SVG không được chứa script, foreignObject hay liên kết ngoài');
+  return Buffer.from(new Resvg(svg, {
+    fitTo: { mode: 'width', value: 900 }, background: 'white',
+    font: { loadSystemFonts: true, defaultFontFamily: 'Times New Roman' },
+  }).render().asPng());
+}
+
 export function checkFiles(paths, { partial = false } = {}) {
   const errors = [];
   const warns = [];
@@ -65,7 +91,7 @@ export function checkFiles(paths, { partial = false } = {}) {
 
     for (const e of doc.exams) {
       const at = (s) => where(`${e.slug ?? e.title ?? '?'} › ${s}`);
-      exams.push({ ...e, grade: doc.grade, topic: doc.topic, _file: p });
+      exams.push({ ...e, grade: doc.grade, topic: doc.topic, _file: p, _dir: dirname(resolve(p)) });
       if (typeof e.slug !== 'string' || !/^[a-z0-9-]{3,80}$/.test(e.slug)) errors.push(at('slug chỉ gồm a-z, 0-9, dấu -'));
       else if (slugs.has(e.slug)) errors.push(at(`slug trùng với ${slugs.get(e.slug)}`));
       else slugs.set(e.slug, p);
@@ -95,6 +121,12 @@ export function checkFiles(paths, { partial = false } = {}) {
           const key = q.prompt.replace(/\s+/g, ' ').trim();
           if (prompts.has(key)) errors.push(qa('trùng nội dung câu khác trong cùng đề'));
           prompts.add(key);
+        }
+        for (const f of ['image', 'explanation_image']) {
+          if (q[f] == null) continue;
+          const abs = resolve(dirname(resolve(p)), String(q[f]));
+          if (!existsSync(abs)) { errors.push(qa(`${f}: không thấy file ${q[f]}`)); continue; }
+          try { figureToPng(abs); } catch (err) { errors.push(qa(`${f}: ${err.message}`)); }
         }
         if (!q.explanation?.trim() || q.explanation.trim().length < 20) errors.push(qa('lời giải chi tiết quá ngắn hoặc thiếu'));
         for (const t of [q.prompt, q.explanation, ...(q.options || [])]) {

@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 // Tải đề luyện tập lên ngân hàng đề (sau khi đã kiểm tra).
 //   node tools/upload-exams.mjs de-thi/toan-6/so-nguyen-*.json
+// Hình của câu hỏi (trường image / explanation_image) được đổi sang PNG rồi gửi kèm.
 // Đọc SUPABASE_URL, EXAM_IMPORT_TOKEN (và tuỳ chọn EXAM_IMPORT_FUNCTION = tên đường dẫn hàm) từ file .env.local ở thư mục gốc (không đưa lên Git).
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { checkFiles } from './check-exams.mjs';
+import { checkFiles, figureToPng } from './check-exams.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const envPath = resolve(root, '.env.local');
@@ -28,12 +29,18 @@ if (errors.length) {
   process.exit(1);
 }
 
+// Hình SVG/PNG → PNG base64 (hàm import-exams lưu vào kho ảnh).
+const png64 = (dir, rel) => (rel ? figureToPng(resolve(dir, rel)).toString('base64') : undefined);
+
 // Gửi đi phần dữ liệu cần thiết (bỏ trường verify, _file).
 const payload = exams.map((e) => ({
   slug: e.slug, title: e.title, grade: e.grade, topic: e.topic, level: e.level,
   time_limit_min: e.time_limit_min, description: e.description ?? null, sort_order: e.sort_order ?? 0,
-  questions: e.questions.map(({ kind, prompt, options, points, answer, explanation }) =>
-    ({ kind, prompt, options: kind === 'short' ? undefined : options, points, answer, explanation })),
+  questions: e.questions.map((q) => ({
+    kind: q.kind, prompt: q.prompt, options: q.kind === 'short' ? undefined : q.options,
+    points: q.points, answer: q.answer, explanation: q.explanation,
+    image_png: png64(e._dir, q.image), explanation_image_png: png64(e._dir, q.explanation_image),
+  })),
 }));
 
 let ok = 0, fail = 0;
@@ -47,7 +54,10 @@ for (let i = 0; i < payload.length; i += 10) {
   const out = await res.json().catch(() => ({}));
   if (!res.ok) { console.error(`Lỗi máy chủ (${res.status}): ${out.error ?? JSON.stringify(out)}`); process.exit(1); }
   for (const r of out.results) {
-    const good = r.status === 'created' || r.status === 'updated';
+    let good = r.status === 'created' || r.status === 'updated';
+    const sent = batch.find((x) => x.slug === r.slug);
+    const want = sent ? sent.questions.reduce((n, q) => n + (q.image_png ? 1 : 0) + (q.explanation_image_png ? 1 : 0), 0) : 0;
+    if (good && want && r.images !== want) { good = false; console.log(`THIẾU HÌNH  ${r.slug}: gửi ${want} hình, máy chủ lưu ${r.images ?? 0}`); }
     good ? ok++ : fail++;
     console.log(`${good ? 'OK  ' : 'BỎ QUA'}  ${r.slug}: ${r.status}${r.reason ? ' — ' + r.reason : ''}${r.questions ? ` (${r.questions} câu)` : ''}`);
   }
