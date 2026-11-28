@@ -177,5 +177,16 @@ await expect('HS không đọc được bảng homework', () => as('s1', 'select
 await expect('anon không gọi được assign_homework', () => as(null, 'select public.assign_homework(1, $1, null, null)', [LESSON]), errRes);
 await expect('HS không gọi trực tiếp homework_fill', () => as('s1', 'select public.homework_fill($1)', [hw]), blocked);
 
+// --- Giáo viên xem bài TỰ LUYỆN (đề ngân hàng) của học sinh lớp mình (tab Nhập kết quả) ---
+{
+  const att = (await db.query('select id from public.quiz_attempts where quiz_id = $1 and student_id = 1', [P.id])).rows[0];
+  await as('s1', 'select public.submit_quiz($1, $2::jsonb)', [att.id, {}]);
+  const ONLINE = `select a.id, z.topic from public.quiz_attempts a join public.quizzes z on z.id = a.quiz_id
+                  where a.student_id in (select id from public.students where class_id = 1) and a.submitted_at is not null and z.class_id is null`;
+  await expect('GV lớp: thấy bài tự luyện đã nộp của HS lớp mình', () => as('t1', ONLINE),
+    (r, e) => !e && r.rows.some((x) => x.topic === 'Ứng dụng đạo hàm'));
+  await expect('GV lớp: đọc được câu hỏi đề tự luyện để xem bài', () => as('t1', 'select id from public.quiz_questions where quiz_id = $1', [P.id]), (r, e) => !e);
+}
+
 console.log(`\n${pass} đạt, ${fail} lỗi`);
 process.exit(fail ? 1 : 0);

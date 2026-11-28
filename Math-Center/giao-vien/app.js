@@ -6,6 +6,7 @@ import {
 import { SUPABASE_URL } from '../portal/config.js';
 import { renderQuizTab } from './quiz.js?v=20261205a';
 import { renderBankTab } from './bank.js?v=20261205a';
+import { renderOnlineResults } from './online-results.js?v=20261207a';
 
 const app = $('#app');
 const top = $('#top-actions');
@@ -128,11 +129,13 @@ async function renderGrades(view) {
   }
   if (!activeIds.includes(state.classId)) { state.classId = activeIds[0]; state.assessmentId = null; }
   const body = el('div', { class: 'section-gap' });
+  const online = el('div', {});
   view.append(el('div', { class: 'panel' },
     el('div', { class: 'row' },
       classSelect(() => { state.assessmentId = null; renderShell(); }),
       el('button', { class: 'btn btn-gold', onclick: () => newAssessment(), text: '+ Bài kiểm tra mới' }))),
-    body);
+    body, online);
+  renderOnlineResults(online, state.classId);
 
   const { data: list, error } = await sb.from('assessments')
     .select('id, title, week_start, max_score').eq('class_id', state.classId)
