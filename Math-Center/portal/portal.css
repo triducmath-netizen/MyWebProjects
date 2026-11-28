@@ -187,6 +187,7 @@ body.portal { background: var(--tdm-paper); min-height: 100vh; display: flex; fl
 .tf-table th, .tf-table td { padding: 10px 12px; border-bottom: 1px solid var(--tdm-line); text-align: left; vertical-align: middle; }
 .tf-table th { background: var(--tdm-paper); color: var(--tdm-navy); font-size: .85rem; }
 .tf-table td:first-child { width: 36px; font-weight: 700; color: var(--tdm-navy); }
+.tf-table th, .tf-table td:first-child { white-space: nowrap; }
 .tf-table td:nth-child(n+3), .tf-table th:nth-child(n+3) { width: 64px; text-align: center; }
 .tf-table input { width: 20px !important; height: 20px; accent-color: var(--tdm-navy); }
 .tf-table tr.correct td:nth-child(3) { color: var(--tdm-teal); font-weight: 700; }
@@ -227,6 +228,8 @@ body.portal { background: var(--tdm-paper); min-height: 100vh; display: flex; fl
   .quiz-title { flex-basis: 100%; font-size: .95rem; }
   .opt-edit { grid-template-columns: 24px 1fr; }
   .opt-edit > :last-child { grid-column: 2; }
+  .tf-table th, .tf-table td { padding: 10px 6px; }
+  .tf-table td:first-child, .tf-table th:first-child { width: 28px; padding-left: 8px; }
   .tf-table td:nth-child(n+3), .tf-table th:nth-child(n+3) { width: 48px; }
 }
 
