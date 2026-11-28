@@ -170,7 +170,7 @@ export async function renderHomeworkResults(view, homeworkId, ctx, back) {
       el('td', { class: 'small', text: a?.submitted_at ? fmtDateTime(a.submitted_at) : '' }),
       el('td', {}, el('div', { class: 'acts' },
         a?.submitted_at ? el('button', { class: 'btn btn-outline btn-sm', text: 'Xem bài', onclick: () => showAttempt(s, a, z.id) }) : null,
-        a ? el('button', { class: 'btn btn-danger btn-sm', text: 'Cho làm lại', onclick: async () => {
+        a && ctx.state.profile?.role === 'admin' ? el('button', { class: 'btn btn-danger btn-sm', text: 'Cho làm lại', onclick: async () => {
           if (!await askConfirm(`Xóa bài làm của ${s.full_name} để em làm lại từ đầu (cùng đề)?`)) return;
           const { error: e2 } = await sb.from('quiz_attempts').delete().eq('id', a.id);
           if (e2) { toast(errMsg(e2), 'error'); return; }

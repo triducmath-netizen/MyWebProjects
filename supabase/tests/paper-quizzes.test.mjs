@@ -131,7 +131,9 @@ await expect('GV1 nhập điểm bài giấy HS1 đề C1: 7,5', () => as('t1', 
   (r, e) => !e && Number(r.rows[0].r.score) === 7.5 && Number(r.rows[0].r.max_score) === 10);
 await expect('Lượt chấm tay: mode=manual, đã nộp', () => db.query('select * from public.quiz_attempts where quiz_id=$1 and student_id=$2', [C1.id, HS1]),
   (r) => r.rows[0]?.mode === 'manual' && !!r.rows[0].submitted_at && Number(r.rows[0].score) === 7.5);
-await expect('GV1 sửa điểm thành 9', () => as('t1', 'select public.record_paper_score($1, $2, $3) as r', [C1.id, HS1, 9]), (r, e) => !e && Number(r.rows[0].r.score) === 9);
+await expect('GV1 KHÔNG sửa được điểm đã nhập', () => as('t1', 'select public.record_paper_score($1, $2, $3) as r', [C1.id, HS1, 9]), errRes);
+await expect('Quản trị cũng KHÔNG sửa được điểm đã nhập', () => as('admin', 'select public.record_paper_score($1, $2, $3) as r', [C1.id, HS1, 9]), errRes);
+await expect('Không ai UPDATE thẳng bảng bài làm', () => as('admin', 'update public.quiz_attempts set score = 10 where quiz_id=$1', [C1.id]), errRes);
 await expect('Điểm vượt tổng điểm bị chặn', () => as('t1', 'select public.record_paper_score($1, $2, $3)', [C1.id, HS1, 11]), errRes);
 await expect('Điểm âm bị chặn', () => as('t1', 'select public.record_paper_score($1, $2, $3)', [C1.id, HS1, -1]), errRes);
 await expect('GV2 (không dạy lớp 6A) KHÔNG nhập điểm C1', () => as('t2', 'select public.record_paper_score($1, $2, $3)', [C1.id, HS1, 5]), errRes);
@@ -140,7 +142,7 @@ await expect('Học sinh lớp khác KHÔNG nhập vào đề C1', () => as('t1'
 await expect('Chấm lại GIỮ NGUYÊN điểm chấm tay', async () => {
   await as('t1', 'select public.regrade_quiz($1)', [C1.id]);
   return db.query('select score from public.quiz_attempts where quiz_id=$1 and student_id=$2', [C1.id, HS1]);
-}, (r) => Number(r.rows[0]?.score) === 9);
+}, (r) => Number(r.rows[0]?.score) === 7.5);
 await expect('HS thấy điểm bài giấy của mình', () => as('s1', 'select score, mode from public.quiz_attempts where quiz_id=$1', [C1.id]),
   (r, e) => !e && r.rows.length === 1 && r.rows[0].mode === 'manual');
 await expect('Đã có bài online thì KHÔNG ghi đè bằng điểm tay', async () => {
@@ -148,7 +150,8 @@ await expect('Đã có bài online thì KHÔNG ghi đè bằng điểm tay', asy
   await as('s1', 'select public.start_quiz($1)', [c2.id]);
   return as('t1', 'select public.record_paper_score($1, $2, $3)', [c2.id, HS1, 5]);
 }, errRes);
-await expect('GV "Cho làm lại" xóa được lượt chấm tay', () => as('t1', 'delete from public.quiz_attempts where quiz_id=$1 and student_id=$2 returning id', [C1.id, HS1]), rows(1));
+await expect('GV KHÔNG "Cho làm lại" (chỉ xem)', () => as('t1', 'delete from public.quiz_attempts where quiz_id=$1 and student_id=$2 returning id', [C1.id, HS1]), blocked);
+await expect('Quản trị "Cho làm lại" xóa được lượt chấm tay', () => as('admin', 'delete from public.quiz_attempts where quiz_id=$1 and student_id=$2 returning id', [C1.id, HS1]), rows(1));
 await expect('Có lượt chấm tay: start_quiz trả về "đã nộp"', async () => {
   await as('t1', 'select public.record_paper_score($1, $2, $3)', [C1.id, HS1, 6]);
   return as('s1', 'select public.start_quiz($1) as r', [C1.id]);

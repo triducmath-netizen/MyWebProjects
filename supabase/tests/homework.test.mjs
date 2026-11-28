@@ -186,6 +186,21 @@ await expect('HS không gọi trực tiếp homework_fill', () => as('s1', 'sele
   await expect('GV lớp: thấy bài tự luyện đã nộp của HS lớp mình', () => as('t1', ONLINE),
     (r, e) => !e && r.rows.some((x) => x.topic === 'Ứng dụng đạo hàm'));
   await expect('GV lớp: đọc được câu hỏi đề tự luyện để xem bài', () => as('t1', 'select id from public.quiz_questions where quiz_id = $1', [P.id]), (r, e) => !e);
+
+  // Chỉ quản trị viên "Cho làm lại"; giáo viên chỉ xem.
+  await db.exec(`insert into auth.users (id, email, raw_app_meta_data) values ('00000000-0000-0000-0000-00000000000a', 'a@x', '{"role":"admin"}')`);
+  U.admin = '00000000-0000-0000-0000-00000000000a';
+  await db.exec(`insert into public.students (code, full_name, class_id) values ('HS9', 'Em chưa xếp lớp', null)`);
+  const hwAtt = (await db.query(`select a.id from public.quiz_attempts a join public.quizzes z on z.id = a.quiz_id
+                                 where z.homework_id is not null and a.student_id = 1 limit 1`)).rows[0];
+  await expect('GV lớp KHÔNG cho làm lại bài về nhà', () => as('t1', 'delete from public.quiz_attempts where id = $1 returning id', [hwAtt?.id ?? 0]), blocked);
+  await expect('GV lớp KHÔNG cho làm lại bài luyện đề', () => as('t1', 'delete from public.quiz_attempts where id = $1 returning id', [att.id]), blocked);
+  await expect('Quản trị: thấy mọi học sinh (cả em chưa xếp lớp)', () => as('admin', 'select id from public.students where class_id is null'), rows(1));
+  await expect('Quản trị: thấy mọi bài làm', () => as('admin', 'select id from public.quiz_attempts'),
+    (r, e) => !e && r.rows.some((x) => x.id === att.id) && r.rows.some((x) => x.id === hwAtt?.id));
+  await expect('Quản trị: cho làm lại bài luyện đề', () => as('admin', 'delete from public.quiz_attempts where id = $1 returning id', [att.id]), rows(1));
+  if (hwAtt) await expect('Quản trị: cho làm lại bài về nhà', () => as('admin', 'delete from public.quiz_attempts where id = $1 returning id', [hwAtt.id]), rows(1));
+  await expect('Quản trị KHÔNG sửa thẳng điểm', () => as('admin', 'update public.quiz_attempts set score = 10'), errRes);
 }
 
 console.log(`\n${pass} đạt, ${fail} lỗi`);

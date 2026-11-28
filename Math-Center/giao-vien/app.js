@@ -4,9 +4,9 @@ import {
   passwordField, rememberCheckbox, setRemember, rememberedLogin, saveLogin, askConfirm, copyBox, fmtDateTime,
 } from '../portal/common.js?v=20261202a';
 import { SUPABASE_URL } from '../portal/config.js';
-import { renderQuizTab } from './quiz.js?v=20261205a';
-import { renderBankTab } from './bank.js?v=20261205a';
-import { renderOnlineResults } from './online-results.js?v=20261207a';
+import { renderQuizTab } from './quiz.js?v=20261207b';
+import { renderBankTab } from './bank.js?v=20261207b';
+import { renderOnlineTab } from './online-results.js?v=20261207b';
 
 const app = $('#app');
 const top = $('#top-actions');
@@ -87,7 +87,7 @@ async function loadClasses() {
 }
 
 function renderShell() {
-  const tabs = [['grades', 'Nhập kết quả'], ['quiz', 'Bài tập trực tuyến'], ['bank', 'Ngân hàng đề'], ['students', 'Học sinh & tài khoản']];
+  const tabs = [['grades', 'Nhập kết quả'], ['quiz', 'Bài tập trực tuyến'], ['online', 'Kết quả trực tuyến'], ['bank', 'Ngân hàng đề'], ['students', 'Học sinh & tài khoản']];
   if (isAdmin()) tabs.push(['admin', 'Lớp & giáo viên'], ['trials', state.newTrials ? `Đăng ký học thử (${state.newTrials})` : 'Đăng ký học thử']);
   const view = el('div');
   app.replaceChildren(
@@ -95,7 +95,7 @@ function renderShell() {
       el('button', { class: 'tab', role: 'tab', 'aria-selected': String(state.tab === id), text: label,
         onclick: () => { state.tab = id; state.quizId = null; state.quizResultsId = null; state.homeworkId = null; state.bankQuizId = null; renderShell(); } }))),
     view);
-  if (!state.classes.length && !['admin', 'bank', 'trials'].includes(state.tab)) {
+  if (!state.classes.length && !['admin', 'bank', 'trials', 'online'].includes(state.tab)) {
     view.append(el('div', { class: 'panel empty' },
       el('h2', { text: 'Bạn chưa được phân công lớp nào' }),
       el('p', { class: 'muted', text: isAdmin()
@@ -105,6 +105,7 @@ function renderShell() {
   }
   if (state.tab === 'grades') renderGrades(view);
   else if (state.tab === 'quiz') renderQuizTab(view, { state, classSelect, rerender: renderShell });
+  else if (state.tab === 'online') renderOnlineTab(view, { state, isAdmin, rerender: renderShell });
   else if (state.tab === 'bank') renderBankTab(view, { state, classSelect, rerender: renderShell, isAdmin });
   else if (state.tab === 'students') renderStudents(view);
   else if (state.tab === 'trials') renderTrials(view);
@@ -129,13 +130,11 @@ async function renderGrades(view) {
   }
   if (!activeIds.includes(state.classId)) { state.classId = activeIds[0]; state.assessmentId = null; }
   const body = el('div', { class: 'section-gap' });
-  const online = el('div', {});
   view.append(el('div', { class: 'panel' },
     el('div', { class: 'row' },
       classSelect(() => { state.assessmentId = null; renderShell(); }),
       el('button', { class: 'btn btn-gold', onclick: () => newAssessment(), text: '+ Bài kiểm tra mới' }))),
-    body, online);
-  renderOnlineResults(online, state.classId);
+    body);
 
   const { data: list, error } = await sb.from('assessments')
     .select('id, title, week_start, max_score').eq('class_id', state.classId)

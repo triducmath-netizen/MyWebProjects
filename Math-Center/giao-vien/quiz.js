@@ -4,7 +4,7 @@ import {
   rich, imageUrls, qImage, KIND_LABEL, DEFAULT_POINTS, LETTERS, TF_LETTERS, reviewQuestion, fmtDeadline,
 } from '../portal/quiz-common.js?v=20261202a';
 import { downloadQuizPdf } from '../portal/pdf-export.js?v=20261202a';
-import { renderHomeworkPanel, renderHomeworkResults } from './homework.js?v=20261205a';
+import { renderHomeworkPanel, renderHomeworkResults } from './homework.js?v=20261207b';
 
 let ctx; // { state, classSelect, rerender }
 let opts = {}; // { bank: true, back } khi mở từ Ngân hàng đề
@@ -466,10 +466,11 @@ async function renderResults(view, quizId) {
       el('td', {}, status),
       el('td', { class: 'small', text: a?.submitted_at ? fmtDateTime(a.submitted_at) : '' }),
       el('td', {}, el('div', { class: 'acts' },
-        !a || manual ? el('button', { class: 'btn btn-outline btn-sm', text: manual ? 'Sửa điểm' : 'Nhập điểm bài giấy',
+        !a ? el('button', { class: 'btn btn-outline btn-sm', text: 'Nhập điểm bài giấy',
           onclick: () => paperScoreDialog(z, s, a, maxPts) }) : null,
         a?.submitted_at && !manual ? el('button', { class: 'btn btn-outline btn-sm', text: 'Xem bài', onclick: () => showAttempt(s, a, questions) }) : null,
-        a ? el('button', { class: 'btn btn-danger btn-sm', text: manual ? 'Xóa điểm' : 'Cho làm lại', onclick: async () => {
+        // Điểm không sửa được; chỉ quản trị viên được xóa để làm lại / nhập lại.
+        a && isAdmin() ? el('button', { class: 'btn btn-danger btn-sm', text: manual ? 'Xóa điểm' : 'Cho làm lại', onclick: async () => {
           if (!await askConfirm(manual
             ? `Xóa điểm bài giấy của ${s.full_name}? Em sẽ có thể làm lại bài này.`
             : `Xóa bài làm của ${s.full_name} để em làm lại từ đầu?`)) return;
@@ -485,7 +486,7 @@ async function renderResults(view, quizId) {
       el('button', { class: 'btn btn-outline btn-sm', text: 'Soạn đề', onclick: () => go({ quizId }) })),
     el('div', { class: 'panel' },
       el('h2', { text: `Kết quả: ${z.title}` }),
-      el('p', { class: 'muted small', text: 'Học sinh làm trên giấy: chấm bài rồi bấm "Nhập điểm bài giấy" ở dòng của em đó. Điểm hiện ngay cho học sinh và phụ huynh.' }),
+      el('p', { class: 'muted small', text: 'Học sinh làm trên giấy: chấm bài rồi bấm "Nhập điểm bài giấy" ở dòng của em đó. Điểm hiện ngay cho học sinh và phụ huynh. Điểm đã có thì không sửa được; chỉ quản trị viên được xóa để em làm lại.' }),
       el('div', { class: 'stats' },
         el('div', { class: 'stat' }, el('div', { class: 'k', text: 'Đã nộp' }), el('div', { class: 'v', text: `${done.length}/${students?.length ?? 0}` })),
         el('div', { class: 'stat' }, el('div', { class: 'k', text: 'Điểm TB (thang 10)' }), el('div', { class: 'v', text: avg == null ? '—' : fmtNum(Math.round(avg * 100) / 100) })),
