@@ -1,0 +1,213 @@
+{
+  "grade": 11,
+  "topic": "Quan hệ song song trong không gian",
+  "exams": [
+    {
+      "slug": "toan11-quan-he-song-song-kha-01",
+      "title": "Quan hệ song song trong không gian — Đề 1",
+      "level": "kha",
+      "sort_order": 1,
+      "time_limit_min": 45,
+      "description": "Đề luyện tập mức độ 2 (vận dụng): giao tuyến trong hình chóp đáy hình thang, đếm mặt phẳng, đường thẳng chéo nhau; giao tuyến song song, đường thẳng song song với mặt phẳng; thiết diện song song, hình lăng trụ; định lí Thalès với tấm kính song song; hình chiếu song song của hình vuông, hình thang.",
+      "questions": [
+        {
+          "kind": "mcq",
+          "prompt": "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình thang với $AB \\parallel CD$ và $AB > CD$. Giao tuyến của hai mặt phẳng $(SAD)$ và $(SBC)$ là",
+          "options": [
+            "đường thẳng $SO$, với $O$ là giao điểm của $AC$ và $BD$",
+            "đường thẳng $SI$, với $I$ là giao điểm của $AD$ và $BC$",
+            "đường thẳng đi qua $S$ và song song với $AB$",
+            "đường thẳng đi qua $S$ và song song với $AD$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "image": "hinh/quan-he-song-song/kha-cau-01.svg",
+          "explanation": "Vì $ABCD$ là hình thang có $AB > CD$ nên hai cạnh bên $AD$ và $BC$ không song song, chúng cắt nhau tại $I$.\n$I \\in AD \\subset (SAD)$ và $I \\in BC \\subset (SBC)$, lại có $S$ là điểm chung, nên $(SAD) \\cap (SBC) = SI$.\nPhương án A là giao tuyến của $(SAC)$ và $(SBD)$; phương án C là giao tuyến của $(SAB)$ và $(SCD)$ (hai mặt phẳng chứa hai đáy song song). Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Trong không gian cho $5$ điểm, trong đó không có $4$ điểm nào đồng phẳng. Có bao nhiêu mặt phẳng phân biệt, mỗi mặt phẳng đi qua $3$ trong $5$ điểm đó?",
+          "options": [
+            "$10$",
+            "$5$",
+            "$20$",
+            "$60$"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "verify": "5 * 4 * 3 / (3 * 2 * 1)",
+          "explanation": "Không có $4$ điểm nào đồng phẳng nên không có $3$ điểm nào thẳng hàng (nếu $3$ điểm thẳng hàng thì cùng điểm thứ tư luôn đồng phẳng). Mỗi bộ $3$ điểm xác định đúng một mặt phẳng, và hai bộ khác nhau cho hai mặt phẳng khác nhau.\nSố mặt phẳng là số tổ hợp chập $3$ của $5$: $C_5^3 = \\dfrac{5 \\cdot 4 \\cdot 3}{3!} = 10$.\nPhương án D dùng chỉnh hợp $A_5^3 = 60$ (tính cả thứ tự — sai). Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành. Trong các đường thẳng chứa các cạnh của hình chóp, có bao nhiêu đường thẳng chéo nhau với đường thẳng $SA$?",
+          "options": [
+            "$4$",
+            "$3$",
+            "$2$",
+            "$1$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "['SB','SC','SD','AB','BC','CD','DA'].filter(e => !e.includes('S') && !e.includes('A')).length",
+          "image": "hinh/quan-he-song-song/kha-cau-03.svg",
+          "explanation": "Hình chóp có $8$ cạnh: $SA, SB, SC, SD, AB, BC, CD, DA$.\n• $SB, SC, SD$ có chung điểm $S$ với $SA$; $AB, AD$ có chung điểm $A$ với $SA$: các đường này cắt $SA$.\n• Còn lại $BC$ và $CD$. Nếu $SA$ và $BC$ đồng phẳng thì mặt phẳng đó chứa $A, B, C$, tức là $(ABCD)$, kéo theo $S \\in (ABCD)$ — vô lí. Vậy $SA$ và $BC$ chéo nhau; tương tự $SA$ và $CD$ chéo nhau.\nCó $2$ đường thẳng. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho tứ diện $ABCD$. Gọi $M, N$ lần lượt là trung điểm của $AB, AC$. Giao tuyến của hai mặt phẳng $(DMN)$ và $(DBC)$ là",
+          "options": [
+            "đường thẳng $DA$",
+            "đường thẳng $DM$",
+            "đường thẳng đi qua $D$ và song song với $AB$",
+            "đường thẳng đi qua $D$ và song song với $BC$"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "image": "hinh/quan-he-song-song/kha-cau-04.svg",
+          "explanation": "$MN$ là đường trung bình của tam giác $ABC$ nên $MN \\parallel BC$. Hai mặt phẳng $(DMN)$ và $(DBC)$ có điểm chung $D$ và lần lượt chứa hai đường thẳng song song $MN$ và $BC$, nên giao tuyến của chúng là đường thẳng đi qua $D$ và song song với $BC$ (và $MN$).\nPhương án B sai vì $M \\notin (DBC)$ (do $M$ là trung điểm $AB$, $A \\notin (DBC)$). Chọn D."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành. Gọi $M$ là trung điểm của $SC$. Đường thẳng $SA$ song song với mặt phẳng nào sau đây?",
+          "options": [
+            "$(MBC)$",
+            "$(MBD)$",
+            "$(MAB)$",
+            "$(MCD)$"
+          ],
+          "answer": 1,
+          "points": 0.5,
+          "image": "hinh/quan-he-song-song/kha-cau-05.svg",
+          "explanation": "Gọi $O$ là tâm hình bình hành $ABCD$ thì $O$ là trung điểm $AC$. Trong tam giác $SAC$, $OM$ là đường trung bình nên $OM \\parallel SA$. Mà $OM \\subset (MBD)$ (vì $O \\in BD$) và $SA$ không nằm trong $(MBD)$, nên $SA \\parallel (MBD)$.\nA và D sai: $(MBC)$ chính là $(SBC)$, $(MCD)$ chính là $(SCD)$, đều chứa $S$ nên cắt $SA$. C sai vì $(MAB)$ chứa $A$. Chọn B."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho tứ diện $ABCD$. Gọi $M$ là trung điểm của $AC$ và $(\\alpha)$ là mặt phẳng đi qua $M$, song song với cả hai đường thẳng $AB$ và $CD$. Hình tạo bởi các giao tuyến của $(\\alpha)$ với các mặt của tứ diện là",
+          "options": [
+            "hình bình hành",
+            "tam giác",
+            "hình thang có hai đáy không bằng nhau",
+            "ngũ giác"
+          ],
+          "answer": 0,
+          "points": 0.5,
+          "image": "hinh/quan-he-song-song/kha-cau-06.svg",
+          "explanation": "• $(ABC)$ chứa $AB \\parallel (\\alpha)$ nên cắt $(\\alpha)$ theo giao tuyến qua $M$ song song với $AB$: cắt $BC$ tại $N$ (trung điểm $BC$).\n• $(ACD)$ chứa $CD \\parallel (\\alpha)$ nên giao tuyến qua $M$ song song với $CD$: cắt $AD$ tại $Q$ (trung điểm $AD$).\n• $(BCD)$ chứa $CD$: giao tuyến qua $N$ song song với $CD$, cắt $BD$ tại $P$ (trung điểm $BD$).\n• $(ABD)$ chứa $AB$: giao tuyến $PQ \\parallel AB$.\nTứ giác $MNPQ$ có $MN \\parallel PQ$ (cùng song song $AB$) và $MQ \\parallel NP$ (cùng song song $CD$) nên là hình bình hành. Chọn A."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hình chóp $S.ABC$ có $AB = 9$ cm. Một mặt phẳng song song với $(ABC)$ cắt các cạnh $SA, SB$ lần lượt tại $A', B'$ sao cho $SA' = \\frac{2}{3}SA$. Độ dài $A'B'$ (đơn vị: cm) là",
+          "options": [
+            "$3$",
+            "$13{,}5$",
+            "$6$",
+            "$4{,}5$"
+          ],
+          "answer": 2,
+          "points": 0.5,
+          "verify": "(() => { const sub=(a,b)=>a.map((x,i)=>x-b[i]), add=(a,b)=>a.map((x,i)=>x+b[i]), mul=(a,k)=>a.map(x=>x*k), mid=(a,b)=>mul(add(a,b),0.5), cr=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]], dot=(a,b)=>a.reduce((s,x,i)=>s+x*b[i],0), len=a=>Math.sqrt(dot(a,a)), z=x=>Math.abs(x)<1e-9, par=(u,v)=>z(len(cr(u,v))), nrm=(a,b,c)=>cr(sub(b,a),sub(c,a)), copl=(p,q,r,s)=>z(dot(nrm(p,q,r),sub(s,p))), eq=(a,b)=>z(len(sub(a,b))), ln=(P,d,Q,n)=>add(P,mul(d,dot(sub(Q,P),n)/dot(d,n))); const S=[1,2,8],A=[0,0,0],B=[9,0,0],C=[2,5,0]; const A1=add(S,mul(sub(A,S),2/3)); const B1=ln(S,sub(B,S),A1,nrm(A,B,C)); return Math.round(len(sub(B1,A1))*1e9)/1e9; })()",
+          "image": "hinh/quan-he-song-song/kha-cau-07.svg",
+          "explanation": "Mặt phẳng $(SAB)$ cắt hai mặt phẳng song song $(A'B'C')$ và $(ABC)$ theo hai giao tuyến song song: $A'B' \\parallel AB$.\nTrong tam giác $SAB$, theo định lí Thalès: $\\dfrac{A'B'}{AB} = \\dfrac{SA'}{SA} = \\dfrac{2}{3}$, nên $A'B' = \\dfrac{2}{3} \\cdot 9 = 6$ (cm).\nPhương án A do dùng nhầm tỉ số $\\frac{AA'}{SA} = \\frac{1}{3}$; phương án B do nhân ngược $9 \\cdot \\frac{3}{2}$. Chọn C."
+        },
+        {
+          "kind": "mcq",
+          "prompt": "Cho hình vuông $ABCD$ nằm trong mặt phẳng không song song với phương chiếu. Hình nào sau đây không thể là hình chiếu song song của hình vuông $ABCD$?",
+          "options": [
+            "Hình bình hành",
+            "Hình chữ nhật",
+            "Hình thoi",
+            "Hình thang có hai đáy không bằng nhau"
+          ],
+          "answer": 3,
+          "points": 0.5,
+          "explanation": "Phép chiếu song song biến hai đường thẳng song song thành hai đường thẳng song song (hoặc trùng nhau) và giữ nguyên tỉ số độ dài hai đoạn thẳng nằm trên hai đường thẳng song song. Hình vuông có $AB \\parallel CD$, $AD \\parallel BC$ nên hình chiếu luôn là hình bình hành (có thể đặc biệt là hình chữ nhật, hình thoi, hình vuông).\nHình thang có hai đáy không bằng nhau có hai cạnh bên không song song, nên không thể là hình chiếu của hình vuông. Chọn D."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình thang với $AB \\parallel CD$ và $AB = 2CD$. Gọi $M$ là trung điểm của $SA$; mặt phẳng $(MCD)$ cắt cạnh $SB$ tại $N$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Giao tuyến của hai mặt phẳng $(SAD)$ và $(SBC)$ song song với $AB$.",
+            "Đường thẳng $CD$ song song với mặt phẳng $(SAB)$.",
+            "$SN = 2NB$.",
+            "Tứ giác $MNCD$ là hình bình hành."
+          ],
+          "answer": [
+            false,
+            true,
+            false,
+            true
+          ],
+          "points": 2,
+          "verify": "(() => { const sub=(a,b)=>a.map((x,i)=>x-b[i]), add=(a,b)=>a.map((x,i)=>x+b[i]), mul=(a,k)=>a.map(x=>x*k), mid=(a,b)=>mul(add(a,b),0.5), cr=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]], dot=(a,b)=>a.reduce((s,x,i)=>s+x*b[i],0), len=a=>Math.sqrt(dot(a,a)), z=x=>Math.abs(x)<1e-9, par=(u,v)=>z(len(cr(u,v))), nrm=(a,b,c)=>cr(sub(b,a),sub(c,a)), copl=(p,q,r,s)=>z(dot(nrm(p,q,r),sub(s,p))), eq=(a,b)=>z(len(sub(a,b))), ln=(P,d,Q,n)=>add(P,mul(d,dot(sub(Q,P),n)/dot(d,n))); const A=[0,0,0],B=[4,0,0],D=[1,3,0],C=[3,3,0],S=[2,1,5],M=mid(S,A); const n1=nrm(S,A,D),n2=nrm(S,B,C); const N=ln(S,sub(B,S),M,nrm(M,C,D)); const t=len(sub(N,S))/len(sub(B,S)); return [par(cr(n1,n2),sub(B,A)), z(dot(sub(D,C),nrm(S,A,B)))&&!copl(S,A,B,C), z(t-2/3), eq(sub(N,M),sub(C,D))]; })()",
+          "image": "hinh/quan-he-song-song/kha-cau-09.svg",
+          "explanation": "a) Sai. Vì $AB = 2CD$ nên $AD$ và $BC$ cắt nhau tại $I$. Giao tuyến của $(SAD)$ và $(SBC)$ là $SI$, cắt mặt phẳng đáy tại $I$ nên không song song với $AB$ (giao tuyến song song với $AB$ là của $(SAB)$ và $(SCD)$).\nb) Đúng. $CD \\parallel AB$, $AB \\subset (SAB)$ và $CD$ không nằm trong $(SAB)$ nên $CD \\parallel (SAB)$.\nc) Sai. Mặt phẳng $(MCD)$ chứa $CD \\parallel (SAB)$ nên cắt $(SAB)$ theo giao tuyến qua $M$ song song với $CD$, tức $MN \\parallel AB$. Trong tam giác $SAB$, $M$ là trung điểm $SA$ và $MN \\parallel AB$ nên $N$ là trung điểm $SB$: $SN = NB$, không phải $SN = 2NB$.\nd) Đúng. $MN$ là đường trung bình của tam giác $SAB$ nên $MN \\parallel AB$ và $MN = \\frac{1}{2}AB = CD$. Tứ giác $MNCD$ có $MN \\parallel CD$ và $MN = CD$ (cùng hướng $\\overrightarrow{MN} = \\overrightarrow{DC}$) nên là hình bình hành."
+        },
+        {
+          "kind": "tf",
+          "prompt": "Cho hình lăng trụ tam giác $ABC.A'B'C'$ có cạnh bên dài $12$ cm. Gọi $M, N, P$ lần lượt là trung điểm của $AA', BB', CC'$. Xét tính đúng sai của các khẳng định sau:",
+          "options": [
+            "Mặt phẳng $(MNP)$ song song với mặt phẳng $(ABC)$.",
+            "Tứ giác $ABNM$ là hình bình hành.",
+            "Đường thẳng $MC'$ song song với mặt phẳng $(ABC)$.",
+            "Một mặt phẳng song song với $(ABC)$ cắt $AA'$ tại $E$ với $AE = 4$ cm thì cắt $CC'$ tại $G$ với $C'G = 4$ cm."
+          ],
+          "answer": [
+            true,
+            true,
+            false,
+            false
+          ],
+          "points": 2,
+          "verify": "(() => { const sub=(a,b)=>a.map((x,i)=>x-b[i]), add=(a,b)=>a.map((x,i)=>x+b[i]), mul=(a,k)=>a.map(x=>x*k), mid=(a,b)=>mul(add(a,b),0.5), cr=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]], dot=(a,b)=>a.reduce((s,x,i)=>s+x*b[i],0), len=a=>Math.sqrt(dot(a,a)), z=x=>Math.abs(x)<1e-9, par=(u,v)=>z(len(cr(u,v))), nrm=(a,b,c)=>cr(sub(b,a),sub(c,a)), copl=(p,q,r,s)=>z(dot(nrm(p,q,r),sub(s,p))), eq=(a,b)=>z(len(sub(a,b))), ln=(P,d,Q,n)=>add(P,mul(d,dot(sub(Q,P),n)/dot(d,n))); const A=[0,0,0],B=[4,0,0],C=[1,3,0],u=[1,1,3],v=mul(u,12/len(u)),A1=add(A,v),B1=add(B,v),C1=add(C,v),M=mid(A,A1),N=mid(B,B1),P=mid(C,C1),n=nrm(A,B,C); const E=add(A,mul(v,4/12)),G=ln(C,v,E,n); return [par(nrm(M,N,P),n)&&!copl(A,B,C,M), eq(sub(N,M),sub(B,A)), z(dot(sub(C1,M),n)), z(len(sub(C1,G))-4)]; })()",
+          "image": "hinh/quan-he-song-song/kha-cau-10.svg",
+          "explanation": "a) Đúng. $AM \\parallel BN$ và $AM = BN = 6$ cm nên $ABNM$ là hình bình hành, suy ra $MN \\parallel AB$, do đó $MN \\parallel (ABC)$. Tương tự $NP \\parallel (ABC)$. Mặt phẳng $(MNP)$ chứa hai đường thẳng cắt nhau $MN, NP$ cùng song song với $(ABC)$ nên $(MNP) \\parallel (ABC)$.\nb) Đúng (đã chứng minh ở ý a).\nc) Sai. $M$ và $C'$ cùng thuộc mặt bên $(ACC'A')$. Trong hình bình hành $ACC'A'$, đường thẳng $MC'$ nối trung điểm cạnh $AA'$ với đỉnh $C'$ nên không song song với $AC$; do đó $MC'$ cắt đường thẳng $AC$, tức là cắt mặt phẳng $(ABC)$.\nd) Sai. Theo định lí Thalès trong không gian (ba mặt phẳng song song $(ABC)$, mặt phẳng mới, $(A'B'C')$ chắn trên $AA'$ và $CC'$): $\\dfrac{CG}{CC'} = \\dfrac{AE}{AA'} = \\dfrac{4}{12}$, nên $CG = 4$ cm và $C'G = 12 - 4 = 8$ cm, không phải $4$ cm."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho tứ diện $ABCD$ có $AC = 6$ cm, $BD = 10$ cm. Gọi $M, N, P, Q$ lần lượt là trung điểm của $AB, BC, CD, DA$. Tính chu vi tứ giác $MNPQ$ (đơn vị: cm).",
+          "answer": [
+            "16"
+          ],
+          "points": 0.5,
+          "verify": "(() => { const sub=(a,b)=>a.map((x,i)=>x-b[i]), add=(a,b)=>a.map((x,i)=>x+b[i]), mul=(a,k)=>a.map(x=>x*k), mid=(a,b)=>mul(add(a,b),0.5), cr=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]], dot=(a,b)=>a.reduce((s,x,i)=>s+x*b[i],0), len=a=>Math.sqrt(dot(a,a)), z=x=>Math.abs(x)<1e-9, par=(u,v)=>z(len(cr(u,v))), nrm=(a,b,c)=>cr(sub(b,a),sub(c,a)), copl=(p,q,r,s)=>z(dot(nrm(p,q,r),sub(s,p))), eq=(a,b)=>z(len(sub(a,b))), ln=(P,d,Q,n)=>add(P,mul(d,dot(sub(Q,P),n)/dot(d,n))); const A=[0,0,0],C=[6,0,0],B=[2,4,1],D=add(B,[0,6,8]); const P=[mid(A,B),mid(B,C),mid(C,D),mid(D,A)]; let s=0; for(let i=0;i<4;i++) s+=len(sub(P[(i+1)%4],P[i])); return Math.round(s*1e9)/1e9; })()",
+          "image": "hinh/quan-he-song-song/kha-cau-11.svg",
+          "explanation": "Trong tam giác $ABC$: $MN$ là đường trung bình nên $MN = \\frac{1}{2}AC = 3$ cm. Trong tam giác $ACD$: $PQ = \\frac{1}{2}AC = 3$ cm.\nTrong tam giác $BCD$: $NP = \\frac{1}{2}BD = 5$ cm. Trong tam giác $ABD$: $QM = \\frac{1}{2}BD = 5$ cm.\nChu vi $MNPQ$: $3 + 5 + 3 + 5 = 16$ (cm)."
+        },
+        {
+          "kind": "short",
+          "prompt": "Ba tấm kính phẳng được đặt song song với nhau. Một thanh thép thẳng xuyên qua ba tấm kính lần lượt tại $A, B, C$ với $AB = 15$ cm, $BC = 25$ cm. Một thanh thép thẳng khác xuyên qua ba tấm kính lần lượt tại $A', B', C'$ với $A'C' = 60$ cm. Tính độ dài $A'B'$ (đơn vị: cm).",
+          "answer": [
+            "22.5",
+            "22,5"
+          ],
+          "points": 0.5,
+          "verify": "15 * 60 / (15 + 25)",
+          "image": "hinh/quan-he-song-song/kha-cau-12.svg",
+          "explanation": "Coi ba tấm kính là ba mặt phẳng đôi một song song. Theo định lí Thalès trong không gian: $\\dfrac{A'B'}{AB} = \\dfrac{A'C'}{AC}$, với $AC = AB + BC = 40$ cm.\nSuy ra $A'B' = \\dfrac{AB \\cdot A'C'}{AC} = \\dfrac{15 \\cdot 60}{40} = 22{,}5$ (cm)."
+        },
+        {
+          "kind": "short",
+          "prompt": "Một phép chiếu song song biến hình thang $ABCD$ (với $AB \\parallel CD$, $AB = 4$ cm, $CD = 10$ cm) thành hình thang $A'B'C'D'$. Biết $A'B' = 6$ cm, tính $C'D'$ (đơn vị: cm).",
+          "answer": [
+            "15"
+          ],
+          "points": 0.5,
+          "verify": "6 * 10 / 4",
+          "explanation": "Phép chiếu song song biến hai đường thẳng song song $AB, CD$ thành hai đường thẳng song song và giữ nguyên tỉ số độ dài của hai đoạn thẳng nằm trên hai đường thẳng song song: $\\dfrac{A'B'}{C'D'} = \\dfrac{AB}{CD} = \\dfrac{4}{10}$.\nSuy ra $C'D' = \\dfrac{10}{4} \\cdot 6 = 15$ (cm)."
+        },
+        {
+          "kind": "short",
+          "prompt": "Cho tứ diện $ABCD$ có $AD = 12$ cm. Gọi $G$ là trọng tâm tam giác $ABC$ và $M$ là điểm trên cạnh $AD$ sao cho đường thẳng $GM$ song song với mặt phẳng $(BCD)$. Tính độ dài $AM$ (đơn vị: cm).",
+          "answer": [
+            "8"
+          ],
+          "points": 0.5,
+          "verify": "(() => { const sub=(a,b)=>a.map((x,i)=>x-b[i]), add=(a,b)=>a.map((x,i)=>x+b[i]), mul=(a,k)=>a.map(x=>x*k), mid=(a,b)=>mul(add(a,b),0.5), cr=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]], dot=(a,b)=>a.reduce((s,x,i)=>s+x*b[i],0), len=a=>Math.sqrt(dot(a,a)), z=x=>Math.abs(x)<1e-9, par=(u,v)=>z(len(cr(u,v))), nrm=(a,b,c)=>cr(sub(b,a),sub(c,a)), copl=(p,q,r,s)=>z(dot(nrm(p,q,r),sub(s,p))), eq=(a,b)=>z(len(sub(a,b))), ln=(P,d,Q,n)=>add(P,mul(d,dot(sub(Q,P),n)/dot(d,n))); const A=[0,0,0],D=[12,0,0],B=[2,5,3],C=[4,-1,6],G=mul(add(add(A,B),C),1/3); const M=ln(A,sub(D,A),G,nrm(B,C,D)); return Math.round(len(sub(M,A))*1e9)/1e9; })()",
+          "image": "hinh/quan-he-song-song/kha-cau-14.svg",
+          "explanation": "Gọi $E$ là trung điểm $BC$. Vì $G$ là trọng tâm tam giác $ABC$ nên $G \\in AE$ và $\\dfrac{AG}{AE} = \\dfrac{2}{3}$.\nMặt phẳng $(ADE)$ chứa $GM$ và cắt $(BCD)$ theo giao tuyến $DE$. Vì $GM \\parallel (BCD)$ nên $GM \\parallel DE$.\nTrong tam giác $ADE$, theo định lí Thalès: $\\dfrac{AM}{AD} = \\dfrac{AG}{AE} = \\dfrac{2}{3}$, nên $AM = \\dfrac{2}{3} \\cdot 12 = 8$ (cm)."
+        }
+      ]
+    }
+  ]
+}
